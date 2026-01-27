@@ -97,7 +97,7 @@ describe('safeJsonParse', () => {
     });
 
     it('should return fallback for truncated JSON', () => {
-      const fallback = [];
+      const fallback: unknown[] = [];
       const result = safeJsonParse('{"name":', fallback, 'truncated-test');
       expect(result).toBe(fallback);
     });
