@@ -26,7 +26,7 @@ These modules have almost no test coverage and represent significant risk.
 
 | Module                                              | Coverage   | Lines | Risk     | Priority | Status     |
 | --------------------------------------------------- | ---------- | ----- | -------- | -------- | ---------- |
-| `src/lib/agents/design/inject-tokens.ts`            | 1.02%      | 592   | HIGH     | 1        | NEEDS TEST |
+| `src/lib/agents/design/inject-tokens.ts`            | **100%**   | 592   | HIGH     | 1        | ✅ DONE    |
 | `src/lib/agents/design/design-provider.ts`          | 5.55%      | 744   | HIGH     | 2        | NEEDS TEST |
 | `src/lib/recovery/self-healing-engine.ts`           | **83.05%** | 1392  | CRITICAL | 3        | ✅ DONE    |
 | `src/utils/safe-json.ts`                            | **93.93%** | 107   | MEDIUM   | 4        | ✅ DONE    |
@@ -98,7 +98,7 @@ These modules have good coverage and can serve as testing patterns:
 
 ### Week 2: Design System & Orchestration
 
-1. `inject-tokens.ts` - Add 20+ tests for token handling
+1. ✅ `inject-tokens.ts` - **96 tests added** (1.02% → 100%)
 2. `design-provider.ts` - Add 15+ tests for design system
 3. `action-plan-store.ts` - Add 15+ tests for plan persistence
 
