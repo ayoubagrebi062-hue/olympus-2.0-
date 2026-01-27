@@ -209,13 +209,26 @@ jobs:
           echo "╚════════════════════════════════════════════════════════╝"
           echo ""
 
-      - name: ❌ Fail if any job failed
-        if: contains(needs.*.result, 'failure')
+      - name: ✅ Check Pipeline Result
         run: |
-          echo "Pipeline failed! Check the logs above."
-          exit 1
+          # Check if any job explicitly failed
+          if [[ "${{ needs.quality-gate.result }}" == "failure" ]] || \
+             [[ "${{ needs.test.result }}" == "failure" ]] || \
+             [[ "${{ needs.security.result }}" == "failure" ]] || \
+             [[ "${{ needs.build.result }}" == "failure" ]]; then
+            echo "❌ Pipeline failed! One or more jobs failed."
+            exit 1
+          fi
 
-      - name: ✅ All checks passed
-        if: ${{ !contains(needs.*.result, 'failure') }}
-        run: |
-          echo "🎉 All quality gates passed! Ready to merge."
+          # Check if all required jobs succeeded (skipped is OK if dependency failed)
+          if [[ "${{ needs.quality-gate.result }}" == "success" ]] && \
+             [[ "${{ needs.test.result }}" == "success" ]] && \
+             [[ "${{ needs.security.result }}" == "success" ]] && \
+             [[ "${{ needs.build.result }}" == "success" ]]; then
+            echo "🎉 All quality gates passed! Ready to merge."
+            exit 0
+          fi
+
+          # If we get here, some jobs were skipped (due to upstream failure)
+          echo "⚠️ Some jobs were skipped. Check upstream failures."
+          exit 1
