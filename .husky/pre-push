@@ -1,0 +1,67 @@
+#!/bin/sh
+# OLYMPUS Pre-Push Quality Gate v1.0
+# Runs: TypeScript check + Full test suite
+
+START_TIME=$(date +%s)
+STEPS_PASSED=0
+TOTAL_STEPS=2
+
+echo ""
+echo "╔══════════════════════════════════════════════════════════════════╗"
+echo "║  🚀 PRE-PUSH QUALITY GATE                                        ║"
+echo "╚══════════════════════════════════════════════════════════════════╝"
+echo ""
+
+# Step 1: TypeScript
+echo "[$STEPS_PASSED/$TOTAL_STEPS] 📦 TypeScript check..."
+STEP_START=$(date +%s)
+npm run type-check 2>&1 | tail -20
+TS_EXIT=${PIPESTATUS[0]}
+STEP_END=$(date +%s)
+STEP_DURATION=$((STEP_END - STEP_START))
+
+if [ $TS_EXIT -ne 0 ]; then
+  echo ""
+  echo "╔══════════════════════════════════════════════════════════════════╗"
+  echo "║  ❌ PUSH BLOCKED - TypeScript errors (${STEP_DURATION}s)                    ║"
+  echo "╠══════════════════════════════════════════════════════════════════╣"
+  echo "║  Run locally: npm run type-check                                 ║"
+  echo "║  Bypass:      git push --no-verify                               ║"
+  echo "╚══════════════════════════════════════════════════════════════════╝"
+  exit 1
+fi
+STEPS_PASSED=$((STEPS_PASSED + 1))
+echo "    ✓ TypeScript OK (${STEP_DURATION}s)"
+echo ""
+
+# Step 2: Tests
+echo "[$STEPS_PASSED/$TOTAL_STEPS] 🧪 Running tests..."
+STEP_START=$(date +%s)
+npm test 2>&1
+TEST_EXIT=$?
+STEP_END=$(date +%s)
+STEP_DURATION=$((STEP_END - STEP_START))
+
+if [ $TEST_EXIT -ne 0 ]; then
+  echo ""
+  echo "╔══════════════════════════════════════════════════════════════════╗"
+  echo "║  ❌ PUSH BLOCKED - Tests failed (${STEP_DURATION}s)                         ║"
+  echo "╠══════════════════════════════════════════════════════════════════╣"
+  echo "║  Run locally: npm test                                           ║"
+  echo "║  Watch mode:  npm run test:watch                                 ║"
+  echo "║  Bypass:      git push --no-verify                               ║"
+  echo "╚══════════════════════════════════════════════════════════════════╝"
+  exit 1
+fi
+STEPS_PASSED=$((STEPS_PASSED + 1))
+echo "    ✓ Tests OK (${STEP_DURATION}s)"
+
+END_TIME=$(date +%s)
+TOTAL_DURATION=$((END_TIME - START_TIME))
+
+echo ""
+echo "╔══════════════════════════════════════════════════════════════════╗"
+echo "║  ✅ All checks passed (${TOTAL_DURATION}s total)                              ║"
+echo "║     TypeScript ✓  Tests ✓                                        ║"
+echo "╚══════════════════════════════════════════════════════════════════╝"
+echo ""
