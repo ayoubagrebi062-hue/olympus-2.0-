@@ -328,10 +328,11 @@ describe('safeJsonParseValidated', () => {
         return Array.isArray(data) && data.every(item => typeof item === 'string');
       };
 
+      const fallbackStrings: string[] = [];
       const result = safeJsonParseValidated(
         '["a","b","c"]',
         isStringArray,
-        [],
+        fallbackStrings,
         'array-test'
       );
       expect(result).toEqual(['a', 'b', 'c']);
