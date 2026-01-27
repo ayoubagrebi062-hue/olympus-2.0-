@@ -17,7 +17,14 @@ import {
   type PageDecisions,
   type CriticalDecisions,
 } from '../critical-summarizer';
-import type { AgentId, AgentOutput, Decision, Artifact } from '../../types';
+import type {
+  AgentId,
+  AgentOutput,
+  Decision,
+  Artifact,
+  ArtifactType,
+  AgentMetrics,
+} from '../../types';
 
 // ============================================================================
 // MOCK HELPERS
@@ -26,10 +33,9 @@ import type { AgentId, AgentOutput, Decision, Artifact } from '../../types';
 function createMockArtifact(content: string, type: string = 'document'): Artifact {
   return {
     id: `artifact-${Date.now()}`,
-    type: type as any,
+    type: type as ArtifactType,
     path: '/mock/path',
     content,
-    size: content.length,
     metadata: {},
   };
 }
@@ -37,14 +43,18 @@ function createMockArtifact(content: string, type: string = 'document'): Artifac
 function createMockOutput(artifacts: Artifact[] = [], decisions: Decision[] = []): AgentOutput {
   return {
     agentId: 'mock-agent' as AgentId,
-    success: true,
+    status: 'completed',
     artifacts,
     decisions,
     metrics: {
-      tokensUsed: 100,
-      durationMs: 1000,
+      inputTokens: 50,
+      outputTokens: 50,
+      promptCount: 1,
       retries: 0,
+      cacheHits: 0,
     },
+    duration: 1000,
+    tokensUsed: 100,
   };
 }
 
@@ -139,16 +149,18 @@ describe('buildCriticalDecisions', () => {
       const decision1: Decision = {
         id: 'd1',
         type: 'architecture',
-        description: 'Decision 1',
-        rationale: 'Reason 1',
-        timestamp: new Date(),
+        choice: 'Decision 1',
+        reasoning: 'Reason 1',
+        alternatives: [],
+        confidence: 0.9,
       };
       const decision2: Decision = {
         id: 'd2',
         type: 'design',
-        description: 'Decision 2',
-        rationale: 'Reason 2',
-        timestamp: new Date(),
+        choice: 'Decision 2',
+        reasoning: 'Reason 2',
+        alternatives: [],
+        confidence: 0.8,
       };
 
       const outputs = new Map<AgentId, AgentOutput>();
@@ -433,18 +445,24 @@ describe('updateCriticalDecisions', () => {
     baseDecisions = {
       tier: 'starter',
       extractedAt: new Date('2024-01-01'),
-      sources: ['archon'],
+      sources: ['archon' as AgentId],
       architecture: {
-        framework: 'Next.js',
-        styling: 'Tailwind',
-        componentLibrary: 'shadcn/ui',
-        stateManagement: 'zustand',
-        dataFetching: 'react-query',
-        databaseType: 'postgresql',
-        orm: 'prisma',
-        authProvider: 'supabase',
-        testingFramework: 'vitest',
-        deploymentTarget: 'vercel',
+        isMultiTenant: false,
+        tenantIsolation: 'none',
+        tenantScopedTables: [],
+        softDeletes: true,
+        idStrategy: 'cuid',
+        apiBasePath: '/api',
+        paginationStyle: 'cursor',
+        responseEnvelope: true,
+        rateLimitingEnabled: true,
+        cachingEnabled: true,
+        cachedEntities: [],
+        optimisticUpdates: false,
+        rbacEnabled: true,
+        roles: ['admin', 'user'],
+        errorBoundaries: 'page',
+        authStrategy: 'supabase',
       },
       design: {},
       data: {},
@@ -486,16 +504,17 @@ describe('updateCriticalDecisions', () => {
       const decision: Decision = {
         id: 'd1',
         type: 'design',
-        description: 'New decision',
-        rationale: 'Reason',
-        timestamp: new Date(),
+        choice: 'New decision',
+        reasoning: 'Reason',
+        alternatives: [],
+        confidence: 0.9,
       };
       const output = createMockOutput([], [decision]);
 
       const result = updateCriticalDecisions(baseDecisions, 'palette', output);
 
       expect(result.rawDecisions.length).toBe(1);
-      expect(result.rawDecisions[0].description).toBe('New decision');
+      expect(result.rawDecisions[0].choice).toBe('New decision');
     });
 
     it('should not mutate original decisions', () => {
@@ -639,18 +658,31 @@ describe('formatCriticalDecisionsForPrompt', () => {
     decisions = {
       tier: 'professional',
       extractedAt: new Date(),
-      sources: ['archon', 'palette', 'datum', 'nexus', 'sentinel', 'cartographer'],
+      sources: [
+        'archon' as AgentId,
+        'palette' as AgentId,
+        'datum' as AgentId,
+        'nexus' as AgentId,
+        'sentinel' as AgentId,
+        'cartographer' as AgentId,
+      ],
       architecture: {
-        framework: 'Next.js',
-        styling: 'Tailwind',
-        componentLibrary: 'shadcn/ui',
-        stateManagement: 'zustand',
-        dataFetching: 'react-query',
-        databaseType: 'postgresql',
-        orm: 'prisma',
-        authProvider: 'supabase',
-        testingFramework: 'vitest',
-        deploymentTarget: 'vercel',
+        isMultiTenant: true,
+        tenantIsolation: 'row-level',
+        tenantScopedTables: ['projects', 'tasks'],
+        softDeletes: true,
+        idStrategy: 'cuid',
+        apiBasePath: '/api/v1',
+        paginationStyle: 'cursor',
+        responseEnvelope: true,
+        rateLimitingEnabled: true,
+        cachingEnabled: true,
+        cachedEntities: ['products'],
+        optimisticUpdates: true,
+        rbacEnabled: true,
+        roles: ['admin', 'member', 'viewer'],
+        errorBoundaries: 'component',
+        authStrategy: 'supabase',
       },
       design: {
         colorPalette: {
@@ -1056,6 +1088,7 @@ describe('Type Exports', () => {
       pages: [],
       navigation: { main: [], footer: [] },
       layouts: [],
+      availableComponents: [],
     };
 
     expect(pages.pages).toEqual([]);

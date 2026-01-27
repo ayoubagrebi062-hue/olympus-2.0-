@@ -1,0 +1,195 @@
+{
+  "niche": "saas",
+  "display_name": "SaaS & B2B Software",
+
+  "headlines": {
+    "fear": [
+      "Your Competitors Are Already Using This (Are You Being Left Behind?)",
+      "The Hidden Cost of Manual Processes: What It's Really Costing Your Business",
+      "Why 73% of Teams Miss Their Deadlines (And How to Join the 27%)",
+      "The Security Vulnerability in Your Current Workflow",
+      "How Much Revenue Are You Losing to Inefficiency?",
+      "Warning: Your Current Tools Are Becoming Obsolete",
+      "The Productivity Leak That's Draining Your Team's Output",
+      "What Happens When Your Spreadsheets Finally Break"
+    ],
+    "greed": [
+      "How to 10X Your Team's Productivity Without Hiring",
+      "The Automation That Saves 20+ Hours Per Week",
+      "Double Your Output Without Doubling Your Workload",
+      "The Tool That Paid for Itself in Week One",
+      "How One Integration Eliminated 80% of Manual Work",
+      "Turn Your Data Into Revenue-Generating Insights",
+      "The Dashboard That Shows You Money Left on the Table",
+      "Scale Your Operations Without Scaling Your Headaches"
+    ],
+    "guilt": [
+      "Your Team Deserves Better Tools",
+      "How Long Will You Make Them Suffer with Outdated Systems?",
+      "The Time Your Team Wastes on Tasks You Could Automate",
+      "Every Manual Process Is a Choice to Waste Human Potential",
+      "Are You the Bottleneck in Your Own Organization?",
+      "The Meeting That Could've Been an Automated Report",
+      "Stop Asking Your Team to Do a Machine's Job",
+      "Your Best People Are Leaving Because of Your Tools"
+    ],
+    "exclusivity": [
+      "The Secret Weapon of Inc. 5000 Companies",
+      "What Enterprise Companies Know That You Don't",
+      "The Platform Used by Industry Leaders (Now Available to You)",
+      "Early Access: Be First to Try Our New Feature",
+      "Exclusive Beta Program for Forward-Thinking Teams",
+      "The Workflow That Fortune 500 Companies Pay Millions For",
+      "Join the Elite 5% of Teams Operating at Peak Efficiency",
+      "The Insider Tool That Disrupted Our Entire Industry"
+    ],
+    "salvation": [
+      "Finally, Software That Works the Way You Think",
+      "The End of Spreadsheet Chaos",
+      "Stop Fighting Your Tools and Start Growing Your Business",
+      "One Platform to Replace Your Entire Tech Stack",
+      "The Integration That Actually Integrates",
+      "Say Goodbye to 'It Works on My Machine' Forever",
+      "The Last Project Management Tool You'll Ever Need",
+      "Software That Adapts to You (Not the Other Way Around)"
+    ]
+  },
+
+  "pain_points": [
+    "Drowning in manual data entry and repetitive tasks",
+    "Tools don't talk to each other, creating data silos",
+    "Spending more time on admin than actual work",
+    "Can't get accurate reports without hours of work",
+    "Team using workarounds because software is too rigid",
+    "Onboarding new employees takes weeks",
+    "Security concerns with current cobbled-together solutions",
+    "Paying for multiple tools that overlap in features",
+    "Previous software implementations have failed",
+    "Leadership can't get visibility into operations",
+    "Scaling means exponentially more complexity",
+    "Customer data scattered across dozens of places",
+    "Compliance and audit trails are a nightmare",
+    "Mobile access is clunky or non-existent",
+    "Support response times are unacceptable"
+  ],
+
+  "dream_states": [
+    "One dashboard that shows everything you need",
+    "Automated workflows that run while you sleep",
+    "New hires productive on day one",
+    "Real-time insights that drive decision-making",
+    "Seamless collaboration across teams and time zones",
+    "Scaling operations without adding headcount",
+    "Complete visibility into every process",
+    "Audit-ready reports generated in seconds",
+    "Integrations that just work out of the box",
+    "Enterprise-grade security without enterprise complexity",
+    "A tech stack you're actually proud of",
+    "Predictable, reliable systems that never surprise you",
+    "Time back in your day for strategic work",
+    "Happy team that loves their tools",
+    "Impressing clients with your operational excellence"
+  ],
+
+  "objections": [
+    {
+      "objection": "We don't have time for implementation",
+      "diffuse": "That's exactly why we built our white-glove onboarding. Our team handles 90% of the setup, and most customers are fully operational in under a week. We migrate your data, configure your workflows, and train your team."
+    },
+    {
+      "objection": "We've tried similar tools before and they failed",
+      "diffuse": "I appreciate your caution. Can I ask what went wrong? Most failed implementations come from poor fit or weak support. We actually offer a pilot program where you can test with a small team first, and our 98% retention rate shows we're different."
+    },
+    {
+      "objection": "It's too expensive",
+      "diffuse": "Let's calculate your current cost of not solving this. Between the hours wasted on manual work, the tools you're paying for, and the opportunities missed - most teams find they're spending more on their current pain than our solution would cost."
+    },
+    {
+      "objection": "Our team won't adopt new software",
+      "diffuse": "Change management is real - that's why we include adoption training at no extra cost. Plus, our interface was designed with input from teams who hate software. If someone can use email, they can use this."
+    },
+    {
+      "objection": "We need it to integrate with [specific tool]",
+      "diffuse": "We have native integrations with 200+ tools and an open API for anything else. In fact, our integration team can build custom connections as part of your onboarding if needed. Let me check on that specific integration right now."
+    },
+    {
+      "objection": "We're locked into a contract with our current vendor",
+      "diffuse": "We see this a lot. Many customers run us in parallel during that period, then fully transition. We even offer contract buyout credits for qualified accounts. When does your current contract end?"
+    },
+    {
+      "objection": "What about data security?",
+      "diffuse": "Security is our top priority. We're SOC 2 Type II certified, GDPR compliant, and undergo annual third-party penetration testing. Your data is encrypted at rest and in transit, and we never sell or share it. Would you like to see our security documentation?"
+    },
+    {
+      "objection": "We need to involve more stakeholders",
+      "diffuse": "Absolutely - this is an important decision. I'd be happy to schedule a demo for your full team, or I can send you materials to share internally. Who else needs to be part of this decision?"
+    }
+  ],
+
+  "power_words": [
+    "automate",
+    "streamline",
+    "integrate",
+    "scale",
+    "optimize",
+    "accelerate",
+    "synchronize",
+    "centralize",
+    "simplify",
+    "empower",
+    "transform",
+    "revolutionize",
+    "modernize",
+    "digitize",
+    "unify",
+    "amplify",
+    "supercharge",
+    "leverage",
+    "unlock",
+    "maximize",
+    "seamless",
+    "intelligent",
+    "powerful",
+    "robust",
+    "enterprise-grade"
+  ],
+
+  "cta_templates": [
+    "Start Your Free Trial",
+    "Book a Demo",
+    "See It in Action",
+    "Get Started Free",
+    "Request a Personalized Demo",
+    "Try It Free for 14 Days",
+    "Schedule Your Walkthrough",
+    "Unlock Your Free Account",
+    "Start Automating Today",
+    "Get Your Custom ROI Analysis"
+  ],
+
+  "social_proof_templates": [
+    "Saved {X} hours per week across the team",
+    "ROI positive in just {Y} weeks",
+    "Reduced {process} time by {X}%",
+    "Eliminated {X} manual steps from our workflow",
+    "Onboarding time dropped from {X} to {Y}",
+    "Error rate decreased by {X}% after implementation",
+    "Scaled from {X} to {Y} users without adding staff",
+    "Integration took only {X} hours instead of weeks",
+    "Support response time: {X} minutes average",
+    "Trusted by {X}+ companies worldwide"
+  ],
+
+  "subject_line_templates": [
+    "How {company} automated {process} in {time}",
+    "The {X} tools your competitors are using",
+    "Your {process} is costing you ${X}/month",
+    "Quick question about your {process}",
+    "Re: Your {pain point} problem",
+    "[Case study] {X}% efficiency gain at {company}",
+    "The hidden cost of {manual process}",
+    "Can we solve your {problem} in {time}?",
+    "{Mutual connection} suggested I reach out",
+    "Ideas for improving your {metric}"
+  ]
+}

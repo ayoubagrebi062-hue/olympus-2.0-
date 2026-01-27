@@ -1,0 +1,195 @@
+{
+  "niche": "coaching",
+  "display_name": "Business & Life Coaching",
+
+  "headlines": {
+    "fear": [
+      "What's Really Holding You Back (And It's Not What You Think)",
+      "The Mindset Trap That Keeps High-Achievers Stuck",
+      "Why Successful People Still Feel Like Imposters",
+      "The Silent Saboteur in Every Entrepreneur's Journey",
+      "You're Running Out of Time to Make This Change",
+      "The Blind Spot That's Costing You Everything",
+      "Why Your Biggest Strength Is Becoming Your Weakness",
+      "The Pattern You Don't See That Everyone Else Does"
+    ],
+    "greed": [
+      "How I Went From Struggling to $1M in 18 Months",
+      "The Blueprint for Scaling Beyond Your Current Ceiling",
+      "Double Your Income Without Doubling Your Hours",
+      "The One Shift That 10X'd My Business",
+      "How to Work Less While Achieving More",
+      "The Success Framework Used by 7-Figure Entrepreneurs",
+      "Unlock Your Hidden Potential in 90 Days",
+      "The Fastest Path From Where You Are to Where You Want to Be"
+    ],
+    "guilt": [
+      "Your Family Needs You Present, Not Just Providing",
+      "How Long Will You Keep Playing Small?",
+      "You Have Gifts the World Needs - Stop Hiding Them",
+      "The Life You're Living Isn't the Life You Planned",
+      "What Would You Tell Your Younger Self About Where You Are Now?",
+      "Stop Letting Fear Make Decisions for You",
+      "The Dreams You've Put on Hold Are Still Waiting",
+      "Are You Living Up to Your Own Expectations?"
+    ],
+    "exclusivity": [
+      "I Only Work With 10 Clients Per Year - Here's Why",
+      "The Inner Circle for Serious Entrepreneurs Only",
+      "Apply Now: Spots Fill Within 48 Hours",
+      "The Mastermind That Changed My Business Forever",
+      "Not Everyone Qualifies - Is This Program Right for You?",
+      "The Private Community Where Breakthroughs Happen",
+      "Invitation to Join My Elite Mentorship Group",
+      "The Secrets I Only Share Behind Closed Doors"
+    ],
+    "salvation": [
+      "Finally Get the Clarity You've Been Searching For",
+      "Stop Spinning Your Wheels and Start Moving Forward",
+      "The Missing Piece in Your Success Puzzle",
+      "End the Confusion and Get a Clear Path Forward",
+      "The Breakthrough You've Been Waiting For",
+      "Stop Guessing and Start Knowing",
+      "The Support System Every High-Achiever Needs",
+      "Get Unstuck Once and For All"
+    ]
+  },
+
+  "pain_points": [
+    "Feeling stuck despite working harder than ever",
+    "Success in business but emptiness in life",
+    "Imposter syndrome despite external achievements",
+    "No clear vision or direction for the future",
+    "Working too much, missing important life moments",
+    "Making decisions alone without trusted advisors",
+    "Knowing potential is untapped but unsure how to access it",
+    "Repeating the same patterns and getting same results",
+    "Lacking accountability to follow through on goals",
+    "Overwhelmed by options and opportunities",
+    "Comparing self to others and feeling behind",
+    "Fear of failure preventing big moves",
+    "Success plateau that can't seem to break through",
+    "Relationships suffering due to work obsession",
+    "Burnout and exhaustion despite loving the work"
+  ],
+
+  "dream_states": [
+    "Absolute clarity on purpose and direction",
+    "Confidence to make bold decisions quickly",
+    "Work-life harmony that doesn't require sacrifice",
+    "Being known as a thought leader in the industry",
+    "Financial freedom that allows for generosity",
+    "A business that runs without constant involvement",
+    "Deep, meaningful relationships built on presence",
+    "Waking up excited about the day ahead",
+    "Legacy that extends beyond just making money",
+    "A trusted circle of peers for support and guidance",
+    "The courage to say no to good opportunities for great ones",
+    "Inner peace regardless of external circumstances",
+    "Being the person others look to for leadership",
+    "Breaking through to the next level of success",
+    "Finally becoming the person you know you can be"
+  ],
+
+  "objections": [
+    {
+      "objection": "I can figure this out on my own",
+      "diffuse": "You absolutely could - you're clearly capable. The question is: how much longer are you willing to wait? The right mentor doesn't give you answers you couldn't find; they help you find them in months instead of years. What's a year of your life worth?"
+    },
+    {
+      "objection": "Coaching seems soft or woo-woo",
+      "diffuse": "I get that - there's a lot of fluff out there. My approach is strategy-based and results-driven. We set concrete goals, track metrics, and hold you accountable. It's more like having a business advisor than a therapist."
+    },
+    {
+      "objection": "It's too expensive",
+      "diffuse": "Let me reframe that: what's the cost of staying exactly where you are for another year? My clients typically see ROI within 90 days - whether that's revenue, time saved, or opportunities captured. This isn't an expense; it's the highest-return investment you can make."
+    },
+    {
+      "objection": "I don't have time for coaching",
+      "diffuse": "That feeling is exactly why you need this. If you're too busy to work ON your life, you'll be stuck working IN it forever. We start by creating space - most clients free up 10+ hours per week within the first month just by clarifying priorities."
+    },
+    {
+      "objection": "I've worked with coaches before and it didn't help",
+      "diffuse": "That's valuable information - what was missing? Often it's fit, methodology, or accountability. I offer a chemistry call specifically to ensure we're right for each other before you commit anything. Not every coach is for every person."
+    },
+    {
+      "objection": "How do I know you can help with my specific situation?",
+      "diffuse": "Let's find out together. Book a discovery call and share your specific challenges. If I can't help, I'll tell you directly and often refer to someone who can. I only take clients I'm confident I can serve."
+    },
+    {
+      "objection": "I need to talk to my spouse/partner first",
+      "diffuse": "Absolutely - this is a significant decision. Would it help if I provided some materials you could share with them? Or we could even do a call together so they can ask questions directly."
+    },
+    {
+      "objection": "What if it doesn't work?",
+      "diffuse": "Valid concern. Here's my promise: if you do the work and don't see meaningful progress in 90 days, I'll continue working with you for free until you do. I've never had to invoke that guarantee, but it's there because I believe in this that much."
+    }
+  ],
+
+  "power_words": [
+    "transform",
+    "breakthrough",
+    "unlock",
+    "elevate",
+    "empower",
+    "clarity",
+    "momentum",
+    "leverage",
+    "mastery",
+    "accelerate",
+    "alignment",
+    "abundance",
+    "impact",
+    "legacy",
+    "freedom",
+    "authentic",
+    "bold",
+    "decisive",
+    "unstoppable",
+    "intentional",
+    "strategic",
+    "focused",
+    "driven",
+    "purposeful",
+    "limitless"
+  ],
+
+  "cta_templates": [
+    "Book Your Discovery Call",
+    "Apply Now",
+    "Schedule Your Free Strategy Session",
+    "Claim Your Spot",
+    "Let's Talk",
+    "Start Your Transformation",
+    "Get Your Free Assessment",
+    "Join the Waitlist",
+    "Reserve Your Seat",
+    "Yes, I'm Ready for Change"
+  ],
+
+  "social_proof_templates": [
+    "Went from {before} to {after} in {timeframe}",
+    "Increased revenue by {X}% in {Y} months",
+    "Finally launched {thing} after {Y} years of planning",
+    "Made more in {timeframe} than the previous {longer timeframe}",
+    "Left my {job} to pursue my passion full-time",
+    "Went from burnout to balance in {X} weeks",
+    "Landed my dream {opportunity} after our work together",
+    "The clarity I gained was worth 10x the investment",
+    "Best decision I made for my business this year",
+    "I wish I had done this {X} years ago"
+  ],
+
+  "subject_line_templates": [
+    "A question about your goals",
+    "The real reason you're stuck",
+    "Can we talk?",
+    "What I wish someone told me at your stage",
+    "An invitation for you",
+    "I noticed something about you",
+    "Quick question about your {goal}",
+    "The conversation that changed everything for {name}",
+    "You remind me of someone",
+    "Are you ready for this?"
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "description": "Build OLYMPUS Platform - A developer education SaaS with: Landing page (Hero with stats 85000+ lines/22 sections/500+ prompts, Features grid with 8 cards, Pricing with Free/Pro $19/Team $49 tiers, CTA section), Authentication (Login/Signup pages with Supabase Auth, OAuth callback), Dashboard layout (Sidebar with nav items: Dashboard/Sections/Prompts/Commands/Progress/Settings, Header with search and user dropdown), Dashboard home (Stats cards for Progress/Streak/Time/Achievements, Continue Learning card, Recent Sections list), Sections page (Grid of 22 section cards with lock icons for premium, progress bars, difficulty badges), Section reader (Header with title/time/difficulty, Reading progress bar, Content area, Navigation prev/next buttons, Mark complete button), All buttons must have working onClick handlers. Use Zustand for state management. Tailwind CSS with shadcn/ui components. Dark theme support.",
+  "tier": "ultimate"
+}

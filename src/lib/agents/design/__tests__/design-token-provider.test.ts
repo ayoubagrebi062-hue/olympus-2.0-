@@ -108,7 +108,9 @@ describe('DEFAULT_TOKENS', () => {
 
     it('should have font weights as numbers', () => {
       expect(typeof DEFAULT_TOKENS.typography.fontWeight.normal).toBe('number');
-      expect(DEFAULT_TOKENS.typography.fontWeight.bold).toBeGreaterThan(DEFAULT_TOKENS.typography.fontWeight.normal);
+      expect(DEFAULT_TOKENS.typography.fontWeight.bold).toBeGreaterThan(
+        DEFAULT_TOKENS.typography.fontWeight.normal
+      );
     });
   });
 
@@ -220,7 +222,9 @@ describe('BRAND_INTERPRETATIONS', () => {
 
     it('should have elegant style', () => {
       expect(BRAND_INTERPRETATIONS['elegant']).toBeDefined();
-      expect(BRAND_INTERPRETATIONS['elegant'].typography?.fontFamily?.sans).toContain('Playfair Display');
+      expect(BRAND_INTERPRETATIONS['elegant'].typography?.fontFamily?.sans).toContain(
+        'Playfair Display'
+      );
     });
   });
 
@@ -735,7 +739,7 @@ describe('deepMerge', () => {
 
     it('should not mutate original target', () => {
       const target = { a: 1 };
-      const source = { b: 2 };
+      const source = { b: 2 } as Partial<typeof target>;
 
       deepMerge(target, source);
 
@@ -744,7 +748,7 @@ describe('deepMerge', () => {
 
     it('should not mutate original source', () => {
       const target = { a: 1 };
-      const source = { b: 2 };
+      const source = { b: 2 } as Partial<typeof target>;
 
       deepMerge(target, source);
 
@@ -757,7 +761,7 @@ describe('deepMerge', () => {
       const target = { a: { x: 1, y: 2 }, b: 3 };
       const source = { a: { y: 5, z: 6 } };
 
-      const result = deepMerge(target, source);
+      const result = deepMerge(target, source as unknown as Partial<typeof target>);
 
       expect(result).toEqual({ a: { x: 1, y: 5, z: 6 }, b: 3 });
     });
@@ -766,7 +770,7 @@ describe('deepMerge', () => {
       const target = { a: { b: { c: 1 } } };
       const source = { a: { b: { d: 2 } } };
 
-      const result = deepMerge(target, source);
+      const result = deepMerge(target, source as unknown as Partial<typeof target>);
 
       expect(result).toEqual({ a: { b: { c: 1, d: 2 } } });
     });
@@ -799,7 +803,7 @@ describe('deepMerge', () => {
       const target = { a: { x: 1 }, b: 2 };
       const source = { a: null };
 
-      const result = deepMerge(target, source);
+      const result = deepMerge(target, source as unknown as Partial<typeof target>);
 
       // null should replace the nested object
       expect(result.a).toBe(null);
@@ -809,7 +813,7 @@ describe('deepMerge', () => {
       const target = { a: null, b: 2 };
       const source = { a: { x: 1 } };
 
-      const result = deepMerge(target, source);
+      const result = deepMerge(target, source as unknown as Partial<typeof target>);
 
       expect(result.a).toEqual({ x: 1 });
     });

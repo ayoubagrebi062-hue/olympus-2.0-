@@ -1,0 +1,195 @@
+{
+  "niche": "fitness",
+  "display_name": "Fitness & Health",
+
+  "headlines": {
+    "fear": [
+      "What Happens to Your Body After 30 (And How to Fight Back)",
+      "The Hidden Reason You Can't Lose Weight (It's Not What You Think)",
+      "Why Your Metabolism Is Slowing Down (And the 15-Minute Fix)",
+      "The Silent Health Crisis Affecting 67% of Adults Over 35",
+      "Warning: These 5 'Healthy' Foods Are Making You Gain Weight",
+      "What Your Doctor Won't Tell You About Weight Loss After 40",
+      "The Dangerous Truth About Belly Fat (Beyond Looking Bad)",
+      "Why Most People Fail at Fitness (And How to Avoid Their Mistakes)"
+    ],
+    "greed": [
+      "How to Build Your Dream Body in 90 Days",
+      "The Secret Workout That Burns Fat 24/7",
+      "Get Abs Without Giving Up Your Favorite Foods",
+      "The 15-Minute Morning Routine That Transforms Bodies",
+      "How I Dropped 30 Pounds Without Stepping Foot in a Gym",
+      "The Lazy Person's Guide to Getting Fit",
+      "Double Your Energy in Just 7 Days",
+      "The Metabolism Hack That Burns Fat While You Sleep"
+    ],
+    "guilt": [
+      "You Owe It to Your Family to Get Healthy",
+      "Stop Making Excuses and Start Making Progress",
+      "Your Kids Are Watching How You Treat Your Body",
+      "How Long Will You Keep Putting This Off?",
+      "Your Future Self Will Thank You (Or Blame You)",
+      "Every Day You Wait Is a Day You Can't Get Back",
+      "The Promise You Made to Yourself Last January",
+      "What Example Are You Setting for the People Who Look Up to You?"
+    ],
+    "exclusivity": [
+      "The Workout Method Elite Athletes Don't Share",
+      "Private Training Secrets From Hollywood's Top Trainer",
+      "Invitation Only: The 30-Day Transformation Challenge",
+      "The Underground Fitness Protocol Used by Navy SEALs",
+      "What Olympic Athletes Know That You Don't",
+      "The VIP Fitness Program for Busy Executives",
+      "Limited Spots: Join Our Elite Transformation Group",
+      "The Biohacking Secrets of Silicon Valley CEOs"
+    ],
+    "salvation": [
+      "Finally, a Fitness Program That Actually Works for Busy People",
+      "The Last Diet You'll Ever Need",
+      "End the Yo-Yo Forever: Sustainable Weight Loss",
+      "Stop Struggling: The Simple System for Lasting Results",
+      "The Missing Piece in Every Failed Fitness Attempt",
+      "Why This Time Will Be Different (And How We Guarantee It)",
+      "The Breakthrough Method for People Who've Tried Everything",
+      "Your Second Chance at the Body You Deserve"
+    ]
+  },
+
+  "pain_points": [
+    "No time to work out with work and family responsibilities",
+    "Tried everything but nothing sticks long-term",
+    "Metabolism has slowed down with age",
+    "Embarrassed to go to the gym around fit people",
+    "Confused by conflicting fitness advice online",
+    "Lack of energy and motivation to exercise",
+    "Previous injuries limiting exercise options",
+    "Hate restrictive diets and giving up favorite foods",
+    "Can't afford personal trainers or expensive programs",
+    "Don't know where to start or what exercises to do",
+    "Lose motivation after a few weeks every time",
+    "Work schedule is unpredictable and inconsistent",
+    "Feel too out of shape to even begin",
+    "Overwhelmed by all the different workout options",
+    "Struggle with emotional eating and stress"
+  ],
+
+  "dream_states": [
+    "Confident at the beach without a cover-up",
+    "Energy to play with kids without getting winded",
+    "Fitting into clothes from 10 years ago",
+    "Getting compliments on your transformation",
+    "Feeling strong and capable in your own body",
+    "Setting a healthy example for family",
+    "Waking up energized instead of exhausted",
+    "Looking forward to seeing yourself in the mirror",
+    "No longer avoiding photos or social events",
+    "Being the fit parent at school events",
+    "Having the stamina for everything life throws at you",
+    "Finally feeling comfortable in your own skin",
+    "Hearing your doctor say your health has improved",
+    "Being able to do activities you gave up years ago",
+    "Feeling younger than you have in decades"
+  ],
+
+  "objections": [
+    {
+      "objection": "I don't have time",
+      "diffuse": "That's exactly why this works - it's only 15 minutes a day. Most clients do it during lunch or while their kids are doing homework. If you have time to scroll social media, you have time for this."
+    },
+    {
+      "objection": "I've tried everything before",
+      "diffuse": "I hear you - most programs fail because they're not designed for real people with real lives. This is different because it adapts to YOUR schedule, YOUR preferences, and YOUR body. Plus, our 97% success rate speaks for itself."
+    },
+    {
+      "objection": "It's too expensive",
+      "diffuse": "I understand - let me ask you this: what's it costing you NOT to solve this? The medical bills, the missed opportunities, the confidence tax? Most clients tell us this investment paid for itself in healthcare savings alone."
+    },
+    {
+      "objection": "Will it work for my age/situation?",
+      "diffuse": "Great question. We've helped thousands of clients in their 40s, 50s, and beyond. In fact, Sarah was 52 with bad knees and a full-time job - she lost 35 pounds in 4 months using modified exercises designed for her."
+    },
+    {
+      "objection": "I'm not fit enough to start",
+      "diffuse": "That's actually the perfect place to start. The program meets you where you are - we have complete beginners seeing results in week one. You don't get fit to start; you start to get fit."
+    },
+    {
+      "objection": "I can't stick to diets",
+      "diffuse": "Good news - this isn't a diet. It's a flexible eating approach where nothing is off-limits. You'll still eat pizza, chocolate, whatever you love. We just show you how to do it strategically."
+    },
+    {
+      "objection": "I have injuries/health issues",
+      "diffuse": "We actually specialize in this. Every workout has modifications, and we've helped clients with bad backs, knee problems, and chronic conditions. We'll work around your limitations, not ignore them."
+    },
+    {
+      "objection": "I need to think about it",
+      "diffuse": "Of course - what specifically are you weighing? I want to make sure you have all the information you need. Also, keep in mind our 30-day money-back guarantee removes all the risk."
+    }
+  ],
+
+  "power_words": [
+    "transformation",
+    "breakthrough",
+    "unleash",
+    "sculpt",
+    "shred",
+    "burn",
+    "tone",
+    "energize",
+    "revitalize",
+    "strengthen",
+    "ignite",
+    "accelerate",
+    "maximize",
+    "optimize",
+    "unlock",
+    "supercharge",
+    "amplify",
+    "activate",
+    "turbocharge",
+    "revolutionize",
+    "lean",
+    "ripped",
+    "toned",
+    "powerful",
+    "unstoppable"
+  ],
+
+  "cta_templates": [
+    "Start Your Transformation Today",
+    "Claim Your Free Workout Plan",
+    "Join the 30-Day Challenge",
+    "Get Your Custom Plan Now",
+    "Begin Your Journey Today",
+    "Unlock Your Free Assessment",
+    "Reserve Your Spot Now",
+    "Start Burning Fat Today",
+    "Get Instant Access Now",
+    "Yes, I'm Ready to Transform"
+  ],
+
+  "social_proof_templates": [
+    "Lost {X} pounds in {Y} weeks",
+    "Went from {before} to {after}",
+    "Finally feeling confident at {age}",
+    "More energy than I've had in {years} years",
+    "My doctor couldn't believe my results",
+    "Down {X} dress/pant sizes in {Y} months",
+    "Completed my first {activity} at age {age}",
+    "Off {X} medications after {Y} weeks",
+    "My spouse doesn't recognize me anymore",
+    "Friends keep asking what my secret is"
+  ],
+
+  "subject_line_templates": [
+    "The {time} workout that changed everything",
+    "{name}'s {result} story will shock you",
+    "Why {common belief} is keeping you stuck",
+    "I was wrong about {topic}",
+    "Quick question about your {goal}",
+    "This {food} is sabotaging your results",
+    "The truth about {myth}",
+    "[Case study] How {name} lost {X} pounds",
+    "Stop doing {activity} if you want to lose weight",
+    "The {number} minute secret to {benefit}"
+  ]
+}

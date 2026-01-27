@@ -1,0 +1,1 @@
+// Auth configuration including password policy, MFA setup, and session rules

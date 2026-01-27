@@ -1,0 +1,48 @@
+{
+  "$schema": "governance-freeze-v1",
+  "status": "FROZEN",
+  "phase": "PHASE_A_COMPLETE",
+  "shadowPhase": "PHASE_B_SHADOW",
+
+  "frozenAt": "2026-01-18T04:30:00Z",
+  "owner": {
+    "name": "Ayoub Agrebi",
+    "role": "Founder/Sole Operator",
+    "authority": "FULL"
+  },
+
+  "frozenModules": ["src/lib/agents/governance/**", "contracts/**", "data/governance/**"],
+
+  "excludedFromBuild": {
+    "tsconfig": [
+      "src/lib/agents/governance/**",
+      "src/app/api/debug/**",
+      "tests/real-validation/**",
+      "tests/**"
+    ],
+    "reason": "Governance quarantined for product validation"
+  },
+
+  "rules": {
+    "no_new_governance_modules": true,
+    "no_phase_escalation": true,
+    "exit_code_always_zero": true,
+    "observation_only": true
+  },
+
+  "reactivationCriteria": {
+    "requires": "ALL",
+    "conditions": [
+      "Product passes 7-point validation",
+      "Phase B shadow achieves <5% would-block rate over 14 days",
+      "Minimum 50 builds completed",
+      "Zero customer-impact incidents"
+    ]
+  },
+
+  "commitment": {
+    "statement": "Governance remains frozen until product is validated and shipped. No governance work until reactivation criteria met.",
+    "minimumFreezeDays": 30,
+    "reviewDate": "2026-02-18T00:00:00Z"
+  }
+}

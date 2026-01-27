@@ -1,0 +1,74 @@
+{
+  "$schema": "governance-activation-triggers-v1",
+  "version": "1.0.0",
+  "createdAt": "2026-01-18T04:30:00Z",
+  "owner": "Ayoub Agrebi",
+
+  "businessCriticalDefinition": {
+    "source": "REVENUE_PATH",
+    "includes": [
+      "Payment processing (Stripe integration)",
+      "Subscription tier controls (feature gates)",
+      "Build quota management (token limits)",
+      "User authentication (access control)",
+      "Customer-generated output writes"
+    ]
+  },
+
+  "phaseBtoC": {
+    "description": "Transition from shadow observation to scoped enforcement",
+    "requires": "ALL",
+    "metrics": {
+      "would_block_rate": {
+        "threshold": 0.05,
+        "comparison": "LESS_THAN",
+        "window_days": 14,
+        "min_samples": 50
+      },
+      "customer_impact_incidents": {
+        "threshold": 0,
+        "comparison": "EQUALS",
+        "description": "Zero incidents caused by governance decisions"
+      },
+      "false_positive_rate": {
+        "threshold": 0.02,
+        "comparison": "LESS_THAN",
+        "description": "Less than 2% of blocks should be false positives"
+      }
+    }
+  },
+
+  "phaseCtoFull": {
+    "description": "Transition from scoped to full enforcement",
+    "requires": "ALL",
+    "metrics": {
+      "phase_c_duration_days": {
+        "threshold": 30,
+        "comparison": "GREATER_THAN_OR_EQUAL"
+      },
+      "enforcement_accuracy": {
+        "threshold": 0.98,
+        "comparison": "GREATER_THAN_OR_EQUAL"
+      },
+      "production_revenue": {
+        "threshold": true,
+        "description": "At least one paying customer"
+      }
+    }
+  },
+
+  "emergencyOverride": {
+    "allowedFor": ["Ayoub Agrebi"],
+    "requires": {
+      "written_justification": true,
+      "logged_to_ledger": true,
+      "review_within_hours": 24
+    }
+  },
+
+  "automatedChecks": {
+    "enabled": false,
+    "reason": "Manual review until product validated",
+    "enableAfter": "First 10 paying customers"
+  }
+}

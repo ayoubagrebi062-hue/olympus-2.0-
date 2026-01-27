@@ -455,15 +455,11 @@ describe('SelfHealingEngine', () => {
 
   describe('chaos mode', () => {
     it('should block chaos mode in production without confirmation', () => {
-      const originalEnv = process.env.NODE_ENV;
-      process.env.NODE_ENV = 'production';
-
-      const result = engine.enableChaosMode(0.1);
+      // Use environment option instead of modifying process.env
+      const result = engine.enableChaosMode(0.1, { environment: 'production' });
 
       expect(result.success).toBe(false);
       expect(result.error).toContain('blocked');
-
-      process.env.NODE_ENV = originalEnv;
     });
 
     it('should allow chaos mode in development', () => {

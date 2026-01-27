@@ -1,0 +1,17 @@
+{
+  "canon_hash": "10e0c5917e30331556bd8fc1feaaa3088d8a08dde8e9e63c07d5870f67377130",
+  "artifact_hashes": {
+    "awg/NEGATIVE_INVARIANT_ATLAS.md": "23aa2d3a241981779a6fd2c03a19c50b36c8553b82a46856f3305f7c520e1604",
+    "awg/INVARIANT_CLOSURE_PROOF.json": "b6e7d494890ac5e3157e4c678841e07a38648da105b69a3dc0d4242ea9dc7f17",
+    "docs/OLYMPUS_CANON.md": "337d141924df348ef013d01bc8a373d71dd9146af6d3c22cb8601c23b05aafb4",
+    "docs/USAGE_CONSTRAINTS.md": "54a65d04115bd10b87c70bbd97392b40cc7001050620bca50a3af9787734b02b",
+    "docs/KILL_SWITCH_SPEC.md": "06f9050fc84df48c1afee4089f88b91e1055984eeabe3b884728a46897870415",
+    "src/EXECUTION_LOCK.ts": "13e520665258fb2fb07193d42cd04b2d308563182f1ef21148c852b62b4e75c1"
+  },
+  "timestamp": 1768869670185,
+  "status": "FROZEN",
+  "execution": "FORBIDDEN",
+  "successors": "PROHIBITED",
+  "extensions": "FORBIDDEN",
+  "verification": "Hash comparison only"
+}

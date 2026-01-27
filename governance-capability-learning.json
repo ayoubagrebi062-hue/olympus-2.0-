@@ -1,0 +1,94 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2026-01-18T08:56:29.440Z",
+  "learningWindow": {
+    "start": "2026-01-18T08:38:56.961Z",
+    "end": "2026-01-18T08:56:29.440Z"
+  },
+  "summary": {
+    "totalCapabilities": 1,
+    "capabilitiesWithSignals": 1,
+    "totalRecommendations": 1,
+    "byType": {
+      "improvement": 0,
+      "deprecation": 0,
+      "upgrade": 0,
+      "monitoring": 1,
+      "rollback": 0,
+      "investigation": 0
+    },
+    "byPriority": {
+      "high": 0,
+      "medium": 1,
+      "low": 0
+    }
+  },
+  "signals": [
+    {
+      "capabilityId": "CAPABILITY_ID",
+      "capabilityName": "Human-readable capability name",
+      "totalDecisions": 0,
+      "outcomes": {
+        "success": 0,
+        "failure": 0,
+        "partial": 0,
+        "blocked": 0,
+        "pending": 0,
+        "unknown": 0
+      },
+      "successRate": 0,
+      "patterns": {
+        "repeatedFailures": 0,
+        "repeatedPartial": 0,
+        "frequentEscalations": 0,
+        "frequentEthicalVetos": 0,
+        "performanceDegradation": false,
+        "unexpectedBehaviors": []
+      },
+      "learningRecommendations": [
+        {
+          "type": "monitoring",
+          "priority": "medium",
+          "description": "Capability \"Human-readable capability name\" success rate (0.0%) below expected (98.0%)",
+          "rationale": "Performance degradation detected",
+          "suggestedActions": [
+            "Increase monitoring frequency",
+            "Investigate performance decline",
+            "Review recent changes",
+            "Evaluate if capability degradation is temporary or permanent"
+          ],
+          "confidence": "medium",
+          "requiresHumanReview": false
+        }
+      ],
+      "riskIndicators": [
+        {
+          "type": "performance",
+          "severity": "high",
+          "description": "Success rate: 0.0%",
+          "threshold": 0.8,
+          "currentValue": 0,
+          "trend": "stable"
+        }
+      ],
+      "confidence": "low",
+      "evidenceLevel": "L4"
+    }
+  ],
+  "crossCapabilityPatterns": [],
+  "systemLevelInsights": [
+    {
+      "category": "reliability",
+      "insight": "Average system success rate is 0.0%",
+      "confidence": "medium",
+      "evidenceCount": 1,
+      "actionable": true,
+      "suggestedActions": [
+        "Review lowest-performing capabilities",
+        "Investigate root causes of system-wide reliability issues",
+        "Consider system-level reliability improvements",
+        "Review if quality metrics are realistic"
+      ]
+    }
+  ]
+}

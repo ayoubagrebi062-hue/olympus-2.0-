@@ -1,0 +1,3263 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2026-01-18T08:56:29.275Z",
+  "auditWindow": {
+    "start": "2026-01-18T08:38:56.832Z",
+    "end": "2026-01-18T08:56:29.275Z"
+  },
+  "summary": {
+    "totalFindings": 242,
+    "byType": {
+      "missing_reasoning_artifact": 90,
+      "missing_ethical_reasoning": 72,
+      "uncertainty_without_precaution": 2,
+      "uncertainty_without_escalation": 2,
+      "missing_escalation": 76,
+      "insufficient_evidence": 0,
+      "undeclared_uncertainty": 0,
+      "class_mismatch": 0
+    },
+    "byDecisionClass": {
+      "classA": 0,
+      "classB": 18,
+      "classC": 224,
+      "unknown": 0
+    },
+    "bySeverity": {
+      "info": 0,
+      "warning": 18,
+      "error": 224
+    }
+  },
+  "findings": [
+    {
+      "id": "1768725536832-5xxhjw7ut",
+      "timestamp": "2026-01-18T08:38:56.832Z",
+      "file": "src/app/(dashboard)/builds/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536832-o2ni68zya",
+      "timestamp": "2026-01-18T08:38:56.832Z",
+      "file": "src/app/(dashboard)/builds/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536832-gy970trkr",
+      "timestamp": "2026-01-18T08:38:56.832Z",
+      "file": "src/app/(dashboard)/builds/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536834-6x5hdbhf0",
+      "timestamp": "2026-01-18T08:38:56.834Z",
+      "file": "src/app/(dashboard)/dashboard/ecommerce/EcommerceDashboard.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536834-ecst9bney",
+      "timestamp": "2026-01-18T08:38:56.834Z",
+      "file": "src/app/(dashboard)/dashboard/ecommerce/EcommerceDashboard.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536834-98z3jbqkd",
+      "timestamp": "2026-01-18T08:38:56.834Z",
+      "file": "src/app/(dashboard)/dashboard/ecommerce/EcommerceDashboard.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536834-hboxji0av",
+      "timestamp": "2026-01-18T08:38:56.834Z",
+      "file": "src/app/(dashboard)/dashboard/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536834-9wmu773z0",
+      "timestamp": "2026-01-18T08:38:56.834Z",
+      "file": "src/app/(dashboard)/dashboard/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536834-ghx8lzovq",
+      "timestamp": "2026-01-18T08:38:56.834Z",
+      "file": "src/app/(dashboard)/dashboard/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536835-i5fh9y7i2",
+      "timestamp": "2026-01-18T08:38:56.835Z",
+      "file": "src/app/(dashboard)/deployments/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536835-kgpfqstdj",
+      "timestamp": "2026-01-18T08:38:56.835Z",
+      "file": "src/app/(dashboard)/deployments/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536835-dkuunw48d",
+      "timestamp": "2026-01-18T08:38:56.835Z",
+      "file": "src/app/(dashboard)/deployments/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536835-0fl3yzwjy",
+      "timestamp": "2026-01-18T08:38:56.835Z",
+      "file": "src/app/(dashboard)/layout.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536835-ddynquxxk",
+      "timestamp": "2026-01-18T08:38:56.835Z",
+      "file": "src/app/(dashboard)/layout.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536835-t7cnpepgj",
+      "timestamp": "2026-01-18T08:38:56.835Z",
+      "file": "src/app/(dashboard)/layout.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536845-2jc9tfmv3",
+      "timestamp": "2026-01-18T08:38:56.845Z",
+      "file": "src/app/api/builds/stream/route.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536845-xj2t26k1i",
+      "timestamp": "2026-01-18T08:38:56.845Z",
+      "file": "src/app/api/builds/stream/route.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536845-1zaw0ihki",
+      "timestamp": "2026-01-18T08:38:56.845Z",
+      "file": "src/app/api/builds/stream/route.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536859-ceiu8msib",
+      "timestamp": "2026-01-18T08:38:56.859Z",
+      "file": "src/components/auth/AuthProvider.tsx",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536864-eli1s1y0l",
+      "timestamp": "2026-01-18T08:38:56.864Z",
+      "file": "src/components/context/ContextViewer.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536864-en138ryfx",
+      "timestamp": "2026-01-18T08:38:56.864Z",
+      "file": "src/components/context/ContextViewer.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536864-z55kwle7v",
+      "timestamp": "2026-01-18T08:38:56.864Z",
+      "file": "src/components/context/ContextViewer.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536866-8bqdglkb8",
+      "timestamp": "2026-01-18T08:38:56.866Z",
+      "file": "src/components/realtime/BuildProgress.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536866-kw0ahyrpk",
+      "timestamp": "2026-01-18T08:38:56.866Z",
+      "file": "src/components/realtime/BuildProgress.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536866-jd3xewfmb",
+      "timestamp": "2026-01-18T08:38:56.866Z",
+      "file": "src/components/realtime/BuildProgress.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536866-y1zugjkgw",
+      "timestamp": "2026-01-18T08:38:56.866Z",
+      "file": "src/components/realtime/CollaboratorAvatars.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536866-xrkmy38t6",
+      "timestamp": "2026-01-18T08:38:56.866Z",
+      "file": "src/components/realtime/CollaboratorAvatars.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536866-yc370npeg",
+      "timestamp": "2026-01-18T08:38:56.866Z",
+      "file": "src/components/realtime/CollaboratorAvatars.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536867-vpqt3loe4",
+      "timestamp": "2026-01-18T08:38:56.867Z",
+      "file": "src/components/realtime/JobQueue.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536867-v18kgeiah",
+      "timestamp": "2026-01-18T08:38:56.867Z",
+      "file": "src/components/realtime/JobQueue.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536867-slvkzrejn",
+      "timestamp": "2026-01-18T08:38:56.867Z",
+      "file": "src/components/realtime/JobQueue.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536867-8tgagmdoy",
+      "timestamp": "2026-01-18T08:38:56.867Z",
+      "file": "src/components/realtime/NotificationBell.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536867-6wnymvd54",
+      "timestamp": "2026-01-18T08:38:56.867Z",
+      "file": "src/components/realtime/NotificationBell.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536867-6ht3e1qoe",
+      "timestamp": "2026-01-18T08:38:56.867Z",
+      "file": "src/components/realtime/NotificationBell.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536868-a8ol6la51",
+      "timestamp": "2026-01-18T08:38:56.868Z",
+      "file": "src/components/storage/FileGallery.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536868-i4cl4ylfq",
+      "timestamp": "2026-01-18T08:38:56.868Z",
+      "file": "src/components/storage/FileGallery.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536868-zkqmc1n39",
+      "timestamp": "2026-01-18T08:38:56.868Z",
+      "file": "src/components/storage/FileGallery.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536868-rltygfzep",
+      "timestamp": "2026-01-18T08:38:56.868Z",
+      "file": "src/components/storage/FilePreview.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536868-qfy5zt0x7",
+      "timestamp": "2026-01-18T08:38:56.868Z",
+      "file": "src/components/storage/FilePreview.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536868-e55lvbf8r",
+      "timestamp": "2026-01-18T08:38:56.868Z",
+      "file": "src/components/storage/FilePreview.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536868-rn3qzs3xt",
+      "timestamp": "2026-01-18T08:38:56.868Z",
+      "file": "src/components/storage/FileThumbnail.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536868-b5zxzzhhi",
+      "timestamp": "2026-01-18T08:38:56.868Z",
+      "file": "src/components/storage/FileThumbnail.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536868-jgnsz73xw",
+      "timestamp": "2026-01-18T08:38:56.868Z",
+      "file": "src/components/storage/FileThumbnail.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536869-25lv75yee",
+      "timestamp": "2026-01-18T08:38:56.869Z",
+      "file": "src/components/storage/FileUploader.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536869-t26ehj1ew",
+      "timestamp": "2026-01-18T08:38:56.869Z",
+      "file": "src/components/storage/FileUploader.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536869-vlsdyp5co",
+      "timestamp": "2026-01-18T08:38:56.869Z",
+      "file": "src/components/storage/FileUploader.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536870-nui5ltfq3",
+      "timestamp": "2026-01-18T08:38:56.870Z",
+      "file": "src/components/storage/ResumableUploader.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536870-h3zgn2flv",
+      "timestamp": "2026-01-18T08:38:56.870Z",
+      "file": "src/components/storage/ResumableUploader.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536870-f0ibf8fcv",
+      "timestamp": "2026-01-18T08:38:56.870Z",
+      "file": "src/components/storage/ResumableUploader.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536871-ih9rrb6c6",
+      "timestamp": "2026-01-18T08:38:56.871Z",
+      "file": "src/components/ui/Dropdown.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536871-3g1tbe2fd",
+      "timestamp": "2026-01-18T08:38:56.871Z",
+      "file": "src/components/ui/Dropdown.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536871-0e33wrfdp",
+      "timestamp": "2026-01-18T08:38:56.871Z",
+      "file": "src/components/ui/Dropdown.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536871-svu3bq78x",
+      "timestamp": "2026-01-18T08:38:56.871Z",
+      "file": "src/components/ui/index.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536871-anuz03z6y",
+      "timestamp": "2026-01-18T08:38:56.871Z",
+      "file": "src/components/ui/index.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536871-k4krjiemg",
+      "timestamp": "2026-01-18T08:38:56.871Z",
+      "file": "src/components/ui/index.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536872-tsni5873e",
+      "timestamp": "2026-01-18T08:38:56.872Z",
+      "file": "src/components/ui/Modal.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536872-wdidelpd9",
+      "timestamp": "2026-01-18T08:38:56.872Z",
+      "file": "src/components/ui/Modal.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536872-m0ye0mucp",
+      "timestamp": "2026-01-18T08:38:56.872Z",
+      "file": "src/components/ui/Modal.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536875-uiir2dle1",
+      "timestamp": "2026-01-18T08:38:56.875Z",
+      "file": "src/hooks/storage/useFilePreview.ts",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536878-i4rhiljpj",
+      "timestamp": "2026-01-18T08:38:56.878Z",
+      "file": "src/lib/agents/context/graphrag.ts",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536879-l172z5oty",
+      "timestamp": "2026-01-18T08:38:56.879Z",
+      "file": "src/lib/agents/context/summarizer.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536879-9zrm59g1z",
+      "timestamp": "2026-01-18T08:38:56.879Z",
+      "file": "src/lib/agents/context/summarizer.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536879-7ckiicckj",
+      "timestamp": "2026-01-18T08:38:56.879Z",
+      "file": "src/lib/agents/context/summarizer.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536884-n9rhy7vnm",
+      "timestamp": "2026-01-18T08:38:56.884Z",
+      "file": "src/lib/agents/governance/ci/decision-binding.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536884-4xyx4x3qm",
+      "timestamp": "2026-01-18T08:38:56.884Z",
+      "file": "src/lib/agents/governance/ci/decision-binding.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536884-npsc4yp0u",
+      "timestamp": "2026-01-18T08:38:56.884Z",
+      "file": "src/lib/agents/governance/ci/decision-binding.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536885-0s0sve0h2",
+      "timestamp": "2026-01-18T08:38:56.885Z",
+      "file": "src/lib/agents/governance/ci/decision-finalization.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536885-k1hs20i2f",
+      "timestamp": "2026-01-18T08:38:56.885Z",
+      "file": "src/lib/agents/governance/ci/decision-finalization.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536885-ph6cwtj8m",
+      "timestamp": "2026-01-18T08:38:56.885Z",
+      "file": "src/lib/agents/governance/ci/decision-finalization.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536886-s1othm2ey",
+      "timestamp": "2026-01-18T08:38:56.886Z",
+      "file": "src/lib/agents/governance/ci/governance-dry-run.ts",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536888-qjhktqicp",
+      "timestamp": "2026-01-18T08:38:56.888Z",
+      "file": "src/lib/agents/governance/ci/reasoning-quality-audit.v1.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536888-28g5vvdb0",
+      "timestamp": "2026-01-18T08:38:56.888Z",
+      "file": "src/lib/agents/governance/ci/reasoning-quality-audit.v1.ts",
+      "decisionClass": "C",
+      "findingType": "uncertainty_without_precaution",
+      "severity": "error",
+      "description": "Uncertainty declared without precautionary measures or escalation",
+      "recommendation": "Apply Precautionary Mode or escalate to human immediately for Class C uncertainty",
+      "context": {
+        "matchedPattern": "UNCERTAINTY"
+      }
+    },
+    {
+      "id": "1768725536888-jm9j7mg63",
+      "timestamp": "2026-01-18T08:38:56.888Z",
+      "file": "src/lib/agents/governance/ci/reasoning-quality-audit.v1.ts",
+      "decisionClass": "C",
+      "findingType": "uncertainty_without_escalation",
+      "severity": "error",
+      "description": "Class C action with uncertainty not escalated to human",
+      "recommendation": "Class C uncertainty must be escalated to human for guidance",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536888-gai9phtmh",
+      "timestamp": "2026-01-18T08:38:56.888Z",
+      "file": "src/lib/agents/governance/ci/reasoning-quality-audit.v1.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536888-7gobw3dcf",
+      "timestamp": "2026-01-18T08:38:56.888Z",
+      "file": "src/lib/agents/governance/ci/tier-classifier.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536888-1uwl218ji",
+      "timestamp": "2026-01-18T08:38:56.888Z",
+      "file": "src/lib/agents/governance/ci/tier-classifier.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536888-ycdiek24u",
+      "timestamp": "2026-01-18T08:38:56.888Z",
+      "file": "src/lib/agents/governance/ci/tier-classifier.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536889-h1i2h1ccs",
+      "timestamp": "2026-01-18T08:38:56.889Z",
+      "file": "src/lib/agents/governance/ci/tier-enforcement.ts",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536889-7rc9nyy9x",
+      "timestamp": "2026-01-18T08:38:56.889Z",
+      "file": "src/lib/agents/governance/ci/tier-enforcement.ts",
+      "decisionClass": "B",
+      "findingType": "missing_escalation",
+      "severity": "warning",
+      "description": "Action requiring human oversight missing escalation",
+      "recommendation": "Escalate actions requiring human oversight",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536930-uy14bp7u0",
+      "timestamp": "2026-01-18T08:38:56.930Z",
+      "file": "src/lib/jobs/job-handler.ts",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536932-506cq4r07",
+      "timestamp": "2026-01-18T08:38:56.932Z",
+      "file": "src/lib/monitoring/alerts.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536932-5lbx268mp",
+      "timestamp": "2026-01-18T08:38:56.932Z",
+      "file": "src/lib/monitoring/alerts.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536932-bwxhucjfn",
+      "timestamp": "2026-01-18T08:38:56.932Z",
+      "file": "src/lib/monitoring/alerts.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536933-ou1zf2qj5",
+      "timestamp": "2026-01-18T08:38:56.933Z",
+      "file": "src/lib/performance/cache.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536933-8367dyxyr",
+      "timestamp": "2026-01-18T08:38:56.933Z",
+      "file": "src/lib/performance/cache.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536933-9dei5f4fv",
+      "timestamp": "2026-01-18T08:38:56.933Z",
+      "file": "src/lib/performance/cache.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536934-ifnnhabux",
+      "timestamp": "2026-01-18T08:38:56.934Z",
+      "file": "src/lib/performance/query-optimizer.ts",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536934-6tnwhd7n8",
+      "timestamp": "2026-01-18T08:38:56.934Z",
+      "file": "src/lib/preview/components/DeviceSelector.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536934-a0nmrtqdy",
+      "timestamp": "2026-01-18T08:38:56.934Z",
+      "file": "src/lib/preview/components/DeviceSelector.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536934-wcm6nzrq8",
+      "timestamp": "2026-01-18T08:38:56.934Z",
+      "file": "src/lib/preview/components/DeviceSelector.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536935-mrhhv78j9",
+      "timestamp": "2026-01-18T08:38:56.935Z",
+      "file": "src/lib/preview/components/PreviewToolbar.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536935-2rko0l2ss",
+      "timestamp": "2026-01-18T08:38:56.935Z",
+      "file": "src/lib/preview/components/PreviewToolbar.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536935-kijzzu2p3",
+      "timestamp": "2026-01-18T08:38:56.935Z",
+      "file": "src/lib/preview/components/PreviewToolbar.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536936-1ntf56p4q",
+      "timestamp": "2026-01-18T08:38:56.936Z",
+      "file": "src/lib/preview/editor/FileTabs.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536936-m3cpsnmf9",
+      "timestamp": "2026-01-18T08:38:56.936Z",
+      "file": "src/lib/preview/editor/FileTabs.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536936-mfl9vw4yl",
+      "timestamp": "2026-01-18T08:38:56.936Z",
+      "file": "src/lib/preview/editor/FileTabs.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536936-xdsrhokup",
+      "timestamp": "2026-01-18T08:38:56.936Z",
+      "file": "src/lib/preview/editor/FileTree.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536936-mekrs5pqq",
+      "timestamp": "2026-01-18T08:38:56.936Z",
+      "file": "src/lib/preview/editor/FileTree.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536936-f0268o2vw",
+      "timestamp": "2026-01-18T08:38:56.936Z",
+      "file": "src/lib/preview/editor/FileTree.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536938-7m1jq9doy",
+      "timestamp": "2026-01-18T08:38:56.938Z",
+      "file": "src/lib/preview/share/ShareModal.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536938-qzrju1pfw",
+      "timestamp": "2026-01-18T08:38:56.938Z",
+      "file": "src/lib/preview/share/ShareModal.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536938-0attxrilt",
+      "timestamp": "2026-01-18T08:38:56.938Z",
+      "file": "src/lib/preview/share/ShareModal.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536941-euncvkvuh",
+      "timestamp": "2026-01-18T08:38:56.941Z",
+      "file": "src/lib/quality/orchestrator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536941-kveoyd0ah",
+      "timestamp": "2026-01-18T08:38:56.941Z",
+      "file": "src/lib/quality/orchestrator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536941-hmndl2utv",
+      "timestamp": "2026-01-18T08:38:56.941Z",
+      "file": "src/lib/quality/orchestrator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536941-arg79xzim",
+      "timestamp": "2026-01-18T08:38:56.941Z",
+      "file": "src/lib/quality/types.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536941-rw6jmuach",
+      "timestamp": "2026-01-18T08:38:56.941Z",
+      "file": "src/lib/quality/types.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536941-3utvg16h8",
+      "timestamp": "2026-01-18T08:38:56.941Z",
+      "file": "src/lib/quality/types.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536946-9zmqsyn53",
+      "timestamp": "2026-01-18T08:38:56.946Z",
+      "file": "src/lib/security/input-validator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536946-5zw3gu0l2",
+      "timestamp": "2026-01-18T08:38:56.946Z",
+      "file": "src/lib/security/input-validator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536946-h3ae786ct",
+      "timestamp": "2026-01-18T08:38:56.946Z",
+      "file": "src/lib/security/input-validator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536947-gjjx60y18",
+      "timestamp": "2026-01-18T08:38:56.947Z",
+      "file": "src/lib/storage/cleanup-service.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536947-oa3zfrdz9",
+      "timestamp": "2026-01-18T08:38:56.947Z",
+      "file": "src/lib/storage/cleanup-service.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536947-aocapu8y8",
+      "timestamp": "2026-01-18T08:38:56.947Z",
+      "file": "src/lib/storage/cleanup-service.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536949-mnom5vdif",
+      "timestamp": "2026-01-18T08:38:56.949Z",
+      "file": "src/lib/storage/file-service.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536949-p1ikfv3ea",
+      "timestamp": "2026-01-18T08:38:56.949Z",
+      "file": "src/lib/storage/file-service.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536949-k5o8uy716",
+      "timestamp": "2026-01-18T08:38:56.949Z",
+      "file": "src/lib/storage/file-service.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536954-as5a1xyv2",
+      "timestamp": "2026-01-18T08:38:56.954Z",
+      "file": "src/lib/validation/validators/import-validator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768725536954-lo90l1gu7",
+      "timestamp": "2026-01-18T08:38:56.954Z",
+      "file": "src/lib/validation/validators/import-validator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768725536954-fpx560p0f",
+      "timestamp": "2026-01-18T08:38:56.954Z",
+      "file": "src/lib/validation/validators/import-validator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768725536956-iq4f2m4k7",
+      "timestamp": "2026-01-18T08:38:56.956Z",
+      "file": "src/middleware.ts",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589280-5ca0whprk",
+      "timestamp": "2026-01-18T08:56:29.280Z",
+      "file": "src/app/(dashboard)/builds/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589280-2y6vw20tk",
+      "timestamp": "2026-01-18T08:56:29.280Z",
+      "file": "src/app/(dashboard)/builds/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589280-jycgz3jmy",
+      "timestamp": "2026-01-18T08:56:29.280Z",
+      "file": "src/app/(dashboard)/builds/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589282-1gocihr0s",
+      "timestamp": "2026-01-18T08:56:29.282Z",
+      "file": "src/app/(dashboard)/dashboard/ecommerce/EcommerceDashboard.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589282-tvi25ncpc",
+      "timestamp": "2026-01-18T08:56:29.282Z",
+      "file": "src/app/(dashboard)/dashboard/ecommerce/EcommerceDashboard.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589282-3i0d5bund",
+      "timestamp": "2026-01-18T08:56:29.282Z",
+      "file": "src/app/(dashboard)/dashboard/ecommerce/EcommerceDashboard.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589282-qq5hp10me",
+      "timestamp": "2026-01-18T08:56:29.282Z",
+      "file": "src/app/(dashboard)/dashboard/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589282-5kp129mtv",
+      "timestamp": "2026-01-18T08:56:29.282Z",
+      "file": "src/app/(dashboard)/dashboard/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589282-wyo5hbe8n",
+      "timestamp": "2026-01-18T08:56:29.282Z",
+      "file": "src/app/(dashboard)/dashboard/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589283-n0n4jb5cl",
+      "timestamp": "2026-01-18T08:56:29.283Z",
+      "file": "src/app/(dashboard)/deployments/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589283-jn39q5pnp",
+      "timestamp": "2026-01-18T08:56:29.283Z",
+      "file": "src/app/(dashboard)/deployments/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589283-708gx3uns",
+      "timestamp": "2026-01-18T08:56:29.283Z",
+      "file": "src/app/(dashboard)/deployments/page.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589283-bf0fddiq0",
+      "timestamp": "2026-01-18T08:56:29.283Z",
+      "file": "src/app/(dashboard)/layout.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589283-ogh1dfdq3",
+      "timestamp": "2026-01-18T08:56:29.283Z",
+      "file": "src/app/(dashboard)/layout.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589283-wkzclor22",
+      "timestamp": "2026-01-18T08:56:29.283Z",
+      "file": "src/app/(dashboard)/layout.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589295-wox92hy84",
+      "timestamp": "2026-01-18T08:56:29.295Z",
+      "file": "src/app/api/builds/stream/route.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589295-s1og8eoz6",
+      "timestamp": "2026-01-18T08:56:29.295Z",
+      "file": "src/app/api/builds/stream/route.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589295-ekg8v16yn",
+      "timestamp": "2026-01-18T08:56:29.295Z",
+      "file": "src/app/api/builds/stream/route.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589313-q1olux0zn",
+      "timestamp": "2026-01-18T08:56:29.313Z",
+      "file": "src/components/auth/AuthProvider.tsx",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589318-yn0bmc1k8",
+      "timestamp": "2026-01-18T08:56:29.318Z",
+      "file": "src/components/context/ContextViewer.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589318-k8e6v4wan",
+      "timestamp": "2026-01-18T08:56:29.318Z",
+      "file": "src/components/context/ContextViewer.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589318-lrisvhbb2",
+      "timestamp": "2026-01-18T08:56:29.318Z",
+      "file": "src/components/context/ContextViewer.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589321-hqfcou2kx",
+      "timestamp": "2026-01-18T08:56:29.321Z",
+      "file": "src/components/realtime/BuildProgress.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589321-3bwx9tfkg",
+      "timestamp": "2026-01-18T08:56:29.321Z",
+      "file": "src/components/realtime/BuildProgress.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589321-4dua7ovnf",
+      "timestamp": "2026-01-18T08:56:29.321Z",
+      "file": "src/components/realtime/BuildProgress.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589321-wl6ro37u9",
+      "timestamp": "2026-01-18T08:56:29.321Z",
+      "file": "src/components/realtime/CollaboratorAvatars.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589321-qrgsdq9xs",
+      "timestamp": "2026-01-18T08:56:29.321Z",
+      "file": "src/components/realtime/CollaboratorAvatars.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589321-wmvkafkg8",
+      "timestamp": "2026-01-18T08:56:29.321Z",
+      "file": "src/components/realtime/CollaboratorAvatars.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589322-tq87ab8gw",
+      "timestamp": "2026-01-18T08:56:29.322Z",
+      "file": "src/components/realtime/JobQueue.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589322-hmi2bo054",
+      "timestamp": "2026-01-18T08:56:29.322Z",
+      "file": "src/components/realtime/JobQueue.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589322-ece6zg0so",
+      "timestamp": "2026-01-18T08:56:29.322Z",
+      "file": "src/components/realtime/JobQueue.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589322-0pebqy6kz",
+      "timestamp": "2026-01-18T08:56:29.322Z",
+      "file": "src/components/realtime/NotificationBell.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589322-fp2el0x9h",
+      "timestamp": "2026-01-18T08:56:29.322Z",
+      "file": "src/components/realtime/NotificationBell.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589322-1m8w0m3j6",
+      "timestamp": "2026-01-18T08:56:29.322Z",
+      "file": "src/components/realtime/NotificationBell.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589323-sidith7rm",
+      "timestamp": "2026-01-18T08:56:29.323Z",
+      "file": "src/components/storage/FileGallery.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589323-mr6f3b4na",
+      "timestamp": "2026-01-18T08:56:29.323Z",
+      "file": "src/components/storage/FileGallery.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589323-3y9au3zi9",
+      "timestamp": "2026-01-18T08:56:29.323Z",
+      "file": "src/components/storage/FileGallery.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589323-i1fmcdv90",
+      "timestamp": "2026-01-18T08:56:29.323Z",
+      "file": "src/components/storage/FilePreview.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589323-fsrxs3k8w",
+      "timestamp": "2026-01-18T08:56:29.323Z",
+      "file": "src/components/storage/FilePreview.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589323-v2nglln0c",
+      "timestamp": "2026-01-18T08:56:29.323Z",
+      "file": "src/components/storage/FilePreview.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589323-tteepp6v3",
+      "timestamp": "2026-01-18T08:56:29.323Z",
+      "file": "src/components/storage/FileThumbnail.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589323-8nfkgyz94",
+      "timestamp": "2026-01-18T08:56:29.323Z",
+      "file": "src/components/storage/FileThumbnail.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589323-en03fp1q5",
+      "timestamp": "2026-01-18T08:56:29.323Z",
+      "file": "src/components/storage/FileThumbnail.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589324-hvde9o0f0",
+      "timestamp": "2026-01-18T08:56:29.324Z",
+      "file": "src/components/storage/FileUploader.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589324-hw66oolv7",
+      "timestamp": "2026-01-18T08:56:29.324Z",
+      "file": "src/components/storage/FileUploader.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589324-zvtmw6ixb",
+      "timestamp": "2026-01-18T08:56:29.324Z",
+      "file": "src/components/storage/FileUploader.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589325-8uvo9ja4z",
+      "timestamp": "2026-01-18T08:56:29.325Z",
+      "file": "src/components/storage/ResumableUploader.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589325-pxkoq719f",
+      "timestamp": "2026-01-18T08:56:29.325Z",
+      "file": "src/components/storage/ResumableUploader.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589325-a9a3ck35x",
+      "timestamp": "2026-01-18T08:56:29.325Z",
+      "file": "src/components/storage/ResumableUploader.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589327-0fc9tbofw",
+      "timestamp": "2026-01-18T08:56:29.327Z",
+      "file": "src/components/ui/Dropdown.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589327-9xwv6jq3e",
+      "timestamp": "2026-01-18T08:56:29.327Z",
+      "file": "src/components/ui/Dropdown.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589327-60ds6gwsw",
+      "timestamp": "2026-01-18T08:56:29.327Z",
+      "file": "src/components/ui/Dropdown.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589327-caa6jknax",
+      "timestamp": "2026-01-18T08:56:29.327Z",
+      "file": "src/components/ui/index.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589327-fc9uvybcj",
+      "timestamp": "2026-01-18T08:56:29.327Z",
+      "file": "src/components/ui/index.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589327-irm3b9rk2",
+      "timestamp": "2026-01-18T08:56:29.327Z",
+      "file": "src/components/ui/index.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589328-aokuoewsl",
+      "timestamp": "2026-01-18T08:56:29.328Z",
+      "file": "src/components/ui/Modal.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589328-vybgw08bj",
+      "timestamp": "2026-01-18T08:56:29.328Z",
+      "file": "src/components/ui/Modal.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589328-r8zq0y60z",
+      "timestamp": "2026-01-18T08:56:29.328Z",
+      "file": "src/components/ui/Modal.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589332-s4b6i2nf0",
+      "timestamp": "2026-01-18T08:56:29.332Z",
+      "file": "src/hooks/storage/useFilePreview.ts",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589335-d8g2axsq6",
+      "timestamp": "2026-01-18T08:56:29.336Z",
+      "file": "src/lib/agents/context/graphrag.ts",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589337-6gnntlwhr",
+      "timestamp": "2026-01-18T08:56:29.337Z",
+      "file": "src/lib/agents/context/summarizer.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589337-fm32mztjc",
+      "timestamp": "2026-01-18T08:56:29.337Z",
+      "file": "src/lib/agents/context/summarizer.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589337-xzn0ro5jn",
+      "timestamp": "2026-01-18T08:56:29.337Z",
+      "file": "src/lib/agents/context/summarizer.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589344-ezb849608",
+      "timestamp": "2026-01-18T08:56:29.344Z",
+      "file": "src/lib/agents/governance/ci/decision-binding.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589344-rka4w9i99",
+      "timestamp": "2026-01-18T08:56:29.344Z",
+      "file": "src/lib/agents/governance/ci/decision-binding.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589344-vt2a6l95n",
+      "timestamp": "2026-01-18T08:56:29.344Z",
+      "file": "src/lib/agents/governance/ci/decision-binding.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589345-s1yhuzebq",
+      "timestamp": "2026-01-18T08:56:29.345Z",
+      "file": "src/lib/agents/governance/ci/decision-finalization.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589345-thghydugw",
+      "timestamp": "2026-01-18T08:56:29.345Z",
+      "file": "src/lib/agents/governance/ci/decision-finalization.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589345-34wctsvbn",
+      "timestamp": "2026-01-18T08:56:29.345Z",
+      "file": "src/lib/agents/governance/ci/decision-finalization.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589346-0bj4t65m1",
+      "timestamp": "2026-01-18T08:56:29.346Z",
+      "file": "src/lib/agents/governance/ci/governance-dry-run.ts",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589349-ndno7pfca",
+      "timestamp": "2026-01-18T08:56:29.349Z",
+      "file": "src/lib/agents/governance/ci/reasoning-quality-audit.v1.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589349-hql40debj",
+      "timestamp": "2026-01-18T08:56:29.349Z",
+      "file": "src/lib/agents/governance/ci/reasoning-quality-audit.v1.ts",
+      "decisionClass": "C",
+      "findingType": "uncertainty_without_precaution",
+      "severity": "error",
+      "description": "Uncertainty declared without precautionary measures or escalation",
+      "recommendation": "Apply Precautionary Mode or escalate to human immediately for Class C uncertainty",
+      "context": {
+        "matchedPattern": "UNCERTAINTY"
+      }
+    },
+    {
+      "id": "1768726589349-6nqt18xf2",
+      "timestamp": "2026-01-18T08:56:29.349Z",
+      "file": "src/lib/agents/governance/ci/reasoning-quality-audit.v1.ts",
+      "decisionClass": "C",
+      "findingType": "uncertainty_without_escalation",
+      "severity": "error",
+      "description": "Class C action with uncertainty not escalated to human",
+      "recommendation": "Class C uncertainty must be escalated to human for guidance",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589349-qvmllfdy8",
+      "timestamp": "2026-01-18T08:56:29.349Z",
+      "file": "src/lib/agents/governance/ci/reasoning-quality-audit.v1.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589350-tdo3vjlbl",
+      "timestamp": "2026-01-18T08:56:29.350Z",
+      "file": "src/lib/agents/governance/ci/tier-classifier.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589350-2t14dkst5",
+      "timestamp": "2026-01-18T08:56:29.350Z",
+      "file": "src/lib/agents/governance/ci/tier-classifier.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589350-i9a8f8knn",
+      "timestamp": "2026-01-18T08:56:29.350Z",
+      "file": "src/lib/agents/governance/ci/tier-classifier.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589350-tppi9vpn2",
+      "timestamp": "2026-01-18T08:56:29.350Z",
+      "file": "src/lib/agents/governance/ci/tier-enforcement.ts",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589350-xxvakhcgj",
+      "timestamp": "2026-01-18T08:56:29.350Z",
+      "file": "src/lib/agents/governance/ci/tier-enforcement.ts",
+      "decisionClass": "B",
+      "findingType": "missing_escalation",
+      "severity": "warning",
+      "description": "Action requiring human oversight missing escalation",
+      "recommendation": "Escalate actions requiring human oversight",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589407-6qpezbj0f",
+      "timestamp": "2026-01-18T08:56:29.407Z",
+      "file": "src/lib/jobs/job-handler.ts",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589408-r65zmz7s0",
+      "timestamp": "2026-01-18T08:56:29.408Z",
+      "file": "src/lib/monitoring/alerts.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589408-w07s1ch98",
+      "timestamp": "2026-01-18T08:56:29.408Z",
+      "file": "src/lib/monitoring/alerts.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589408-1qt68xqlv",
+      "timestamp": "2026-01-18T08:56:29.408Z",
+      "file": "src/lib/monitoring/alerts.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589410-lnxvr5mab",
+      "timestamp": "2026-01-18T08:56:29.410Z",
+      "file": "src/lib/performance/cache.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589410-t4ssbvn9v",
+      "timestamp": "2026-01-18T08:56:29.410Z",
+      "file": "src/lib/performance/cache.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589410-ka72pb2f3",
+      "timestamp": "2026-01-18T08:56:29.410Z",
+      "file": "src/lib/performance/cache.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589410-uo5yakr13",
+      "timestamp": "2026-01-18T08:56:29.410Z",
+      "file": "src/lib/performance/query-optimizer.ts",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589411-giddgj2dn",
+      "timestamp": "2026-01-18T08:56:29.411Z",
+      "file": "src/lib/preview/components/DeviceSelector.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589411-1dl1eqbx7",
+      "timestamp": "2026-01-18T08:56:29.411Z",
+      "file": "src/lib/preview/components/DeviceSelector.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589411-zjd7l4v4r",
+      "timestamp": "2026-01-18T08:56:29.411Z",
+      "file": "src/lib/preview/components/DeviceSelector.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589412-js5uhe7kb",
+      "timestamp": "2026-01-18T08:56:29.412Z",
+      "file": "src/lib/preview/components/PreviewToolbar.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589412-xn1cxkp1b",
+      "timestamp": "2026-01-18T08:56:29.412Z",
+      "file": "src/lib/preview/components/PreviewToolbar.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589412-bvsrkhiog",
+      "timestamp": "2026-01-18T08:56:29.412Z",
+      "file": "src/lib/preview/components/PreviewToolbar.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589413-2eike8z8d",
+      "timestamp": "2026-01-18T08:56:29.413Z",
+      "file": "src/lib/preview/editor/FileTabs.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589413-95m77otv8",
+      "timestamp": "2026-01-18T08:56:29.413Z",
+      "file": "src/lib/preview/editor/FileTabs.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589413-mo6c0kpjw",
+      "timestamp": "2026-01-18T08:56:29.413Z",
+      "file": "src/lib/preview/editor/FileTabs.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589413-cmt2clr28",
+      "timestamp": "2026-01-18T08:56:29.413Z",
+      "file": "src/lib/preview/editor/FileTree.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589413-w5wn60v8b",
+      "timestamp": "2026-01-18T08:56:29.413Z",
+      "file": "src/lib/preview/editor/FileTree.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589413-e772eek89",
+      "timestamp": "2026-01-18T08:56:29.413Z",
+      "file": "src/lib/preview/editor/FileTree.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589416-i8t9vtpp1",
+      "timestamp": "2026-01-18T08:56:29.416Z",
+      "file": "src/lib/preview/share/ShareModal.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589416-bwhivbvkg",
+      "timestamp": "2026-01-18T08:56:29.416Z",
+      "file": "src/lib/preview/share/ShareModal.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589416-alw053qon",
+      "timestamp": "2026-01-18T08:56:29.416Z",
+      "file": "src/lib/preview/share/ShareModal.tsx",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589419-rjlsfgnet",
+      "timestamp": "2026-01-18T08:56:29.419Z",
+      "file": "src/lib/quality/orchestrator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589419-b3tvlilpu",
+      "timestamp": "2026-01-18T08:56:29.419Z",
+      "file": "src/lib/quality/orchestrator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589419-6g6kba0fi",
+      "timestamp": "2026-01-18T08:56:29.419Z",
+      "file": "src/lib/quality/orchestrator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589420-oynsk9c8y",
+      "timestamp": "2026-01-18T08:56:29.420Z",
+      "file": "src/lib/quality/types.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589420-tgzkjc60y",
+      "timestamp": "2026-01-18T08:56:29.420Z",
+      "file": "src/lib/quality/types.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589420-y2bto8mb6",
+      "timestamp": "2026-01-18T08:56:29.420Z",
+      "file": "src/lib/quality/types.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589424-1t4sueaim",
+      "timestamp": "2026-01-18T08:56:29.424Z",
+      "file": "src/lib/security/input-validator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589425-a6abcr19c",
+      "timestamp": "2026-01-18T08:56:29.425Z",
+      "file": "src/lib/security/input-validator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589425-h1m6dz3fv",
+      "timestamp": "2026-01-18T08:56:29.425Z",
+      "file": "src/lib/security/input-validator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589426-asuxwl0wk",
+      "timestamp": "2026-01-18T08:56:29.426Z",
+      "file": "src/lib/storage/cleanup-service.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589426-16ho5p2ua",
+      "timestamp": "2026-01-18T08:56:29.426Z",
+      "file": "src/lib/storage/cleanup-service.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589426-pycrkicle",
+      "timestamp": "2026-01-18T08:56:29.426Z",
+      "file": "src/lib/storage/cleanup-service.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589428-qsr880zt1",
+      "timestamp": "2026-01-18T08:56:29.428Z",
+      "file": "src/lib/storage/file-service.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589428-6gslbdwnp",
+      "timestamp": "2026-01-18T08:56:29.428Z",
+      "file": "src/lib/storage/file-service.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589428-szkmhqz4n",
+      "timestamp": "2026-01-18T08:56:29.428Z",
+      "file": "src/lib/storage/file-service.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589434-emr7a6mer",
+      "timestamp": "2026-01-18T08:56:29.434Z",
+      "file": "src/lib/validation/validators/import-validator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "error",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add required reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) before Class C actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    },
+    {
+      "id": "1768726589434-jfrvpq705",
+      "timestamp": "2026-01-18T08:56:29.434Z",
+      "file": "src/lib/validation/validators/import-validator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_ethical_reasoning",
+      "severity": "error",
+      "description": "Class C action missing ethical reasoning artifact",
+      "recommendation": "Add Ethical Assessment artifact with stakeholder analysis, principle evaluation, and conflict resolution",
+      "context": {
+        "matchedPattern": "ETHICAL_ASSESSMENT"
+      }
+    },
+    {
+      "id": "1768726589434-gvv7gfuu8",
+      "timestamp": "2026-01-18T08:56:29.434Z",
+      "file": "src/lib/validation/validators/import-validator.ts",
+      "decisionClass": "C",
+      "findingType": "missing_escalation",
+      "severity": "error",
+      "description": "Class C action missing escalation to human",
+      "recommendation": "All Class C actions must be escalated to human with full context",
+      "context": {
+        "matchedPattern": "ESCALATION"
+      }
+    },
+    {
+      "id": "1768726589435-22initb1p",
+      "timestamp": "2026-01-18T08:56:29.436Z",
+      "file": "src/middleware.ts",
+      "decisionClass": "B",
+      "findingType": "missing_reasoning_artifact",
+      "severity": "warning",
+      "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary",
+      "recommendation": "Add reasoning artifacts (Decision Brief, Reasoning Chain, Evidence Summary) for Class B actions",
+      "context": {
+        "matchedPattern": "decisionBrief, reasoningChain, evidenceSummary"
+      }
+    }
+  ],
+  "patterns": {
+    "commonFindings": [
+      {
+        "findingType": "missing_reasoning_artifact",
+        "occurrences": 90,
+        "firstSeen": "2026-01-18T08:38:56.832Z",
+        "lastSeen": "2026-01-18T08:56:29.436Z",
+        "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary"
+      },
+      {
+        "findingType": "missing_escalation",
+        "occurrences": 76,
+        "firstSeen": "2026-01-18T08:38:56.832Z",
+        "lastSeen": "2026-01-18T08:56:29.434Z",
+        "description": "Class C action missing escalation to human"
+      },
+      {
+        "findingType": "missing_ethical_reasoning",
+        "occurrences": 72,
+        "firstSeen": "2026-01-18T08:38:56.832Z",
+        "lastSeen": "2026-01-18T08:56:29.434Z",
+        "description": "Class C action missing ethical reasoning artifact"
+      },
+      {
+        "findingType": "uncertainty_without_precaution",
+        "occurrences": 2,
+        "firstSeen": "2026-01-18T08:38:56.888Z",
+        "lastSeen": "2026-01-18T08:56:29.349Z",
+        "description": "Uncertainty declared without precautionary measures or escalation"
+      },
+      {
+        "findingType": "uncertainty_without_escalation",
+        "occurrences": 2,
+        "firstSeen": "2026-01-18T08:38:56.888Z",
+        "lastSeen": "2026-01-18T08:56:29.349Z",
+        "description": "Class C action with uncertainty not escalated to human"
+      }
+    ],
+    "classCFindings": [
+      {
+        "findingType": "missing_reasoning_artifact",
+        "occurrences": 74,
+        "firstSeen": "2026-01-18T08:38:56.832Z",
+        "lastSeen": "2026-01-18T08:56:29.434Z",
+        "description": "Missing reasoning artifacts: decisionBrief, reasoningChain, evidenceSummary"
+      },
+      {
+        "findingType": "missing_escalation",
+        "occurrences": 74,
+        "firstSeen": "2026-01-18T08:38:56.832Z",
+        "lastSeen": "2026-01-18T08:56:29.434Z",
+        "description": "Class C action missing escalation to human"
+      },
+      {
+        "findingType": "missing_ethical_reasoning",
+        "occurrences": 72,
+        "firstSeen": "2026-01-18T08:38:56.832Z",
+        "lastSeen": "2026-01-18T08:56:29.434Z",
+        "description": "Class C action missing ethical reasoning artifact"
+      },
+      {
+        "findingType": "uncertainty_without_precaution",
+        "occurrences": 2,
+        "firstSeen": "2026-01-18T08:38:56.888Z",
+        "lastSeen": "2026-01-18T08:56:29.349Z",
+        "description": "Uncertainty declared without precautionary measures or escalation"
+      },
+      {
+        "findingType": "uncertainty_without_escalation",
+        "occurrences": 2,
+        "firstSeen": "2026-01-18T08:38:56.888Z",
+        "lastSeen": "2026-01-18T08:56:29.349Z",
+        "description": "Class C action with uncertainty not escalated to human"
+      }
+    ],
+    "escalationGaps": [
+      "src/app/(dashboard)/builds/page.tsx",
+      "src/app/(dashboard)/dashboard/ecommerce/EcommerceDashboard.tsx",
+      "src/app/(dashboard)/dashboard/page.tsx",
+      "src/app/(dashboard)/deployments/page.tsx",
+      "src/app/(dashboard)/layout.tsx"
+    ]
+  }
+}
