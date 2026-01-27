@@ -414,7 +414,7 @@ export async function GET(request: NextRequest) {
     }
 
     const [canResume, stats] = await Promise.all([
-      conductor.canResumeFromCheckpoint(conductorId),
+      conductor.canResumeBuild(conductorId),
       conductor.getCheckpointStats(conductorId)
     ]);
 
@@ -506,7 +506,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check can resume
-    const canResume = await conductor.canResumeFromCheckpoint(conductorId);
+    const canResume = await conductor.canResumeBuild(conductorId);
     if (!canResume.canResume) {
       releaseLock(buildId, clientId);
       return errorResponse('Cannot resume', 400, { reason: canResume.reason, duration: Date.now() - startTime });

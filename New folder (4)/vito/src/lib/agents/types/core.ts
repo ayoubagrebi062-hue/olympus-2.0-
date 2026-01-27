@@ -53,6 +53,10 @@ export interface AgentOutput {
   errors?: AgentError[];
   duration: number;
   tokensUsed: number;
+  /** Indicates if agent was skipped (e.g., due to tier degradation) */
+  _skipped?: boolean;
+  /** Reason for skipping the agent */
+  _reason?: string;
 }
 
 export interface Artifact {

@@ -1207,15 +1207,17 @@ export class BuildOrchestrator {
         decisions: [{
           id: `skip-${agentId}-${Date.now()}`,
           type: 'skip',
-          description: `Agent ${agentId} was skipped due to tier degradation (${this.resilience.getCurrentTier()})`,
+          choice: 'skipped',
+          reasoning: `Agent ${agentId} was skipped due to tier degradation (${this.resilience.getCurrentTier()})`,
+          alternatives: [],
           confidence: 1,
-          reasoning: 'Tier degradation - agent not active in current tier',
         }],
         metrics: {
-          tokensUsed: 0,
-          latencyMs: 0,
-          qualityScore: 100, // Skipped agents don't fail quality
+          inputTokens: 0,
+          outputTokens: 0,
+          promptCount: 0,
           retries: 0,
+          cacheHits: 0,
         },
         duration: 0,
         tokensUsed: 0,
@@ -1340,6 +1342,7 @@ export class BuildOrchestrator {
     agent: ReturnType<typeof getAgent>
   ): Promise<{ success: boolean; agentId: AgentId; error?: OrchestrationError }> {
     // PIXEL-AS-EMITTER: For pixel agent, use per-component execution
+    // FIX #5: Fail if BLOCKS output is empty instead of generating garbage
     if (agentId === 'pixel') {
       const blocksOutput = this.context.getPreviousOutputs(['blocks'])['blocks'];
       const components = this.extractComponentsFromBlocks(blocksOutput);
@@ -1348,7 +1351,32 @@ export class BuildOrchestrator {
         console.log(`[Orchestrator] PIXEL-AS-EMITTER: Found ${components.length} components to generate`);
         return this.executePixelPerComponent(phase, agent, components);
       }
-      console.log(`[Orchestrator] PIXEL: No components found in Blocks output, falling back to standard execution`);
+
+      // FIX #5: Try to derive from STRATEGOS before failing
+      console.warn(`[Orchestrator] PIXEL: No components from BLOCKS, trying STRATEGOS fallback`);
+      const strategosOutput = this.context.getPreviousOutputs(['strategos'])['strategos'];
+      const derivedComponents = this.deriveComponentsFromStrategos(strategosOutput);
+
+      if (derivedComponents.length > 0) {
+        console.log(`[Orchestrator] PIXEL-FALLBACK: Derived ${derivedComponents.length} components from STRATEGOS`);
+        return this.executePixelPerComponent(phase, agent, derivedComponents);
+      }
+
+      // FIX #5: Fail with helpful error instead of generating garbage
+      console.error(`[PIXEL_FAIL] No component specs from BLOCKS or STRATEGOS - cannot generate meaningful components`);
+      this.scheduler.failAgent(agentId);
+      return {
+        success: false,
+        agentId,
+        error: {
+          code: 'MISSING_COMPONENT_SPECS',
+          message: 'PIXEL requires component specifications from BLOCKS agent. BLOCKS output was empty or failed. STRATEGOS fallback also failed.',
+          agentId,
+          phase,
+          recoverable: true,
+          context: { timestamp: new Date().toISOString() },
+        },
+      };
     }
 
     // WIRE-AS-EMITTER: For wire agent, use coverage-enforced execution
@@ -1969,6 +1997,84 @@ export class BuildOrchestrator {
     if (components.length > 0 && hasAccessibility === 0) {
       console.warn('[Orchestrator] ⚠️ BLOCKS output missing accessibility specs');
     }
+
+    return components;
+  }
+
+  /**
+   * FIX #5: Derive component specs from STRATEGOS featureChecklist when BLOCKS fails
+   * This is a fallback that produces minimal specs - better than garbage, but not as good as BLOCKS
+   */
+  private deriveComponentsFromStrategos(strategosOutput?: AgentOutput): ComponentSpec[] {
+    if (!strategosOutput?.artifacts) {
+      console.log('[Orchestrator] PIXEL-FALLBACK: No STRATEGOS output found');
+      return [];
+    }
+
+    const docArtifact = strategosOutput.artifacts.find(
+      (a) => a.type === 'document' && a.content
+    );
+
+    if (!docArtifact?.content) {
+      console.log('[Orchestrator] PIXEL-FALLBACK: No document artifact in STRATEGOS output');
+      return [];
+    }
+
+    const parsed = safeJsonParse<{
+      featureChecklist?: {
+        critical?: Array<{
+          id?: string;
+          name?: string;
+          description?: string;
+          acceptanceCriteria?: string[];
+          assignedTo?: string;
+        }>;
+        important?: Array<{
+          id?: string;
+          name?: string;
+          description?: string;
+          acceptanceCriteria?: string[];
+          assignedTo?: string;
+        }>;
+      };
+    } | null>(docArtifact.content, null, 'orchestrator:strategosFallback');
+
+    if (!parsed?.featureChecklist) {
+      console.log('[Orchestrator] PIXEL-FALLBACK: No featureChecklist in STRATEGOS output');
+      return [];
+    }
+
+    const features = [
+      ...(parsed.featureChecklist.critical || []),
+      ...(parsed.featureChecklist.important || []),
+    ];
+
+    // Filter for UI-related features and convert to minimal component specs
+    const components: ComponentSpec[] = features
+      .filter(f => f.assignedTo === 'pixel' || f.assignedTo === 'blocks' || !f.assignedTo)
+      .map(f => ({
+        name: (f.name || f.id || 'UnnamedComponent').replace(/\s+/g, ''),
+        description: f.description || 'Component derived from STRATEGOS feature',
+        category: 'derived',
+        // Minimal spec - PIXEL will have to work with less information
+        states: {
+          default: {},
+          hover: {},
+          disabled: {},
+        },
+        accessibility: {
+          role: 'region',
+        },
+        motion: {},
+        variants: {},
+        anatomy: {
+          parts: ['root'],
+          slots: {},
+        },
+      }));
+
+    console.log(`[Orchestrator] PIXEL-FALLBACK: Derived ${components.length} minimal components from STRATEGOS:`,
+      components.map(c => c.name).join(', '));
 
     return components;
   }
