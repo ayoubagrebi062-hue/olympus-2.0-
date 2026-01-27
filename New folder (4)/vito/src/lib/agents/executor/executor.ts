@@ -86,9 +86,34 @@ export class AgentExecutor {
 
       const estimatedTokens = estimatePromptTokens(systemPrompt, messages);
 
-      // Check token budget
-      if (this.tokenTracker && this.tokenTracker.getRemainingTokens() < estimatedTokens * 2) {
-        throw new Error('Insufficient token budget for agent execution');
+      // FIX #7: Enhanced token budget check with warning and detailed error
+      if (this.tokenTracker) {
+        const remaining = this.tokenTracker.getRemainingTokens();
+        const required = estimatedTokens * 2; // 2x for safety margin
+        const used = this.tokenTracker.getTotalTokens();
+        const budget = used + remaining; // Total budget = used + remaining
+
+        // Warn at 80% usage
+        if (remaining < budget * 0.2 && remaining > required) {
+          console.warn(`[TOKEN_WARNING] Budget 80%+ used: ${used}/${budget} tokens (${remaining} remaining)`);
+        }
+
+        if (remaining < required) {
+          const errorMsg =
+            `Insufficient token budget for ${this.definition.id}. ` +
+            `Required: ~${required} tokens, Remaining: ${remaining} tokens. ` +
+            `Total used: ${used}/${budget}`;
+
+          console.error(`[TOKEN_EXHAUSTED]`, {
+            agent: this.definition.id,
+            required,
+            remaining,
+            used,
+            budget,
+          });
+
+          throw new Error(errorMsg);
+        }
       }
 
       // Execute with retry

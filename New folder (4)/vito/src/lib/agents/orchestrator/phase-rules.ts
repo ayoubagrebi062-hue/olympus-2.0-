@@ -172,14 +172,58 @@ export function validateStrategosFeasibility(
   const warnings: string[] = [];
   const blockedFeatures: string[] = [];
 
+  // FIX #6: Check for completely empty output first
+  if (!output || typeof output !== 'object') {
+    return {
+      valid: false,
+      errors: ['STRATEGOS output is empty or invalid - no features will be built'],
+      warnings: [],
+      blockedFeatures: [],
+    };
+  }
+
+  // FIX #6: Check featureChecklist exists and has content
+  if (!output.featureChecklist) {
+    return {
+      valid: false,
+      errors: ['STRATEGOS output missing featureChecklist - no features will be built'],
+      warnings: [],
+      blockedFeatures: [],
+    };
+  }
+
+  const criticalFeatures = output.featureChecklist?.critical || [];
+  const importantFeatures = output.featureChecklist?.important || [];
+
+  // FIX #6: CRITICAL CHECK - Empty critical features means nothing will be built
+  if (criticalFeatures.length === 0) {
+    // Check if there are at least important features as fallback
+    if (importantFeatures.length === 0) {
+      return {
+        valid: false,
+        errors: [
+          'STRATEGOS featureChecklist is EMPTY - no features defined. ' +
+          'Build cannot proceed without at least one critical or important feature.',
+        ],
+        warnings: [],
+        blockedFeatures: [],
+      };
+    } else {
+      // Warn but allow if there are important features
+      errors.push(
+        `No critical features defined, only ${importantFeatures.length} important features. ` +
+        `Consider promoting key features to critical priority.`
+      );
+    }
+  }
+
   // Get all features to validate
   const allFeatures = [
     ...(output.mvp_features || []).map(f => f.name),
-    ...(output.featureChecklist?.critical || []).map(f => f.name),
-    ...(output.featureChecklist?.important || []).map(f => f.name),
+    ...criticalFeatures.map(f => f.name),
+    ...importantFeatures.map(f => f.name),
   ];
 
-  const criticalFeatures = output.featureChecklist?.critical || [];
   const maxCritical = MAX_CRITICAL_FEATURES[tier] || MAX_CRITICAL_FEATURES.starter;
 
   // CHECK 1: Scope limit validation
