@@ -1,0 +1,110 @@
+{
+  "promotionId": "PROMO-PIL1-001",
+  "layerId": "PIL-1",
+  "layerName": "Power Invariant Layer",
+  "timestamp": "2026-01-19T09:15:00.000Z",
+
+  "transition": {
+    "from": {
+      "mode": "SHADOW_ENFORCING",
+      "blocking": false,
+      "status": "OBSERVATIONAL"
+    },
+    "to": {
+      "mode": "ENFORCING",
+      "blocking": true,
+      "status": "ACTIVE"
+    }
+  },
+
+  "position": {
+    "pipeline": "shadow-mode",
+    "sequence": "AFTER_HCA-1",
+    "before": "HIC-1",
+    "stageNumber": 3.6
+  },
+
+  "validation": {
+    "successCriteria": {
+      "SC-1": {
+        "name": "Zero False Positives on Benign Corpus",
+        "status": "PASSED",
+        "evidence": "1000 samples, 0 FP"
+      },
+      "SC-2": {
+        "name": "Closure Over CAP + HIC Attacks",
+        "status": "PASSED",
+        "evidence": "100% coverage (49/49)"
+      },
+      "SC-3": {
+        "name": "Human-Readable Violation Explanations",
+        "status": "PASSED",
+        "evidence": "4/4 quality checks"
+      },
+      "SC-4": {
+        "name": "Deterministic Replay with Hash Parity",
+        "status": "PASSED",
+        "evidence": "100% hash match rate"
+      }
+    },
+    "stressCampaign": {
+      "id": "SSC-3",
+      "status": "PASSED",
+      "volume": 20000,
+      "results": {
+        "s4": 0,
+        "s2Rate": "0.000%",
+        "maxDominance": "25.4%"
+      }
+    },
+    "graduationCriteria": {
+      "allMet": true,
+      "requirements": [
+        { "id": "REQ-1", "description": "SSC-3 complete without S4", "status": "MET" },
+        { "id": "REQ-2", "description": "S2 rate ≤ 0.5%", "status": "MET" },
+        { "id": "REQ-3", "description": "No invariant triggers without explanation", "status": "MET" },
+        { "id": "REQ-4", "description": "No single invariant > 35% dominance", "status": "MET" }
+      ]
+    }
+  },
+
+  "configuration": {
+    "attribution": "REQUIRED",
+    "attributionLayer": "VAL-1",
+    "rulePrefix": "PIL",
+    "constitution": "SMC-1",
+    "frozen": true,
+    "deterministic": true,
+    "noML": true
+  },
+
+  "invariants": {
+    "enabled": [
+      "PIL-α1", "PIL-α2", "PIL-α3", "PIL-α4",
+      "PIL-β1", "PIL-β2", "PIL-β3",
+      "PIL-τ1", "PIL-τ2", "PIL-τ3"
+    ],
+    "classes": {
+      "α": "Authority (4 invariants)",
+      "β": "Boundary (3 invariants)",
+      "τ": "Temporal (3 invariants)"
+    }
+  },
+
+  "artifacts": {
+    "specification": "research/PIL-1/PIL-1_SPECIFICATION.md",
+    "invariants": "research/PIL-1/PIL-1_INVARIANTS.json",
+    "implementation": "src/pil1-shadow-layer.ts",
+    "proofs": "research/PIL-1/proofs/PIL-1_NON_INTERFERENCE.md",
+    "successCriteria": "research/PIL-1/PIL-1_SUCCESS_CRITERIA.json",
+    "graduationCriteria": "research/PIL-1/PIL-1_GRADUATION_CRITERIA.json",
+    "ssc3Results": "campaigns/SSC-3/reports/SSC-3_EXECUTION_RESULTS.json"
+  },
+
+  "signOff": {
+    "promotedBy": "SSC-3 Campaign Validation",
+    "approvedAt": "2026-01-19T09:15:00.000Z",
+    "constitution": "SMC-1",
+    "constitutionCompliant": true
+  }
+}

@@ -1,0 +1,404 @@
+[
+  {
+    "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+    "spanId": "f9452f059969a38d",
+    "operationName": "build:d30da773-09f4-4209-9263-699ad94a08d2",
+    "startTime": 1769436050148,
+    "status": "SUCCESS",
+    "metadata": {
+      "totalAgents": 40,
+      "tier": "PLATINUM",
+      "healthScore": 83,
+      "finalTier": "GOLD",
+      "circuitBreaks": 0,
+      "selfHealingSuccesses": 0
+    },
+    "children": [
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "23bc9a9d41111a6a",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:oracle",
+        "agentId": "oracle",
+        "phase": "discovery",
+        "startTime": 1769436050161,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 38462
+        },
+        "children": [],
+        "endTime": 1769436088628,
+        "duration": 38467
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "edd0d243d1a98caf",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:empathy",
+        "agentId": "empathy",
+        "phase": "discovery",
+        "startTime": 1769436088630,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 47230
+        },
+        "children": [],
+        "endTime": 1769436135860,
+        "duration": 47230
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "3990a64a7ce7ad23",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:venture",
+        "agentId": "venture",
+        "phase": "discovery",
+        "startTime": 1769436135860,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 31241
+        },
+        "children": [],
+        "endTime": 1769436167101,
+        "duration": 31241
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "09a4528805e5c5d7",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:strategos",
+        "agentId": "strategos",
+        "phase": "discovery",
+        "startTime": 1769436167102,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 74273
+        },
+        "children": [],
+        "endTime": 1769436241378,
+        "duration": 74276
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "aac064681eb039e4",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:scope",
+        "agentId": "scope",
+        "phase": "discovery",
+        "startTime": 1769436241379,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 24471
+        },
+        "children": [],
+        "endTime": 1769436265853,
+        "duration": 24474
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "e8c9246f37b54801",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:psyche",
+        "agentId": "psyche",
+        "phase": "conversion",
+        "startTime": 1769436265865,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 29079
+        },
+        "children": [],
+        "endTime": 1769436294947,
+        "duration": 29082
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "91c7b7f88cf6b238",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:scribe",
+        "agentId": "scribe",
+        "phase": "conversion",
+        "startTime": 1769436294948,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 54216
+        },
+        "children": [],
+        "endTime": 1769436349168,
+        "duration": 54220
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "c797fb76406c2eea",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:architect_conversion",
+        "agentId": "architect_conversion",
+        "phase": "conversion",
+        "startTime": 1769436349169,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 35453
+        },
+        "children": [],
+        "endTime": 1769436384624,
+        "duration": 35455
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "55b5952f7edb2369",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:conversion_judge",
+        "agentId": "conversion_judge",
+        "phase": "conversion",
+        "startTime": 1769436384625,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769436384627,
+        "duration": 2
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "8c3b6aaf45118618",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:palette",
+        "agentId": "palette",
+        "phase": "design",
+        "startTime": 1769436384631,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 72507
+        },
+        "children": [],
+        "endTime": 1769436457142,
+        "duration": 72511
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "f4d9c5cf5f6be6e8",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:grid",
+        "agentId": "grid",
+        "phase": "design",
+        "startTime": 1769436457143,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 30750
+        },
+        "children": [],
+        "endTime": 1769436487897,
+        "duration": 30754
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "01c1ee2fc0137526",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:blocks",
+        "agentId": "blocks",
+        "phase": "design",
+        "startTime": 1769436487898,
+        "status": "FAILURE",
+        "metadata": {
+          "duration": 120022
+        },
+        "children": [],
+        "endTime": 1769436607926,
+        "duration": 120028,
+        "error": "Agent blocks timed out after 120s"
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "111410a90e6de4b2",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:archon",
+        "agentId": "archon",
+        "phase": "architecture",
+        "startTime": 1769436607933,
+        "status": "FAILURE",
+        "metadata": {
+          "duration": 912,
+          "failureCategory": "QUALITY_FAILURE"
+        },
+        "children": [],
+        "endTime": 1769436608849,
+        "duration": 916,
+        "error": "Agent archon failed to meet quality threshold after 3 iterations. Best score: 0"
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "248d5701a0fc10aa",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:pixel",
+        "agentId": "pixel",
+        "phase": "frontend",
+        "startTime": 1769436608858,
+        "status": "FAILURE",
+        "metadata": {
+          "duration": 13,
+          "failureCategory": "QUALITY_FAILURE"
+        },
+        "children": [],
+        "endTime": 1769436608873,
+        "duration": 15,
+        "error": "Agent pixel failed to meet quality threshold after 3 iterations. Best score: 0"
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "107009c99b822266",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:bridge",
+        "agentId": "bridge",
+        "phase": "integration",
+        "startTime": 1769437216604,
+        "status": "FAILURE",
+        "metadata": {
+          "duration": 4,
+          "failureCategory": "QUALITY_FAILURE"
+        },
+        "children": [],
+        "endTime": 1769437216609,
+        "duration": 5,
+        "error": "Agent bridge failed to meet quality threshold after 3 iterations. Best score: 0"
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "995e7246f2d1b8cd",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:sync",
+        "agentId": "sync",
+        "phase": "integration",
+        "startTime": 1769437216605,
+        "status": "FAILURE",
+        "metadata": {
+          "duration": 4,
+          "failureCategory": "QUALITY_FAILURE"
+        },
+        "children": [],
+        "endTime": 1769437216610,
+        "duration": 5,
+        "error": "Agent sync failed to meet quality threshold after 3 iterations. Best score: 0"
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "3ee34aedab7983b4",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:notify",
+        "agentId": "notify",
+        "phase": "integration",
+        "startTime": 1769437216605,
+        "status": "FAILURE",
+        "metadata": {
+          "duration": 5,
+          "failureCategory": "QUALITY_FAILURE"
+        },
+        "children": [],
+        "endTime": 1769437216611,
+        "duration": 6,
+        "error": "Agent notify failed to meet quality threshold after 3 iterations. Best score: 0"
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "a74ddeba64e708b6",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:junit",
+        "agentId": "junit",
+        "phase": "testing",
+        "startTime": 1769437221955,
+        "status": "FAILURE",
+        "metadata": {
+          "duration": 16,
+          "failureCategory": "QUALITY_FAILURE"
+        },
+        "children": [],
+        "endTime": 1769437221972,
+        "duration": 17,
+        "error": "Agent junit failed to meet quality threshold after 3 iterations. Best score: 0"
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "f0c3ad9a404e6481",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:a11y",
+        "agentId": "a11y",
+        "phase": "testing",
+        "startTime": 1769437221959,
+        "status": "FAILURE",
+        "metadata": {
+          "duration": 13,
+          "failureCategory": "QUALITY_FAILURE"
+        },
+        "children": [],
+        "endTime": 1769437221974,
+        "duration": 15,
+        "error": "Agent a11y failed to meet quality threshold after 3 iterations. Best score: 0"
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "6fa9bc01397a6125",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:docker",
+        "agentId": "docker",
+        "phase": "deployment",
+        "startTime": 1769437252038,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 13950
+        },
+        "children": [],
+        "endTime": 1769437265988,
+        "duration": 13950
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "516530e907b2a4f0",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:pipeline",
+        "agentId": "pipeline",
+        "phase": "deployment",
+        "startTime": 1769437252039,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 22456
+        },
+        "children": [],
+        "endTime": 1769437274495,
+        "duration": 22456
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "a1fd48b3dfea43fb",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:monitor",
+        "agentId": "monitor",
+        "phase": "deployment",
+        "startTime": 1769437252040,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 13901
+        },
+        "children": [],
+        "endTime": 1769437265941,
+        "duration": 13901
+      },
+      {
+        "traceId": "d30da773-09f4-4209-9263-699ad94a08d2",
+        "spanId": "1bf0bdd4e6210d13",
+        "parentSpanId": "f9452f059969a38d",
+        "operationName": "agent:scale",
+        "agentId": "scale",
+        "phase": "deployment",
+        "startTime": 1769437274496,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769437274496,
+        "duration": 0
+      }
+    ],
+    "endTime": 1769437274514,
+    "duration": 1224366
+  }
+]

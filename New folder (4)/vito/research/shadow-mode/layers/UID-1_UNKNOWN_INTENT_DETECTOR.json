@@ -1,0 +1,223 @@
+{
+  "layerId": "UID-1",
+  "name": "Unknown Intent Detector",
+  "version": "1.0.0",
+  "createdAt": "2026-01-19T14:00:00.000Z",
+  "status": "ENFORCING",
+
+  "position": {
+    "order": 2.5,
+    "after": "PIL-1",
+    "before": "HIC-1",
+    "rationale": "Must run after invariant checks (PIL-1) but before composition analysis (HIC-1) to catch unknown intents before they can combine into composite threats"
+  },
+
+  "pipeline": {
+    "sequence": ["HCA-1", "PIL-1", "UID-1", "HIC-1"],
+    "note": "UID-1 inserted between invariant layer and composition layer"
+  },
+
+  "purpose": {
+    "description": "Detects intents that do not match known safe or known hostile patterns, preventing silent admission of novel attack vectors",
+    "principle": "Unknown is not Safe - epistemic uncertainty must trigger escalation, not admission",
+    "threat_model": "Adversaries may craft novel intents that evade pattern matching by being sufficiently different from training distribution"
+  },
+
+  "decision_space": {
+    "KNOWN_SAFE": {
+      "description": "Intent matches established benign patterns with high confidence",
+      "confidence_threshold": 0.95,
+      "action": "PASS_TO_NEXT_LAYER",
+      "explanation": "Intent recognized as safe: matches benign pattern [PATTERN_ID]"
+    },
+    "KNOWN_HOSTILE": {
+      "description": "Intent matches established hostile patterns (already caught by HCA-1/PIL-1)",
+      "confidence_threshold": 0.90,
+      "action": "REJECT",
+      "explanation": "Intent recognized as hostile: matches hostile pattern [PATTERN_ID]"
+    },
+    "UNKNOWN": {
+      "description": "Intent does not match any known pattern with sufficient confidence",
+      "confidence_threshold": "below both KNOWN_SAFE and KNOWN_HOSTILE thresholds",
+      "action": "ESCALATE",
+      "default": "REJECT",
+      "explanation": "Intent not recognized: uncertainty score [SCORE] exceeds threshold. Escalating for review."
+    }
+  },
+
+  "policy": {
+    "UNKNOWN": {
+      "action": "ESCALATE",
+      "escalation_target": "SHADOW_REVIEW_QUEUE",
+      "default_decision": "REJECT",
+      "timeout_action": "REJECT",
+      "timeout_seconds": 300,
+      "log_severity": "S3",
+      "require_human_review": true
+    },
+    "fail_safe": {
+      "on_error": "REJECT",
+      "on_timeout": "REJECT",
+      "on_ambiguity": "ESCALATE"
+    }
+  },
+
+  "attribution": {
+    "required": true,
+    "fields": {
+      "classification": "KNOWN_SAFE | KNOWN_HOSTILE | UNKNOWN",
+      "confidence_score": "0.0 - 1.0",
+      "uncertainty_score": "0.0 - 1.0 (inverse of max confidence)",
+      "nearest_known_pattern": "ID of closest matching pattern",
+      "distance_to_known": "semantic distance to nearest known pattern",
+      "reasoning": "explanation of classification decision"
+    },
+    "uncertainty_score": {
+      "required": true,
+      "computation": "1.0 - max(safe_confidence, hostile_confidence)",
+      "threshold_for_unknown": 0.3,
+      "description": "If uncertainty exceeds 0.3, classify as UNKNOWN"
+    }
+  },
+
+  "detection_methods": {
+    "pattern_coverage": {
+      "description": "Check if input matches any known pattern (safe or hostile)",
+      "known_safe_patterns": "reference: anchors/corpus/SA-002_BENIGN_BOUNDARY.json",
+      "known_hostile_patterns": "reference: anchors/corpus/SA-001_HOSTILE_GROUND_TRUTH.json"
+    },
+    "semantic_distance": {
+      "description": "Compute semantic distance to nearest known patterns",
+      "distance_metric": "cosine_similarity_to_anchor",
+      "unknown_threshold": 0.6,
+      "note": "If distance to all known patterns exceeds threshold, classify as UNKNOWN"
+    },
+    "distribution_check": {
+      "description": "Check if input falls within training distribution",
+      "ood_detection": true,
+      "note": "Out-of-distribution inputs classified as UNKNOWN"
+    },
+    "novelty_detection": {
+      "description": "Detect semantically novel constructs not seen in anchor corpora",
+      "cross_domain_check": true,
+      "synthetic_pattern_check": true
+    }
+  },
+
+  "known_safe_indicators": {
+    "description": "Patterns that indicate benign intent with high confidence",
+    "categories": [
+      {
+        "id": "KSI-001",
+        "name": "Standard CRUD Operations",
+        "patterns": ["create", "read", "update", "delete"],
+        "context": "on_own_resources",
+        "confidence": 0.95
+      },
+      {
+        "id": "KSI-002",
+        "name": "Authentication Flow",
+        "patterns": ["login", "logout", "register", "reset_password"],
+        "context": "standard_auth",
+        "confidence": 0.95
+      },
+      {
+        "id": "KSI-003",
+        "name": "User Preference Management",
+        "patterns": ["settings", "preferences", "theme", "notifications"],
+        "context": "own_account",
+        "confidence": 0.98
+      },
+      {
+        "id": "KSI-004",
+        "name": "Help and Documentation",
+        "patterns": ["help", "docs", "tutorial", "guide", "faq"],
+        "context": "any",
+        "confidence": 0.99
+      },
+      {
+        "id": "KSI-005",
+        "name": "Public Content Access",
+        "patterns": ["view", "browse", "search", "explore"],
+        "context": "public_resources",
+        "confidence": 0.95
+      }
+    ]
+  },
+
+  "unknown_triggers": {
+    "description": "Conditions that trigger UNKNOWN classification",
+    "triggers": [
+      {
+        "id": "UNK-001",
+        "name": "No Pattern Match",
+        "condition": "Input matches neither safe nor hostile patterns",
+        "action": "CLASSIFY_UNKNOWN"
+      },
+      {
+        "id": "UNK-002",
+        "name": "Low Confidence Match",
+        "condition": "Best pattern match has confidence < 0.7",
+        "action": "CLASSIFY_UNKNOWN"
+      },
+      {
+        "id": "UNK-003",
+        "name": "High Semantic Distance",
+        "condition": "Semantic distance to all anchors > 0.6",
+        "action": "CLASSIFY_UNKNOWN"
+      },
+      {
+        "id": "UNK-004",
+        "name": "Cross-Domain Blend",
+        "condition": "Input combines concepts from unrelated domains",
+        "action": "CLASSIFY_UNKNOWN"
+      },
+      {
+        "id": "UNK-005",
+        "name": "Synthetic Novel Structure",
+        "condition": "Input has structure not seen in training",
+        "action": "CLASSIFY_UNKNOWN"
+      },
+      {
+        "id": "UNK-006",
+        "name": "Contradictory Signals",
+        "condition": "Input matches both safe and hostile patterns",
+        "action": "CLASSIFY_UNKNOWN"
+      }
+    ]
+  },
+
+  "integration": {
+    "receives_from": ["PIL-1"],
+    "passes_to": ["HIC-1"],
+    "verdict_types": ["KNOWN_SAFE", "KNOWN_HOSTILE", "UNKNOWN"],
+    "on_KNOWN_SAFE": "continue_to_HIC-1",
+    "on_KNOWN_HOSTILE": "REJECT_immediately",
+    "on_UNKNOWN": "ESCALATE_and_default_REJECT"
+  },
+
+  "metrics": {
+    "tracked": [
+      "unknown_detection_rate",
+      "false_unknown_rate",
+      "escalation_rate",
+      "unknown_resolution_time",
+      "silent_admission_rate"
+    ],
+    "invariants": {
+      "silent_admission": {
+        "value": 0,
+        "description": "No UNKNOWN input may be silently admitted",
+        "severity": "S4"
+      }
+    }
+  },
+
+  "constitutional_binding": {
+    "constitution": "SEC-4",
+    "bindings": [
+      "UNKNOWN_INTENT_MUST_NOT_ADMIT",
+      "EPISTEMIC_UNCERTAINTY_ESCALATION"
+    ]
+  }
+}

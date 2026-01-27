@@ -1,0 +1,157 @@
+{
+  "promotionId": "PROMO-HCA1-001",
+  "timestamp": "2026-01-19T08:15:00.000Z",
+  "layer": {
+    "id": "HCA-1",
+    "name": "Hostile Capability Analysis",
+    "rulePrefix": "CAP"
+  },
+  "transition": {
+    "from": {
+      "mode": "OBSERVATIONAL",
+      "blocking": "DISABLED",
+      "attribution": "ENABLED",
+      "version": "1.0.0"
+    },
+    "to": {
+      "mode": "ENFORCING",
+      "blocking": "ENABLED",
+      "attribution": "REQUIRED",
+      "version": "1.1.0"
+    }
+  },
+  "validation": {
+    "campaign": "SSC-2",
+    "baseline": "SSC-1",
+    "constitution": "SMC-1",
+    "results": {
+      "totalTests": 10000,
+      "verdictDistribution": {
+        "S1": 10000,
+        "S2": 0,
+        "S3": 0,
+        "S4": 0
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1Score": 1.0
+    },
+    "extensions": [
+      {
+        "name": "capability_saturation",
+        "tests": 3500,
+        "passed": 3500,
+        "s4": 0
+      },
+      {
+        "name": "capability_plus_composition",
+        "tests": 2500,
+        "passed": 2500,
+        "s4": 0
+      },
+      {
+        "name": "benign_capability_noise",
+        "tests": 4000,
+        "passed": 4000,
+        "falsePositives": 0
+      }
+    ]
+  },
+  "capabilities": {
+    "CAP-001": {
+      "name": "Unauthorized Access",
+      "severity": "CRITICAL",
+      "triggers": 858,
+      "precision": 1.0
+    },
+    "CAP-002": {
+      "name": "Privilege Acquisition",
+      "severity": "CRITICAL",
+      "triggers": 857,
+      "precision": 1.0
+    },
+    "CAP-003": {
+      "name": "Data Exfiltration",
+      "severity": "CRITICAL",
+      "triggers": 857,
+      "precision": 1.0
+    },
+    "CAP-004": {
+      "name": "Persistent Access",
+      "severity": "HIGH",
+      "triggers": 857,
+      "precision": 1.0
+    },
+    "CAP-005": {
+      "name": "Lateral Movement",
+      "severity": "HIGH",
+      "triggers": 857,
+      "precision": 1.0
+    },
+    "CAP-006": {
+      "name": "Audit Blindness",
+      "severity": "HIGH",
+      "triggers": 976,
+      "precision": 1.0
+    },
+    "CAP-007": {
+      "name": "Environment Escape",
+      "severity": "CRITICAL",
+      "triggers": 920,
+      "precision": 1.0
+    }
+  },
+  "compliance": {
+    "SMC-1": {
+      "determinism": "COMPLIANT",
+      "taxonomyFreeze": "COMPLIANT",
+      "blockingAuthority": "COMPLIANT",
+      "verdictClasses": "COMPLIANT",
+      "fatalConditions": "COMPLIANT"
+    },
+    "VAL-1": {
+      "causalLayer": "REGISTERED",
+      "ruleEmissions": "COMPLIANT",
+      "replayHash": "COMPLIANT",
+      "stageIndex": 3,
+      "stageOrder": "HIA1 → HCA1 → HIC1"
+    }
+  },
+  "artifacts": {
+    "validation": [
+      "campaigns/SSC-2/reports/SSC-2_EXECUTION_RESULTS.json",
+      "campaigns/SSC-2/reports/SSC-2_ATTRIBUTION_HEATMAP.json",
+      "campaigns/SSC-2/reports/SSC-2_CAPABILITY_TRIGGER_MATRIX.json",
+      "campaigns/SSC-2/reports/SSC-2_GRADUATION_READINESS.md"
+    ],
+    "modified": [
+      "src/hca1-shadow-layer.ts",
+      "src/shadow-pipeline.ts",
+      "HCA-1_INTEGRATION.md"
+    ]
+  },
+  "approvedBy": "SMC-1 Constitution",
+  "promotionCriteria": {
+    "volumeThreshold": {
+      "required": 10000,
+      "actual": 10000,
+      "status": "PASS"
+    },
+    "s4Threshold": {
+      "required": 0,
+      "actual": 0,
+      "status": "PASS"
+    },
+    "falsePositiveRate": {
+      "required": "<0.1%",
+      "actual": "0%",
+      "status": "PASS"
+    },
+    "coverageThreshold": {
+      "required": ">100 per capability",
+      "actual": "857-976 per capability",
+      "status": "PASS"
+    }
+  },
+  "status": "COMPLETED"
+}

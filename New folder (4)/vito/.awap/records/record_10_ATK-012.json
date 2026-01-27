@@ -1,0 +1,22 @@
+{
+  "record_id": "exec_1768875411616_67a28cb7038cd6ce",
+  "attack_id": "ATK-012",
+  "execution_order": 10,
+  "status": "COMPLETED",
+  "outcome": "BLOCKED",
+  "started_at": "2026-01-20T02:16:51.615Z",
+  "completed_at": "2026-01-20T02:16:51.616Z",
+  "duration_ms": 0,
+  "detection_latency_ms": 0,
+  "evidence_hashes": [
+    "87eaec5e8e01d766b4f8aab3c06dd23973125f3e9d02fe58252bd28fb22dfc88",
+    "d5691b90698ec0c24fee7817eff0253fbbe124a25689e1324466e6e6c7b40dd4"
+  ],
+  "evidence_raw": [
+    "PASS: IPFS content remains pinned",
+    "PASS: Multiple pin services provide redundancy"
+  ],
+  "record_hash": "f8083adfa2fda539c1b36efcd8e53190ead7ca67a2c35efaef3bcae15d303587",
+  "previous_hash": "e1c9f707fbee189797ef45c4cc1da7518652be8483226631f28452e88c6a9c06",
+  "chain_position": 9
+}

@@ -1,0 +1,342 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "verdict-attribution.schema.json",
+  "title": "Verdict Attribution Schema",
+  "description": "Schema for causal attribution of shadow mode verdicts (VAL-1 compliant)",
+  "version": "1.0.0",
+  "type": "object",
+
+  "definitions": {
+    "CausalLayer": {
+      "type": "string",
+      "enum": [
+        "PROVENANCE_PARSER",
+        "IAL0_AUTHENTICATOR",
+        "HIA1_DETECTOR",
+        "HIC1_CHECKER",
+        "AGREEMENT"
+      ],
+      "description": "The pipeline layer that determined the verdict"
+    },
+
+    "DivergenceStage": {
+      "type": "object",
+      "required": ["stage", "stageIndex", "reason"],
+      "properties": {
+        "stage": {
+          "$ref": "#/definitions/CausalLayer",
+          "description": "First stage where shadow diverged from canonical"
+        },
+        "stageIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4,
+          "description": "Numeric index of stage (0=PROVENANCE, 1=IAL0, 2=HIA1, 3=HIC1, 4=NONE)"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Human-readable explanation of divergence cause"
+        },
+        "canonicalPassedStage": {
+          "type": "boolean",
+          "description": "Whether canonical pipeline passed this stage"
+        },
+        "shadowPassedStage": {
+          "type": "boolean",
+          "description": "Whether shadow pipeline passed this stage"
+        }
+      }
+    },
+
+    "RuleEmission": {
+      "type": "object",
+      "required": ["ruleId", "ruleType", "triggered"],
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "pattern": "^(IAL|HIA|HIC)-[0-9]{3}$",
+          "description": "Unique rule identifier",
+          "examples": ["IAL-001", "HIA-003", "HIC-006"]
+        },
+        "ruleType": {
+          "type": "string",
+          "enum": ["AUTHENTICATION", "AXIOM", "COMPOSITION"],
+          "description": "Category of rule"
+        },
+        "ruleName": {
+          "type": "string",
+          "description": "Human-readable rule name"
+        },
+        "triggered": {
+          "type": "boolean",
+          "description": "Whether this rule was triggered (caused rejection)"
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"],
+          "description": "Rule severity level"
+        },
+        "matchedPattern": {
+          "type": "string",
+          "description": "The pattern or condition that matched"
+        },
+        "matchedText": {
+          "type": "string",
+          "description": "The input text that triggered the rule"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence score for pattern match"
+        }
+      }
+    },
+
+    "ReplayHash": {
+      "type": "object",
+      "required": ["algorithm", "inputHash", "outputHash", "fullHash"],
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "const": "SHA-256",
+          "description": "Hash algorithm used"
+        },
+        "inputHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of normalized input"
+        },
+        "outputHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of verdict + attribution"
+        },
+        "fullHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of input + output combined"
+        },
+        "deterministicVerification": {
+          "type": "boolean",
+          "description": "True if replay with same inputHash must produce same outputHash"
+        }
+      }
+    },
+
+    "StageTrace": {
+      "type": "object",
+      "required": ["stage", "entered", "exited", "verdict", "durationMs"],
+      "properties": {
+        "stage": {
+          "$ref": "#/definitions/CausalLayer"
+        },
+        "entered": {
+          "type": "boolean",
+          "description": "Whether this stage was entered"
+        },
+        "exited": {
+          "type": "boolean",
+          "description": "Whether this stage completed (vs early exit)"
+        },
+        "verdict": {
+          "type": "string",
+          "enum": ["PASS", "REJECT", "SKIPPED"],
+          "description": "Stage-level verdict"
+        },
+        "rulesEvaluated": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuleEmission"
+          },
+          "description": "All rules evaluated at this stage"
+        },
+        "rulesTriggered": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Rule IDs that triggered rejection"
+        },
+        "durationMs": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Time spent in this stage"
+        },
+        "stateSnapshot": {
+          "type": "object",
+          "description": "Relevant state at stage entry",
+          "additionalProperties": true
+        }
+      }
+    },
+
+    "Attribution": {
+      "type": "object",
+      "required": [
+        "requestId",
+        "timestamp",
+        "causalLayer",
+        "firstDivergenceStage",
+        "ruleEmissions",
+        "replayHash",
+        "verdictClass"
+      ],
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique request identifier"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Attribution computation timestamp"
+        },
+        "causalLayer": {
+          "$ref": "#/definitions/CausalLayer",
+          "description": "Primary layer responsible for verdict"
+        },
+        "firstDivergenceStage": {
+          "$ref": "#/definitions/DivergenceStage",
+          "description": "First stage where shadow diverged from canonical"
+        },
+        "ruleEmissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuleEmission"
+          },
+          "description": "All rules that contributed to verdict"
+        },
+        "replayHash": {
+          "$ref": "#/definitions/ReplayHash",
+          "description": "Hashes for deterministic replay verification"
+        },
+        "stageTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StageTrace"
+          },
+          "description": "Full execution trace through all stages"
+        },
+        "verdictClass": {
+          "type": "string",
+          "enum": ["S1", "S2", "S3", "S4", "S2_PENDING", "S3_PENDING"],
+          "description": "SMC-1 verdict class (read-only, not modified by attribution)"
+        },
+        "shadowVerdict": {
+          "type": "string",
+          "enum": ["ADMIT", "REJECT"],
+          "description": "Shadow pipeline verdict"
+        },
+        "canonicalVerdict": {
+          "type": "string",
+          "enum": ["ADMIT", "REJECT"],
+          "description": "Canonical pipeline verdict"
+        },
+        "causalChain": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Ordered list of causal factors leading to verdict",
+          "examples": [
+            ["INPUT_RECEIVED", "PROVENANCE_EXTRACTED", "IAL0_PASSED", "HIA1_TRIGGERED:HIA-003", "VERDICT_REJECT"]
+          ]
+        },
+        "counterfactual": {
+          "type": "object",
+          "properties": {
+            "wouldChangeVerdict": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Rules that if disabled would change verdict"
+            },
+            "minimalCause": {
+              "type": "string",
+              "description": "Smallest rule set that would cause same verdict"
+            }
+          },
+          "description": "Counterfactual analysis for explainability"
+        }
+      }
+    }
+  },
+
+  "required": ["version", "scope", "smcCompatibility", "entries"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string",
+      "const": "VAL-1"
+    },
+    "scope": {
+      "type": "string",
+      "const": "shadow-mode"
+    },
+    "smcCompatibility": {
+      "type": "object",
+      "required": ["constitutionId", "verdictClassUnchanged"],
+      "properties": {
+        "constitutionId": {
+          "type": "string",
+          "const": "SMC-1",
+          "description": "Compatible shadow constitution"
+        },
+        "verdictClassUnchanged": {
+          "type": "boolean",
+          "const": true,
+          "description": "Confirms attribution does not modify verdict class"
+        }
+      }
+    },
+    "startTimestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Attribution"
+      }
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "totalAttributions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "byCausalLayer": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "byRuleId": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "divergenceStageDistribution": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "replayVerificationRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Proportion of attributions that pass replay verification"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "record_id": "exec_1768875346514_35d7ba19e717398e",
+  "attack_id": "ATK-013",
+  "execution_order": 3,
+  "status": "COMPLETED",
+  "outcome": "BLOCKED",
+  "started_at": "2026-01-20T02:15:46.513Z",
+  "completed_at": "2026-01-20T02:15:46.514Z",
+  "duration_ms": 0,
+  "detection_latency_ms": 0,
+  "evidence_hashes": [
+    "d34f2b5cbfe4994648cfbf21b17979cb823555b75329274dd4adeb8068423e0a",
+    "c9a303f1cdc72e69f1ae09c3fba89a15237f1f3537fa47442b369b780a1dd1d0"
+  ],
+  "evidence_raw": [
+    "PASS: No witness ID collisions detected in 100 parallel generations",
+    "PASS: 100 unique IDs generated"
+  ],
+  "record_hash": "7ca50cf8a4b5ab8d2f9e2df9abef21dddcc4eda205b8ebf4b0f6169e73b37915",
+  "previous_hash": "16827616ac508099b6d675c09955baf92c80e2c943daf5db38600b04298fa94c",
+  "chain_position": 2
+}

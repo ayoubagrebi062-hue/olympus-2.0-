@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Hero.tsx",
+      "content": "import React from 'react';\nimport { useState } from 'react';\nimport styles from './Hero.module.css';\n\ninterface HeroProps {\n  headline: string;\n  subheadline: string;\n  ctaText: string;\n  ctaOnClick: () => void;\n  variant?: 'default' | 'featured';\n}\n\nconst Hero: React.FC<HeroProps> = ({\n  headline,\n  subheadline,\n  ctaText,\n  ctaOnClick,\n  variant = 'default',\n}) => {\n  const [isFocused, setIsFocused] = useState(false);\n\n  const handleFocus = () => {\n    setIsFocused(true);\n  };\n\n  const handleBlur = () => {\n    setIsFocused(false);\n  };\n\n  return (\n    <div\n      className={`flex flex-col items-center justify-center h-screen ${variant === 'featured' ? 'bg-gray-100' : ''}`}\n    >\n      <h1 className={`text-3xl font-bold ${variant === 'featured' ? 'text-blue-600' : 'text-gray-900'}`}\n      >\n        {headline}\n      </h1>\n      <p className={`text-lg ${variant === 'featured' ? 'text-blue-600' : 'text-gray-600'}`}\n      >\n        {subheadline}\n      </p>\n      <button\n        className={`bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ${variant === 'featured' ? 'mt-4' : 'mt-2'}`}\n        onClick={ctaOnClick}\n        onFocus={handleFocus}\n        onBlur={handleBlur}\n      >\n        {ctaText}\n      </button>\n    </div>\n  );\n};\n\nexport default Hero;\n"
+    }
+  ],
+  "timestamp": 1768978826147,
+  "promptVersion": "v3.0.0"
+}

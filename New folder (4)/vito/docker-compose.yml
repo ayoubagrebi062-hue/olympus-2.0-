@@ -1,0 +1,188 @@
+# OLYMPUS 3.0 - Docker Compose
+# Full stack deployment with all services
+
+version: '3.9'
+
+services:
+  # ==========================================================================
+  # OLYMPUS Application
+  # ==========================================================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: olympus-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD:-olympus123}
+      - QDRANT_URL=http://qdrant:6333
+      - MONGODB_URI=mongodb://mongodb:27017/olympus
+      - OLLAMA_BASE_URL=http://ollama:11434
+    env_file:
+      - .env.production
+    depends_on:
+      redis:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+      mongodb:
+        condition: service_healthy
+    networks:
+      - olympus-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ==========================================================================
+  # Redis - Caching & Rate Limiting
+  # ==========================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: olympus-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    networks:
+      - olympus-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================================================
+  # Neo4j - Graph Database (Relationships)
+  # ==========================================================================
+  neo4j:
+    image: neo4j:5-community
+    container_name: olympus-neo4j
+    restart: unless-stopped
+    ports:
+      - "7474:7474"  # HTTP
+      - "7687:7687"  # Bolt
+    environment:
+      - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD:-olympus123}
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_dbms_memory_pagecache_size=512M
+      - NEO4J_dbms_memory_heap_initial__size=512M
+      - NEO4J_dbms_memory_heap_max__size=1G
+    volumes:
+      - neo4j-data:/data
+      - neo4j-logs:/logs
+    networks:
+      - olympus-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:7474"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # ==========================================================================
+  # Qdrant - Vector Database (Embeddings)
+  # ==========================================================================
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: olympus-qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"  # HTTP
+      - "6334:6334"  # gRPC
+    volumes:
+      - qdrant-data:/qdrant/storage
+    environment:
+      - QDRANT__SERVICE__GRPC_PORT=6334
+    networks:
+      - olympus-network
+
+  # ==========================================================================
+  # MongoDB - Document Database (History & Logs)
+  # ==========================================================================
+  mongodb:
+    image: mongo:7
+    container_name: olympus-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=olympus
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - olympus-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================================================
+  # Ollama - Local AI (Optional - for local AI inference)
+  # ==========================================================================
+  ollama:
+    image: ollama/ollama:latest
+    container_name: olympus-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - olympus-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    profiles:
+      - gpu  # Only start with: docker compose --profile gpu up
+
+  # ==========================================================================
+  # Ollama CPU (For systems without GPU)
+  # ==========================================================================
+  ollama-cpu:
+    image: ollama/ollama:latest
+    container_name: olympus-ollama-cpu
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - olympus-network
+    profiles:
+      - cpu  # Start with: docker compose --profile cpu up
+
+# ==========================================================================
+# Networks
+# ==========================================================================
+networks:
+  olympus-network:
+    driver: bridge
+
+# ==========================================================================
+# Volumes
+# ==========================================================================
+volumes:
+  redis-data:
+  neo4j-data:
+  neo4j-logs:
+  qdrant-data:
+  mongodb-data:
+  ollama-data:

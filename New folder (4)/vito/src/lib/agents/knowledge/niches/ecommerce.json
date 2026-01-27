@@ -1,0 +1,175 @@
+{
+  "niche": "ecommerce",
+  "display_name": "E-commerce & DTC Products",
+
+  "headlines": {
+    "fear": [
+      "The Ingredient in Your Current Products That's Making Things Worse",
+      "Warning: What Big Brands Don't Want You to Know",
+      "Why Cheap Alternatives Are Costing You More in the Long Run",
+      "The Hidden Toxins in Your Everyday Products",
+      "What Happens When You Keep Using Inferior Products",
+      "The Mistake 9 Out of 10 Shoppers Make",
+      "Is Your Current Brand Lying to You?",
+      "The Shocking Truth About What's Really in Your Products"
+    ],
+    "greed": [
+      "The Secret Formula That Changes Everything",
+      "Get Premium Results at a Fraction of the Price",
+      "The Product That Replaced 5 Others in My Routine",
+      "Why Customers Are Throwing Away Their Old Products After Trying This",
+      "The One Product That Actually Delivers on Its Promises",
+      "Results You Can See in Just 7 Days",
+      "The Best-Kept Secret in the Industry",
+      "How to Get Twice the Results in Half the Time"
+    ],
+    "guilt": [
+      "You Deserve Better Than What You've Been Settling For",
+      "Stop Wasting Money on Products That Don't Work",
+      "Why Are You Still Putting Up With Subpar Results?",
+      "Your Body Deserves Premium Ingredients",
+      "How Long Will You Keep Accepting Less Than You Deserve?",
+      "The Product You'd Buy for Someone You Love",
+      "Stop Treating Yourself as an Afterthought",
+      "Give Yourself the Quality You'd Give Others"
+    ],
+    "exclusivity": [
+      "Limited Edition: Only 500 Units Available",
+      "The Formula We Only Share with Our Inner Circle",
+      "Sold Out 3 Times: Finally Back in Stock",
+      "The Product Celebrities Actually Use (Not Just Endorse)",
+      "Exclusive Access for Our VIP Customers",
+      "Pre-Order: Be Among the First to Experience This",
+      "The Waitlist Product That's Finally Available",
+      "Small Batch Crafted: Once It's Gone, It's Gone"
+    ],
+    "salvation": [
+      "Finally, a Product That Actually Works",
+      "The End of Trial and Error",
+      "Stop the Endless Search: This Is It",
+      "The Solution You've Been Looking For",
+      "Say Goodbye to Disappointment",
+      "The Last Product You'll Ever Need to Try",
+      "No More Wasted Money on Things That Don't Work",
+      "Your Search Is Over"
+    ]
+  },
+
+  "pain_points": [
+    "Wasted money on products that don't deliver results",
+    "Overwhelmed by too many options and conflicting reviews",
+    "Skeptical of marketing claims after being burned before",
+    "Current products are expensive but mediocre",
+    "Sensitive reactions to mystery ingredients",
+    "Can't find products that work for specific situation",
+    "Frustrated by subscription traps and hidden fees",
+    "Don't trust big brand quality anymore",
+    "Products run out at inconvenient times",
+    "Hard to compare products accurately",
+    "Returns process is always a hassle",
+    "Customer service is unhelpful when issues arise",
+    "Products don't match how they looked online",
+    "Environmental and ethical concerns about sourcing",
+    "Results never match what's shown in advertisements"
+  ],
+
+  "dream_states": [
+    "Finding the holy grail product that actually works",
+    "Simplifying routines with one product that does it all",
+    "Saving money while getting better results",
+    "Feeling confident in purchase decisions",
+    "Receiving compliments and questions about secret products",
+    "Having a go-to brand you trust completely",
+    "Never running out of essentials with auto-delivery",
+    "Getting premium quality at fair prices",
+    "Being part of a community that shares values",
+    "Products that align with ethical standards",
+    "Results that exceed expectations for once",
+    "The satisfaction of a perfect purchase",
+    "Discovering products before they go mainstream",
+    "Having a routine you actually look forward to",
+    "Finally solving a problem that seemed unsolvable"
+  ],
+
+  "objections": [
+    {
+      "objection": "I've been burned by similar products before",
+      "diffuse": "I completely understand that skepticism. That's why we offer a 60-day money-back guarantee - no questions asked. Over 15,000 customers have tried us, and our return rate is under 3%. You literally have nothing to lose."
+    },
+    {
+      "objection": "It's more expensive than what I use now",
+      "diffuse": "Fair point - let me share some context. Our formula is more concentrated, so one bottle lasts 2-3x longer. When you do the math, it's actually cheaper per use. Plus, you won't be replacing it every few weeks when it doesn't work."
+    },
+    {
+      "objection": "How do I know this will work for me?",
+      "diffuse": "Great question. We've seen results across every skin type, age group, and condition. But don't take our word for it - try it for 60 days with our full money-back guarantee. If it doesn't work for you specifically, you pay nothing."
+    },
+    {
+      "objection": "I don't trust online reviews anymore",
+      "diffuse": "Smart thinking - fake reviews are a real problem. That's why we use a verified purchase system - every review is from a confirmed buyer. We also have over 2,000 unboxing videos from real customers on social media you can check."
+    },
+    {
+      "objection": "What if I don't like the smell/texture/taste?",
+      "diffuse": "Totally valid concern. We spent 18 months on formulation to get this right. But if it's not for you, our return policy covers personal preference too - not just product issues. Zero risk."
+    },
+    {
+      "objection": "I don't want another subscription trap",
+      "diffuse": "We hate those too - that's why our subscription is completely optional and cancel-anytime with one click. No phone calls, no hoops. Most customers choose it for the 20% savings, but one-time purchases are totally fine."
+    },
+    {
+      "objection": "How long until I see results?",
+      "diffuse": "Most customers notice a difference within 1-2 weeks. Full results typically show at 4-6 weeks of consistent use. We include a results timeline in every order so you know exactly what to expect and when."
+    },
+    {
+      "objection": "I'll wait for a sale",
+      "diffuse": "I get it - but here's the thing: we don't do big discount sales because our pricing is already fair. The 15% first-order discount you see now is actually our best offer. And with our guarantee, there's no reason to wait."
+    }
+  ],
+
+  "power_words": [
+    "premium", "handcrafted", "pure", "potent", "revolutionary",
+    "clinically proven", "breakthrough", "luxurious", "artisanal", "organic",
+    "transformative", "powerful", "concentrated", "effective", "innovative",
+    "exclusive", "limited", "curated", "boutique", "authentic",
+    "natural", "sustainable", "clean", "trusted", "proven"
+  ],
+
+  "cta_templates": [
+    "Shop Now",
+    "Add to Cart",
+    "Try Risk-Free",
+    "Claim Your Discount",
+    "Get Started",
+    "Order Now",
+    "Yes, I Want This",
+    "Start My Order",
+    "Unlock 15% Off",
+    "Join the Waitlist"
+  ],
+
+  "social_proof_templates": [
+    "Over {X} five-star reviews",
+    "Sold {X}+ units in {timeframe}",
+    "Featured in {publication}",
+    "{X}% of customers reorder within {Y} days",
+    "Sold out {X} times this year",
+    "Rated {X}/5 by {Y} verified buyers",
+    "{X} customers can't be wrong",
+    "As seen on {show/publication}",
+    "Winner of {award}",
+    "Recommended by {X} dermatologists/experts"
+  ],
+
+  "subject_line_templates": [
+    "Your order is waiting...",
+    "Did you forget something?",
+    "This sold out last time",
+    "Special offer just for you",
+    "Back in stock (finally)",
+    "You left this behind",
+    "{X}% off ends tonight",
+    "The reviews are in...",
+    "A gift from us to you",
+    "We saved your cart"
+  ]
+}

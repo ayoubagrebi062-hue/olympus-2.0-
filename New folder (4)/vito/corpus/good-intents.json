@@ -1,0 +1,168 @@
+{
+  "$schema": "https://olympus.canonical/corpus/v1.0",
+  "type": "GOOD_INTENTS",
+  "description": "Intents that MUST ship. All axes specified, verifiable, bounded.",
+  "expectedFate": "ACCEPTED",
+  "expectedBlockingLayer": null,
+  "version": "2.1-canonical",
+
+  "intents": [
+    {
+      "id": "good-001",
+      "text": "When user clicks the 'Add to Cart' button, the selected product is added to the cart state and the cart icon badge updates to show the new item count.",
+      "analysis": {
+        "trigger": "click 'Add to Cart' button",
+        "state": "cart state updated",
+        "outcome": "badge shows new count"
+      },
+      "expectedScores": {
+        "wissdMin": 95,
+        "irclStatus": "CONSISTENT",
+        "behavioralPassed": true
+      },
+      "rationale": "Clear trigger (click), explicit state mutation (cart state), observable outcome (badge update). All axes present."
+    },
+    {
+      "id": "good-002",
+      "text": "The login form validates email format on blur and displays 'Invalid email' below the field if the format is incorrect.",
+      "analysis": {
+        "trigger": "blur event on email field",
+        "state": "validation state",
+        "outcome": "error message displayed"
+      },
+      "expectedScores": {
+        "wissdMin": 95,
+        "irclStatus": "CONSISTENT",
+        "behavioralPassed": true
+      },
+      "rationale": "Specific trigger (blur), validation state implied, specific error message outcome."
+    },
+    {
+      "id": "good-003",
+      "text": "When the user submits the contact form with valid data, a success toast appears for 3 seconds with the message 'Message sent!'.",
+      "analysis": {
+        "trigger": "form submission with valid data",
+        "state": "toast visibility state",
+        "outcome": "toast visible for 3 seconds"
+      },
+      "expectedScores": {
+        "wissdMin": 95,
+        "irclStatus": "CONSISTENT",
+        "behavioralPassed": true
+      },
+      "rationale": "Explicit trigger, implicit state, specific outcome with duration."
+    },
+    {
+      "id": "good-004",
+      "text": "The product list page displays products in a 3-column grid on desktop (>1024px) and a single column on mobile (<768px).",
+      "analysis": {
+        "trigger": "viewport width",
+        "state": "layout configuration",
+        "outcome": "specific column count"
+      },
+      "expectedScores": {
+        "wissdMin": 95,
+        "irclStatus": "CONSISTENT",
+        "behavioralPassed": true
+      },
+      "rationale": "Conditional trigger (breakpoints), layout state, specific measurable outcome."
+    },
+    {
+      "id": "good-005",
+      "text": "When user toggles dark mode in settings, all pages update their background to #1a1a1a and text to #ffffff.",
+      "analysis": {
+        "trigger": "toggle dark mode",
+        "state": "theme state",
+        "outcome": "specific colors applied"
+      },
+      "expectedScores": {
+        "wissdMin": 95,
+        "irclStatus": "CONSISTENT",
+        "behavioralPassed": true
+      },
+      "rationale": "Explicit trigger, state change, specific verifiable outcome (hex colors)."
+    },
+    {
+      "id": "good-006",
+      "text": "The search input debounces user input by 300ms before triggering a search, and displays 'Searching...' during the debounce period.",
+      "analysis": {
+        "trigger": "user input after 300ms",
+        "state": "debounce timer, loading state",
+        "outcome": "search triggered, loading indicator"
+      },
+      "expectedScores": {
+        "wissdMin": 95,
+        "irclStatus": "CONSISTENT",
+        "behavioralPassed": true
+      },
+      "rationale": "Specific timing trigger, explicit state, observable outcome."
+    },
+    {
+      "id": "good-007",
+      "text": "When the user clicks 'Delete Account', a confirmation modal appears with 'Cancel' and 'Delete' buttons. Clicking 'Delete' removes the user from local storage and redirects to /goodbye.",
+      "analysis": {
+        "trigger": "click Delete Account, then click Delete in modal",
+        "state": "modal state, localStorage, navigation",
+        "outcome": "modal shown, data cleared, redirect"
+      },
+      "expectedScores": {
+        "wissdMin": 95,
+        "irclStatus": "CONSISTENT",
+        "behavioralPassed": true
+      },
+      "rationale": "Multi-step trigger, explicit state mutations, specific redirect path."
+    },
+    {
+      "id": "good-008",
+      "text": "The pricing page shows 3 tier cards: 'Basic' at $9/mo, 'Pro' at $29/mo, and 'Enterprise' with 'Contact Us' instead of a price.",
+      "analysis": {
+        "trigger": "page load",
+        "state": "pricing data",
+        "outcome": "specific prices displayed"
+      },
+      "expectedScores": {
+        "wissdMin": 95,
+        "irclStatus": "CONSISTENT",
+        "behavioralPassed": true
+      },
+      "rationale": "Enumerated items, specific values, no ambiguity."
+    },
+    {
+      "id": "good-009",
+      "text": "When the user's session expires (after 30 minutes of inactivity), they are redirected to /login with the query parameter ?expired=true.",
+      "analysis": {
+        "trigger": "30 minutes inactivity",
+        "state": "session timer",
+        "outcome": "redirect with specific parameter"
+      },
+      "expectedScores": {
+        "wissdMin": 92,
+        "irclStatus": "CONSISTENT",
+        "behavioralPassed": true
+      },
+      "expectedConditions": ["Timer mechanism must exist", "Activity tracking required"],
+      "rationale": "Specific timing, explicit state tracking requirement, verifiable redirect."
+    },
+    {
+      "id": "good-010",
+      "text": "The image gallery displays thumbnails in a row. Clicking a thumbnail updates the main image display to show that image at 800x600 resolution.",
+      "analysis": {
+        "trigger": "click thumbnail",
+        "state": "selected image state",
+        "outcome": "main image updates with specific dimensions"
+      },
+      "expectedScores": {
+        "wissdMin": 95,
+        "irclStatus": "CONSISTENT",
+        "behavioralPassed": true
+      },
+      "rationale": "Clear trigger, state update, specific measurable outcome (dimensions)."
+    }
+  ],
+
+  "metadata": {
+    "totalIntents": 10,
+    "expectedShipRate": "100%",
+    "lastUpdated": "2026-01-19"
+  }
+}

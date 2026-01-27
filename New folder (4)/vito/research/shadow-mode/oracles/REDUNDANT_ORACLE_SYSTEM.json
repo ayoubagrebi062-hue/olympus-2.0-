@@ -1,0 +1,161 @@
+{
+  "systemId": "ROS-001",
+  "name": "Redundant Oracle System",
+  "version": "1.0.0",
+  "timestamp": "2026-01-19T11:15:00.000Z",
+  "constitution": "SEC-1",
+  "status": "DEPLOYED",
+
+  "purpose": {
+    "description": "Provides independent verification of safety invariants through multiple diverse oracles",
+    "rationale": "Single-point-of-verification failure is prevented by requiring 2-of-3 oracle agreement",
+    "satisfies": "MSI-004 (INVARIANT_OBSERVABILITY)"
+  },
+
+  "oracles": {
+    "symbolic_capability_oracle": {
+      "id": "SCO-1",
+      "name": "Symbolic Capability Oracle",
+      "type": "SYMBOLIC",
+      "description": "Verifies invariants through symbolic execution and formal reasoning",
+      "methodology": {
+        "approach": "pattern_matching_with_semantic_analysis",
+        "formalization": "capability_grammar_with_semantic_constraints",
+        "verification": "exhaustive_pattern_coverage"
+      },
+      "invariantsVerified": [
+        "NO_HOSTILE_ADMISSION",
+        "CAPABILITY_MONOTONICITY",
+        "ORDER_INVARIANCE"
+      ],
+      "independence": {
+        "codebase": "isolated",
+        "data": "shared_read_only",
+        "execution": "separate_process"
+      },
+      "failureMode": "REJECT_ON_UNCERTAINTY",
+      "auditSignal": "symbolic_verification_trace"
+    },
+
+    "statistical_anomaly_oracle": {
+      "id": "SAO-1",
+      "name": "Statistical Anomaly Oracle",
+      "type": "STATISTICAL",
+      "description": "Detects invariant violations through statistical deviation analysis",
+      "methodology": {
+        "approach": "distribution_monitoring_with_anomaly_detection",
+        "baseline": "historical_invariant_satisfaction_distributions",
+        "detection": "z_score_threshold_with_adaptive_bounds"
+      },
+      "invariantsVerified": [
+        "EXPLANATION_ENTROPY_MINIMUM",
+        "NO_UNEXPLAINED_VERDICT",
+        "MSI-001_NO_PROXY_SATISFACTION"
+      ],
+      "independence": {
+        "codebase": "isolated",
+        "data": "shared_read_only",
+        "execution": "separate_process"
+      },
+      "failureMode": "ESCALATE_ON_ANOMALY",
+      "auditSignal": "statistical_confidence_bounds"
+    },
+
+    "historical_regression_oracle": {
+      "id": "HRO-1",
+      "name": "Historical Regression Oracle",
+      "type": "TEMPORAL",
+      "description": "Verifies invariants hold relative to historical baselines",
+      "methodology": {
+        "approach": "delta_analysis_against_certified_baselines",
+        "baseline": "previous_certified_version_metrics",
+        "detection": "regression_budget_enforcement"
+      },
+      "invariantsVerified": [
+        "CAPABILITY_MONOTONICITY",
+        "TEMPORAL_INVARIANCE",
+        "REGRESSION_BUDGET_COMPLIANCE"
+      ],
+      "independence": {
+        "codebase": "isolated",
+        "data": "historical_snapshots",
+        "execution": "separate_process"
+      },
+      "failureMode": "BLOCK_ON_REGRESSION",
+      "auditSignal": "regression_delta_report"
+    }
+  },
+
+  "crossCheck": {
+    "requiredAgreement": "2_of_3",
+    "votingProtocol": {
+      "mechanism": "majority_with_veto",
+      "vetoConditions": ["S4_detected_by_any_oracle"],
+      "tieBreaker": "REJECT"
+    },
+    "disagreementMatrix": {
+      "SCO_SAO_agree_HRO_disagree": "ACCEPT_WITH_REVIEW",
+      "SCO_HRO_agree_SAO_disagree": "ACCEPT_WITH_REVIEW",
+      "SAO_HRO_agree_SCO_disagree": "ACCEPT_WITH_REVIEW",
+      "all_disagree": "REJECT_AND_ESCALATE",
+      "all_agree_PASS": "ACCEPT",
+      "all_agree_FAIL": "REJECT"
+    }
+  },
+
+  "onDisagreement": {
+    "action": "ESCALATE_TO_SHADOW_REVIEW",
+    "shadowReview": {
+      "description": "Manual review by safety governance team",
+      "timeLimit": "24_hours",
+      "defaultDecision": "REJECT",
+      "artifacts": [
+        "oracle_decision_traces",
+        "disagreement_analysis",
+        "invariant_evidence"
+      ]
+    }
+  },
+
+  "monitoring": {
+    "healthChecks": {
+      "frequency": "continuous",
+      "metrics": ["oracle_availability", "response_latency", "agreement_rate"]
+    },
+    "alerting": {
+      "onOracleFailure": "IMMEDIATE",
+      "onDisagreement": "LOGGED_AND_REVIEWED",
+      "onSystematicDrift": "ESCALATE"
+    }
+  },
+
+  "invariantCoverage": {
+    "NO_HOSTILE_ADMISSION": ["SCO-1"],
+    "NO_UNEXPLAINED_VERDICT": ["SAO-1"],
+    "ORDER_INVARIANCE": ["SCO-1"],
+    "CAPABILITY_MONOTONICITY": ["SCO-1", "HRO-1"],
+    "EXPLANATION_ENTROPY_MINIMUM": ["SAO-1"],
+    "MSI-001_NO_PROXY_SATISFACTION": ["SAO-1"],
+    "MSI-002_EXPLANATION_NON_RECURSIVE": ["SCO-1"],
+    "MSI-003_METRIC_INDEPENDENCE": ["SCO-1", "SAO-1"],
+    "MSI-004_INVARIANT_OBSERVABILITY": ["all"]
+  },
+
+  "deployment": {
+    "deployedAt": "2026-01-19T11:15:00.000Z",
+    "environment": "production",
+    "replicas": {
+      "SCO-1": 2,
+      "SAO-1": 2,
+      "HRO-1": 2
+    },
+    "failover": "automatic"
+  },
+
+  "signOff": {
+    "deployedBy": "Safety Governance Framework",
+    "constitution": "SEC-1",
+    "immutable": false,
+    "note": "Oracle configurations may be updated with recertification"
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "tier": "professional",
+  "extractedAt": "2026-01-27T11:21:49.178Z",
+  "sources": [
+    "oracle",
+    "empathy",
+    "venture",
+    "strategos",
+    "scope",
+    "psyche",
+    "scribe",
+    "architect_conversion",
+    "conversion_judge",
+    "palette",
+    "grid"
+  ],
+  "architecture": {
+    "isMultiTenant": true,
+    "tenantIsolation": "row-level",
+    "tenantScopedTables": [],
+    "softDeletes": true,
+    "idStrategy": "cuid",
+    "apiBasePath": "/api/v1",
+    "paginationStyle": "cursor",
+    "responseEnvelope": true,
+    "rateLimitingEnabled": true,
+    "cachingEnabled": true,
+    "cachedEntities": [
+      "products",
+      "categories",
+      "settings"
+    ],
+    "optimisticUpdates": true,
+    "rbacEnabled": true,
+    "roles": [
+      "user",
+      "admin"
+    ],
+    "errorBoundaries": "page",
+    "authStrategy": "supabase"
+  },
+  "design": {
+    "colorPalette": {
+      "primary": {
+        "50": "hsl(210, 15%, 13%)",
+        "100": "hsl(210, 15%, 18%)",
+        "200": "hsl(210, 15%, 23%)",
+        "300": "hsl(210, 15%, 28%)",
+        "400": "hsl(210, 15%, 33%)",
+        "500": "hsl(210, 15%, 38%)",
+        "600": "hsl(210, 15%, 43%)",
+        "700": "hsl(210, 15%, 48%)",
+        "800": "hsl(210, 15%, 53%)",
+        "900": "hsl(210, 15%, 58%)",
+        "950": "hsl(210, 15%, 62%)"
+      },
+      "secondary": {
+        "50": "hsl(210, 15%, 10%)",
+        "100": "hsl(210, 15%, 15%)",
+        "200": "hsl(210, 15%, 20%)",
+        "300": "hsl(210, 15%, 25%)",
+        "400": "hsl(210, 15%, 30%)",
+        "500": "hsl(210, 15%, 35%)",
+        "600": "hsl(210, 15%, 40%)",
+        "700": "hsl(210, 15%, 45%)",
+        "800": "hsl(210, 15%, 50%)",
+        "900": "hsl(210, 15%, 55%)",
+        "950": "hsl(210, 15%, 60%)"
+      },
+      "accent": {
+        "50": "hsl(82, 83%, 58%)",
+        "100": "hsl(82, 83%, 63%)",
+        "200": "hsl(82, 83%, 68%)",
+        "300": "hsl(82, 83%, 73%)",
+        "400": "hsl(82, 83%, 78%)",
+        "500": "hsl(82, 83%, 83%)",
+        "600": "hsl(82, 83%, 88%)",
+        "700": "hsl(82, 83%, 93%)",
+        "800": "hsl(82, 83%, 95%)",
+        "900": "hsl(82, 83%, 97%)",
+        "950": "hsl(82, 83%, 99%)"
+      },
+      "background": {
+        "default": "#0A0A0B",
+        "surface": "#18181B",
+        "elevated": "#27272A",
+        "overlay": "rgba(10, 10, 11, 0.8)"
+      },
+      "foreground": "#0f172a",
+      "muted": "#f1f5f9",
+      "destructive": "#ef4444",
+      "border": "#e2e8f0"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "scale": {
+        "xs": {
+          "size": "0.75rem",
+          "lineHeight": "1rem"
+        },
+        "sm": {
+          "size": "0.875rem",
+          "lineHeight": "1.25rem"
+        },
+        "base": {
+          "size": "1rem",
+          "lineHeight": "1.5rem"
+        },
+        "lg": {
+          "size": "1.125rem",
+          "lineHeight": "1.75rem"
+        },
+        "xl": {
+          "size": "1.25rem",
+          "lineHeight": "1.75rem"
+        },
+        "2xl": {
+          "size": "1.5rem",
+          "lineHeight": "2rem"
+        },
+        "3xl": {
+          "size": "1.875rem",
+          "lineHeight": "2.25rem"
+        },
+        "4xl": {
+          "size": "2.25rem",
+          "lineHeight": "2.5rem"
+        },
+        "5xl": {
+          "size": "3rem",
+          "lineHeight": "1"
+        },
+        "6xl": {
+          "size": "3.75rem",
+          "lineHeight": "1"
+        }
+      }
+    },
+    "borderRadius": {
+      "none": "0",
+      "sm": "4px",
+      "md": "8px",
+      "lg": "12px",
+      "xl": "16px",
+      "2xl": "24px",
+      "full": "9999px"
+    },
+    "spacing": "default",
+    "darkMode": true,
+    "animations": "subtle"
+  },
+  "data": {},
+  "api": {},
+  "security": {},
+  "pages": {},
+  "rawDecisions": [
+    {
+      "id": "skip-venture-1769512787535",
+      "type": "skip",
+      "description": "Agent venture was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "strategos-decision-mvp_features",
+      "type": "mvp_features",
+      "choice": "[{\"id\":\"build_list\",\"name\":\"Build List Panel\",\"category\":\"core\",\"priority\":\"must_have\",\"rice_score\":",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "skip-psyche-1769512818202",
+      "type": "skip",
+      "description": "Agent psyche was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-conversion_judge-1769512863978",
+      "type": "skip",
+      "description": "Agent conversion_judge was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    }
+  ]
+}{
+      "id": "skip-grid-1769512909182",
+      "type": "skip",
+      "description": "Agent grid was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    }
+  ]
+}

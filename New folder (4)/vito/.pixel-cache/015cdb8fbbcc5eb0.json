@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Button.tsx",
+      "content": "// Button.tsx\nimport React from 'react';\n\ninterface ButtonProps {\n  variant: 'Primary' | 'Secondary';\n  children: React.ReactNode;\n  onClick: () => void;\n}\n\nconst Button: React.FC<ButtonProps> = ({ variant, children, onClick }) => {\n  const styles = {\n    Primary: {\n      backgroundColor: '#4CAF50',\n      color: '#fff',\n      border: 'none',\n      borderRadius: '4px',\n      padding: '8px 16px',\n      minWidth: '80px',\n    },\n    Secondary: {\n      backgroundColor: '#fff',\n      color: '#4CAF50',\n      border: '1px solid #4CAF50',\n      borderRadius: '4px',\n      padding: '8px 16px',\n      minWidth: '80px',\n    },\n  };\n\n  const handleMouseOver = () => {\n    // Add hover styles\n  };\n\n  const handleMouseDown = () => {\n    // Add active styles\n  };\n\n  return (\n    <button\n      className=\"button\"\n      style={styles[variant]}\n      onClick={onClick}\n      onMouseOver={handleMouseOver}\n      onMouseDown={handleMouseDown}\n    >\n      {children}\n    </button>\n  );\n};\n\nexport default Button;\n"
+    }
+  ],
+  "timestamp": 1768800129694,
+  "promptVersion": "v3.0.0"
+}

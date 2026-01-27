@@ -1,0 +1,224 @@
+{
+  "tier": "professional",
+  "extractedAt": "2026-01-27T09:43:07.108Z",
+  "sources": [
+    "oracle",
+    "empathy",
+    "venture",
+    "strategos",
+    "scope",
+    "psyche",
+    "scribe",
+    "architect_conversion",
+    "conversion_judge",
+    "palette",
+    "grid",
+    "blocks",
+    "cartographer",
+    "flow",
+    "artist",
+    "archon",
+    "datum",
+    "nexus",
+    "forge",
+    "sentinel",
+    "atlas"
+  ],
+  "architecture": {
+    "isMultiTenant": false,
+    "tenantIsolation": "none",
+    "tenantScopedTables": [],
+    "softDeletes": false,
+    "idStrategy": "cuid",
+    "apiBasePath": "/api/v1",
+    "paginationStyle": "cursor",
+    "responseEnvelope": true,
+    "rateLimitingEnabled": false,
+    "cachingEnabled": true,
+    "cachedEntities": [
+      "builds",
+      "agents"
+    ],
+    "optimisticUpdates": false,
+    "rbacEnabled": true,
+    "roles": [
+      {
+        "name": "user",
+        "permissions": [
+          "read:all"
+        ]
+      }
+    ],
+    "errorBoundaries": "page"
+  },
+  "design": {
+    "colorPalette": {
+      "primary": "#3b82f6",
+      "secondary": "#64748b",
+      "accent": "#f59e0b",
+      "background": "#ffffff",
+      "foreground": "#0f172a",
+      "muted": "#f1f5f9",
+      "destructive": "#ef4444",
+      "border": "#e2e8f0"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "scale": "default"
+    },
+    "borderRadius": "medium",
+    "spacing": "default",
+    "darkMode": true,
+    "animations": "subtle"
+  },
+  "data": {
+    "entities": [
+      "Build",
+      "Phase",
+      "Agent"
+    ],
+    "relationships": [
+      {
+        "from": "Phase",
+        "to": "Build",
+        "type": "many-to-one",
+        "cascadeDelete": true
+      },
+      {
+        "from": "Agent",
+        "to": "Build",
+        "type": "many-to-one",
+        "cascadeDelete": true
+      }
+    ],
+    "softDeleteEntities": [
+      "Build"
+    ],
+    "searchableEntities": [],
+    "auditedEntities": [],
+    "enums": [
+      {
+        "name": "BuildStatus",
+        "values": [
+          "QUEUED",
+          "RUNNING",
+          "COMPLETED",
+          "FAILED"
+        ]
+      },
+      {
+        "name": "PhaseStatus",
+        "values": [
+          "PENDING",
+          "ACTIVE",
+          "COMPLETED",
+          "FAILED"
+        ]
+      },
+      {
+        "name": "AgentStatus",
+        "values": [
+          "IDLE",
+          "WORKING",
+          "COMPLETED",
+          "FAILED"
+        ]
+      }
+    ]
+  },
+  "api": {
+    "endpoints": [],
+    "webhooks": [],
+    "publicEndpoints": [],
+    "adminEndpoints": []
+  },
+  "security": {
+    "authMethod": "supabase",
+    "mfaRequired": false,
+    "mfaRoles": [],
+    "session": {
+      "duration": 604800,
+      "refreshEnabled": true,
+      "maxConcurrent": 5
+    },
+    "rateLimits": [],
+    "encryptedFields": [],
+    "auditEvents": []
+  },
+  "pages": {
+    "pages": [],
+    "navigation": {
+      "main": [],
+      "footer": []
+    },
+    "layouts": []
+  },
+  "rawDecisions": [
+    {
+      "id": "skip-venture-1769506689015",
+      "type": "skip",
+      "description": "Agent venture was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "strategos-decision-mvp_features",
+      "type": "mvp_features",
+      "choice": "[{\"id\":\"build_list\",\"name\":\"Build List\",\"category\":\"core\",\"priority\":\"must_have\",\"rice_score\":90,\"ri",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "skip-psyche-1769506720887",
+      "type": "skip",
+      "description": "Agent psyche was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-conversion_judge-1769506767218",
+      "type": "skip",
+      "description": "Agent conversion_judge was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-grid-1769506783569",
+      "type": "skip",
+      "description": "Agent grid was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-flow-1769506833143",
+      "type": "skip",
+      "description": "Agent flow was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "archon-decision-tech_stack",
+      "type": "tech_stack",
+      "choice": "{\"framework\":\"Next.js 14 App Router\",\"database\":\"Supabase PostgreSQL\",\"orm\":\"Prisma\",\"auth\":\"Supabas",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "archon-decision-architecture",
+      "type": "architecture",
+      "choice": "{\"pattern\":\"monolith\",\"reasoning\":\"The OLYMPUS Builder Dashboard is primarily a read-only tool targe",
+      "reasoning": "The OLYMPUS Builder Dashboard is primarily a read-only tool targeting power users and developers. Given the limited scope of features and entities, a monolithic architecture simplifies development and deployment, reducing overhead while providing a cohesive user experience.",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "skip-atlas-1769506987108",
+      "type": "skip",
+      "description": "Agent atlas was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    }
+  ]
+}

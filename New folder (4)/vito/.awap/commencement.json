@@ -1,0 +1,31 @@
+{
+  "marker_id": "commence_1768874758948_ee22e5a1ccbe22d7",
+  "phase_id": "phase_1768874758948_da30b0d636fb6fbe",
+  "created_at": "2026-01-20T02:05:58.948Z",
+  "execution_order": [
+    "ATK-005",
+    "ATK-001",
+    "ATK-013",
+    "ATK-004",
+    "ATK-003",
+    "ATK-002",
+    "ATK-008",
+    "ATK-006",
+    "ATK-011",
+    "ATK-012",
+    "ATK-007",
+    "ATK-010",
+    "ATK-015",
+    "ATK-014",
+    "ATK-009"
+  ],
+  "total_attacks": 15,
+  "executor_id": "executor_SBS_1768874758948",
+  "marker_hash": "c84ed8232216c1f634b1ee1c5e6a87dfdeea484a544c693793b9276b7c47721c",
+  "constraints": {
+    "irreversible": true,
+    "no_reorder": true,
+    "no_skip": true,
+    "no_retry": true
+  }
+}

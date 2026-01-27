@@ -1,0 +1,1115 @@
+{
+  "metadata": {
+    "generated_at": "2026-01-19T11:37:32.160Z",
+    "tool_version": "1.0.0",
+    "target_shape": "FilterCapabilityShape",
+    "agents_traced": [
+      "strategos",
+      "scope",
+      "cartographer",
+      "blocks",
+      "wire",
+      "pixel"
+    ]
+  },
+  "extractions": {
+    "strategos": {
+      "agent_id": "strategos",
+      "timestamp": "2026-01-19T11:37:32.161Z",
+      "shape": null,
+      "attribute_evidence": [
+        {
+          "attribute": "target_entity",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "filter_attribute",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        }
+      ],
+      "source_file": "agentOutputs.strategos",
+      "source_type": "agent_output",
+      "status": "FAILED",
+      "extraction_errors": [
+        "No filter-related features found in 2 mvp_features"
+      ]
+    },
+    "scope": {
+      "agent_id": "scope",
+      "timestamp": "2026-01-19T11:37:32.161Z",
+      "shape": null,
+      "attribute_evidence": [
+        {
+          "attribute": "target_entity",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "filter_attribute",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "filter_values",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        }
+      ],
+      "source_file": "agentOutputs.scope",
+      "source_type": "agent_output",
+      "status": "FAILED",
+      "extraction_errors": [
+        "No filter-related scope items found in 1 in_scope entries"
+      ]
+    },
+    "cartographer": {
+      "agent_id": "cartographer",
+      "timestamp": "2026-01-19T11:37:32.162Z",
+      "shape": null,
+      "attribute_evidence": [
+        {
+          "attribute": "target_entity",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "filter_attribute",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "filter_values",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "ui_control",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        }
+      ],
+      "source_file": "agentOutputs.cartographer",
+      "source_type": "agent_output",
+      "status": "FAILED",
+      "extraction_errors": [
+        "No filter-related components found in 1 pages"
+      ]
+    },
+    "blocks": {
+      "agent_id": "blocks",
+      "timestamp": "2026-01-19T11:37:32.162Z",
+      "shape": {
+        "filter_values": [
+          "primary",
+          "secondary",
+          "danger"
+        ]
+      },
+      "attribute_evidence": [
+        {
+          "attribute": "filter_values",
+          "found": true,
+          "value": [
+            "primary",
+            "secondary",
+            "danger"
+          ],
+          "json_path": "components[0].variants",
+          "confidence": 0.9
+        },
+        {
+          "attribute": "filter_attribute",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "ui_control",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "default_value",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        }
+      ],
+      "source_file": "agentOutputs.blocks",
+      "source_type": "agent_output",
+      "status": "PARTIAL",
+      "extraction_errors": []
+    },
+    "wire": {
+      "agent_id": "wire",
+      "timestamp": "2026-01-19T11:37:32.163Z",
+      "shape": null,
+      "attribute_evidence": [
+        {
+          "attribute": "filter_attribute",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "filter_values",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "state_location",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "ui_control",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "state_hook",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        }
+      ],
+      "source_file": "agentOutputs.wire",
+      "source_type": "agent_output",
+      "status": "FAILED",
+      "extraction_errors": [
+        "No filter-related code patterns found in 1 files"
+      ]
+    },
+    "pixel": {
+      "agent_id": "wire",
+      "timestamp": "2026-01-19T11:37:32.163Z",
+      "shape": null,
+      "attribute_evidence": [
+        {
+          "attribute": "filter_attribute",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "filter_values",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "state_location",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "ui_control",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        },
+        {
+          "attribute": "state_hook",
+          "found": false,
+          "json_path": "NOT_FOUND",
+          "confidence": 0
+        }
+      ],
+      "source_file": "agentOutputs.pixel",
+      "source_type": "agent_output",
+      "status": "FAILED",
+      "extraction_errors": [
+        "No filter-related code patterns found in 1 files"
+      ]
+    }
+  },
+  "handoffs": {
+    "H1": {
+      "id": "H1",
+      "source_agent": "strategos",
+      "target_agent": "scope",
+      "source_output": {
+        "extraction": {
+          "agent_id": "strategos",
+          "timestamp": "2026-01-19T11:37:32.161Z",
+          "shape": null,
+          "attribute_evidence": [
+            {
+              "attribute": "target_entity",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            },
+            {
+              "attribute": "filter_attribute",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            }
+          ],
+          "source_file": "agentOutputs.strategos",
+          "source_type": "agent_output",
+          "status": "FAILED",
+          "extraction_errors": [
+            "No filter-related features found in 2 mvp_features"
+          ]
+        },
+        "raw_output_path": "agentOutputs.strategos"
+      },
+      "target_input": {
+        "context_extraction": null,
+        "dependency_extraction": null,
+        "raw_context_path": "NOT_AVAILABLE"
+      },
+      "attribute_diffs": [
+        {
+          "attribute": "target_entity",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "filter_attribute",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "filter_values",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "filter_type",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "ui_control",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "default_value",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "state_location",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "triggers_refetch",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "client_side_only",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "state_hook",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "event_handler",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        }
+      ],
+      "attributes_preserved": 11,
+      "attributes_lost": 0,
+      "attributes_degraded": 0,
+      "loss": null
+    },
+    "H2": {
+      "id": "H2",
+      "source_agent": "scope",
+      "target_agent": "cartographer",
+      "source_output": {
+        "extraction": {
+          "agent_id": "scope",
+          "timestamp": "2026-01-19T11:37:32.161Z",
+          "shape": null,
+          "attribute_evidence": [
+            {
+              "attribute": "target_entity",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            },
+            {
+              "attribute": "filter_attribute",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            },
+            {
+              "attribute": "filter_values",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            }
+          ],
+          "source_file": "agentOutputs.scope",
+          "source_type": "agent_output",
+          "status": "FAILED",
+          "extraction_errors": [
+            "No filter-related scope items found in 1 in_scope entries"
+          ]
+        },
+        "raw_output_path": "agentOutputs.scope"
+      },
+      "target_input": {
+        "context_extraction": null,
+        "dependency_extraction": null,
+        "raw_context_path": "NOT_AVAILABLE"
+      },
+      "attribute_diffs": [
+        {
+          "attribute": "target_entity",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "filter_attribute",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "filter_values",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "filter_type",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "ui_control",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "default_value",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "state_location",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "triggers_refetch",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "client_side_only",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "state_hook",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "event_handler",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        }
+      ],
+      "attributes_preserved": 11,
+      "attributes_lost": 0,
+      "attributes_degraded": 0,
+      "loss": null
+    },
+    "H3": {
+      "id": "H3",
+      "source_agent": "cartographer",
+      "target_agent": "blocks",
+      "source_output": {
+        "extraction": {
+          "agent_id": "cartographer",
+          "timestamp": "2026-01-19T11:37:32.162Z",
+          "shape": null,
+          "attribute_evidence": [
+            {
+              "attribute": "target_entity",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            },
+            {
+              "attribute": "filter_attribute",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            },
+            {
+              "attribute": "filter_values",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            },
+            {
+              "attribute": "ui_control",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            }
+          ],
+          "source_file": "agentOutputs.cartographer",
+          "source_type": "agent_output",
+          "status": "FAILED",
+          "extraction_errors": [
+            "No filter-related components found in 1 pages"
+          ]
+        },
+        "raw_output_path": "agentOutputs.cartographer"
+      },
+      "target_input": {
+        "context_extraction": null,
+        "dependency_extraction": null,
+        "raw_context_path": "NOT_AVAILABLE"
+      },
+      "attribute_diffs": [
+        {
+          "attribute": "target_entity",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "filter_attribute",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "filter_values",
+          "target_value": [
+            "primary",
+            "secondary",
+            "danger"
+          ],
+          "status": "ADDED",
+          "similarity_score": 0,
+          "source_path": "NOT_FOUND",
+          "target_path": "components[0].variants",
+          "notes": "Attribute appeared in target (not in source): [\"primary\",\"secondary\",\"danger\"]"
+        },
+        {
+          "attribute": "filter_type",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "ui_control",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "default_value",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "state_location",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "triggers_refetch",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "client_side_only",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "state_hook",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "event_handler",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        }
+      ],
+      "attributes_preserved": 10,
+      "attributes_lost": 0,
+      "attributes_degraded": 0,
+      "loss": null
+    },
+    "H4": {
+      "id": "H4",
+      "source_agent": "blocks",
+      "target_agent": "wire",
+      "source_output": {
+        "extraction": {
+          "agent_id": "blocks",
+          "timestamp": "2026-01-19T11:37:32.162Z",
+          "shape": {
+            "filter_values": [
+              "primary",
+              "secondary",
+              "danger"
+            ]
+          },
+          "attribute_evidence": [
+            {
+              "attribute": "filter_values",
+              "found": true,
+              "value": [
+                "primary",
+                "secondary",
+                "danger"
+              ],
+              "json_path": "components[0].variants",
+              "confidence": 0.9
+            },
+            {
+              "attribute": "filter_attribute",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            },
+            {
+              "attribute": "ui_control",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            },
+            {
+              "attribute": "default_value",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            }
+          ],
+          "source_file": "agentOutputs.blocks",
+          "source_type": "agent_output",
+          "status": "PARTIAL",
+          "extraction_errors": []
+        },
+        "raw_output_path": "agentOutputs.blocks"
+      },
+      "target_input": {
+        "context_extraction": null,
+        "dependency_extraction": {
+          "agent_id": "wire",
+          "timestamp": "2026-01-19T11:37:32.164Z",
+          "shape": null,
+          "attribute_evidence": [
+            {
+              "attribute": "filter_attribute",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "raw_text": "Not in dependency summary: \"completed\"",
+              "confidence": 0
+            },
+            {
+              "attribute": "filter_values",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "raw_text": "Not in dependency summary: \"completed\"",
+              "confidence": 0
+            },
+            {
+              "attribute": "ui_control",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "raw_text": "Not in dependency summary: \"completed\"",
+              "confidence": 0
+            }
+          ],
+          "source_file": "dependencySummary.blocks->wire",
+          "source_type": "dependency_summary",
+          "status": "FAILED",
+          "extraction_errors": [
+            "Filter capability not found in dependency summary from blocks. Summary: \"completed\"",
+            "Potential L6_SUMMARY_COLLAPSE - detailed filter info collapsed to generic summary"
+          ]
+        },
+        "raw_context_path": "NOT_AVAILABLE"
+      },
+      "attribute_diffs": [
+        {
+          "attribute": "target_entity",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "filter_attribute",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "filter_values",
+          "source_value": [
+            "primary",
+            "secondary",
+            "danger"
+          ],
+          "status": "MISSING",
+          "similarity_score": 0,
+          "source_path": "components[0].variants",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute lost in handoff. Source had: [\"primary\",\"secondary\",\"danger\"]"
+        },
+        {
+          "attribute": "filter_type",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "ui_control",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "default_value",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "state_location",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "triggers_refetch",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "client_side_only",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "state_hook",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "event_handler",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        }
+      ],
+      "attributes_preserved": 10,
+      "attributes_lost": 1,
+      "attributes_degraded": 0,
+      "loss": {
+        "loss_class": "L0_TOTAL_OMISSION",
+        "severity": "CRITICAL",
+        "triggering_condition": "shape.present_in_source && !shape.present_in_target",
+        "evidence": {
+          "source_path": "agentOutputs.blocks",
+          "target_path": "agentOutputs.wire",
+          "source_value": {
+            "filter_values": [
+              "primary",
+              "secondary",
+              "danger"
+            ]
+          },
+          "target_value": null,
+          "explanation": "Filter capability shape found in blocks output but completely absent in wire output. Extraction status: source=PARTIAL, target=FAILED"
+        }
+      }
+    },
+    "H5": {
+      "id": "H5",
+      "source_agent": "wire",
+      "target_agent": "pixel",
+      "source_output": {
+        "extraction": {
+          "agent_id": "wire",
+          "timestamp": "2026-01-19T11:37:32.163Z",
+          "shape": null,
+          "attribute_evidence": [
+            {
+              "attribute": "filter_attribute",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            },
+            {
+              "attribute": "filter_values",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            },
+            {
+              "attribute": "state_location",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            },
+            {
+              "attribute": "ui_control",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            },
+            {
+              "attribute": "state_hook",
+              "found": false,
+              "json_path": "NOT_FOUND",
+              "confidence": 0
+            }
+          ],
+          "source_file": "agentOutputs.wire",
+          "source_type": "agent_output",
+          "status": "FAILED",
+          "extraction_errors": [
+            "No filter-related code patterns found in 1 files"
+          ]
+        },
+        "raw_output_path": "agentOutputs.wire"
+      },
+      "target_input": {
+        "context_extraction": null,
+        "dependency_extraction": null,
+        "raw_context_path": "NOT_AVAILABLE"
+      },
+      "attribute_diffs": [
+        {
+          "attribute": "target_entity",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "filter_attribute",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "filter_values",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "filter_type",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "ui_control",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "default_value",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "state_location",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "triggers_refetch",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "client_side_only",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "state_hook",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        },
+        {
+          "attribute": "event_handler",
+          "status": "PRESERVED",
+          "similarity_score": 1,
+          "source_path": "NOT_FOUND",
+          "target_path": "NOT_FOUND",
+          "notes": "Attribute not present in either source or target"
+        }
+      ],
+      "attributes_preserved": 11,
+      "attributes_lost": 0,
+      "attributes_degraded": 0,
+      "loss": null
+    }
+  },
+  "loss_point": {
+    "identified": true,
+    "handoff_id": "H4",
+    "loss_class": "L0_TOTAL_OMISSION",
+    "evidence": {
+      "source_path": "agentOutputs.blocks",
+      "target_path": "agentOutputs.wire",
+      "source_value": {
+        "filter_values": [
+          "primary",
+          "secondary",
+          "danger"
+        ]
+      },
+      "target_value": null,
+      "explanation": "Filter capability shape found in blocks output but completely absent in wire output. Extraction status: source=PARTIAL, target=FAILED"
+    },
+    "summary": "LOSS IDENTIFIED at handoff H4: blocks → wire\nLoss Class: L0_TOTAL_OMISSION (CRITICAL)\nCondition: shape.present_in_source && !shape.present_in_target\nEvidence: Filter capability shape found in blocks output but completely absent in wire output. Extraction status: source=PARTIAL, target=FAILED\nLost Attributes: filter_values"
+  },
+  "trace_chain": [
+    {
+      "agent": "strategos",
+      "shape_present": false,
+      "attributes_present": [],
+      "attributes_missing": [
+        "target_entity",
+        "filter_attribute"
+      ],
+      "loss_from_previous": null
+    },
+    {
+      "agent": "scope",
+      "shape_present": false,
+      "attributes_present": [],
+      "attributes_missing": [
+        "target_entity",
+        "filter_attribute",
+        "filter_values"
+      ],
+      "loss_from_previous": null
+    },
+    {
+      "agent": "cartographer",
+      "shape_present": false,
+      "attributes_present": [],
+      "attributes_missing": [
+        "target_entity",
+        "filter_attribute",
+        "filter_values",
+        "ui_control"
+      ],
+      "loss_from_previous": null
+    },
+    {
+      "agent": "blocks",
+      "shape_present": true,
+      "attributes_present": [
+        "filter_values"
+      ],
+      "attributes_missing": [
+        "filter_attribute",
+        "ui_control",
+        "default_value"
+      ],
+      "loss_from_previous": null
+    },
+    {
+      "agent": "wire",
+      "shape_present": false,
+      "attributes_present": [],
+      "attributes_missing": [
+        "filter_attribute",
+        "filter_values",
+        "state_location",
+        "ui_control",
+        "state_hook"
+      ],
+      "loss_from_previous": "L0_TOTAL_OMISSION"
+    },
+    {
+      "agent": "pixel",
+      "shape_present": false,
+      "attributes_present": [],
+      "attributes_missing": [
+        "filter_attribute",
+        "filter_values",
+        "state_location",
+        "ui_control",
+        "state_hook"
+      ],
+      "loss_from_previous": null
+    }
+  ]
+}

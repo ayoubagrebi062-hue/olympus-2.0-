@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Input.tsx",
+      "content": "import React from 'react';\n\ninterface InputProps {\n  type?: 'email' | 'password' | 'text';\n  placeholder?: string;\n  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;\n  value: string;\n  error?: string;\n}\n\nconst Input: React.FC<InputProps> = ({ type = 'text', placeholder, onChange, value, error }) => {\n  const baseStyles = 'px-3 py-2 border rounded';\n  const errorStyles = error ? 'border-red-500' : 'border-gray-300';\n\n  return (\n    <div>\n      <input\n        type={type}\n        placeholder={placeholder}\n        onChange={onChange}\n        value={value}\n        className={`${baseStyles} ${errorStyles} focus:border-blue-500 hover:border-blue-300`}\n        aria-invalid={!!error}\n      />\n      {error && <p className=\"text-red-500 text-xs mt-1\">{error}</p>}\n    </div>\n  );\n};\n\nexport default Input;"
+    }
+  ],
+  "timestamp": 1768784320168,
+  "promptVersion": "v3.0.0"
+}

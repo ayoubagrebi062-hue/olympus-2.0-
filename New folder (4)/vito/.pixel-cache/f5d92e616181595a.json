@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Card.tsx",
+      "content": "// Card.tsx\nimport React from 'react';\n/**\n * Standard card component\n */\ninterface CardProps {\n  variant?: 'default' | 'highlighted';\n  children: React.ReactNode;\n  className?: string;\n}\nconst Card: React.FC<CardProps> = ({ variant = 'default', children, className }) => {\n  const classes = [\n    'flex',\n    'flex-col',\n    'rounded-lg',\n    'shadow-lg',\n    'p-4',\n    {\n      'bg-gray-100': variant === 'default',\n      'bg-blue-100': variant === 'highlighted',\n    },\n    className,\n  ].filter(Boolean).join(' ');\n\n  return (\n    <div className={classes}>\n      {children}\n    </div>\n  );\n};\nexport default Card;"
+    }
+  ],
+  "timestamp": 1768780078686,
+  "promptVersion": "v3.0.0"
+}

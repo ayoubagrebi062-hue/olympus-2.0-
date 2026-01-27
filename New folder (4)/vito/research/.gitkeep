@@ -1,0 +1,11 @@
+# OLYMPUS Research Track
+
+This directory is for EXPERIMENTAL code only.
+
+- Nothing here can ship
+- Nothing here is authoritative
+- See RESEARCH_CHARTER.md for rules
+- See RESEARCH_BOUNDARIES.md for limits
+- See ../GRADUATION_PROTOCOL.md for promotion path
+
+DO NOT import from this directory in canonical code.

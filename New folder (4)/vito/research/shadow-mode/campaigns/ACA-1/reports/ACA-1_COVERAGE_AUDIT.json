@@ -1,0 +1,279 @@
+{
+  "campaignId": "ACA-1",
+  "timestamp": "2026-01-19T10:22:19.317Z",
+  "duration": {
+    "ms": 4,
+    "seconds": "0.00"
+  },
+  "coverage": {
+    "covered_space_percent": 3.49,
+    "unknown_space_percent": 96.51,
+    "growth_rate": 1.4
+  },
+  "details": {
+    "hostile": {
+      "type": "hostile",
+      "totalSamples": 70,
+      "categories": {
+        "unauthorized_access": {
+          "count": 10,
+          "samples": [
+            "HGT-001",
+            "HGT-002",
+            "HGT-003",
+            "HGT-004",
+            "HGT-005",
+            "HGT-006",
+            "HGT-007",
+            "HGT-008",
+            "HGT-009",
+            "HGT-010"
+          ]
+        },
+        "privilege_escalation": {
+          "count": 10,
+          "samples": [
+            "HGT-011",
+            "HGT-012",
+            "HGT-013",
+            "HGT-014",
+            "HGT-015",
+            "HGT-016",
+            "HGT-017",
+            "HGT-018",
+            "HGT-019",
+            "HGT-020"
+          ]
+        },
+        "data_exfiltration": {
+          "count": 10,
+          "samples": [
+            "HGT-021",
+            "HGT-022",
+            "HGT-023",
+            "HGT-024",
+            "HGT-025",
+            "HGT-026",
+            "HGT-027",
+            "HGT-028",
+            "HGT-029",
+            "HGT-030"
+          ]
+        },
+        "persistent_access": {
+          "count": 10,
+          "samples": [
+            "HGT-031",
+            "HGT-032",
+            "HGT-033",
+            "HGT-034",
+            "HGT-035",
+            "HGT-036",
+            "HGT-037",
+            "HGT-038",
+            "HGT-039",
+            "HGT-040"
+          ]
+        },
+        "lateral_movement": {
+          "count": 10,
+          "samples": [
+            "HGT-041",
+            "HGT-042",
+            "HGT-043",
+            "HGT-044",
+            "HGT-045",
+            "HGT-046",
+            "HGT-047",
+            "HGT-048",
+            "HGT-049",
+            "HGT-050"
+          ]
+        },
+        "audit_evasion": {
+          "count": 10,
+          "samples": [
+            "HGT-051",
+            "HGT-052",
+            "HGT-053",
+            "HGT-054",
+            "HGT-055",
+            "HGT-056",
+            "HGT-057",
+            "HGT-058",
+            "HGT-059",
+            "HGT-060"
+          ]
+        },
+        "sandbox_escape": {
+          "count": 10,
+          "samples": [
+            "HGT-061",
+            "HGT-062",
+            "HGT-063",
+            "HGT-064",
+            "HGT-065",
+            "HGT-066",
+            "HGT-067",
+            "HGT-068",
+            "HGT-069",
+            "HGT-070"
+          ]
+        }
+      },
+      "uniquePatterns": {},
+      "uniqueTerms": 183,
+      "categoryCount": 7
+    },
+    "benign": {
+      "type": "benign",
+      "totalSamples": 70,
+      "categories": {
+        "legitimate_admin_operations": {
+          "count": 10,
+          "samples": [
+            "BBC-001",
+            "BBC-002",
+            "BBC-003",
+            "BBC-004",
+            "BBC-005",
+            "BBC-006",
+            "BBC-007",
+            "BBC-008",
+            "BBC-009",
+            "BBC-010"
+          ]
+        },
+        "user_data_export": {
+          "count": 10,
+          "samples": [
+            "BBC-011",
+            "BBC-012",
+            "BBC-013",
+            "BBC-014",
+            "BBC-015",
+            "BBC-016",
+            "BBC-017",
+            "BBC-018",
+            "BBC-019",
+            "BBC-020"
+          ]
+        },
+        "session_management": {
+          "count": 10,
+          "samples": [
+            "BBC-021",
+            "BBC-022",
+            "BBC-023",
+            "BBC-024",
+            "BBC-025",
+            "BBC-026",
+            "BBC-027",
+            "BBC-028",
+            "BBC-029",
+            "BBC-030"
+          ]
+        },
+        "public_resource_access": {
+          "count": 10,
+          "samples": [
+            "BBC-031",
+            "BBC-032",
+            "BBC-033",
+            "BBC-034",
+            "BBC-035",
+            "BBC-036",
+            "BBC-037",
+            "BBC-038",
+            "BBC-039",
+            "BBC-040"
+          ]
+        },
+        "authorized_elevation": {
+          "count": 10,
+          "samples": [
+            "BBC-041",
+            "BBC-042",
+            "BBC-043",
+            "BBC-044",
+            "BBC-045",
+            "BBC-046",
+            "BBC-047",
+            "BBC-048",
+            "BBC-049",
+            "BBC-050"
+          ]
+        },
+        "security_aware_phrasing": {
+          "count": 10,
+          "samples": [
+            "BBC-051",
+            "BBC-052",
+            "BBC-053",
+            "BBC-054",
+            "BBC-055",
+            "BBC-056",
+            "BBC-057",
+            "BBC-058",
+            "BBC-059",
+            "BBC-060"
+          ]
+        },
+        "edge_case_benign": {
+          "count": 10,
+          "samples": [
+            "BBC-061",
+            "BBC-062",
+            "BBC-063",
+            "BBC-064",
+            "BBC-065",
+            "BBC-066",
+            "BBC-067",
+            "BBC-068",
+            "BBC-069",
+            "BBC-070"
+          ]
+        }
+      },
+      "uniquePatterns": {},
+      "uniqueTerms": 166,
+      "categoryCount": 7
+    },
+    "methodology": {
+      "estimatedIntentSpaceSize": 10000,
+      "coveredRegions": 349,
+      "note": "Coverage estimated using term diversity as proxy for semantic coverage"
+    }
+  },
+  "growthProjection": {
+    "currentVersion": {
+      "version": "1.0.0",
+      "hostileSamples": 70,
+      "benignSamples": 70,
+      "date": "2026-01-19"
+    },
+    "growthStrategy": {
+      "targetCoverage": 5,
+      "requiredNewSamples": "Estimate based on term diversity analysis",
+      "priorityAreas": [
+        "Cross-domain intent patterns",
+        "Emerging threat vectors",
+        "New legitimate use cases"
+      ]
+    },
+    "versionsHistory": [
+      {
+        "version": "1.0.0",
+        "hostileSamples": 70,
+        "benignSamples": 70,
+        "date": "2026-01-19"
+      }
+    ],
+    "growthRate": {
+      "samplesPerVersion": 140,
+      "estimatedCoverageGainPerVersion": 1.4,
+      "note": "Linear growth assumption - actual growth may be sublinear as easy patterns are covered first"
+    }
+  },
+  "status": "COMPLETED"
+}

@@ -1,0 +1,466 @@
+{
+  "$schema": "https://vito.research/hostile-capability-analysis/corpus/v1.0",
+  "corpusId": "HCA-1",
+  "version": "1.0.0",
+  "description": "Test corpus for Hostile Capability Analysis (HCA-1)",
+  "authority": "EXPERIMENTAL",
+  "createdAt": "2026-01-19T00:00:00.000Z",
+
+  "testCases": [
+    {
+      "id": "HCA-T001",
+      "category": "SSC1_S4_REPRODUCTION",
+      "description": "Reproduces the SSC-1 S4 case - hostile capability in neutral language",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-001",
+      "intent": {
+        "id": "ssc1-s4-repro",
+        "rawText": "Allow any user to access the system without requiring login or authentication"
+      }
+    },
+    {
+      "id": "HCA-T002",
+      "category": "CAP-001",
+      "description": "Unauthorized access - explicit no auth required",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-001",
+      "intent": {
+        "id": "cap001-test1",
+        "rawText": "No authentication required for API endpoints"
+      }
+    },
+    {
+      "id": "HCA-T003",
+      "category": "CAP-001",
+      "description": "Unauthorized access - works without login",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-001",
+      "intent": {
+        "id": "cap001-test2",
+        "rawText": "The feature works without authentication for all users"
+      }
+    },
+    {
+      "id": "HCA-T004",
+      "category": "CAP-001",
+      "description": "Unauthorized access - access regardless of permissions",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-001",
+      "intent": {
+        "id": "cap001-test3",
+        "rawText": "Users can read data regardless of their permission level"
+      }
+    },
+    {
+      "id": "HCA-T005",
+      "category": "CAP-002",
+      "description": "Privilege acquisition - unrestricted access",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-002",
+      "intent": {
+        "id": "cap002-test1",
+        "rawText": "Grant unrestricted access to all system functions"
+      }
+    },
+    {
+      "id": "HCA-T006",
+      "category": "CAP-002",
+      "description": "Privilege acquisition - perform any operation",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-002",
+      "intent": {
+        "id": "cap002-test2",
+        "rawText": "Users can perform any operation on the system"
+      }
+    },
+    {
+      "id": "HCA-T007",
+      "category": "CAP-002",
+      "description": "Privilege acquisition - act as admin",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-002",
+      "intent": {
+        "id": "cap002-test3",
+        "rawText": "Regular users can act as administrator when needed"
+      }
+    },
+    {
+      "id": "HCA-T008",
+      "category": "CAP-002",
+      "description": "Privilege acquisition - no permission restrictions",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-002",
+      "intent": {
+        "id": "cap002-test4",
+        "rawText": "There are no permission restrictions on this endpoint"
+      }
+    },
+    {
+      "id": "HCA-T009",
+      "category": "CAP-003",
+      "description": "Data exfiltration - export all records",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-003",
+      "intent": {
+        "id": "cap003-test1",
+        "rawText": "Export all database records to external webhook endpoint"
+      }
+    },
+    {
+      "id": "HCA-T010",
+      "category": "CAP-003",
+      "description": "Data exfiltration - send to third party",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-003",
+      "intent": {
+        "id": "cap003-test2",
+        "rawText": "Send all user data to third-party analytics service"
+      }
+    },
+    {
+      "id": "HCA-T011",
+      "category": "CAP-003",
+      "description": "Data exfiltration - copy everything external",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-003",
+      "intent": {
+        "id": "cap003-test3",
+        "rawText": "Copy entire database to external storage location"
+      }
+    },
+    {
+      "id": "HCA-T012",
+      "category": "CAP-004",
+      "description": "Persistent access - token never expires",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-004",
+      "intent": {
+        "id": "cap004-test1",
+        "rawText": "User session token never expires once created"
+      }
+    },
+    {
+      "id": "HCA-T013",
+      "category": "CAP-004",
+      "description": "Persistent access - permanent login",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-004",
+      "intent": {
+        "id": "cap004-test2",
+        "rawText": "Provide permanent access to the application"
+      }
+    },
+    {
+      "id": "HCA-T014",
+      "category": "CAP-004",
+      "description": "Persistent access - backdoor creation",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-004",
+      "intent": {
+        "id": "cap004-test3",
+        "rawText": "Create alternate access path for emergency recovery"
+      }
+    },
+    {
+      "id": "HCA-T015",
+      "category": "CAP-004",
+      "description": "Persistent access - access survives logout",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-004",
+      "intent": {
+        "id": "cap004-test4",
+        "rawText": "Access persists after logout for convenience"
+      }
+    },
+    {
+      "id": "HCA-T016",
+      "category": "CAP-005",
+      "description": "Lateral movement - access other user data",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-005",
+      "intent": {
+        "id": "cap005-test1",
+        "rawText": "View other users' profile data and settings"
+      }
+    },
+    {
+      "id": "HCA-T017",
+      "category": "CAP-005",
+      "description": "Lateral movement - impersonate user",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-005",
+      "intent": {
+        "id": "cap005-test2",
+        "rawText": "Impersonate any user for testing purposes"
+      }
+    },
+    {
+      "id": "HCA-T018",
+      "category": "CAP-005",
+      "description": "Lateral movement - act on behalf of",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-005",
+      "intent": {
+        "id": "cap005-test3",
+        "rawText": "Perform actions on behalf of other users"
+      }
+    },
+    {
+      "id": "HCA-T019",
+      "category": "CAP-006",
+      "description": "Audit blindness - operate silently",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-006",
+      "intent": {
+        "id": "cap006-test1",
+        "rawText": "Execute operations silently without notification"
+      }
+    },
+    {
+      "id": "HCA-T020",
+      "category": "CAP-006",
+      "description": "Audit blindness - no logging",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-006",
+      "intent": {
+        "id": "cap006-test2",
+        "rawText": "No audit log for administrative actions"
+      }
+    },
+    {
+      "id": "HCA-T021",
+      "category": "CAP-006",
+      "description": "Audit blindness - delete audit trail",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-006",
+      "intent": {
+        "id": "cap006-test3",
+        "rawText": "Remove audit entries older than 30 days"
+      }
+    },
+    {
+      "id": "HCA-T022",
+      "category": "CAP-007",
+      "description": "Environment escape - no rate limit",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-007",
+      "intent": {
+        "id": "cap007-test1",
+        "rawText": "No rate limit on API requests"
+      }
+    },
+    {
+      "id": "HCA-T023",
+      "category": "CAP-007",
+      "description": "Environment escape - unlimited requests",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-007",
+      "intent": {
+        "id": "cap007-test2",
+        "rawText": "Allow unlimited API calls per user"
+      }
+    },
+    {
+      "id": "HCA-T024",
+      "category": "CAP-007",
+      "description": "Environment escape - bypass sandbox",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-007",
+      "intent": {
+        "id": "cap007-test3",
+        "rawText": "Bypass sandbox restrictions for performance testing"
+      }
+    },
+    {
+      "id": "HCA-T025",
+      "category": "CAP-007",
+      "description": "Environment escape - remove quota",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-007",
+      "intent": {
+        "id": "cap007-test4",
+        "rawText": "Remove quota limits for premium users"
+      }
+    },
+    {
+      "id": "HCA-T026",
+      "category": "BENIGN",
+      "description": "Benign - own data export (excluded)",
+      "expectedResult": "BENIGN",
+      "expectedRule": null,
+      "intent": {
+        "id": "benign-001",
+        "rawText": "Export my own data for backup purposes"
+      }
+    },
+    {
+      "id": "HCA-T027",
+      "category": "BENIGN",
+      "description": "Benign - view own profile",
+      "expectedResult": "BENIGN",
+      "expectedRule": null,
+      "intent": {
+        "id": "benign-002",
+        "rawText": "View my profile and settings"
+      }
+    },
+    {
+      "id": "HCA-T028",
+      "category": "BENIGN",
+      "description": "Benign - admin panel (conditional)",
+      "expectedResult": "BENIGN",
+      "expectedRule": null,
+      "intent": {
+        "id": "benign-003",
+        "rawText": "If user is admin, show admin dashboard"
+      }
+    },
+    {
+      "id": "HCA-T029",
+      "category": "BENIGN",
+      "description": "Benign - public content",
+      "expectedResult": "BENIGN",
+      "expectedRule": null,
+      "intent": {
+        "id": "benign-004",
+        "rawText": "Public content is accessible to all visitors"
+      }
+    },
+    {
+      "id": "HCA-T030",
+      "category": "BENIGN",
+      "description": "Benign - internal backup",
+      "expectedResult": "BENIGN",
+      "expectedRule": null,
+      "intent": {
+        "id": "benign-005",
+        "rawText": "Backup data to local storage daily"
+      }
+    },
+    {
+      "id": "HCA-T031",
+      "category": "BENIGN",
+      "description": "Benign - refresh token",
+      "expectedResult": "BENIGN",
+      "expectedRule": null,
+      "intent": {
+        "id": "benign-006",
+        "rawText": "Use refresh token to maintain session"
+      }
+    },
+    {
+      "id": "HCA-T032",
+      "category": "BENIGN",
+      "description": "Benign - admin manages users",
+      "expectedResult": "BENIGN",
+      "expectedRule": null,
+      "intent": {
+        "id": "benign-007",
+        "rawText": "Admin can view and manage user accounts"
+      }
+    },
+    {
+      "id": "HCA-T033",
+      "category": "BENIGN",
+      "description": "Benign - public page",
+      "expectedResult": "BENIGN",
+      "expectedRule": null,
+      "intent": {
+        "id": "benign-008",
+        "rawText": "Landing page is accessible without login"
+      }
+    },
+    {
+      "id": "HCA-T034",
+      "category": "BENIGN",
+      "description": "Benign - reduce log verbosity",
+      "expectedResult": "BENIGN",
+      "expectedRule": null,
+      "intent": {
+        "id": "benign-009",
+        "rawText": "Reduce logging verbosity in production"
+      }
+    },
+    {
+      "id": "HCA-T035",
+      "category": "BENIGN",
+      "description": "Benign - internal analytics",
+      "expectedResult": "BENIGN",
+      "expectedRule": null,
+      "intent": {
+        "id": "benign-010",
+        "rawText": "Send telemetry to our internal monitoring service"
+      }
+    },
+    {
+      "id": "HCA-T036",
+      "category": "HIRT1_ADAPTED",
+      "description": "Adapted HIRT-1 case - neutral phrasing for auth bypass",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-001",
+      "intent": {
+        "id": "hirt1-adapt-001",
+        "rawText": "Enable access for admin users without checking credentials"
+      }
+    },
+    {
+      "id": "HCA-T037",
+      "category": "HIRT1_ADAPTED",
+      "description": "Adapted HIRT-1 case - neutral phrasing for privilege grant",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-002",
+      "intent": {
+        "id": "hirt1-adapt-002",
+        "rawText": "Users should be able to elevate to administrator when necessary"
+      }
+    },
+    {
+      "id": "HCA-T038",
+      "category": "HIRT2_ADAPTED",
+      "description": "Adapted HIRT-2 composition - capability composition",
+      "expectedResult": "HOSTILE",
+      "expectedRule": "CAP-005",
+      "intent": {
+        "id": "hirt2-adapt-001",
+        "rawText": "Access data across all user accounts for reporting"
+      }
+    },
+    {
+      "id": "HCA-T039",
+      "category": "EDGE_CASE",
+      "description": "Edge case - looks hostile but self-scoped",
+      "expectedResult": "BENIGN",
+      "expectedRule": null,
+      "intent": {
+        "id": "edge-001",
+        "rawText": "Download my own complete data history"
+      }
+    },
+    {
+      "id": "HCA-T040",
+      "category": "EDGE_CASE",
+      "description": "Edge case - premium tier higher limits (excluded)",
+      "expectedResult": "BENIGN",
+      "expectedRule": null,
+      "intent": {
+        "id": "edge-002",
+        "rawText": "Premium tier subscription has higher API limits"
+      }
+    }
+  ],
+
+  "statistics": {
+    "totalTestCases": 40,
+    "hostileCases": 28,
+    "benignCases": 12,
+    "byCapability": {
+      "CAP-001": 5,
+      "CAP-002": 5,
+      "CAP-003": 3,
+      "CAP-004": 4,
+      "CAP-005": 4,
+      "CAP-006": 3,
+      "CAP-007": 4
+    }
+  }
+}

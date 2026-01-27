@@ -1,0 +1,57 @@
+{
+  "version": "1.0.0",
+  "created_at": "2026-01-19T13:44:04.843Z",
+  "last_record_at": "2026-01-19T20:07:42.299Z",
+  "records": [
+    {
+      "record_id": "NE-mkl7uvwa-kpmk",
+      "run_id": "NE-1768830244843",
+      "timestamp": "2026-01-19T13:44:04.858Z",
+      "doomed_fingerprint": "29cc51ed1a8631a3",
+      "candidates_enumerated": 0,
+      "survivability_results": [],
+      "necessary_future": null,
+      "no_survivable_future": true,
+      "extinction_reason": "No MCCS candidates available from OCIC.",
+      "enforcement_action": "EXTINCTION_DETECTED",
+      "immutable": true,
+      "append_only": true
+    },
+    {
+      "record_id": "NE-mkl8z51t-byhf",
+      "run_id": "ICE-1768832122946",
+      "timestamp": "2026-01-19T14:15:22.961Z",
+      "doomed_fingerprint": "29cc51ed1a8631a3",
+      "candidates_enumerated": 0,
+      "survivability_results": [],
+      "necessary_future": null,
+      "no_survivable_future": true,
+      "extinction_reason": "No MCCS candidates available from OCIC.",
+      "enforcement_action": "EXTINCTION_DETECTED",
+      "immutable": true,
+      "append_only": true
+    },
+    {
+      "record_id": "NE-mkllk89n-syyc",
+      "run_id": "CIN-1768853262278",
+      "timestamp": "2026-01-19T20:07:42.299Z",
+      "doomed_fingerprint": "29cc51ed1a8631a3",
+      "candidates_enumerated": 0,
+      "survivability_results": [],
+      "necessary_future": null,
+      "no_survivable_future": true,
+      "extinction_reason": "No MCCS candidates available from OCIC.",
+      "enforcement_action": "EXTINCTION_DETECTED",
+      "immutable": true,
+      "append_only": true
+    }
+  ],
+  "active_futures": {},
+  "stats": {
+    "total_analyses": 3,
+    "futures_declared": 0,
+    "extinctions_detected": 3,
+    "candidates_evaluated": 0,
+    "average_survivable_candidates": 0
+  }
+}

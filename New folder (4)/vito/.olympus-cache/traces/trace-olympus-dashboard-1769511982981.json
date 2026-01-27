@@ -1,0 +1,528 @@
+[
+  {
+    "traceId": "olympus-dashboard-1769511982981",
+    "spanId": "0d1628db4aa04690",
+    "operationName": "build:olympus-dashboard-1769511982981",
+    "startTime": 1769511982986,
+    "status": "IN_PROGRESS",
+    "metadata": {
+      "totalAgents": 32,
+      "tier": "GOLD",
+      "healthScore": 88
+    },
+    "children": [
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "9d20649cb837195b",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:oracle",
+        "agentId": "oracle",
+        "phase": "discovery",
+        "startTime": 1769511982993,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 9726
+        },
+        "children": [],
+        "endTime": 1769511992720,
+        "duration": 9727
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "f0b3698c8de23504",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:empathy",
+        "agentId": "empathy",
+        "phase": "discovery",
+        "startTime": 1769511992721,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 16172
+        },
+        "children": [],
+        "endTime": 1769512008898,
+        "duration": 16177
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "65b08df3bfb7ac0e",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:venture",
+        "agentId": "venture",
+        "phase": "discovery",
+        "startTime": 1769512008900,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769512008908,
+        "duration": 8
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "09d23bec4ca00a99",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:strategos",
+        "agentId": "strategos",
+        "phase": "discovery",
+        "startTime": 1769512008910,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 19812
+        },
+        "children": [],
+        "endTime": 1769512028723,
+        "duration": 19813
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "7ae7ea9e6c6375f1",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:scope",
+        "agentId": "scope",
+        "phase": "discovery",
+        "startTime": 1769512028724,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 13482
+        },
+        "children": [],
+        "endTime": 1769512042207,
+        "duration": 13483
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "6b5ed9211c762d69",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:psyche",
+        "agentId": "psyche",
+        "phase": "conversion",
+        "startTime": 1769512042209,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769512042212,
+        "duration": 3
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "bb65b0e559e3880a",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:scribe",
+        "agentId": "scribe",
+        "phase": "conversion",
+        "startTime": 1769512042213,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 86036
+        },
+        "children": [],
+        "endTime": 1769512128250,
+        "duration": 86037
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "a94ce6490ddc28c8",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:architect_conversion",
+        "agentId": "architect_conversion",
+        "phase": "conversion",
+        "startTime": 1769512128250,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 26359
+        },
+        "children": [],
+        "endTime": 1769512154611,
+        "duration": 26361
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "972466f54be92359",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:conversion_judge",
+        "agentId": "conversion_judge",
+        "phase": "conversion",
+        "startTime": 1769512154613,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769512154616,
+        "duration": 3
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "4d3f84eb383a36e4",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:palette",
+        "agentId": "palette",
+        "phase": "design",
+        "startTime": 1769512154619,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 55101
+        },
+        "children": [],
+        "endTime": 1769512209723,
+        "duration": 55104
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "e058d2986ebaa389",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:grid",
+        "agentId": "grid",
+        "phase": "design",
+        "startTime": 1769512209724,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769512209731,
+        "duration": 7
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "2ecf9f8a05f63e6f",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:blocks",
+        "agentId": "blocks",
+        "phase": "design",
+        "startTime": 1769512209733,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 30258
+        },
+        "children": [],
+        "endTime": 1769512239992,
+        "duration": 30259
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "a17bd624774851b1",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:cartographer",
+        "agentId": "cartographer",
+        "phase": "design",
+        "startTime": 1769512239993,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 10679
+        },
+        "children": [],
+        "endTime": 1769512250674,
+        "duration": 10681
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "bcb05371d64e0823",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:flow",
+        "agentId": "flow",
+        "phase": "design",
+        "startTime": 1769512250675,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769512250679,
+        "duration": 4
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "7312ff37d91b249a",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:artist",
+        "agentId": "artist",
+        "phase": "design",
+        "startTime": 1769512250680,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 15443
+        },
+        "children": [],
+        "endTime": 1769512266124,
+        "duration": 15444
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "5270b6ae4dc871cf",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:archon",
+        "agentId": "archon",
+        "phase": "architecture",
+        "startTime": 1769512266127,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 21346
+        },
+        "children": [],
+        "endTime": 1769512287474,
+        "duration": 21347
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "7f299f5e55020161",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:datum",
+        "agentId": "datum",
+        "phase": "architecture",
+        "startTime": 1769512287474,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 52033
+        },
+        "children": [],
+        "endTime": 1769512339508,
+        "duration": 52034
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "11a8ac22ea272905",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:nexus",
+        "agentId": "nexus",
+        "phase": "architecture",
+        "startTime": 1769512339508,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 44515
+        },
+        "children": [],
+        "endTime": 1769512384023,
+        "duration": 44515
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "2210e93e08e3e391",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:forge",
+        "agentId": "forge",
+        "phase": "architecture",
+        "startTime": 1769512384023,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 36855
+        },
+        "children": [],
+        "endTime": 1769512420878,
+        "duration": 36855
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "9aaac3ebeeffedef",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:sentinel",
+        "agentId": "sentinel",
+        "phase": "architecture",
+        "startTime": 1769512420878,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 22172
+        },
+        "children": [],
+        "endTime": 1769512443051,
+        "duration": 22173
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "351046594b8d28f3",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:atlas",
+        "agentId": "atlas",
+        "phase": "architecture",
+        "startTime": 1769512443051,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769512443054,
+        "duration": 3
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "491a5c18ebb6cb6b",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:pixel",
+        "agentId": "pixel",
+        "phase": "frontend",
+        "startTime": 1769512443055,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 36940
+        },
+        "children": [],
+        "endTime": 1769512479996,
+        "duration": 36941
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "6a01df4923c280f8",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:wire",
+        "agentId": "wire",
+        "phase": "frontend",
+        "startTime": 1769512479996,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 23991
+        },
+        "children": [],
+        "endTime": 1769512503988,
+        "duration": 23992
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "5b5ebdca6c36a0f6",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:polish",
+        "agentId": "polish",
+        "phase": "frontend",
+        "startTime": 1769512503988,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 8427
+        },
+        "children": [],
+        "endTime": 1769512512416,
+        "duration": 8428
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "0681709affc52915",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:engine",
+        "agentId": "engine",
+        "phase": "backend",
+        "startTime": 1769512517907,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 21051
+        },
+        "children": [],
+        "endTime": 1769512538959,
+        "duration": 21052
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "c9ab4a7b904d4f4b",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:gateway",
+        "agentId": "gateway",
+        "phase": "backend",
+        "startTime": 1769512538959,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 9308
+        },
+        "children": [],
+        "endTime": 1769512548268,
+        "duration": 9309
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "53f4ff85caf286e5",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:keeper",
+        "agentId": "keeper",
+        "phase": "backend",
+        "startTime": 1769512538960,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769512538960,
+        "duration": 0
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "a3a9960f27ffc348",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:cron",
+        "agentId": "cron",
+        "phase": "backend",
+        "startTime": 1769512538960,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769512538961,
+        "duration": 1
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "d6eceffa8bc111c9",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:bridge",
+        "agentId": "bridge",
+        "phase": "integration",
+        "startTime": 1769512548269,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769512548271,
+        "duration": 2
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "7d0d3f83b5d530df",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:sync",
+        "agentId": "sync",
+        "phase": "integration",
+        "startTime": 1769512548271,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769512548272,
+        "duration": 1
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "84da847a225da571",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:notify",
+        "agentId": "notify",
+        "phase": "integration",
+        "startTime": 1769512548272,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769512548273,
+        "duration": 1
+      },
+      {
+        "traceId": "olympus-dashboard-1769511982981",
+        "spanId": "c3e9207916c6970d",
+        "parentSpanId": "0d1628db4aa04690",
+        "operationName": "agent:search",
+        "agentId": "search",
+        "phase": "integration",
+        "startTime": 1769512548273,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769512548274,
+        "duration": 1
+      }
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Toast.tsx",
+      "content": "// src/components/Toast.tsx\n\nimport * as React from 'react';\nimport { motion, AnimatePresence } from 'framer-motion';\nimport { cn } from '@/lib/utils';\nimport { X } from 'lucide-react';\n\ninterface ToastProps {\n  variant: 'success' | 'error' | 'info';\n  message: string;\n  onDismiss: () => void;\n  isVisible: boolean;\n  duration?: number;\n}\n\nexport const Toast: React.FC<ToastProps> = ({ variant, message, onDismiss, isVisible, duration = 3000 }) => {\n  const [isVisibleState, setIsVisibleState] = React.useState(isVisible);\n\n  React.useEffect(() => {\n    if (isVisible) {\n      setIsVisibleState(true);\n      const timer = setTimeout(() => {\n        setIsVisibleState(false);\n        onDismiss();\n      }, duration);\n      return () => clearTimeout(timer);\n    }\n  }, [isVisible, onDismiss, duration]);\n\n  const handleDismiss = () => {\n    setIsVisibleState(false);\n    onDismiss();\n  };\n\n  return (\n    <AnimatePresence>\n      {isVisibleState && (\n        <motion.div\n          className={cn(\n            'fixed bottom-4 right-4 rounded-lg shadow-lg transition-opacity duration-300',\n            {\n              'bg-success text-white': variant === 'success',\n              'bg-error text-white': variant === 'error',\n              'bg-info text-white': variant === 'info',\n            }\n          )}\n          role=\"alert\"\n          aria-live=\"assertive\"\n          aria-atomic={true}\n          initial={{ opacity: 0 }}\n          animate={{ opacity: 1 }}\n          exit={{ opacity: 0 }}\n        >\n          <div className=\"flex items-center justify-between p-3\">\n            <span>{message}</span>\n            <button onClick={handleDismiss} aria-label=\"Dismiss\" className=\"ml-2\"> \n              <X className=\"h-4 w-4\" />\n            </button>\n          </div>\n        </motion.div>\n      )}\n    </AnimatePresence>\n  );\n};\n\nexport default Toast;"
+    }
+  ],
+  "timestamp": 1769473245723,
+  "promptVersion": "v3.0.0"
+}

@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Card.tsx",
+      "content": "import React, { useState } from 'react';\nimport PropTypes from 'prop-types';\n\n/**\n * Card component\n *\n * @param {string} title - The title of the card.\n * @param {React.ReactNode} children - The content of the card.\n * @param {React.ReactNode} actions - Actions to display at the bottom of the card.\n */\nconst Card = ({ title, children, actions }) => {\n  const [isHovered, setIsHovered] = useState(false);\n\n  return (\n    <div\n      className={`border rounded-lg p-4 transition-shadow ${isHovered ? 'shadow-lg' : 'shadow-sm'}`}\n      onMouseEnter={() => setIsHovered(true)}\n      onMouseLeave={() => setIsHovered(false)}\n      role=\"region\"  \n      aria-labelledby=\"card-title\"\n    >\n      <h2 id=\"card-title\" className=\"text-lg font-bold mb-2\">{title}</h2>\n      <div className=\"mb-4\">{children}</div>\n      <div className=\"flex justify-end gap-2\">{actions}</div>\n    </div>\n  );\n};\n\nCard.propTypes = {\n  title: PropTypes.string.isRequired,\n  children: PropTypes.node.isRequired,\n  actions: PropTypes.node,\n};\n\nCard.defaultProps = {\n  actions: null,\n};\n\nexport default Card;"
+    }
+  ],
+  "timestamp": 1768783335106,
+  "promptVersion": "v3.0.0"
+}

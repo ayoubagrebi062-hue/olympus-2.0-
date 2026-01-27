@@ -1,0 +1,110 @@
+{
+  "$schema": "https://olympus.canonical/intent-fates/v2.1",
+  "buildId": "exemplar-2026-01-19-canonical",
+  "timestamp": "2026-01-19T10:05:20.567Z",
+
+  "allowsShip": true,
+  "blockReason": null,
+  "hasEvolutionViolation": false,
+
+  "summary": {
+    "total": 5,
+    "accepted": 5,
+    "acceptedWithDebt": 0,
+    "quarantined": 0,
+    "forbidden": 0
+  },
+
+  "fates": [
+    {
+      "intentId": "I-001",
+      "requirement": "When user clicks 'Add to Cart' button on a product card, the product is added to the cart state and the cart icon badge updates to show the new total item count.",
+      "priority": "critical",
+      "fate": "ACCEPTED",
+      "reason": "All axes present: trigger (click button), state (cart update), outcome (badge update). High satisfaction score.",
+      "explanation": "Intent fully specifies trigger, state mutation, and observable outcome. No ambiguity detected.",
+      "metrics": {
+        "uvdScore": 0.92,
+        "cost": 0.15,
+        "trustScore": 0.95,
+        "stabilityImpact": 0.02
+      },
+      "previousFate": null,
+      "quarantineStrikes": 0,
+      "wasSelected": true
+    },
+    {
+      "intentId": "I-002",
+      "requirement": "The product list page displays products in a 3-column grid on desktop (viewport > 1024px) and a single column on mobile (viewport < 768px).",
+      "priority": "high",
+      "fate": "ACCEPTED",
+      "reason": "Conditional trigger (breakpoints), layout state, specific measurable outcome (column count).",
+      "explanation": "Intent provides specific breakpoint values and expected layout behavior.",
+      "metrics": {
+        "uvdScore": 0.85,
+        "cost": 0.10,
+        "trustScore": 0.92,
+        "stabilityImpact": 0.01
+      },
+      "previousFate": null,
+      "quarantineStrikes": 0,
+      "wasSelected": true
+    },
+    {
+      "intentId": "I-003",
+      "requirement": "When user enters text in the search field, a debounced search (300ms delay) filters the product list to show only products whose name contains the search text (case-insensitive).",
+      "priority": "high",
+      "fate": "ACCEPTED",
+      "reason": "Explicit trigger (input + debounce), filter state, specific matching behavior.",
+      "explanation": "Intent specifies timing (300ms), matching logic (contains, case-insensitive), and outcome.",
+      "metrics": {
+        "uvdScore": 0.88,
+        "cost": 0.12,
+        "trustScore": 0.90,
+        "stabilityImpact": 0.02
+      },
+      "previousFate": null,
+      "quarantineStrikes": 0,
+      "wasSelected": true
+    },
+    {
+      "intentId": "I-004",
+      "requirement": "Each product card displays: product image (200x200px), product name (max 2 lines with ellipsis), price in USD format ($X.XX), and 'Add to Cart' button.",
+      "priority": "medium",
+      "fate": "ACCEPTED",
+      "reason": "Enumerated elements with specific constraints (dimensions, format, truncation).",
+      "explanation": "Intent provides specific dimensions, formatting rules, and element enumeration.",
+      "metrics": {
+        "uvdScore": 0.78,
+        "cost": 0.08,
+        "trustScore": 0.88,
+        "stabilityImpact": 0.01
+      },
+      "previousFate": null,
+      "quarantineStrikes": 0,
+      "wasSelected": true
+    },
+    {
+      "intentId": "I-005",
+      "requirement": "When cart is empty, the cart page displays 'Your cart is empty' message with a 'Continue Shopping' link that navigates to /products.",
+      "priority": "medium",
+      "fate": "ACCEPTED",
+      "reason": "Conditional trigger (empty cart), specific message content, specific navigation target.",
+      "explanation": "Intent provides exact text, link behavior, and navigation destination.",
+      "metrics": {
+        "uvdScore": 0.72,
+        "cost": 0.05,
+        "trustScore": 0.92,
+        "stabilityImpact": 0.01
+      },
+      "previousFate": null,
+      "quarantineStrikes": 0,
+      "wasSelected": true
+    }
+  ],
+
+  "evolutions": [],
+  "evolutionViolations": [],
+
+  "historyPath": ".olympus/intent-fates.json"
+}

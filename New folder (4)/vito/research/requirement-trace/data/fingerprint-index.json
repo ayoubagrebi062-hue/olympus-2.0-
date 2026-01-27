@@ -1,0 +1,1143 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-01-19T13:31:52.761Z",
+  "entries": {
+    "d8f396331f544ffd": {
+      "transform_hash": "d8f396331f544ffd",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H1-mkl65aum",
+        "FP-RLL-1768827946094-H1-mkl6hm5w",
+        "FP-RLL-1768827955495-H1-mkl6htf2",
+        "FP-AEC-1768828528517-H1-mkl6u3kc",
+        "FP-AEC-1768828540507-H1-mkl6uctg",
+        "FP-IE-1768829512744-H1-mkl7f707"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.516Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.759Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 0,
+      "invariant_violations": 0,
+      "verdict": "SAFE"
+    },
+    "e2a7471510b61783": {
+      "transform_hash": "e2a7471510b61783",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H2-mkl65aum",
+        "FP-RLL-1768827946094-H2-mkl6hm5w",
+        "FP-RLL-1768827955495-H2-mkl6htf2",
+        "FP-AEC-1768828528517-H2-mkl6u3kc",
+        "FP-AEC-1768828540507-H2-mkl6uctg",
+        "FP-IE-1768829512744-H2-mkl7f707"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.516Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.759Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 0,
+      "invariant_violations": 0,
+      "verdict": "SAFE"
+    },
+    "4bab396cc5414f7e": {
+      "transform_hash": "4bab396cc5414f7e",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H3-mkl65aum",
+        "FP-RLL-1768827946094-H3-mkl6hm5w",
+        "FP-RLL-1768827955495-H3-mkl6htf2",
+        "FP-AEC-1768828528517-H3-mkl6u3kc",
+        "FP-AEC-1768828540507-H3-mkl6uctg",
+        "FP-IE-1768829512744-H3-mkl7f707"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.516Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.759Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 0,
+      "invariant_violations": 0,
+      "verdict": "SAFE"
+    },
+    "9d5e4cade68cb6e9": {
+      "transform_hash": "9d5e4cade68cb6e9",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H4-mkl65aum",
+        "FP-RLL-1768827946094-H4-mkl6hm5w",
+        "FP-RLL-1768827955495-H4-mkl6htf2",
+        "FP-AEC-1768828528517-H4-mkl6u3kc",
+        "FP-AEC-1768828540507-H4-mkl6uctg",
+        "FP-IE-1768829512744-H4-mkl7f707"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": false,
+          "shapes_affected": [
+            "FILTER_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": false,
+          "shapes_affected": [
+            "FILTER_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": false,
+          "shapes_affected": [
+            "FILTER_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": false,
+          "shapes_affected": [
+            "FILTER_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.516Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": false,
+          "shapes_affected": [
+            "FILTER_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.759Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": false,
+          "shapes_affected": [
+            "FILTER_CAPABILITY"
+          ]
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 6,
+      "invariant_violations": 0,
+      "verdict": "CAUSED_LOSS"
+    },
+    "1d133d005f306f7e": {
+      "transform_hash": "1d133d005f306f7e",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H5-mkl65aum",
+        "FP-RLL-1768827946094-H5-mkl6hm5w",
+        "FP-RLL-1768827955495-H5-mkl6htf2",
+        "FP-AEC-1768828528517-H5-mkl6u3kc",
+        "FP-AEC-1768828540507-H5-mkl6uctg",
+        "FP-IE-1768829512744-H5-mkl7f707"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.516Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.759Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 0,
+      "invariant_violations": 0,
+      "verdict": "SAFE"
+    },
+    "727c00bda8edf49c": {
+      "transform_hash": "727c00bda8edf49c",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H1-mkl65aum",
+        "FP-RLL-1768827946094-H1-mkl6hm5w",
+        "FP-RLL-1768827955495-H1-mkl6htf2",
+        "FP-AEC-1768828528517-H1-mkl6u3kc",
+        "FP-AEC-1768828540507-H1-mkl6uctg",
+        "FP-IE-1768829512744-H1-mkl7f707"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.516Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.759Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 0,
+      "invariant_violations": 0,
+      "verdict": "SAFE"
+    },
+    "40e52024d3f3115c": {
+      "transform_hash": "40e52024d3f3115c",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H2-mkl65aum",
+        "FP-RLL-1768827946094-H2-mkl6hm5w",
+        "FP-RLL-1768827955495-H2-mkl6htf2",
+        "FP-AEC-1768828528517-H2-mkl6u3kc",
+        "FP-AEC-1768828540507-H2-mkl6uctg",
+        "FP-IE-1768829512744-H2-mkl7f708"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.516Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.759Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 0,
+      "invariant_violations": 0,
+      "verdict": "SAFE"
+    },
+    "f281f025ff509057": {
+      "transform_hash": "f281f025ff509057",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H3-mkl65aum",
+        "FP-RLL-1768827946094-H3-mkl6hm5w",
+        "FP-RLL-1768827955495-H3-mkl6htf2",
+        "FP-AEC-1768828528517-H3-mkl6u3kc",
+        "FP-AEC-1768828540507-H3-mkl6uctg",
+        "FP-IE-1768829512744-H3-mkl7f708"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.516Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.760Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 0,
+      "invariant_violations": 0,
+      "verdict": "SAFE"
+    },
+    "b4923d4d8624a8c7": {
+      "transform_hash": "b4923d4d8624a8c7",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H4-mkl65aum",
+        "FP-RLL-1768827946094-H4-mkl6hm5w",
+        "FP-RLL-1768827955495-H4-mkl6htf2",
+        "FP-AEC-1768828528517-H4-mkl6u3kc",
+        "FP-AEC-1768828540507-H4-mkl6uctg",
+        "FP-IE-1768829512744-H4-mkl7f708"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": false,
+          "shapes_affected": [
+            "PAGINATION_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": false,
+          "shapes_affected": [
+            "PAGINATION_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": false,
+          "shapes_affected": [
+            "PAGINATION_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": false,
+          "shapes_affected": [
+            "PAGINATION_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.516Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": false,
+          "shapes_affected": [
+            "PAGINATION_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.760Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": false,
+          "shapes_affected": [
+            "PAGINATION_CAPABILITY"
+          ]
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 6,
+      "invariant_violations": 0,
+      "verdict": "CAUSED_LOSS"
+    },
+    "2fdb2b12f07f2a83": {
+      "transform_hash": "2fdb2b12f07f2a83",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H5-mkl65aum",
+        "FP-RLL-1768827946094-H5-mkl6hm5w",
+        "FP-RLL-1768827955495-H5-mkl6htf2",
+        "FP-AEC-1768828528517-H5-mkl6u3kc",
+        "FP-AEC-1768828540507-H5-mkl6ucth",
+        "FP-IE-1768829512744-H5-mkl7f708"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.516Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.760Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 0,
+      "invariant_violations": 0,
+      "verdict": "SAFE"
+    },
+    "5622ceff7fb6b720": {
+      "transform_hash": "5622ceff7fb6b720",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H1-mkl65aum",
+        "FP-RLL-1768827946094-H1-mkl6hm5w",
+        "FP-RLL-1768827955495-H1-mkl6htf2",
+        "FP-AEC-1768828528517-H1-mkl6u3kc",
+        "FP-AEC-1768828540507-H1-mkl6ucth",
+        "FP-IE-1768829512744-H1-mkl7f708"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.517Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.760Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 0,
+      "invariant_violations": 0,
+      "verdict": "SAFE"
+    },
+    "776e18f2d60d5f7c": {
+      "transform_hash": "776e18f2d60d5f7c",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H2-mkl65aum",
+        "FP-RLL-1768827946094-H2-mkl6hm5w",
+        "FP-RLL-1768827955495-H2-mkl6htf2",
+        "FP-AEC-1768828528517-H2-mkl6u3kc",
+        "FP-AEC-1768828540507-H2-mkl6ucth",
+        "FP-IE-1768829512744-H2-mkl7f708"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.517Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.760Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 0,
+      "invariant_violations": 0,
+      "verdict": "SAFE"
+    },
+    "dd48b4bc2ec4b8da": {
+      "transform_hash": "dd48b4bc2ec4b8da",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H3-mkl65aum",
+        "FP-RLL-1768827946094-H3-mkl6hm5w",
+        "FP-RLL-1768827955495-H3-mkl6htf2",
+        "FP-AEC-1768828528517-H3-mkl6u3kc",
+        "FP-AEC-1768828540507-H3-mkl6ucth",
+        "FP-IE-1768829512744-H3-mkl7f708"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": true,
+          "shapes_affected": [
+            "STATIC_DISPLAY_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": true,
+          "shapes_affected": [
+            "STATIC_DISPLAY_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": true,
+          "shapes_affected": [
+            "STATIC_DISPLAY_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": true,
+          "shapes_affected": [
+            "STATIC_DISPLAY_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.517Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": true,
+          "shapes_affected": [
+            "STATIC_DISPLAY_CAPABILITY"
+          ]
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.760Z",
+          "caused_loss": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "invariant_violated": true,
+          "shapes_affected": [
+            "STATIC_DISPLAY_CAPABILITY"
+          ]
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 6,
+      "invariant_violations": 6,
+      "verdict": "CAUSED_INVARIANT_VIOLATION"
+    },
+    "63b39291cfaf02b1": {
+      "transform_hash": "63b39291cfaf02b1",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H4-mkl65aum",
+        "FP-RLL-1768827946094-H4-mkl6hm5w",
+        "FP-RLL-1768827955495-H4-mkl6htf2",
+        "FP-AEC-1768828528517-H4-mkl6u3kc",
+        "FP-AEC-1768828540507-H4-mkl6ucth",
+        "FP-IE-1768829512744-H4-mkl7f708"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.517Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.760Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 0,
+      "invariant_violations": 0,
+      "verdict": "SAFE"
+    },
+    "95f3fe3732fcfa19": {
+      "transform_hash": "95f3fe3732fcfa19",
+      "fingerprint_ids": [
+        "FP-OCIC-1768827371559-H5-mkl65aum",
+        "FP-RLL-1768827946094-H5-mkl6hm5w",
+        "FP-RLL-1768827955495-H5-mkl6htf2",
+        "FP-AEC-1768828528517-H5-mkl6u3kc",
+        "FP-AEC-1768828540507-H5-mkl6ucth",
+        "FP-IE-1768829512744-H5-mkl7f708"
+      ],
+      "run_ids": [
+        "OCIC-1768827371559",
+        "RLL-1768827946094",
+        "RLL-1768827955495",
+        "AEC-1768828528517",
+        "AEC-1768828540507",
+        "IE-1768829512744"
+      ],
+      "outcomes": [
+        {
+          "run_id": "OCIC-1768827371559",
+          "timestamp": "2026-01-19T12:56:11.566Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827946094",
+          "timestamp": "2026-01-19T13:05:46.100Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "RLL-1768827955495",
+          "timestamp": "2026-01-19T13:05:55.502Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828528517",
+          "timestamp": "2026-01-19T13:15:28.524Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "AEC-1768828540507",
+          "timestamp": "2026-01-19T13:15:40.517Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        },
+        {
+          "run_id": "IE-1768829512744",
+          "timestamp": "2026-01-19T13:31:52.760Z",
+          "caused_loss": false,
+          "loss_class": null,
+          "invariant_violated": false,
+          "shapes_affected": []
+        }
+      ],
+      "total_occurrences": 6,
+      "loss_occurrences": 0,
+      "invariant_violations": 0,
+      "verdict": "SAFE"
+    }
+  },
+  "stats": {
+    "total_unique_hashes": 15,
+    "total_fingerprints_indexed": 90,
+    "hashes_with_loss": 3,
+    "hashes_with_invariant_violation": 1
+  }
+}

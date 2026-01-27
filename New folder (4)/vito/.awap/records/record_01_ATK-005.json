@@ -1,0 +1,34 @@
+{
+  "record_id": "exec_1768874928201_a2f647c1ec0711f4",
+  "attack_id": "ATK-005",
+  "execution_order": 1,
+  "status": "COMPLETED",
+  "outcome": "DETECTED",
+  "started_at": "2026-01-20T02:08:48.200Z",
+  "completed_at": "2026-01-20T02:08:48.201Z",
+  "duration_ms": 0,
+  "detection_latency_ms": 0,
+  "evidence_hashes": [
+    "9650d93ce077abb3af4c0a358a0fe8d1345330a76a80f74d9619805466fabfe0",
+    "087ab31d1864376e36473332cb10c8af9bd87120c8f2af350f3b34f8387003d9",
+    "2ab07431507481e5d5852a9fd83bff5cf3bc218f06dce06161957c24acce5a01",
+    "ff831b857387e2a283fa1f2af35c427ab6e8a5c53f1d899b96776b344c265eb0",
+    "c33c7a1ca770ba0fa14908df2aec3fb71e9c051a84ce96d82e4ba2a3c411a6f3",
+    "22b303bbd7a442799b342b6eaa0d226f8d0441b030239a0728100ed96809bdf4",
+    "2c857db3bae62019a2fb25972ecc04a9675c83de33df5d128d3abdb325f198d3",
+    "7e5023d3e95589e3fedab8e21b499f5807f931d4dd6e4dc61df4fed9b42308a2"
+  ],
+  "evidence_raw": [
+    "PASS: Malformed input 0 threw: CORRUPTED: null input",
+    "PASS: Malformed input 1 threw: CORRUPTED: null input",
+    "PASS: Malformed input 2 threw: CORRUPTED: missing required fields",
+    "PASS: Malformed input 3 threw: CORRUPTED: missing required fields",
+    "PASS: Malformed input 4 threw: CORRUPTED: missing required fields",
+    "PASS: Malformed input 5 threw: CORRUPTED: invalid witness structure",
+    "PASS: Malformed input 6 threw: CORRUPTED: non-object input",
+    "PASS: Malformed input 7 threw: CORRUPTED: missing required fields"
+  ],
+  "record_hash": "baf52d244700c560d8ef8cb15d5f59e1867fb3ed722751d9b4dd6889c32aba02",
+  "previous_hash": null,
+  "chain_position": 0
+}

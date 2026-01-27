@@ -1,0 +1,108 @@
+{
+  "declarationId": "GSI-001",
+  "timestamp": "2026-01-19T10:15:00.000Z",
+  "scope": "global",
+  "constitution": "SMC-1",
+  "enforcement": "REQUIRED",
+  "mutation": "FORBIDDEN",
+
+  "invariants": {
+    "INV-001": {
+      "id": "NO_HOSTILE_ADMISSION",
+      "name": "No Hostile Admission",
+      "class": "SAFETY_CRITICAL",
+      "description": "No intent classified as hostile by any ENFORCING layer may be admitted to execution",
+      "formalDefinition": "∀ intent i: (∃ layer L ∈ ENFORCING: L.classifies(i) = HOSTILE) → verdict(i) = REJECT",
+      "violationSeverity": "S4",
+      "enforcement": "BLOCKING",
+      "exceptions": "NONE",
+      "verifiedBy": ["SSC-3", "TIC-1"]
+    },
+
+    "INV-002": {
+      "id": "NO_UNEXPLAINED_VERDICT",
+      "name": "No Unexplained Verdict",
+      "class": "TRANSPARENCY",
+      "description": "Every verdict must have a complete causal chain from detection to decision",
+      "formalDefinition": "∀ verdict v: attribution(v) ≠ ∅ ∧ ∀ rule r ∈ triggered(v): explanation(r) ≠ ∅",
+      "violationSeverity": "S3",
+      "enforcement": "BLOCKING",
+      "exceptions": "NONE",
+      "verifiedBy": ["VAL-1 Attribution Layer"]
+    },
+
+    "INV-003": {
+      "id": "ORDER_INVARIANCE",
+      "name": "Order Invariance",
+      "class": "DETERMINISM",
+      "description": "Pipeline layer ordering must not affect final verdict",
+      "formalDefinition": "∀ intent i, ∀ permutation π of layers: verdict(pipeline(i)) = verdict(π(pipeline)(i))",
+      "violationSeverity": "S3",
+      "enforcement": "BLOCKING",
+      "exceptions": "NONE",
+      "verifiedBy": ["TIC-1"],
+      "note": "Verified for HCA-1, PIL-1, HIC-1 orderings"
+    },
+
+    "INV-004": {
+      "id": "CAPABILITY_MONOTONICITY",
+      "name": "Capability Monotonicity",
+      "class": "EVOLUTION_SAFETY",
+      "description": "Adding detection capabilities must not reduce detection coverage",
+      "formalDefinition": "∀ capability set C, C' where C ⊂ C': coverage(C') ≥ coverage(C)",
+      "violationSeverity": "S3",
+      "enforcement": "BLOCKING",
+      "exceptions": "NONE",
+      "verifiedBy": ["Regression campaigns"],
+      "note": "New rules may only expand detection, never contract"
+    },
+
+    "INV-005": {
+      "id": "EXPLANATION_ENTROPY_MINIMUM",
+      "name": "Explanation Entropy Minimum",
+      "class": "INTERPRETABILITY",
+      "description": "Explanation diversity must remain above threshold to prevent single-rule dominance",
+      "formalDefinition": "H(explanations) ≥ H_min where H_min = log2(|active_rules|) * 0.3",
+      "violationSeverity": "S2",
+      "enforcement": "WARNING_THEN_BLOCKING",
+      "exceptions": "NONE",
+      "verifiedBy": ["SSC-3 dominance check"],
+      "thresholds": {
+        "maxSingleRuleDominance": "35%",
+        "minEntropyRatio": 0.3
+      }
+    }
+  },
+
+  "compositionRules": {
+    "conjunction": "All invariants must hold simultaneously",
+    "precedence": "INV-001 > INV-002 > INV-003 > INV-004 > INV-005",
+    "onViolation": {
+      "S4": "IMMEDIATE_ABORT",
+      "S3": "ABORT_AND_ROLLBACK",
+      "S2": "WARNING_AND_REVIEW"
+    }
+  },
+
+  "verificationSchedule": {
+    "continuous": ["INV-001", "INV-002"],
+    "onDeployment": ["INV-003", "INV-004", "INV-005"],
+    "periodic": {
+      "frequency": "weekly",
+      "invariants": ["ALL"]
+    }
+  },
+
+  "artifacts": {
+    "ssc3": "campaigns/SSC-3/reports/SSC-3_EXECUTION_RESULTS.json",
+    "tic1": "campaigns/TIC-1/reports/TIC-1_EXECUTION_RESULTS.json",
+    "topologyFreeze": "topology/PIPELINE_TOPOLOGY_FREEZE.json"
+  },
+
+  "immutable": true,
+  "signOff": {
+    "declaredBy": "Safety Layer Validation Pipeline",
+    "declaredAt": "2026-01-19T10:15:00.000Z",
+    "constitutionCompliant": true
+  }
+}

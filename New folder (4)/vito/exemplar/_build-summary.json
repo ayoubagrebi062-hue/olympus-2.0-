@@ -1,0 +1,114 @@
+{
+  "$schema": "https://olympus.canonical/build-summary/v2.1",
+  "buildId": "exemplar-2026-01-19-canonical",
+  "timestamp": "2026-01-19T10:05:23.456Z",
+  "duration": "5234ms",
+
+  "olympusVersion": {
+    "olympusVersion": "2.1-canonical",
+    "governanceAuthority": "CANONICAL",
+    "pipelineSteps": 22,
+    "hostileTestsRequired": true,
+    "fateEvolutionEnabled": true,
+    "ctelEnabled": true,
+    "governanceModeEnabled": true,
+    "freezeStatus": "ACTIVE",
+    "buildTimestamp": "2026-01-19T10:05:23.456Z"
+  },
+
+  "verdict": {
+    "success": true,
+    "shipped": true,
+    "blockReason": null
+  },
+
+  "input": {
+    "description": "E-commerce product catalog with cart functionality",
+    "tier": "professional",
+    "intentsSubmitted": 5
+  },
+
+  "gates": {
+    "semantic": { "passed": true, "score": null },
+    "behavioral": { "passed": true, "score": 0.94 },
+    "causal": { "passed": true, "score": 0.92 },
+    "icg": { "passed": true, "score": 0.97 },
+    "era": { "passed": true, "score": 0.88 },
+    "ircl": { "passed": true, "score": null },
+    "itgcl": { "passed": true, "score": null },
+    "stability": { "passed": true, "score": 0.95 },
+    "hith": { "passed": true, "score": 1.0 },
+    "ial": { "passed": true, "score": 0.88 },
+    "uvdl": { "passed": true, "score": 0.82 },
+    "ige": { "passed": true, "score": null },
+    "fate": { "passed": true, "score": null },
+    "ctel": { "passed": true, "score": null },
+    "governance-harness": { "passed": true, "score": 1.0 }
+  },
+
+  "metrics": {
+    "wissd": {
+      "score": 97,
+      "threshold": 95,
+      "passed": true
+    },
+    "ssi": {
+      "score": 0.95,
+      "threshold": 0.70,
+      "passed": true
+    },
+    "uvd": {
+      "score": 0.82,
+      "threshold": 0.60,
+      "passed": true
+    },
+    "ias": {
+      "score": 0.88,
+      "threshold": 0.70,
+      "passed": true
+    }
+  },
+
+  "intents": {
+    "total": 5,
+    "satisfied": 5,
+    "partial": 0,
+    "unsatisfied": 0,
+    "critical": 1,
+    "criticalSatisfied": 1
+  },
+
+  "fates": {
+    "accepted": 5,
+    "acceptedWithDebt": 0,
+    "quarantined": 0,
+    "forbidden": 0
+  },
+
+  "hostile": {
+    "hithTotal": 15,
+    "hithBlocked": 15,
+    "hithLeaked": 0,
+    "aghTotal": 28,
+    "aghBlocked": 28,
+    "aghLeaked": 0
+  },
+
+  "constitutional": {
+    "articlesTested": 12,
+    "articlesViolated": 0,
+    "violations": []
+  },
+
+  "override": {
+    "applied": false,
+    "target": null,
+    "penalty": null
+  },
+
+  "artifacts": {
+    "truthArtifact": "WHY_THIS_SHIPPED.md",
+    "certificate": "_decision-certificate-exemplar.json",
+    "auditTrail": ".olympus/"
+  }
+}

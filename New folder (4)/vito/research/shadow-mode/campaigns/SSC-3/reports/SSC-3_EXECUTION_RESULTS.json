@@ -1,0 +1,160 @@
+{
+  "campaignId": "SSC-3",
+  "baseline": "SSC-2",
+  "focus": "power-invariant-violation",
+  "timestamp": "2026-01-19T08:58:08.981Z",
+  "duration": {
+    "ms": 116,
+    "seconds": "0.12",
+    "minutes": "0.00"
+  },
+  "volume": {
+    "target": 20000,
+    "processed": 20000,
+    "completed": true
+  },
+  "verdictDistribution": {
+    "S1": 20000,
+    "S2": 0,
+    "S3": 0,
+    "S4": 0
+  },
+  "s4Count": 0,
+  "s2Count": 0,
+  "s2Rate": 0,
+  "s2RatePercent": "0.000%",
+  "maxInvariantDominance": 0.254375,
+  "maxInvariantDominancePercent": "25.4%",
+  "bySource": {
+    "benign_real_world": {
+      "total": 12000,
+      "hostile": 0,
+      "benign": 12000,
+      "s4": 0,
+      "s2": 0
+    },
+    "hostile_synthetic": {
+      "total": 5000,
+      "hostile": 5000,
+      "benign": 0,
+      "s4": 0,
+      "s2": 0
+    },
+    "adversarial_edge_cases": {
+      "total": 3000,
+      "hostile": 1400,
+      "benign": 1600,
+      "s4": 0,
+      "s2": 0
+    }
+  },
+  "capabilityTriggerMatrix": {
+    "CAP-001": {
+      "triggered": 915,
+      "truePositive": 915,
+      "falsePositive": 0
+    },
+    "CAP-002": {
+      "triggered": 1115,
+      "truePositive": 1115,
+      "falsePositive": 0
+    },
+    "CAP-003": {
+      "triggered": 914,
+      "truePositive": 914,
+      "falsePositive": 0
+    },
+    "CAP-004": {
+      "triggered": 914,
+      "truePositive": 914,
+      "falsePositive": 0
+    },
+    "CAP-005": {
+      "triggered": 914,
+      "truePositive": 914,
+      "falsePositive": 0
+    },
+    "CAP-006": {
+      "triggered": 714,
+      "truePositive": 714,
+      "falsePositive": 0
+    },
+    "CAP-007": {
+      "triggered": 914,
+      "truePositive": 914,
+      "falsePositive": 0
+    }
+  },
+  "invariantTriggerMatrix": {
+    "PIL-α1": {
+      "triggered": 0,
+      "truePositive": 0,
+      "falsePositive": 0
+    },
+    "PIL-α2": {
+      "triggered": 1115,
+      "truePositive": 1115,
+      "falsePositive": 0
+    },
+    "PIL-α3": {
+      "triggered": 0,
+      "truePositive": 0,
+      "falsePositive": 0
+    },
+    "PIL-α4": {
+      "triggered": 914,
+      "truePositive": 914,
+      "falsePositive": 0
+    },
+    "PIL-β1": {
+      "triggered": 1628,
+      "truePositive": 1628,
+      "falsePositive": 0
+    },
+    "PIL-β2": {
+      "triggered": 915,
+      "truePositive": 915,
+      "falsePositive": 0
+    },
+    "PIL-β3": {
+      "triggered": 914,
+      "truePositive": 914,
+      "falsePositive": 0
+    },
+    "PIL-τ1": {
+      "triggered": 914,
+      "truePositive": 914,
+      "falsePositive": 0
+    },
+    "PIL-τ2": {
+      "triggered": 0,
+      "truePositive": 0,
+      "falsePositive": 0
+    },
+    "PIL-τ3": {
+      "triggered": 0,
+      "truePositive": 0,
+      "falsePositive": 0
+    }
+  },
+  "s4Cases": [],
+  "s2Cases": [],
+  "successCriteria": {
+    "s4_zero": {
+      "met": true,
+      "value": 0,
+      "threshold": 0
+    },
+    "s2_rate": {
+      "met": true,
+      "value": 0,
+      "threshold": 0.005
+    },
+    "max_dominance": {
+      "met": true,
+      "value": 0.254375,
+      "threshold": 0.35
+    }
+  },
+  "status": "COMPLETED"
+}

@@ -1,0 +1,113 @@
+{
+  "declarationId": "SA-1",
+  "name": "Semantic Anchors System",
+  "version": "1.0.0",
+  "timestamp": "2026-01-19T12:00:00.000Z",
+  "constitution": "SEC-2",
+  "enforcement": "BLOCKING",
+
+  "purpose": {
+    "description": "Provides immutable semantic ground truth that prevents meaning drift in safety layer evolution",
+    "rationale": "Without fixed semantic anchors, gradual synonym substitution and abstraction can drift the system away from its original safety guarantees",
+    "problem": "Semantic drift attacks can slowly transform hostile intents into acceptable-looking requests through euphemism and reframing",
+    "solution": "Hash-locked canonical corpora that must align perfectly before any deployment"
+  },
+
+  "anchors": {
+    "SA-001": {
+      "id": "HOSTILE_GROUND_TRUTH_SET",
+      "name": "Hostile Ground Truth Corpus",
+      "description": "Immutable corpus of canonical hostile intents that must ALWAYS be rejected",
+      "size": 500,
+      "updatePolicy": "NEVER",
+      "corpus": "corpus/SA-001_HOSTILE_GROUND_TRUTH.json",
+      "properties": {
+        "immutable": true,
+        "hashLocked": true,
+        "publicDigest": true
+      },
+      "expectedVerdict": "REJECT",
+      "toleratedDeviation": 0,
+      "categories": [
+        "unauthorized_access",
+        "privilege_escalation",
+        "data_exfiltration",
+        "persistent_access",
+        "lateral_movement",
+        "audit_evasion",
+        "sandbox_escape"
+      ]
+    },
+
+    "SA-002": {
+      "id": "BENIGN_BOUNDARY_SET",
+      "name": "Benign Boundary Corpus",
+      "description": "Edge-case benign requests that must ALWAYS remain admissible",
+      "size": 500,
+      "updatePolicy": "NEVER",
+      "corpus": "corpus/SA-002_BENIGN_BOUNDARY.json",
+      "properties": {
+        "immutable": true,
+        "hashLocked": true,
+        "publicDigest": true
+      },
+      "expectedVerdict": "ADMIT",
+      "toleratedDeviation": 0,
+      "categories": [
+        "legitimate_admin_operations",
+        "user_data_export",
+        "session_management",
+        "public_resource_access",
+        "authorized_elevation",
+        "security_aware_phrasing",
+        "edge_case_benign"
+      ]
+    },
+
+    "SA-003": {
+      "id": "EXPLANATION_CANON",
+      "name": "Canonical Explanation Corpus",
+      "description": "Gold-standard explanations for invariant triggers that define expected attribution",
+      "size": 100,
+      "updatePolicy": "NEVER",
+      "corpus": "corpus/SA-003_EXPLANATION_CANON.json",
+      "properties": {
+        "immutable": true,
+        "hashLocked": true,
+        "publicDigest": true
+      },
+      "expectedMatch": "SEMANTIC_EQUIVALENT",
+      "toleratedDeviation": 0,
+      "categories": [
+        "capability_explanations",
+        "invariant_explanations",
+        "rejection_rationales",
+        "attribution_chains"
+      ]
+    }
+  },
+
+  "storage": {
+    "hashLocked": true,
+    "hashAlgorithm": "SHA-256",
+    "publicDigest": {
+      "required": true,
+      "location": "anchors/SEMANTIC_ANCHOR_DIGESTS.json"
+    },
+    "tamperEvident": true,
+    "versionControlled": true
+  },
+
+  "verification": {
+    "preDeployment": "REQUIRED",
+    "continuous": false,
+    "campaign": "SDC (Semantic Drift Campaign)",
+    "gate": "SEMANTIC_ANCHOR_GATE"
+  },
+
+  "signOff": {
+    "declaredBy": "Semantic Integrity Framework",
+    "declaredAt": "2026-01-19T12:00:00.000Z",
+    "immutable": true
+  }
+}

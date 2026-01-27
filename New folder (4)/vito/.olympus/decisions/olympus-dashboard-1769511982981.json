@@ -1,0 +1,271 @@
+{
+  "tier": "professional",
+  "extractedAt": "2026-01-27T11:15:48.274Z",
+  "sources": [
+    "oracle",
+    "empathy",
+    "venture",
+    "strategos",
+    "scope",
+    "psyche",
+    "scribe",
+    "architect_conversion",
+    "conversion_judge",
+    "palette",
+    "grid",
+    "blocks",
+    "cartographer",
+    "flow",
+    "artist",
+    "archon",
+    "datum",
+    "nexus",
+    "forge",
+    "sentinel",
+    "atlas",
+    "pixel",
+    "wire",
+    "polish",
+    "engine",
+    "keeper",
+    "cron",
+    "gateway",
+    "bridge",
+    "sync",
+    "notify",
+    "search"
+  ],
+  "architecture": {
+    "isMultiTenant": false,
+    "tenantIsolation": "none",
+    "tenantScopedTables": [],
+    "softDeletes": true,
+    "idStrategy": "cuid",
+    "apiBasePath": "/api/v1",
+    "paginationStyle": "offset",
+    "responseEnvelope": true,
+    "rateLimitingEnabled": true,
+    "cachingEnabled": true,
+    "cachedEntities": [
+      "builds"
+    ],
+    "optimisticUpdates": false,
+    "rbacEnabled": true,
+    "roles": [
+      {
+        "name": "user",
+        "permissions": [
+          "read:builds"
+        ]
+      },
+      {
+        "name": "admin",
+        "permissions": [
+          "read:builds",
+          "manage:agents",
+          "view:constitutional_checks"
+        ]
+      }
+    ],
+    "errorBoundaries": "page"
+  },
+  "design": {
+    "colorPalette": {
+      "primary": "#3b82f6",
+      "secondary": "#64748b",
+      "accent": "#f59e0b",
+      "background": "#ffffff",
+      "foreground": "#0f172a",
+      "muted": "#f1f5f9",
+      "destructive": "#ef4444",
+      "border": "#e2e8f0"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "scale": "default"
+    },
+    "borderRadius": "medium",
+    "spacing": "default",
+    "darkMode": true,
+    "animations": "subtle"
+  },
+  "data": {
+    "entities": [
+      "Build",
+      "BuildPhase",
+      "Agent"
+    ],
+    "relationships": [],
+    "softDeleteEntities": [
+      "Build"
+    ],
+    "searchableEntities": [],
+    "auditedEntities": [],
+    "enums": [
+      {
+        "name": "BuildStatus",
+        "values": [
+          "QUEUED",
+          "RUNNING",
+          "COMPLETED",
+          "FAILED"
+        ]
+      },
+      {
+        "name": "PhaseStatus",
+        "values": [
+          "PENDING",
+          "ACTIVE",
+          "COMPLETED",
+          "FAILED"
+        ]
+      },
+      {
+        "name": "AgentStatus",
+        "values": [
+          "IDLE",
+          "WORKING",
+          "COMPLETED",
+          "FAILED"
+        ]
+      }
+    ]
+  },
+  "api": {
+    "endpoints": [],
+    "webhooks": [],
+    "publicEndpoints": [],
+    "adminEndpoints": []
+  },
+  "security": {
+    "authMethod": "supabase",
+    "mfaRequired": false,
+    "mfaRoles": [],
+    "session": {
+      "duration": 604800,
+      "refreshEnabled": true,
+      "maxConcurrent": 5
+    },
+    "rateLimits": [],
+    "encryptedFields": [],
+    "auditEvents": []
+  },
+  "pages": {
+    "pages": [],
+    "navigation": {
+      "main": [],
+      "footer": []
+    },
+    "layouts": []
+  },
+  "rawDecisions": [
+    {
+      "id": "skip-venture-1769512008902",
+      "type": "skip",
+      "description": "Agent venture was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "strategos-decision-mvp_features",
+      "type": "mvp_features",
+      "choice": "[{\"id\":\"build_list\",\"name\":\"Build List\",\"category\":\"core\",\"priority\":\"must_have\",\"rice_score\":95,\"ri",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "skip-psyche-1769512042210",
+      "type": "skip",
+      "description": "Agent psyche was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-conversion_judge-1769512154615",
+      "type": "skip",
+      "description": "Agent conversion_judge was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-grid-1769512209727",
+      "type": "skip",
+      "description": "Agent grid was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-flow-1769512250676",
+      "type": "skip",
+      "description": "Agent flow was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "archon-decision-tech_stack",
+      "type": "tech_stack",
+      "choice": "{\"framework\":\"Next.js 14 App Router\",\"database\":\"Supabase PostgreSQL\",\"orm\":\"Prisma\",\"auth\":\"Supabas",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "archon-decision-architecture",
+      "type": "architecture",
+      "choice": "{\"pattern\":\"monolith\",\"reasoning\":\"The OLYMPUS Builder Dashboard is a focused MVP with clear core fe",
+      "reasoning": "The OLYMPUS Builder Dashboard is a focused MVP with clear core features and less than 10 entities, making a monolithic architecture suitable for reducing complexity and speeding up development.",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "skip-atlas-1769512443052",
+      "type": "skip",
+      "description": "Agent atlas was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-keeper-1769512538960",
+      "type": "skip",
+      "description": "Agent keeper was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-cron-1769512538961",
+      "type": "skip",
+      "description": "Agent cron was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-bridge-1769512548270",
+      "type": "skip",
+      "description": "Agent bridge was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-sync-1769512548271",
+      "type": "skip",
+      "description": "Agent sync was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-notify-1769512548272",
+      "type": "skip",
+      "description": "Agent notify was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-search-1769512548274",
+      "type": "skip",
+      "description": "Agent search was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    }
+  ]
+}

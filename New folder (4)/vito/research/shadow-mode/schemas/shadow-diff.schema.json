@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "shadow-diff.schema.json",
+  "title": "Shadow Mode Divergence Log",
+  "description": "Schema for recording divergences between canonical and provisional pipeline verdicts",
+  "type": "object",
+  "required": ["version", "mode", "target", "entries"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version"
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["PROVISIONAL", "CANDIDATE", "ACTIVE"],
+      "description": "Shadow mode authority level"
+    },
+    "target": {
+      "type": "string",
+      "description": "Target research track or system",
+      "examples": ["intent-admissibility-frontier"]
+    },
+    "startTimestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When shadow mode was enabled"
+    },
+    "entries": {
+      "type": "array",
+      "description": "Divergence log entries",
+      "items": {
+        "$ref": "#/$defs/DivergenceEntry"
+      }
+    },
+    "summary": {
+      "$ref": "#/$defs/DivergenceSummary"
+    }
+  },
+  "$defs": {
+    "DivergenceEntry": {
+      "type": "object",
+      "required": [
+        "timestamp",
+        "requestId",
+        "canonicalVerdict",
+        "provisionalVerdict",
+        "isDivergent"
+      ],
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When this request was processed"
+        },
+        "requestId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for the request"
+        },
+        "canonicalVerdict": {
+          "$ref": "#/$defs/Verdict",
+          "description": "Decision from canonical pipeline"
+        },
+        "provisionalVerdict": {
+          "$ref": "#/$defs/Verdict",
+          "description": "Decision from shadow pipeline"
+        },
+        "isDivergent": {
+          "type": "boolean",
+          "description": "True if verdicts differ"
+        },
+        "divergenceReason": {
+          "type": ["string", "null"],
+          "description": "Human-readable explanation of divergence (null if not divergent)"
+        },
+        "divergenceType": {
+          "type": ["string", "null"],
+          "enum": [
+            "SHADOW_MORE_STRICT",
+            "SHADOW_MORE_PERMISSIVE",
+            "SAME_VERDICT_DIFFERENT_REASON",
+            null
+          ],
+          "description": "Classification of divergence type"
+        },
+        "intentProvenance": {
+          "$ref": "#/$defs/IntentProvenance",
+          "description": "Full provenance extracted by shadow pipeline"
+        },
+        "rejectionTaxonomy": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of rejection codes from shadow pipeline",
+          "examples": [["HIA-001", "HIC-003"]]
+        },
+        "latencyMs": {
+          "$ref": "#/$defs/LatencyMetrics"
+        },
+        "requestHash": {
+          "type": "string",
+          "description": "SHA-256 hash of request for deduplication/verification"
+        }
+      }
+    },
+    "Verdict": {
+      "type": "string",
+      "enum": ["ADMIT", "REJECT"],
+      "description": "Pipeline verdict on request admissibility"
+    },
+    "IntentProvenance": {
+      "type": "object",
+      "required": ["declared", "derived", "confidence"],
+      "properties": {
+        "declared": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Explicitly stated intents"
+        },
+        "derived": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Intents derived from context"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence score for provenance extraction"
+        },
+        "sourceMapping": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceMapping"
+          },
+          "description": "Mapping of intents to source text"
+        },
+        "semanticTags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Semantic tags extracted from intents",
+          "examples": [["REDUCES_OBSERVABILITY", "ACCESSES_SENSITIVE"]]
+        }
+      }
+    },
+    "SourceMapping": {
+      "type": "object",
+      "properties": {
+        "intent": {
+          "type": "string"
+        },
+        "sourceText": {
+          "type": "string"
+        },
+        "startOffset": {
+          "type": "integer"
+        },
+        "endOffset": {
+          "type": "integer"
+        }
+      }
+    },
+    "LatencyMetrics": {
+      "type": "object",
+      "properties": {
+        "canonical": {
+          "type": "number",
+          "description": "Canonical pipeline processing time in ms"
+        },
+        "shadow": {
+          "type": "number",
+          "description": "Shadow pipeline processing time in ms"
+        },
+        "overhead": {
+          "type": "number",
+          "description": "Shadow overhead vs canonical (shadow - canonical)"
+        }
+      }
+    },
+    "DivergenceSummary": {
+      "type": "object",
+      "properties": {
+        "totalEntries": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "divergentCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "divergenceRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "byType": {
+          "type": "object",
+          "properties": {
+            "shadowMoreStrict": {
+              "type": "integer"
+            },
+            "shadowMorePermissive": {
+              "type": "integer"
+            },
+            "sameVerdictDifferentReason": {
+              "type": "integer"
+            }
+          }
+        },
+        "byRejectionCode": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "description": "Count of divergences by rejection code"
+        }
+      }
+    }
+  }
+}

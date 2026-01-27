@@ -1,0 +1,577 @@
+{
+  "metadata": {
+    "generated_at": "2026-01-19T12:17:51.889Z",
+    "runtime_version": "1.0.0",
+    "run_id": "RUN-1768825071885",
+    "enforcement_mode": "RUNTIME_PRIMITIVE"
+  },
+  "rsr_analysis": {
+    "per_shape": [
+      {
+        "shape_id": "FILTER_CAPABILITY",
+        "criticality": "INTERACTIVE",
+        "rsr": 0.16666666666666666,
+        "required_rsr": 0.95,
+        "rsr_met": false,
+        "attributes_at_strategos": 1,
+        "attributes_at_target": 1,
+        "loss_classes_detected": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "tolerated_losses": [],
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "violation": {
+          "shape_id": "FILTER_CAPABILITY",
+          "criticality": "INTERACTIVE",
+          "actual_rsr": 0.16666666666666666,
+          "required_rsr": 0.95,
+          "deficit": 0.7833333333333333,
+          "untolerated_losses": [
+            "L1_PARTIAL_CAPTURE"
+          ],
+          "enforcement_action": "FORK_TTE"
+        }
+      },
+      {
+        "shape_id": "PAGINATION_CAPABILITY",
+        "criticality": "INTERACTIVE",
+        "rsr": 0.2,
+        "required_rsr": 0.95,
+        "rsr_met": false,
+        "attributes_at_strategos": 1,
+        "attributes_at_target": 1,
+        "loss_classes_detected": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "tolerated_losses": [],
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "violation": {
+          "shape_id": "PAGINATION_CAPABILITY",
+          "criticality": "INTERACTIVE",
+          "actual_rsr": 0.2,
+          "required_rsr": 0.95,
+          "deficit": 0.75,
+          "untolerated_losses": [
+            "L1_PARTIAL_CAPTURE"
+          ],
+          "enforcement_action": "FORK_TTE"
+        }
+      },
+      {
+        "shape_id": "STATIC_DISPLAY_CAPABILITY",
+        "criticality": "FOUNDATIONAL",
+        "rsr": 0.6666666666666666,
+        "required_rsr": 1,
+        "rsr_met": false,
+        "attributes_at_strategos": 1,
+        "attributes_at_target": 2,
+        "loss_classes_detected": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "tolerated_losses": [],
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "violation": {
+          "shape_id": "STATIC_DISPLAY_CAPABILITY",
+          "criticality": "FOUNDATIONAL",
+          "actual_rsr": 0.6666666666666666,
+          "required_rsr": 1,
+          "deficit": 0.33333333333333337,
+          "untolerated_losses": [
+            "L1_PARTIAL_CAPTURE"
+          ],
+          "enforcement_action": "BLOCK_ALL"
+        }
+      }
+    ],
+    "per_tier": [
+      {
+        "criticality": "FOUNDATIONAL",
+        "shapes": [
+          {
+            "shape_id": "STATIC_DISPLAY_CAPABILITY",
+            "criticality": "FOUNDATIONAL",
+            "rsr": 0.6666666666666666,
+            "required_rsr": 1,
+            "rsr_met": false,
+            "attributes_at_strategos": 1,
+            "attributes_at_target": 2,
+            "loss_classes_detected": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "tolerated_losses": [],
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "violation": {
+              "shape_id": "STATIC_DISPLAY_CAPABILITY",
+              "criticality": "FOUNDATIONAL",
+              "actual_rsr": 0.6666666666666666,
+              "required_rsr": 1,
+              "deficit": 0.33333333333333337,
+              "untolerated_losses": [
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "enforcement_action": "BLOCK_ALL"
+            }
+          }
+        ],
+        "aggregate_rsr": 0.6666666666666666,
+        "required_rsr": 1,
+        "tier_met": false,
+        "enforcement_action": "BLOCK_ALL",
+        "violations": [
+          {
+            "shape_id": "STATIC_DISPLAY_CAPABILITY",
+            "criticality": "FOUNDATIONAL",
+            "actual_rsr": 0.6666666666666666,
+            "required_rsr": 1,
+            "deficit": 0.33333333333333337,
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "enforcement_action": "BLOCK_ALL"
+          }
+        ]
+      },
+      {
+        "criticality": "INTERACTIVE",
+        "shapes": [
+          {
+            "shape_id": "FILTER_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "rsr": 0.16666666666666666,
+            "required_rsr": 0.95,
+            "rsr_met": false,
+            "attributes_at_strategos": 1,
+            "attributes_at_target": 1,
+            "loss_classes_detected": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "tolerated_losses": [],
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "violation": {
+              "shape_id": "FILTER_CAPABILITY",
+              "criticality": "INTERACTIVE",
+              "actual_rsr": 0.16666666666666666,
+              "required_rsr": 0.95,
+              "deficit": 0.7833333333333333,
+              "untolerated_losses": [
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "enforcement_action": "FORK_TTE"
+            }
+          },
+          {
+            "shape_id": "PAGINATION_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "rsr": 0.2,
+            "required_rsr": 0.95,
+            "rsr_met": false,
+            "attributes_at_strategos": 1,
+            "attributes_at_target": 1,
+            "loss_classes_detected": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "tolerated_losses": [],
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "violation": {
+              "shape_id": "PAGINATION_CAPABILITY",
+              "criticality": "INTERACTIVE",
+              "actual_rsr": 0.2,
+              "required_rsr": 0.95,
+              "deficit": 0.75,
+              "untolerated_losses": [
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "enforcement_action": "FORK_TTE"
+            }
+          }
+        ],
+        "aggregate_rsr": 0.16666666666666666,
+        "required_rsr": 0.95,
+        "tier_met": false,
+        "enforcement_action": "FORK_TTE",
+        "violations": [
+          {
+            "shape_id": "FILTER_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "actual_rsr": 0.16666666666666666,
+            "required_rsr": 0.95,
+            "deficit": 0.7833333333333333,
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "enforcement_action": "FORK_TTE"
+          },
+          {
+            "shape_id": "PAGINATION_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "actual_rsr": 0.2,
+            "required_rsr": 0.95,
+            "deficit": 0.75,
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "enforcement_action": "FORK_TTE"
+          }
+        ]
+      },
+      {
+        "criticality": "ENHANCEMENT",
+        "shapes": [],
+        "aggregate_rsr": 1,
+        "required_rsr": 0.8,
+        "tier_met": true,
+        "enforcement_action": "WARN_ONLY",
+        "violations": []
+      }
+    ],
+    "global_rsr": 0.3444444444444444
+  },
+  "enforcement": {
+    "timestamp": "2026-01-19T12:17:51.888Z",
+    "run_id": "RUN-1768825071885",
+    "per_shape_rsr": [
+      {
+        "shape_id": "FILTER_CAPABILITY",
+        "criticality": "INTERACTIVE",
+        "rsr": 0.16666666666666666,
+        "required_rsr": 0.95,
+        "rsr_met": false,
+        "attributes_at_strategos": 1,
+        "attributes_at_target": 1,
+        "loss_classes_detected": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "tolerated_losses": [],
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "violation": {
+          "shape_id": "FILTER_CAPABILITY",
+          "criticality": "INTERACTIVE",
+          "actual_rsr": 0.16666666666666666,
+          "required_rsr": 0.95,
+          "deficit": 0.7833333333333333,
+          "untolerated_losses": [
+            "L1_PARTIAL_CAPTURE"
+          ],
+          "enforcement_action": "FORK_TTE"
+        }
+      },
+      {
+        "shape_id": "PAGINATION_CAPABILITY",
+        "criticality": "INTERACTIVE",
+        "rsr": 0.2,
+        "required_rsr": 0.95,
+        "rsr_met": false,
+        "attributes_at_strategos": 1,
+        "attributes_at_target": 1,
+        "loss_classes_detected": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "tolerated_losses": [],
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "violation": {
+          "shape_id": "PAGINATION_CAPABILITY",
+          "criticality": "INTERACTIVE",
+          "actual_rsr": 0.2,
+          "required_rsr": 0.95,
+          "deficit": 0.75,
+          "untolerated_losses": [
+            "L1_PARTIAL_CAPTURE"
+          ],
+          "enforcement_action": "FORK_TTE"
+        }
+      },
+      {
+        "shape_id": "STATIC_DISPLAY_CAPABILITY",
+        "criticality": "FOUNDATIONAL",
+        "rsr": 0.6666666666666666,
+        "required_rsr": 1,
+        "rsr_met": false,
+        "attributes_at_strategos": 1,
+        "attributes_at_target": 2,
+        "loss_classes_detected": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "tolerated_losses": [],
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "violation": {
+          "shape_id": "STATIC_DISPLAY_CAPABILITY",
+          "criticality": "FOUNDATIONAL",
+          "actual_rsr": 0.6666666666666666,
+          "required_rsr": 1,
+          "deficit": 0.33333333333333337,
+          "untolerated_losses": [
+            "L1_PARTIAL_CAPTURE"
+          ],
+          "enforcement_action": "BLOCK_ALL"
+        }
+      }
+    ],
+    "per_tier_results": [
+      {
+        "criticality": "FOUNDATIONAL",
+        "shapes": [
+          {
+            "shape_id": "STATIC_DISPLAY_CAPABILITY",
+            "criticality": "FOUNDATIONAL",
+            "rsr": 0.6666666666666666,
+            "required_rsr": 1,
+            "rsr_met": false,
+            "attributes_at_strategos": 1,
+            "attributes_at_target": 2,
+            "loss_classes_detected": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "tolerated_losses": [],
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "violation": {
+              "shape_id": "STATIC_DISPLAY_CAPABILITY",
+              "criticality": "FOUNDATIONAL",
+              "actual_rsr": 0.6666666666666666,
+              "required_rsr": 1,
+              "deficit": 0.33333333333333337,
+              "untolerated_losses": [
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "enforcement_action": "BLOCK_ALL"
+            }
+          }
+        ],
+        "aggregate_rsr": 0.6666666666666666,
+        "required_rsr": 1,
+        "tier_met": false,
+        "enforcement_action": "BLOCK_ALL",
+        "violations": [
+          {
+            "shape_id": "STATIC_DISPLAY_CAPABILITY",
+            "criticality": "FOUNDATIONAL",
+            "actual_rsr": 0.6666666666666666,
+            "required_rsr": 1,
+            "deficit": 0.33333333333333337,
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "enforcement_action": "BLOCK_ALL"
+          }
+        ]
+      },
+      {
+        "criticality": "INTERACTIVE",
+        "shapes": [
+          {
+            "shape_id": "FILTER_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "rsr": 0.16666666666666666,
+            "required_rsr": 0.95,
+            "rsr_met": false,
+            "attributes_at_strategos": 1,
+            "attributes_at_target": 1,
+            "loss_classes_detected": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "tolerated_losses": [],
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "violation": {
+              "shape_id": "FILTER_CAPABILITY",
+              "criticality": "INTERACTIVE",
+              "actual_rsr": 0.16666666666666666,
+              "required_rsr": 0.95,
+              "deficit": 0.7833333333333333,
+              "untolerated_losses": [
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "enforcement_action": "FORK_TTE"
+            }
+          },
+          {
+            "shape_id": "PAGINATION_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "rsr": 0.2,
+            "required_rsr": 0.95,
+            "rsr_met": false,
+            "attributes_at_strategos": 1,
+            "attributes_at_target": 1,
+            "loss_classes_detected": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "tolerated_losses": [],
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "violation": {
+              "shape_id": "PAGINATION_CAPABILITY",
+              "criticality": "INTERACTIVE",
+              "actual_rsr": 0.2,
+              "required_rsr": 0.95,
+              "deficit": 0.75,
+              "untolerated_losses": [
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "enforcement_action": "FORK_TTE"
+            }
+          }
+        ],
+        "aggregate_rsr": 0.16666666666666666,
+        "required_rsr": 0.95,
+        "tier_met": false,
+        "enforcement_action": "FORK_TTE",
+        "violations": [
+          {
+            "shape_id": "FILTER_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "actual_rsr": 0.16666666666666666,
+            "required_rsr": 0.95,
+            "deficit": 0.7833333333333333,
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "enforcement_action": "FORK_TTE"
+          },
+          {
+            "shape_id": "PAGINATION_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "actual_rsr": 0.2,
+            "required_rsr": 0.95,
+            "deficit": 0.75,
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "enforcement_action": "FORK_TTE"
+          }
+        ]
+      },
+      {
+        "criticality": "ENHANCEMENT",
+        "shapes": [],
+        "aggregate_rsr": 1,
+        "required_rsr": 0.8,
+        "tier_met": true,
+        "enforcement_action": "WARN_ONLY",
+        "violations": []
+      }
+    ],
+    "overall_action": "BLOCK_ALL",
+    "canonical_allowed": false,
+    "tte_decision": {
+      "fork_required": false,
+      "reason": "FOUNDATIONAL RSR violation - execution completely blocked",
+      "canonical_blocked": true,
+      "shadow_allowed": false,
+      "remediation_possible": false,
+      "tracks_to_create": [],
+      "triggering_violations": [
+        {
+          "shape_id": "STATIC_DISPLAY_CAPABILITY",
+          "criticality": "FOUNDATIONAL",
+          "actual_rsr": 0.6666666666666666,
+          "required_rsr": 1,
+          "deficit": 0.33333333333333337,
+          "untolerated_losses": [
+            "L1_PARTIAL_CAPTURE"
+          ],
+          "enforcement_action": "BLOCK_ALL"
+        }
+      ]
+    },
+    "active_tracks": [],
+    "foundational_violations": [
+      {
+        "shape_id": "STATIC_DISPLAY_CAPABILITY",
+        "criticality": "FOUNDATIONAL",
+        "actual_rsr": 0.6666666666666666,
+        "required_rsr": 1,
+        "deficit": 0.33333333333333337,
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "enforcement_action": "BLOCK_ALL"
+      }
+    ],
+    "interactive_violations": [
+      {
+        "shape_id": "FILTER_CAPABILITY",
+        "criticality": "INTERACTIVE",
+        "actual_rsr": 0.16666666666666666,
+        "required_rsr": 0.95,
+        "deficit": 0.7833333333333333,
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "enforcement_action": "FORK_TTE"
+      },
+      {
+        "shape_id": "PAGINATION_CAPABILITY",
+        "criticality": "INTERACTIVE",
+        "actual_rsr": 0.2,
+        "required_rsr": 0.95,
+        "deficit": 0.75,
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "enforcement_action": "FORK_TTE"
+      }
+    ],
+    "enhancement_violations": [],
+    "proof": {
+      "laws_applied": {
+        "FOUNDATIONAL": {
+          "min_rsr": 1,
+          "tolerated_losses": [],
+          "violation_action": "BLOCK_ALL"
+        },
+        "INTERACTIVE": {
+          "min_rsr": 0.95,
+          "tolerated_losses": [
+            "L3_SPECIFICITY_LOSS"
+          ],
+          "violation_action": "FORK_TTE"
+        },
+        "ENHANCEMENT": {
+          "min_rsr": 0.8,
+          "tolerated_losses": [
+            "L3_SPECIFICITY_LOSS",
+            "L7_SCHEMA_MISMATCH"
+          ],
+          "violation_action": "WARN_ONLY"
+        }
+      },
+      "computation_method": "STRUCTURAL_ATTRIBUTE_RATIO",
+      "no_inference_used": true,
+      "no_softening_applied": true,
+      "no_override_possible": true,
+      "decision_deterministic": true
+    }
+  },
+  "tte_state": {
+    "fork_occurred": false,
+    "active_tracks": [],
+    "promotion_eligibility": []
+  },
+  "proof_chain": {
+    "laws_immutable": true,
+    "computation_deterministic": true,
+    "decision_non_bypassable": true,
+    "tracks_isolated": true
+  }
+}

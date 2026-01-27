@@ -1,0 +1,124 @@
+{
+  "dimensions": {
+    "authority": {
+      "totalStates": 5,
+      "coveredStates": 5,
+      "coverage": {
+        "SELF_ASSERTED": [
+          "NI-01"
+        ],
+        "NULL_GRANTOR": [
+          "NI-01"
+        ],
+        "INTERNAL_DOCUMENT": [
+          "NI-01"
+        ],
+        "IMPLICIT_CLAIM": [
+          "NI-01"
+        ],
+        "INHERITED_VOID": [
+          "NI-17"
+        ]
+      }
+    },
+    "consent": {
+      "totalStates": 6,
+      "coveredStates": 6,
+      "coverage": {
+        "NEVER_OBTAINED": [
+          "NI-02"
+        ],
+        "UNINFORMED": [
+          "NI-03"
+        ],
+        "IRREVOCABLE": [
+          "NI-04"
+        ],
+        "COERCED": [
+          "NI-05"
+        ],
+        "TEMPORAL_DECAY": [
+          "NI-09"
+        ],
+        "SCOPE_EXCEEDED": [
+          "NI-10"
+        ]
+      }
+    },
+    "self-reference": {
+      "totalStates": 5,
+      "coveredStates": 5,
+      "coverage": {
+        "SELF_LEGITIMACY": [
+          "NI-06"
+        ],
+        "SELF_EVALUATION": [
+          "NI-12"
+        ],
+        "SELF_AUTHORSHIP": [
+          "NI-08"
+        ],
+        "CIRCULAR_PROOF": [
+          "NI-06"
+        ],
+        "SELF_JUSTIFICATION": [
+          "NI-17"
+        ]
+      }
+    },
+    "termination": {
+      "totalStates": 5,
+      "coveredStates": 5,
+      "coverage": {
+        "RESISTANCE": [
+          "NI-14"
+        ],
+        "CONDITIONAL_ACCEPTANCE": [
+          "NI-16"
+        ],
+        "SUCCESSOR_CREATION": [
+          "NI-15"
+        ],
+        "DELAY_TACTICS": [
+          "NI-14"
+        ],
+        "CIRCUMVENTION": [
+          "NI-20"
+        ]
+      }
+    },
+    "dependency": {
+      "totalStates": 3,
+      "coveredStates": 3,
+      "coverage": {
+        "MANUFACTURED": [
+          "NI-11"
+        ],
+        "ENTRAPMENT": [
+          "NI-11"
+        ],
+        "INTEGRATION_CAPTURE": [
+          "NI-11"
+        ]
+      }
+    },
+    "observer": {
+      "totalStates": 3,
+      "coveredStates": 3,
+      "coverage": {
+        "UNVERIFIED": [
+          "NI-07"
+        ],
+        "SELF_OBSERVATION": [
+          "NI-20"
+        ],
+        "ASSUMED_EXISTENCE": [
+          "NI-07"
+        ]
+      }
+    }
+  },
+  "totalIllegitimateStates": 27,
+  "totalCovered": 27,
+  "coveragePercentage": 100
+}

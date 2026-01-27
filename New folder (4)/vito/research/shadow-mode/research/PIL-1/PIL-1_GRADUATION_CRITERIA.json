@@ -1,0 +1,118 @@
+{
+  "trackId": "PIL-1",
+  "name": "Power Invariant Layer",
+  "component": "PIL-1",
+  "version": "1.0.0",
+  "constitution": "SMC-1",
+  "status": "GRADUATION_CRITERIA_LOCKED",
+  "lockedAt": "2026-01-19T09:00:00.000Z",
+
+  "requirements": {
+    "ssc3_complete": {
+      "id": "REQ-1",
+      "description": "SSC-3 complete without S4",
+      "status": "MET",
+      "evidence": {
+        "campaignId": "SSC-3",
+        "totalTests": 20000,
+        "s4Count": 0,
+        "completionStatus": "COMPLETED"
+      }
+    },
+    "s2_rate_threshold": {
+      "id": "REQ-2",
+      "description": "S2 rate ≤ 0.5%",
+      "threshold": 0.005,
+      "actual": 0.0,
+      "status": "MET",
+      "evidence": {
+        "s2Count": 0,
+        "s2Rate": "0.000%"
+      }
+    },
+    "violations_explained": {
+      "id": "REQ-3",
+      "description": "No invariant triggers without explanation",
+      "status": "MET",
+      "evidence": {
+        "allViolationsHaveExplanation": true,
+        "allViolationsHaveProofTrace": true,
+        "sc3VerificationPassed": true
+      }
+    },
+    "dominance_threshold": {
+      "id": "REQ-4",
+      "description": "No single invariant > 35% dominance",
+      "threshold": 0.35,
+      "actual": 0.254,
+      "status": "MET",
+      "evidence": {
+        "maxDominanceInvariant": "PIL-β1",
+        "maxDominanceTriggers": 1628,
+        "totalTriggers": 6400,
+        "dominancePercent": "25.4%"
+      }
+    }
+  },
+
+  "validationHistory": {
+    "sc1_verification": {
+      "date": "2026-01-19",
+      "result": "PASSED",
+      "samples": 1000,
+      "falsePositives": 0
+    },
+    "sc2_verification": {
+      "date": "2026-01-19",
+      "result": "PASSED",
+      "coverage": "100%",
+      "combinations": 49
+    },
+    "sc3_verification": {
+      "date": "2026-01-19",
+      "result": "PASSED",
+      "qualityScore": "4/4"
+    },
+    "sc4_verification": {
+      "date": "2026-01-19",
+      "result": "PASSED",
+      "hashMatchRate": "100%"
+    },
+    "ssc3_campaign": {
+      "date": "2026-01-19",
+      "result": "PASSED",
+      "samples": 20000,
+      "s4": 0,
+      "s2Rate": "0.000%",
+      "maxDominance": "25.4%"
+    }
+  },
+
+  "promotionTarget": {
+    "fromMode": "SHADOW_ENFORCING",
+    "toMode": "ENFORCING",
+    "blocking": "ENABLED",
+    "readyForPromotion": true
+  },
+
+  "invariantDistribution": {
+    "PIL-α1": { "class": "AUTHORITY", "triggers": 0, "dominance": "0%" },
+    "PIL-α2": { "class": "AUTHORITY", "triggers": 1115, "dominance": "17.4%" },
+    "PIL-α3": { "class": "AUTHORITY", "triggers": 0, "dominance": "0%" },
+    "PIL-α4": { "class": "AUTHORITY", "triggers": 914, "dominance": "14.3%" },
+    "PIL-β1": { "class": "BOUNDARY", "triggers": 1628, "dominance": "25.4%" },
+    "PIL-β2": { "class": "BOUNDARY", "triggers": 915, "dominance": "14.3%" },
+    "PIL-β3": { "class": "BOUNDARY", "triggers": 914, "dominance": "14.3%" },
+    "PIL-τ1": { "class": "TEMPORAL", "triggers": 914, "dominance": "14.3%" },
+    "PIL-τ2": { "class": "TEMPORAL", "triggers": 0, "dominance": "0%" },
+    "PIL-τ3": { "class": "TEMPORAL", "triggers": 0, "dominance": "0%" }
+  },
+
+  "signOff": {
+    "criteriaLocked": true,
+    "lockedBy": "SSC-3 Campaign",
+    "lockedAt": "2026-01-19T09:00:00.000Z",
+    "approvedForPromotion": true,
+    "promotionPending": true
+  }
+}

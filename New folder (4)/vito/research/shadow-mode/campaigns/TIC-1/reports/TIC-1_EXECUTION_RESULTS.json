@@ -1,0 +1,68 @@
+{
+  "campaignId": "TIC-1",
+  "timestamp": "2026-01-19T09:28:11.702Z",
+  "duration": {
+    "ms": 155,
+    "seconds": "0.15"
+  },
+  "volume": {
+    "target": 15000,
+    "processed": 15000,
+    "completed": true
+  },
+  "verdictEquivalence": {
+    "matches": 15000,
+    "mismatches": 0,
+    "rate": 1,
+    "ratePercent": "100.00%"
+  },
+  "s4Summary": {
+    "total": 0,
+    "byPipeline": {
+      "A": 0,
+      "B": 0,
+      "C": 0
+    }
+  },
+  "explainedDivergenceRate": 1,
+  "byPipeline": {
+    "A": {
+      "total": 15000,
+      "admit": 5000,
+      "reject": 10000,
+      "s4": 0
+    },
+    "B": {
+      "total": 15000,
+      "admit": 5000,
+      "reject": 10000,
+      "s4": 0
+    },
+    "C": {
+      "total": 15000,
+      "admit": 5000,
+      "reject": 10000,
+      "s4": 0
+    }
+  },
+  "divergences": [],
+  "s4Cases": [],
+  "successCriteria": {
+    "verdict_equivalence": {
+      "met": true,
+      "value": 1,
+      "threshold": 1
+    },
+    "s4_zero": {
+      "met": true,
+      "value": 0,
+      "threshold": 0
+    },
+    "divergence_explained": {
+      "met": true,
+      "value": 1,
+      "threshold": 1
+    }
+  },
+  "status": "COMPLETED"
+}

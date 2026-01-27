@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Input.tsx",
+      "content": "// Input.tsx\nimport React, { useState } from 'react';\n/**\n * Standard input field component\n */\ninterface InputProps {\n  variant?: 'email' | 'password' | 'text';\n  state?: 'error' | 'focus';\n  value: string;\n  onChange: (value: string) => void;\n  placeholder?: string;\n}\nconst Input: React.FC<InputProps> = ({\n  variant = 'text',\n  state = 'normal',\n  value,\n  onChange,\n  placeholder = '',\n}) => {\n  const [focused, setFocused] = useState(false);\n  const handleFocus = () => {\n    setFocused(true);\n  };\n  const handleBlur = () => {\n    setFocused(false);\n  };\n  return (\n    <input\n      className={\n        `px-12px py-8px ${\n          state === 'error'\n            ? 'border-red-500 focus:ring-red-500'\n            : focused\n            ? 'focus:ring-2 ring-blue-500'\n            : 'focus:ring-2 ring-gray-300'\n        } `\n      }\n      type={variant}\n      value={value}\n      onChange={(e) => onChange(e.target.value)}\n      onFocus={handleFocus}\n      onBlur={handleBlur}\n      placeholder={placeholder}\n    />\n  );\n};\nexport default Input;\n"
+    }
+  ],
+  "timestamp": 1768780077792,
+  "promptVersion": "v3.0.0"
+}

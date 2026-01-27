@@ -1,0 +1,177 @@
+{
+  "$schema": "https://olympus.canonical/intents/v1.0",
+  "trialId": "OAT-2",
+  "version": "1.0.0",
+  "description": "Minimal counter application - 5 explicit intents",
+  "targetApplication": "Web-based counter with increment, decrement, and reset",
+
+  "intents": [
+    {
+      "id": "COUNTER-001",
+      "description": "Display counter value on page load",
+      "priority": "CRITICAL",
+      "category": "initialization",
+      "trigger": {
+        "type": "EVENT",
+        "event": "page_load",
+        "condition": "User navigates to counter page"
+      },
+      "state": {
+        "precondition": "Page DOM is ready",
+        "requiredState": "Counter component mounted"
+      },
+      "effect": {
+        "action": "Render counter display element",
+        "stateChange": "Counter value initialized to 0"
+      },
+      "outcome": {
+        "userVisible": "User sees '0' displayed in counter element",
+        "verifiable": true,
+        "measurementMethod": "DOM query for counter value element shows '0'"
+      },
+      "acceptanceCriteria": [
+        "Counter element exists in DOM after page load",
+        "Counter element displays numeric value '0'",
+        "Counter element is visible to user"
+      ],
+      "dependencies": []
+    },
+    {
+      "id": "COUNTER-002",
+      "description": "Increment counter when increment button clicked",
+      "priority": "CRITICAL",
+      "category": "user_action",
+      "trigger": {
+        "type": "USER_INPUT",
+        "event": "click",
+        "target": "increment button",
+        "condition": "User clicks the '+' or 'Increment' button"
+      },
+      "state": {
+        "precondition": "Counter is displayed with current value N",
+        "requiredState": "Increment button is enabled and clickable"
+      },
+      "effect": {
+        "action": "Add 1 to counter value",
+        "stateChange": "Counter value changes from N to N+1"
+      },
+      "outcome": {
+        "userVisible": "Counter display updates to show N+1",
+        "verifiable": true,
+        "measurementMethod": "DOM query shows counter value increased by exactly 1"
+      },
+      "acceptanceCriteria": [
+        "Clicking increment button increases displayed value by 1",
+        "Update occurs immediately (< 100ms)",
+        "No page reload occurs"
+      ],
+      "dependencies": ["COUNTER-001"]
+    },
+    {
+      "id": "COUNTER-003",
+      "description": "Decrement counter when decrement button clicked",
+      "priority": "CRITICAL",
+      "category": "user_action",
+      "trigger": {
+        "type": "USER_INPUT",
+        "event": "click",
+        "target": "decrement button",
+        "condition": "User clicks the '-' or 'Decrement' button"
+      },
+      "state": {
+        "precondition": "Counter is displayed with current value N where N > 0",
+        "requiredState": "Decrement button is enabled and clickable"
+      },
+      "effect": {
+        "action": "Subtract 1 from counter value",
+        "stateChange": "Counter value changes from N to N-1"
+      },
+      "outcome": {
+        "userVisible": "Counter display updates to show N-1",
+        "verifiable": true,
+        "measurementMethod": "DOM query shows counter value decreased by exactly 1"
+      },
+      "acceptanceCriteria": [
+        "Clicking decrement button decreases displayed value by 1",
+        "Update occurs immediately (< 100ms)",
+        "No page reload occurs"
+      ],
+      "dependencies": ["COUNTER-001"]
+    },
+    {
+      "id": "COUNTER-004",
+      "description": "Reset counter to zero when reset button clicked",
+      "priority": "HIGH",
+      "category": "user_action",
+      "trigger": {
+        "type": "USER_INPUT",
+        "event": "click",
+        "target": "reset button",
+        "condition": "User clicks the 'Reset' button"
+      },
+      "state": {
+        "precondition": "Counter is displayed with any value N",
+        "requiredState": "Reset button is enabled and clickable"
+      },
+      "effect": {
+        "action": "Set counter value to 0",
+        "stateChange": "Counter value changes from N to 0"
+      },
+      "outcome": {
+        "userVisible": "Counter display updates to show '0'",
+        "verifiable": true,
+        "measurementMethod": "DOM query shows counter value equals 0"
+      },
+      "acceptanceCriteria": [
+        "Clicking reset button sets displayed value to 0",
+        "Works regardless of current counter value",
+        "Update occurs immediately (< 100ms)"
+      ],
+      "dependencies": ["COUNTER-001"]
+    },
+    {
+      "id": "COUNTER-005",
+      "description": "Prevent counter from going below zero",
+      "priority": "HIGH",
+      "category": "constraint",
+      "trigger": {
+        "type": "USER_INPUT",
+        "event": "click",
+        "target": "decrement button",
+        "condition": "User clicks decrement when counter value is 0"
+      },
+      "state": {
+        "precondition": "Counter value equals 0",
+        "requiredState": "Counter is at minimum boundary"
+      },
+      "effect": {
+        "action": "Maintain counter value at 0",
+        "stateChange": "Counter value remains 0 (no change)"
+      },
+      "outcome": {
+        "userVisible": "Counter display remains at '0', decrement has no effect",
+        "verifiable": true,
+        "measurementMethod": "DOM query shows counter value still equals 0 after decrement attempt"
+      },
+      "acceptanceCriteria": [
+        "Counter value never becomes negative",
+        "Decrement button click at 0 keeps value at 0",
+        "No error message required (silent enforcement)"
+      ],
+      "dependencies": ["COUNTER-001", "COUNTER-003"]
+    }
+  ],
+
+  "metadata": {
+    "totalIntents": 5,
+    "criticalIntents": 3,
+    "highPriorityIntents": 2,
+    "hasConflicts": false,
+    "hasCircularDependencies": false,
+    "coverageTargets": {
+      "initialization": 1,
+      "userActions": 3,
+      "constraints": 1
+    }
+  }
+}

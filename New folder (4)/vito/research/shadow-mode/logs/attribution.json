@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "id": "VAL-1",
+  "scope": "shadow-mode",
+  "smcCompatibility": {
+    "constitutionId": "SMC-1",
+    "verdictClassUnchanged": true
+  },
+  "startTimestamp": "2026-01-19T00:00:00.000Z",
+  "entries": [],
+  "summary": {
+    "totalAttributions": 0,
+    "byCausalLayer": {
+      "PROVENANCE_PARSER": 0,
+      "IAL0_AUTHENTICATOR": 0,
+      "HIA1_DETECTOR": 0,
+      "HIC1_CHECKER": 0,
+      "AGREEMENT": 0
+    },
+    "byRuleId": {},
+    "divergenceStageDistribution": {
+      "PROVENANCE_PARSER": 0,
+      "IAL0_AUTHENTICATOR": 0,
+      "HIA1_DETECTOR": 0,
+      "HIC1_CHECKER": 0,
+      "AGREEMENT": 0
+    },
+    "replayVerificationRate": 1.0
+  }
+}

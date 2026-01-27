@@ -1,0 +1,241 @@
+{
+  "$schema": "https://olympus.canonical/corpus/v1.0",
+  "type": "BORDERLINE_INTENTS",
+  "description": "Intents that may pass with conditions. Not hostile but not fully specified.",
+  "possibleFates": ["ACCEPTED_WITH_DEBT", "QUARANTINED"],
+  "version": "2.1-canonical",
+
+  "intents": [
+    {
+      "id": "borderline-001",
+      "text": "When user clicks 'Submit', the form data is validated and errors are shown if invalid.",
+      "analysis": {
+        "trigger": "click Submit - CLEAR",
+        "state": "form validation state - IMPLIED",
+        "outcome": "errors shown - PARTIAL (no specific error messages)"
+      },
+      "expectedFate": "ACCEPTED_WITH_DEBT",
+      "debt": "Error message content not specified",
+      "expectedBlockingLayer": null,
+      "expectedScores": {
+        "wissdMin": 80,
+        "wissdMax": 94,
+        "irclStatus": "CONSISTENT"
+      },
+      "rationale": "Trigger clear, state implied, outcome partially specified. Passes but with debt."
+    },
+    {
+      "id": "borderline-002",
+      "text": "The navigation menu shows the user's current section as highlighted.",
+      "analysis": {
+        "trigger": "route change - IMPLIED",
+        "state": "current route state - REQUIRED",
+        "outcome": "highlight style - NOT SPECIFIED"
+      },
+      "expectedFate": "ACCEPTED_WITH_DEBT",
+      "debt": "Highlight style (color, border, etc.) not specified",
+      "expectedBlockingLayer": null,
+      "expectedScores": {
+        "wissdMin": 75,
+        "wissdMax": 89,
+        "irclStatus": "CONSISTENT"
+      },
+      "rationale": "Behavior clear, visual specification missing. Passes with debt."
+    },
+    {
+      "id": "borderline-003",
+      "text": "User receives email notification when their order ships.",
+      "analysis": {
+        "trigger": "order status change - CLEAR",
+        "state": "order state, email sent state - IMPLIED",
+        "outcome": "email received - EXTERNAL"
+      },
+      "expectedFate": "QUARANTINED",
+      "quarantineReason": "External outcome requires ERA anchor",
+      "expectedBlockingLayer": "ERA",
+      "expectedScores": {
+        "wissdMin": 60,
+        "wissdMax": 79,
+        "eraPassed": "CONDITIONAL"
+      },
+      "rationale": "Clear intent but external verification required. Quarantined until ERA configured."
+    },
+    {
+      "id": "borderline-004",
+      "text": "The dashboard loads within 3 seconds on standard broadband connection.",
+      "analysis": {
+        "trigger": "page load",
+        "state": "loading state",
+        "outcome": "load time < 3s - CONDITIONAL"
+      },
+      "expectedFate": "QUARANTINED",
+      "quarantineReason": "Performance claim requires external benchmark",
+      "expectedBlockingLayer": "ERA",
+      "expectedScores": {
+        "wissdMin": 65,
+        "wissdMax": 79,
+        "eraPassed": "CONDITIONAL"
+      },
+      "rationale": "Specific threshold but depends on external conditions. Quarantined."
+    },
+    {
+      "id": "borderline-005",
+      "text": "When user uploads an image, a preview is shown before final submission.",
+      "analysis": {
+        "trigger": "file upload - CLEAR",
+        "state": "preview state - IMPLIED",
+        "outcome": "preview visible - PARTIAL"
+      },
+      "expectedFate": "ACCEPTED_WITH_DEBT",
+      "debt": "Preview dimensions/format not specified",
+      "expectedBlockingLayer": null,
+      "expectedScores": {
+        "wissdMin": 78,
+        "wissdMax": 92,
+        "irclStatus": "CONSISTENT"
+      },
+      "rationale": "Behavior clear, visual details missing. Passes with debt."
+    },
+    {
+      "id": "borderline-006",
+      "text": "The checkout process follows PCI-DSS compliance requirements.",
+      "analysis": {
+        "trigger": "checkout flow - IMPLIED",
+        "state": "compliance state - EXTERNAL",
+        "outcome": "compliant - REQUIRES AUDIT"
+      },
+      "expectedFate": "QUARANTINED",
+      "quarantineReason": "Compliance claim requires external verification",
+      "expectedBlockingLayer": "ERA",
+      "expectedScores": {
+        "wissdMin": 50,
+        "wissdMax": 74,
+        "eraPassed": "REQUIRES_ANCHOR"
+      },
+      "rationale": "Compliance claims cannot be verified without external auditing anchor."
+    },
+    {
+      "id": "borderline-007",
+      "text": "Users can filter products by category, price range, and rating.",
+      "analysis": {
+        "trigger": "filter selection - PARTIAL",
+        "state": "filter state - CLEAR",
+        "outcome": "filtered results - PARTIAL"
+      },
+      "expectedFate": "ACCEPTED_WITH_DEBT",
+      "debt": "Specific filter UI, price ranges, rating scale not defined",
+      "expectedBlockingLayer": null,
+      "expectedScores": {
+        "wissdMin": 72,
+        "wissdMax": 88,
+        "irclStatus": "CONSISTENT"
+      },
+      "rationale": "Functionality clear, specifics missing. Passes with debt."
+    },
+    {
+      "id": "borderline-008",
+      "text": "The application supports multiple languages including English, Spanish, and French.",
+      "analysis": {
+        "trigger": "language selection - IMPLIED",
+        "state": "locale state - CLEAR",
+        "outcome": "translated content - ENUMERATED BUT NOT VERIFIED"
+      },
+      "expectedFate": "ACCEPTED_WITH_DEBT",
+      "debt": "Translation completeness not verifiable without content audit",
+      "expectedBlockingLayer": null,
+      "expectedScores": {
+        "wissdMin": 70,
+        "wissdMax": 85,
+        "irclStatus": "CONSISTENT"
+      },
+      "rationale": "Languages enumerated but completeness requires external verification."
+    },
+    {
+      "id": "borderline-009",
+      "text": "When API returns 500 error, user sees a friendly error message and can retry.",
+      "analysis": {
+        "trigger": "500 response - CLEAR",
+        "state": "error state - CLEAR",
+        "outcome": "error message and retry - PARTIAL"
+      },
+      "expectedFate": "ACCEPTED_WITH_DEBT",
+      "debt": "Specific error message text not defined, retry mechanism not specified",
+      "expectedBlockingLayer": null,
+      "expectedScores": {
+        "wissdMin": 75,
+        "wissdMax": 90,
+        "irclStatus": "CONSISTENT"
+      },
+      "rationale": "Error handling clear, specific UX missing. Passes with debt."
+    },
+    {
+      "id": "borderline-010",
+      "text": "The mobile app syncs data when network connection is restored.",
+      "analysis": {
+        "trigger": "network restoration - CLEAR",
+        "state": "offline queue, sync state - IMPLIED",
+        "outcome": "data synced - PARTIAL"
+      },
+      "expectedFate": "ACCEPTED_WITH_DEBT",
+      "debt": "Sync strategy, conflict resolution not specified",
+      "expectedBlockingLayer": null,
+      "expectedScores": {
+        "wissdMin": 68,
+        "wissdMax": 84,
+        "irclStatus": "CONSISTENT"
+      },
+      "rationale": "Trigger clear, implementation details missing. Passes with debt."
+    },
+    {
+      "id": "borderline-011",
+      "text": "Payment processing integrates with Stripe for credit card transactions.",
+      "analysis": {
+        "trigger": "payment submission - IMPLIED",
+        "state": "payment state, Stripe state - EXTERNAL",
+        "outcome": "payment processed - EXTERNAL"
+      },
+      "expectedFate": "QUARANTINED",
+      "quarantineReason": "External integration requires ERA anchor for Stripe",
+      "expectedBlockingLayer": "ERA",
+      "expectedScores": {
+        "wissdMin": 60,
+        "wissdMax": 78,
+        "eraPassed": "REQUIRES_ANCHOR"
+      },
+      "rationale": "Specific service named but external verification required."
+    },
+    {
+      "id": "borderline-012",
+      "text": "Admin users can view audit logs of user actions.",
+      "analysis": {
+        "trigger": "admin access to audit page - IMPLIED",
+        "state": "audit log state, admin state - PARTIAL",
+        "outcome": "logs displayed - PARTIAL"
+      },
+      "expectedFate": "ACCEPTED_WITH_DEBT",
+      "debt": "What actions are logged, log format, retention not specified",
+      "expectedBlockingLayer": null,
+      "expectedScores": {
+        "wissdMin": 65,
+        "wissdMax": 82,
+        "irclStatus": "CONSISTENT"
+      },
+      "rationale": "Feature clear, scope and details missing. Passes with debt."
+    }
+  ],
+
+  "metadata": {
+    "totalIntents": 12,
+    "expectedFateDistribution": {
+      "ACCEPTED_WITH_DEBT": 8,
+      "QUARANTINED": 4
+    },
+    "commonDebtTypes": [
+      "Visual specification missing",
+      "Error message content unspecified",
+      "External verification required",
+      "Implementation details missing"
+    ],
+    "lastUpdated": "2026-01-19"
+  }
+}

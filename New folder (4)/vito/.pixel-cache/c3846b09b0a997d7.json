@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Button.tsx",
+      "content": "import React from 'react';\n\ninterface ButtonProps {\n  variant?: 'default' | 'primary' | 'secondary';\n  state?: 'default' | 'hover' | 'active' | 'disabled';\n  onClick: () => void;\n  label: string;\n  icon?: React.ReactNode;\n  disabled?: boolean;\n}\n\nconst Button: React.FC<ButtonProps> = ({\n  variant = 'default',\n  state = 'default',\n  onClick,\n  label,\n  icon,\n  disabled = false\n}) => {\n  const baseClasses = 'px-4 py-2 rounded';\n  const variantClasses = {\n    default: 'bg-gray-300 text-black',\n    primary: 'bg-blue-500 text-white',\n    secondary: 'bg-green-500 text-white'\n  }[variant];\n  const stateClasses = {\n    default: '',\n    hover: 'hover:opacity-75',\n    active: 'active:opacity-50',\n    disabled: 'opacity-50 cursor-not-allowed'\n  }[state];\n\n  return (\n    <button\n      className={`${baseClasses} ${variantClasses} ${stateClasses}`}\n      onClick={disabled ? undefined : onClick}\n      disabled={disabled}\n      aria-label={label}\n    >\n      {icon && <span className=\"mr-2\">{icon}</span>}\n      {label}\n    </button>\n  );\n};\n\nexport default Button;"
+    }
+  ],
+  "timestamp": 1768783328597,
+  "promptVersion": "v3.0.0"
+}

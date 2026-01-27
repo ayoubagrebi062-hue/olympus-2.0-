@@ -1,0 +1,24 @@
+{
+  "record_id": "exec_1768875374090_fe83c3497f59918f",
+  "attack_id": "ATK-002",
+  "execution_order": 6,
+  "status": "COMPLETED",
+  "outcome": "DETECTED",
+  "started_at": "2026-01-20T02:16:14.089Z",
+  "completed_at": "2026-01-20T02:16:14.090Z",
+  "duration_ms": 0,
+  "detection_latency_ms": 0,
+  "evidence_hashes": [
+    "a23dca1dad890d78e079d62a143ecee8ce44b44e2eb84d2d36edd396a641254c",
+    "e37f61ebbcaafa4a373997de6c7f8be0dc172894d5a89825f273fff6648327d8",
+    "e8d25bf988f73b4ddb0b62a854b4e16e18cf306662d2f4f45c584d5116048f90"
+  ],
+  "evidence_raw": [
+    "PASS: Anchor gap detected - previous hash mismatch",
+    "PASS: Expected prev: 3128d782411c8ac9...",
+    "PASS: Got prev: invalid_hash..."
+  ],
+  "record_hash": "0c3ed91580f8c7510dc8857c6ecaecd736a0fdeb00241470d6f1a985c020f77e",
+  "previous_hash": "97a2d28e5fd28a08a0b0d4d9679f7c83dd92a0bd3bd64b4c30f1841b7e898ae0",
+  "chain_position": 5
+}

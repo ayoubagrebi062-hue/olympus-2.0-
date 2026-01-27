@@ -1,0 +1,95 @@
+{
+  "run_id": "IE-1768829522988",
+  "ie": {
+    "ie_version": "1.0.0",
+    "action_signature": {
+      "signature_id": "SIG-mkl7fewp-7cm8",
+      "fingerprint": "29cc51ed1a8631a3",
+      "components": {
+        "affected_shapes": [
+          "FILTER_CAPABILITY",
+          "PAGINATION_CAPABILITY",
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "affected_handoffs": [
+          "H1",
+          "H2",
+          "H3",
+          "H4",
+          "H5"
+        ],
+        "transform_types": [
+          "CONTROL",
+          "STATEFUL"
+        ],
+        "change_directions": [
+          "MODIFY"
+        ]
+      },
+      "computed_at": "2026-01-19T13:32:03.001Z",
+      "run_id": "IE-1768829522988"
+    },
+    "causal_paths": [],
+    "proof": {
+      "inevitable": true,
+      "proof_type": "ALL_PATHS_COLLAPSE",
+      "paths_analyzed": 0,
+      "paths_to_collapse": 0,
+      "paths_with_mccs_growth": 0,
+      "steps_to_collapse": null,
+      "fastest_collapse_path": null,
+      "confidence": 1,
+      "proven_at": "2026-01-19T13:32:03.001Z"
+    },
+    "gate_result": {
+      "gate_id": "GATE-mkl7fewp-wrhu",
+      "run_id": "IE-1768829522988",
+      "timestamp": "2026-01-19T13:32:03.001Z",
+      "action": "HARD_ABORT",
+      "signature_seen_before": true,
+      "fingerprint_already_doomed": true,
+      "proof": null,
+      "reason": "Fingerprint 29cc51ed1a8631a3 was previously proven inevitable. Blocking without re-simulation.",
+      "gate_proof": {
+        "forward_simulation_deterministic": true,
+        "all_paths_explored": true,
+        "inevitability_mathematical": true,
+        "no_heuristics": true,
+        "no_probability": true,
+        "no_config": true,
+        "no_flag": true,
+        "no_override": true
+      }
+    },
+    "summary": {
+      "inevitable": true,
+      "steps_to_collapse": null,
+      "paths_analyzed": 0,
+      "paths_to_collapse": 0,
+      "action_taken": "HARD_ABORT",
+      "fingerprint_was_doomed": true
+    },
+    "causal_chain_summary": [
+      "INEVITABILITY DETECTED: ALL_PATHS_COLLAPSE",
+      "Analyzed 0 causal paths.",
+      "ALL 0 paths lead to Phase >= COLLAPSING.",
+      "CONCLUSION: No escape path exists. Collapse is mathematically certain."
+    ],
+    "entropy_trajectory": [],
+    "proof_chain": {
+      "simulation_deterministic": true,
+      "all_paths_explored": true,
+      "inevitability_mathematical": true,
+      "gate_non_bypassable": true,
+      "history_append_only": true,
+      "no_config": true,
+      "no_flag": true,
+      "no_override": true,
+      "no_reset": true
+    }
+  },
+  "aec": null,
+  "execution_allowed": false,
+  "mutations_allowed": false,
+  "abort_reason": "IE HARD_ABORT: Fingerprint 29cc51ed1a8631a3 was previously proven inevitable. Blocking without re-simulation."
+}

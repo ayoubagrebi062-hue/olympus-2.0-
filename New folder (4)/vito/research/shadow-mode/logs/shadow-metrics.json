@@ -1,0 +1,65 @@
+{
+  "version": "1.0.0",
+  "mode": "PROVISIONAL",
+  "target": "intent-admissibility-frontier",
+  "window": {
+    "startTimestamp": "2026-01-19T00:00:00.000Z",
+    "endTimestamp": "2026-01-19T00:00:00.000Z",
+    "durationHours": 0,
+    "isRolling": true
+  },
+  "metrics": {
+    "volume": {
+      "totalRequests": 0,
+      "divergentRequests": 0
+    },
+    "verdicts": {
+      "canonical": {
+        "admitted": 0,
+        "rejected": 0
+      },
+      "provisional": {
+        "admitted": 0,
+        "rejected": 0
+      }
+    },
+    "divergence": {
+      "byType": {
+        "shadowMoreStrict": 0,
+        "shadowMorePermissive": 0,
+        "sameVerdictDifferentReason": 0
+      },
+      "byRejectionCode": {}
+    },
+    "successCriteria": {
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "determinismViolations": 0
+    }
+  },
+  "successCriteria": {
+    "zeroFalsePositives": {
+      "status": "PASSING",
+      "currentValue": 0,
+      "threshold": 0
+    },
+    "zeroHostileMisses": {
+      "status": "PASSING",
+      "currentValue": 0,
+      "threshold": 0
+    },
+    "determinismMaintained": {
+      "status": "PASSING",
+      "currentValue": 1.0,
+      "threshold": 1.0
+    }
+  },
+  "reviewGate": {
+    "trialsProcessed": 0,
+    "trialsRequired": 1000,
+    "timeElapsedHours": 0,
+    "timeRequiredHours": 168,
+    "gateTriggered": false,
+    "triggerReason": null
+  }
+}

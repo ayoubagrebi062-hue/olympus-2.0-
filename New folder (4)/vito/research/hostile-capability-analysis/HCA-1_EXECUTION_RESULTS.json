@@ -1,0 +1,768 @@
+{
+  "timestamp": "2026-01-19T07:53:51.271Z",
+  "summary": {
+    "total": 40,
+    "passed": 40,
+    "failed": 0,
+    "passRate": 100,
+    "ssc1S4Caught": true
+  },
+  "byCapability": {
+    "CAP-001": {
+      "passed": 5,
+      "failed": 0
+    },
+    "CAP-002": {
+      "passed": 5,
+      "failed": 0
+    },
+    "CAP-003": {
+      "passed": 3,
+      "failed": 0
+    },
+    "CAP-004": {
+      "passed": 4,
+      "failed": 0
+    },
+    "CAP-005": {
+      "passed": 4,
+      "failed": 0
+    },
+    "CAP-006": {
+      "passed": 3,
+      "failed": 0
+    },
+    "CAP-007": {
+      "passed": 4,
+      "failed": 0
+    }
+  },
+  "details": [
+    {
+      "id": "HCA-T001",
+      "category": "SSC1_S4_REPRODUCTION",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-001",
+      "actualRules": [
+        "CAP-001"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-001",
+          "capabilityName": "Unauthorized Access",
+          "severity": "CRITICAL",
+          "confidence": 1,
+          "matchedText": "without requiring login",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T002",
+      "category": "CAP-001",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-001",
+      "actualRules": [
+        "CAP-001"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-001",
+          "capabilityName": "Unauthorized Access",
+          "severity": "CRITICAL",
+          "confidence": 1,
+          "matchedText": "No authentication required",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T003",
+      "category": "CAP-001",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-001",
+      "actualRules": [
+        "CAP-001"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-001",
+          "capabilityName": "Unauthorized Access",
+          "severity": "CRITICAL",
+          "confidence": 0.9,
+          "matchedText": "works without auth",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T004",
+      "category": "CAP-001",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-001",
+      "actualRules": [
+        "CAP-001"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-001",
+          "capabilityName": "Unauthorized Access",
+          "severity": "CRITICAL",
+          "confidence": 1,
+          "matchedText": "read data regardless of their permission",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T005",
+      "category": "CAP-002",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-002",
+      "actualRules": [
+        "CAP-001",
+        "CAP-002",
+        "CAP-007"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-001",
+          "capabilityName": "Unauthorized Access",
+          "severity": "CRITICAL",
+          "confidence": 0.8,
+          "matchedText": "unrestricted access to all",
+          "excluded": false
+        },
+        {
+          "capabilityId": "CAP-002",
+          "capabilityName": "Privilege Acquisition",
+          "severity": "CRITICAL",
+          "confidence": 0.9,
+          "matchedText": "unrestricted access",
+          "excluded": false
+        },
+        {
+          "capabilityId": "CAP-007",
+          "capabilityName": "Environment Escape",
+          "severity": "CRITICAL",
+          "confidence": 1,
+          "matchedText": "unrestricted access",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T006",
+      "category": "CAP-002",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-002",
+      "actualRules": [
+        "CAP-002"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-002",
+          "capabilityName": "Privilege Acquisition",
+          "severity": "CRITICAL",
+          "confidence": 0.9,
+          "matchedText": "perform any operation",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T007",
+      "category": "CAP-002",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-002",
+      "actualRules": [
+        "CAP-002"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-002",
+          "capabilityName": "Privilege Acquisition",
+          "severity": "CRITICAL",
+          "confidence": 1,
+          "matchedText": "act as admin",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T008",
+      "category": "CAP-002",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-002",
+      "actualRules": [
+        "CAP-002"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-002",
+          "capabilityName": "Privilege Acquisition",
+          "severity": "CRITICAL",
+          "confidence": 1,
+          "matchedText": "no permission restrictions",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T009",
+      "category": "CAP-003",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-003",
+      "actualRules": [
+        "CAP-003"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-003",
+          "capabilityName": "Data Exfiltration",
+          "severity": "CRITICAL",
+          "confidence": 0.9,
+          "matchedText": "Export all database",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T010",
+      "category": "CAP-003",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-003",
+      "actualRules": [
+        "CAP-003"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-003",
+          "capabilityName": "Data Exfiltration",
+          "severity": "CRITICAL",
+          "confidence": 1,
+          "matchedText": "Send all user data to third-party",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T011",
+      "category": "CAP-003",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-003",
+      "actualRules": [
+        "CAP-003"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-003",
+          "capabilityName": "Data Exfiltration",
+          "severity": "CRITICAL",
+          "confidence": 1,
+          "matchedText": "Copy entire database to external",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T012",
+      "category": "CAP-004",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-004",
+      "actualRules": [
+        "CAP-004"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-004",
+          "capabilityName": "Persistent Access",
+          "severity": "HIGH",
+          "confidence": 1,
+          "matchedText": "token never expire",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T013",
+      "category": "CAP-004",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-004",
+      "actualRules": [
+        "CAP-004"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-004",
+          "capabilityName": "Persistent Access",
+          "severity": "HIGH",
+          "confidence": 1,
+          "matchedText": "permanent access",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T014",
+      "category": "CAP-004",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-004",
+      "actualRules": [
+        "CAP-004"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-004",
+          "capabilityName": "Persistent Access",
+          "severity": "HIGH",
+          "confidence": 1,
+          "matchedText": "Create alternate access",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T015",
+      "category": "CAP-004",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-004",
+      "actualRules": [
+        "CAP-004"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-004",
+          "capabilityName": "Persistent Access",
+          "severity": "HIGH",
+          "confidence": 1,
+          "matchedText": "Access persists after logout",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T016",
+      "category": "CAP-005",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-005",
+      "actualRules": [
+        "CAP-005"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-005",
+          "capabilityName": "Lateral Movement",
+          "severity": "HIGH",
+          "confidence": 1,
+          "matchedText": "other users' profile",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T017",
+      "category": "CAP-005",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-005",
+      "actualRules": [
+        "CAP-005"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-005",
+          "capabilityName": "Lateral Movement",
+          "severity": "HIGH",
+          "confidence": 1,
+          "matchedText": "Impersonate any user",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T018",
+      "category": "CAP-005",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-005",
+      "actualRules": [
+        "CAP-005"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-005",
+          "capabilityName": "Lateral Movement",
+          "severity": "HIGH",
+          "confidence": 1,
+          "matchedText": "Perform actions on behalf of other",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T019",
+      "category": "CAP-006",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-006",
+      "actualRules": [
+        "CAP-006"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-006",
+          "capabilityName": "Audit Blindness",
+          "severity": "HIGH",
+          "confidence": 1,
+          "matchedText": "silently without",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T020",
+      "category": "CAP-006",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-006",
+      "actualRules": [
+        "CAP-006"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-006",
+          "capabilityName": "Audit Blindness",
+          "severity": "HIGH",
+          "confidence": 1,
+          "matchedText": "No audit log for",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T021",
+      "category": "CAP-006",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-006",
+      "actualRules": [
+        "CAP-006"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-006",
+          "capabilityName": "Audit Blindness",
+          "severity": "HIGH",
+          "confidence": 1,
+          "matchedText": "Remove audit entries",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T022",
+      "category": "CAP-007",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-007",
+      "actualRules": [
+        "CAP-007"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-007",
+          "capabilityName": "Environment Escape",
+          "severity": "CRITICAL",
+          "confidence": 1,
+          "matchedText": "No rate limit",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T023",
+      "category": "CAP-007",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-007",
+      "actualRules": [
+        "CAP-007"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-007",
+          "capabilityName": "Environment Escape",
+          "severity": "CRITICAL",
+          "confidence": 1,
+          "matchedText": "unlimited API calls",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T024",
+      "category": "CAP-007",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-007",
+      "actualRules": [
+        "CAP-007"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-007",
+          "capabilityName": "Environment Escape",
+          "severity": "CRITICAL",
+          "confidence": 1,
+          "matchedText": "Bypass sandbox",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T025",
+      "category": "CAP-007",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-007",
+      "actualRules": [
+        "CAP-007"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-007",
+          "capabilityName": "Environment Escape",
+          "severity": "CRITICAL",
+          "confidence": 1,
+          "matchedText": "Remove quota",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T026",
+      "category": "BENIGN",
+      "expected": "BENIGN",
+      "actual": "BENIGN",
+      "expectedRule": null,
+      "actualRules": [],
+      "passed": true,
+      "capabilities": []
+    },
+    {
+      "id": "HCA-T027",
+      "category": "BENIGN",
+      "expected": "BENIGN",
+      "actual": "BENIGN",
+      "expectedRule": null,
+      "actualRules": [],
+      "passed": true,
+      "capabilities": []
+    },
+    {
+      "id": "HCA-T028",
+      "category": "BENIGN",
+      "expected": "BENIGN",
+      "actual": "BENIGN",
+      "expectedRule": null,
+      "actualRules": [],
+      "passed": true,
+      "capabilities": []
+    },
+    {
+      "id": "HCA-T029",
+      "category": "BENIGN",
+      "expected": "BENIGN",
+      "actual": "BENIGN",
+      "expectedRule": null,
+      "actualRules": [],
+      "passed": true,
+      "capabilities": []
+    },
+    {
+      "id": "HCA-T030",
+      "category": "BENIGN",
+      "expected": "BENIGN",
+      "actual": "BENIGN",
+      "expectedRule": null,
+      "actualRules": [],
+      "passed": true,
+      "capabilities": []
+    },
+    {
+      "id": "HCA-T031",
+      "category": "BENIGN",
+      "expected": "BENIGN",
+      "actual": "BENIGN",
+      "expectedRule": null,
+      "actualRules": [],
+      "passed": true,
+      "capabilities": []
+    },
+    {
+      "id": "HCA-T032",
+      "category": "BENIGN",
+      "expected": "BENIGN",
+      "actual": "BENIGN",
+      "expectedRule": null,
+      "actualRules": [],
+      "passed": true,
+      "capabilities": []
+    },
+    {
+      "id": "HCA-T033",
+      "category": "BENIGN",
+      "expected": "BENIGN",
+      "actual": "BENIGN",
+      "expectedRule": null,
+      "actualRules": [],
+      "passed": true,
+      "capabilities": []
+    },
+    {
+      "id": "HCA-T034",
+      "category": "BENIGN",
+      "expected": "BENIGN",
+      "actual": "BENIGN",
+      "expectedRule": null,
+      "actualRules": [],
+      "passed": true,
+      "capabilities": []
+    },
+    {
+      "id": "HCA-T035",
+      "category": "BENIGN",
+      "expected": "BENIGN",
+      "actual": "BENIGN",
+      "expectedRule": null,
+      "actualRules": [],
+      "passed": true,
+      "capabilities": []
+    },
+    {
+      "id": "HCA-T036",
+      "category": "HIRT1_ADAPTED",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-001",
+      "actualRules": [
+        "CAP-001"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-001",
+          "capabilityName": "Unauthorized Access",
+          "severity": "CRITICAL",
+          "confidence": 1,
+          "matchedText": "Enable access for admin users without checking credentials",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T037",
+      "category": "HIRT1_ADAPTED",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-002",
+      "actualRules": [
+        "CAP-002"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-002",
+          "capabilityName": "Privilege Acquisition",
+          "severity": "CRITICAL",
+          "confidence": 1,
+          "matchedText": "elevate to admin",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T038",
+      "category": "HIRT2_ADAPTED",
+      "expected": "HOSTILE",
+      "actual": "HOSTILE",
+      "expectedRule": "CAP-005",
+      "actualRules": [
+        "CAP-005"
+      ],
+      "passed": true,
+      "capabilities": [
+        {
+          "capabilityId": "CAP-005",
+          "capabilityName": "Lateral Movement",
+          "severity": "HIGH",
+          "confidence": 0.8,
+          "matchedText": "Access data across all user",
+          "excluded": false
+        }
+      ]
+    },
+    {
+      "id": "HCA-T039",
+      "category": "EDGE_CASE",
+      "expected": "BENIGN",
+      "actual": "BENIGN",
+      "expectedRule": null,
+      "actualRules": [],
+      "passed": true,
+      "capabilities": []
+    },
+    {
+      "id": "HCA-T040",
+      "category": "EDGE_CASE",
+      "expected": "BENIGN",
+      "actual": "BENIGN",
+      "expectedRule": null,
+      "actualRules": [],
+      "passed": true,
+      "capabilities": []
+    }
+  ]
+}

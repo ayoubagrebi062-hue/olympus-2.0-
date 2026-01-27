@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Input.tsx",
+      "content": "import React, { useState } from 'react';\n\ninterface InputProps {\n  label: string;\n  value: string;\n  onChange: (value: string) => void;\n  type?: 'text' | 'textarea';\n  errorMessage?: string;\n}\n\nconst Input: React.FC<InputProps> = ({ label, value, onChange, type = 'text', errorMessage }) => {\n  const [focused, setFocused] = useState(false);\n\n  const handleFocus = () => setFocused(true);\n  const handleBlur = () => setFocused(false);\n\n  const inputClasses = `border rounded p-2 ${errorMessage ? 'border-red-500' : 'border-gray-300'} ${focused ? 'focus:ring focus:ring-blue-300' : ''}`;\n\n  return (\n    <div>\n      <label className=\"block mb-1\">{label}</label>\n      {type === 'textarea' ? (\n        <textarea\n          className={inputClasses}\n          value={value}\n          onChange={(e) => onChange(e.target.value)}\n          onFocus={handleFocus}\n          onBlur={handleBlur}\n        />\n      ) : (\n        <input\n          type=\"text\"\n          className={inputClasses}\n          value={value}\n          onChange={(e) => onChange(e.target.value)}\n          onFocus={handleFocus}\n          onBlur={handleBlur}\n        />\n      )}\n      {errorMessage && <p className=\"text-red-500 text-sm mt-1\">{errorMessage}</p>}\n    </div>\n  );\n};\n\nexport default Input;"
+    }
+  ],
+  "timestamp": 1768783328600,
+  "promptVersion": "v3.0.0"
+}

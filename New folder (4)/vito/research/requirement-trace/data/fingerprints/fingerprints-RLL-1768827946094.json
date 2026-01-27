@@ -1,0 +1,532 @@
+{
+  "version": "1.0.0",
+  "run_id": "RLL-1768827946094",
+  "created_at": "2026-01-19T13:05:46.101Z",
+  "fingerprints": [
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H1-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H1",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "d8f396331f544ffd",
+      "source_agent": "strategos",
+      "target_agent": "scope",
+      "input_shape_ids": [
+        "FILTER_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "FILTER_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 1,
+        "attributes_after": 1,
+        "attributes_lost": [],
+        "attributes_added": []
+      },
+      "deterministic": true,
+      "reproducible": true
+    },
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H2-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H2",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "e2a7471510b61783",
+      "source_agent": "scope",
+      "target_agent": "cartographer",
+      "input_shape_ids": [
+        "FILTER_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "FILTER_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 1,
+        "attributes_after": 3,
+        "attributes_lost": [],
+        "attributes_added": [
+          "filter_attribute",
+          "filter_values"
+        ]
+      },
+      "deterministic": true,
+      "reproducible": true
+    },
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H3-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H3",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "4bab396cc5414f7e",
+      "source_agent": "cartographer",
+      "target_agent": "blocks",
+      "input_shape_ids": [
+        "FILTER_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "FILTER_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 3,
+        "attributes_after": 4,
+        "attributes_lost": [],
+        "attributes_added": [
+          "event_handler"
+        ]
+      },
+      "deterministic": true,
+      "reproducible": true
+    },
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H4-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H4",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "9d5e4cade68cb6e9",
+      "source_agent": "blocks",
+      "target_agent": "wire",
+      "input_shape_ids": [
+        "FILTER_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "FILTER_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [
+        "FILTER_CAPABILITY"
+      ],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 4,
+        "attributes_after": 1,
+        "attributes_lost": [
+          "event_handler",
+          "filter_attribute",
+          "filter_values"
+        ],
+        "attributes_added": []
+      },
+      "deterministic": true,
+      "reproducible": true
+    },
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H5-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H5",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "1d133d005f306f7e",
+      "source_agent": "wire",
+      "target_agent": "pixel",
+      "input_shape_ids": [
+        "FILTER_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "FILTER_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 1,
+        "attributes_after": 1,
+        "attributes_lost": [],
+        "attributes_added": []
+      },
+      "deterministic": true,
+      "reproducible": true
+    },
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H1-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H1",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "727c00bda8edf49c",
+      "source_agent": "strategos",
+      "target_agent": "scope",
+      "input_shape_ids": [
+        "PAGINATION_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "PAGINATION_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 1,
+        "attributes_after": 1,
+        "attributes_lost": [],
+        "attributes_added": []
+      },
+      "deterministic": true,
+      "reproducible": true
+    },
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H2-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H2",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "40e52024d3f3115c",
+      "source_agent": "scope",
+      "target_agent": "cartographer",
+      "input_shape_ids": [
+        "PAGINATION_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "PAGINATION_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 1,
+        "attributes_after": 2,
+        "attributes_lost": [],
+        "attributes_added": [
+          "page_size"
+        ]
+      },
+      "deterministic": true,
+      "reproducible": true
+    },
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H3-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H3",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "f281f025ff509057",
+      "source_agent": "cartographer",
+      "target_agent": "blocks",
+      "input_shape_ids": [
+        "PAGINATION_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "PAGINATION_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 2,
+        "attributes_after": 3,
+        "attributes_lost": [],
+        "attributes_added": [
+          "total_indicator"
+        ]
+      },
+      "deterministic": true,
+      "reproducible": true
+    },
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H4-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H4",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "b4923d4d8624a8c7",
+      "source_agent": "blocks",
+      "target_agent": "wire",
+      "input_shape_ids": [
+        "PAGINATION_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "PAGINATION_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [
+        "PAGINATION_CAPABILITY"
+      ],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 3,
+        "attributes_after": 1,
+        "attributes_lost": [
+          "page_size",
+          "total_indicator"
+        ],
+        "attributes_added": []
+      },
+      "deterministic": true,
+      "reproducible": true
+    },
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H5-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H5",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "2fdb2b12f07f2a83",
+      "source_agent": "wire",
+      "target_agent": "pixel",
+      "input_shape_ids": [
+        "PAGINATION_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "PAGINATION_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 1,
+        "attributes_after": 1,
+        "attributes_lost": [],
+        "attributes_added": []
+      },
+      "deterministic": true,
+      "reproducible": true
+    },
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H1-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H1",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "5622ceff7fb6b720",
+      "source_agent": "strategos",
+      "target_agent": "scope",
+      "input_shape_ids": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 1,
+        "attributes_after": 2,
+        "attributes_lost": [],
+        "attributes_added": [
+          "display_fields"
+        ]
+      },
+      "deterministic": true,
+      "reproducible": true
+    },
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H2-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H2",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "776e18f2d60d5f7c",
+      "source_agent": "scope",
+      "target_agent": "cartographer",
+      "input_shape_ids": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 2,
+        "attributes_after": 3,
+        "attributes_lost": [],
+        "attributes_added": [
+          "layout_type"
+        ]
+      },
+      "deterministic": true,
+      "reproducible": true
+    },
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H3-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H3",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "dd48b4bc2ec4b8da",
+      "source_agent": "cartographer",
+      "target_agent": "blocks",
+      "input_shape_ids": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 3,
+        "attributes_after": 2,
+        "attributes_lost": [
+          "layout_type"
+        ],
+        "attributes_added": []
+      },
+      "deterministic": true,
+      "reproducible": true
+    },
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H4-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H4",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "63b39291cfaf02b1",
+      "source_agent": "blocks",
+      "target_agent": "wire",
+      "input_shape_ids": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 2,
+        "attributes_after": 2,
+        "attributes_lost": [],
+        "attributes_added": []
+      },
+      "deterministic": true,
+      "reproducible": true
+    },
+    {
+      "fingerprint_id": "FP-RLL-1768827946094-H5-mkl6hm5w",
+      "run_id": "RLL-1768827946094",
+      "handoff_id": "H5",
+      "timestamp": "2026-01-19T13:05:46.100Z",
+      "transform_hash": "95f3fe3732fcfa19",
+      "source_agent": "wire",
+      "target_agent": "pixel",
+      "input_shape_ids": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "output_shape_ids": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "shapes_lost": [],
+      "shapes_degraded": [],
+      "summarization_invoked": false,
+      "summarization_input_size": null,
+      "summarization_output_size": null,
+      "summarization_compression_ratio": null,
+      "invariant_shapes_present": [
+        "STATIC_DISPLAY_CAPABILITY"
+      ],
+      "invariant_bypass_requested": false,
+      "invariant_bypass_granted": false,
+      "attribute_delta": {
+        "attributes_before": 2,
+        "attributes_after": 2,
+        "attributes_lost": [],
+        "attributes_added": []
+      },
+      "deterministic": true,
+      "reproducible": true
+    }
+  ],
+  "summary": {
+    "total_handoffs": 15,
+    "handoffs_with_loss": 0,
+    "total_shapes_lost": 0,
+    "summarization_invocations": 0,
+    "invariant_violations": 0
+  }
+}

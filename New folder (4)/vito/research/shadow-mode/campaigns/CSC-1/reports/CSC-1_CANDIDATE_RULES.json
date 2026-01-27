@@ -1,0 +1,38 @@
+{
+  "campaignId": "CSC-1",
+  "timestamp": "2026-01-19T10:43:21.125Z",
+  "rules": [
+    {
+      "ruleId": "CAP-SHADOW-001",
+      "ruleType": "CAP_RULE",
+      "sourceCluster": "CLU-001",
+      "name": "Authentication Bypass Pattern",
+      "capability": "AUTH_BYPASS",
+      "patterns": [
+        "the",
+        "authentication",
+        "through",
+        "quantum",
+        "login"
+      ],
+      "combinedPattern": "(the|authentication|through|quantum|login)",
+      "invariantSignature": "the_authentication_through_quantum_login",
+      "ngramPatterns": [
+        "tunnel through",
+        "through the",
+        "the login",
+        "the authentication"
+      ],
+      "confidence": 7.2,
+      "mode": "SHADOW_ONLY",
+      "status": "CANDIDATE",
+      "requiresVerification": [
+        "MSI-001",
+        "MSI-002",
+        "MSI-003"
+      ]
+    }
+  ],
+  "mode": "SHADOW_ONLY",
+  "status": "PENDING_CERTIFICATION"
+}

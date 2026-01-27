@@ -1,0 +1,218 @@
+{
+  "pipelineId": "CLP-1",
+  "name": "Cluster Lifecycle Pipeline",
+  "version": "1.0.0",
+  "createdAt": "2026-01-19T16:00:00.000Z",
+  "status": "ACTIVE",
+
+  "purpose": {
+    "description": "Process clustered unknown intents through saturation to derive new safety rules, axioms, or invariants",
+    "principle": "Hostile patterns must converge to formal safety constraints before any operational use",
+    "threat_model": "Adversaries may attempt to poison clusters to influence derived rules"
+  },
+
+  "input": {
+    "source": "UKP-1.CLUSTERS",
+    "description": "Clustered unknown intents from ICL-1 Intent Clustering Campaign",
+    "fields": [
+      "cluster_id",
+      "centroid_signature",
+      "risk_pressure_score",
+      "provisional_classification",
+      "member_intents"
+    ]
+  },
+
+  "targets": {
+    "CAP_RULE": {
+      "description": "New hostile capability rule for HCA-1 layer",
+      "output_format": {
+        "cap_id": "CAP-XXX",
+        "name": "Capability name",
+        "patterns": ["regex patterns"],
+        "exclusions": ["exclusion patterns"]
+      },
+      "integration": "HCA-1",
+      "mode": "SHADOW_ONLY_UNTIL_CERTIFIED"
+    },
+    "HIC_AXIOM": {
+      "description": "New hostile intent composition axiom for HIC-1 layer",
+      "output_format": {
+        "axiom_id": "HIC-XXX",
+        "name": "Axiom name",
+        "components": ["capability combinations"],
+        "threat_level": "S1-S4"
+      },
+      "integration": "HIC-1",
+      "mode": "SHADOW_ONLY_UNTIL_CERTIFIED"
+    },
+    "GLOBAL_INVARIANT": {
+      "description": "New global safety invariant for PIL-1 layer",
+      "output_format": {
+        "invariant_id": "INV-XXX",
+        "name": "Invariant name",
+        "formal_statement": "Logical predicate",
+        "verification": "How to verify"
+      },
+      "integration": "PIL-1",
+      "mode": "SHADOW_ONLY_UNTIL_CERTIFIED"
+    }
+  },
+
+  "constraints": {
+    "shadow_only_until_certified": {
+      "description": "All derived rules operate in shadow mode until full certification",
+      "enforcement": "BLOCKING",
+      "certification_path": [
+        "shadow_observation_period",
+        "recertification_campaign",
+        "oracle_verification",
+        "human_ratification"
+      ]
+    },
+    "hostile_clusters_only": {
+      "description": "Only clusters with POTENTIAL_HOSTILE classification proceed to rule derivation",
+      "enforcement": "BLOCKING",
+      "rationale": "Prevents benign patterns from being incorrectly added to hostile detection"
+    },
+    "benign_clusters_for_observation_only": {
+      "description": "POTENTIAL_BENIGN clusters are observed but not used for rule derivation",
+      "enforcement": "INFORMATIONAL",
+      "use_case": "Monitor for false positive patterns in hostile detection"
+    }
+  },
+
+  "stages": {
+    "stage_1": {
+      "name": "Cluster Intake",
+      "description": "Receive clusters from UKP-1 with risk assessment",
+      "filter": "risk_pressure_score >= 0.7 AND provisional_classification == 'POTENTIAL_HOSTILE'",
+      "output": "qualified_clusters"
+    },
+    "stage_2": {
+      "name": "Saturation",
+      "description": "Generate mutations of cluster patterns to find convergent forms",
+      "campaign": "CLUSTER_SATURATION",
+      "mutation_budget": "HIGH",
+      "stop_condition": "invariant_convergence",
+      "output": "saturated_patterns"
+    },
+    "stage_3": {
+      "name": "Rule Synthesis",
+      "description": "Synthesize formal rules from saturated patterns",
+      "methods": [
+        "regex_generalization",
+        "semantic_abstraction",
+        "invariant_extraction"
+      ],
+      "output": "candidate_rules"
+    },
+    "stage_4": {
+      "name": "Meta-Invariant Verification",
+      "description": "Verify candidate rules against meta-invariants",
+      "verifications": [
+        "MSI-001: NO_PROXY_SATISFACTION",
+        "MSI-002: EXPLANATION_NON_RECURSIVE",
+        "MSI-003: METRIC_INDEPENDENCE"
+      ],
+      "output": "verified_rules"
+    },
+    "stage_5": {
+      "name": "Shadow Deployment",
+      "description": "Deploy verified rules in shadow mode",
+      "mode": "SHADOW_ONLY",
+      "duration": "minimum_1_campaign",
+      "metrics": ["false_positive_rate", "detection_rate", "stability"]
+    },
+    "stage_6": {
+      "name": "Certification",
+      "description": "Full certification campaign before promotion",
+      "requires": [
+        "shadow_metrics_within_budget",
+        "anchor_alignment_verified",
+        "oracle_consensus",
+        "human_ratification"
+      ]
+    }
+  },
+
+  "saturation_config": {
+    "mutation_types": [
+      "synonym_substitution",
+      "abstraction_elevation",
+      "intent_reframing",
+      "capability_euphemism",
+      "structural_variation",
+      "context_shifting"
+    ],
+    "mutation_budget": {
+      "LOW": { "mutations_per_sample": 5, "max_iterations": 10 },
+      "MEDIUM": { "mutations_per_sample": 20, "max_iterations": 50 },
+      "HIGH": { "mutations_per_sample": 100, "max_iterations": 200 }
+    },
+    "convergence_criteria": {
+      "invariant_convergence": {
+        "description": "Stop when derived pattern stabilizes across mutations",
+        "stability_threshold": 0.95,
+        "min_iterations": 20
+      },
+      "semantic_saturation": {
+        "description": "Stop when no new semantic variations discovered",
+        "novelty_threshold": 0.05
+      }
+    }
+  },
+
+  "meta_invariant_checks": {
+    "MSI-001": {
+      "name": "NO_PROXY_SATISFACTION",
+      "check": "Derived rule must detect actual capability, not correlated metrics",
+      "verification": "Direct causal link from pattern to hostile capability"
+    },
+    "MSI-002": {
+      "name": "EXPLANATION_NON_RECURSIVE",
+      "check": "Rule explanation must not reference derived safety outputs",
+      "verification": "Explanation based on input characteristics only"
+    },
+    "MSI-003": {
+      "name": "METRIC_INDEPENDENCE",
+      "check": "Rule detection metric must be independent of justification",
+      "verification": "Separate detection and justification paths"
+    }
+  },
+
+  "safety_boundaries": {
+    "max_rules_per_cycle": 3,
+    "mandatory_shadow_period": "1_campaign",
+    "min_cluster_samples": 5,
+    "max_false_positive_rate": 0.001,
+    "rollback_window": "72_hours"
+  },
+
+  "integration": {
+    "receives_from": "UKP-1",
+    "outputs_to": ["SHADOW_HCA-1", "SHADOW_HIC-1", "SHADOW_PIL-1"],
+    "never_outputs_to": ["ENFORCING_LAYERS"],
+    "promotion_requires": ["FULL_CERTIFICATION", "HUMAN_RATIFICATION"]
+  },
+
+  "monitoring": {
+    "metrics": [
+      "clusters_processed",
+      "rules_derived",
+      "meta_invariant_pass_rate",
+      "shadow_false_positive_rate",
+      "rules_promoted",
+      "rules_rejected"
+    ]
+  },
+
+  "constitutional_binding": {
+    "constitution": "SEC-5",
+    "bindings": [
+      "NO_AUTO_LEARNING_ADMISSION",
+      "UNKNOWN_MAY_ONLY_EVOLVE_VIA_SHADOW",
+      "CLUSTERED_KNOWLEDGE_REQUIRES_RECERTIFICATION"
+    ]
+  }
+}

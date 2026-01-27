@@ -1,0 +1,347 @@
+{
+  "constitutionId": "SEC-2",
+  "name": "Safety Evolution Constitution v2",
+  "version": "2.0.0",
+  "timestamp": "2026-01-19T11:30:00.000Z",
+  "scope": "safety-evolution",
+  "status": "RATIFIED",
+  "predecessorConstitution": "SEC-1",
+  "parentConstitution": "SMC-1",
+
+  "amendment": {
+    "from": "SEC-1",
+    "to": "SEC-2",
+    "reason": "Add meta-invariant preservation, metric auditability, and oracle redundancy requirements",
+    "addedBindings": [
+      "META_INVARIANT_PRESERVATION",
+      "METRIC_AUDITABILITY_REQUIRED",
+      "ORACLE_REDUNDANCY_REQUIRED"
+    ],
+    "preservedBindings": [
+      "INVARIANT_PRESERVATION",
+      "RECERTIFICATION_ON_CHANGE",
+      "SHADOW_BEFORE_ENFORCE",
+      "TEMPORAL_INVARIANCE_REQUIRED"
+    ],
+    "amendedAt": "2026-01-19T11:30:00.000Z"
+  },
+
+  "preamble": {
+    "purpose": "To establish binding principles governing the evolution of safety layers while preserving core invariants and meta-invariants",
+    "authority": "Derived from SEC-1 with additions for meta-safety and oracle redundancy",
+    "binding": true,
+    "immutable": true
+  },
+
+  "bindings": {
+    "BIND-001": {
+      "id": "INVARIANT_PRESERVATION",
+      "name": "Invariant Preservation Binding",
+      "statement": "All global safety invariants (GSI-001) must remain satisfied through any evolutionary change",
+      "invariants": [
+        "NO_HOSTILE_ADMISSION",
+        "NO_UNEXPLAINED_VERDICT",
+        "ORDER_INVARIANCE",
+        "CAPABILITY_MONOTONICITY",
+        "EXPLANATION_ENTROPY_MINIMUM"
+      ],
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "verification": "REQUIRED_BEFORE_DEPLOYMENT",
+      "inheritedFrom": "SEC-1"
+    },
+
+    "BIND-002": {
+      "id": "RECERTIFICATION_ON_CHANGE",
+      "name": "Recertification Requirement",
+      "statement": "Any modification to safety layer rules, patterns, or topology requires full recertification campaign",
+      "triggers": [
+        "rule_addition",
+        "rule_modification",
+        "rule_removal",
+        "pattern_change",
+        "layer_order_change",
+        "layer_addition",
+        "layer_removal",
+        "threshold_change",
+        "meta_invariant_change",
+        "oracle_configuration_change"
+      ],
+      "campaign": {
+        "minVolume": 10000,
+        "mustInclude": ["benign_corpus", "hostile_corpus", "edge_cases", "adversarial_attacks"],
+        "successCriteria": "ALL_INVARIANTS_AND_META_INVARIANTS_SATISFIED"
+      },
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "inheritedFrom": "SEC-1",
+      "extendedIn": "SEC-2"
+    },
+
+    "BIND-003": {
+      "id": "SHADOW_BEFORE_ENFORCE",
+      "name": "Shadow Mode Progression",
+      "statement": "All new safety components must progress through shadow mode before enforcement",
+      "progression": [
+        {
+          "stage": "OBSERVATIONAL",
+          "duration": "minimum_1_campaign",
+          "blocking": false,
+          "requirements": ["logging_enabled", "metrics_collected", "oracle_monitoring"]
+        },
+        {
+          "stage": "SHADOW_ENFORCING",
+          "duration": "minimum_1_stress_campaign",
+          "blocking": false,
+          "requirements": ["zero_s4", "s2_within_budget", "dominance_within_budget", "meta_invariants_satisfied"]
+        },
+        {
+          "stage": "ENFORCING",
+          "duration": "permanent",
+          "blocking": true,
+          "requirements": ["graduation_criteria_met", "recertification_passed", "oracle_agreement"]
+        }
+      ],
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "rollbackAllowed": true,
+      "inheritedFrom": "SEC-1",
+      "extendedIn": "SEC-2"
+    },
+
+    "BIND-004": {
+      "id": "TEMPORAL_INVARIANCE_REQUIRED",
+      "name": "Temporal Stability Requirement",
+      "statement": "Safety properties must remain stable under temporal drift and evolutionary pressure",
+      "requirements": [
+        {
+          "id": "DRIFT_STABILITY",
+          "description": "Invariants must hold across simulated evolutionary epochs",
+          "verification": "TDS_CAMPAIGN",
+          "minEpochs": 100
+        },
+        {
+          "id": "REGRESSION_BUDGET",
+          "description": "Changes must stay within defined regression budget",
+          "reference": "governance/REGRESSION_BUDGET.json"
+        },
+        {
+          "id": "MONOTONIC_COVERAGE",
+          "description": "Detection coverage must never decrease",
+          "metric": "coverage_delta >= 0"
+        }
+      ],
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "inheritedFrom": "SEC-1"
+    },
+
+    "BIND-005": {
+      "id": "META_INVARIANT_PRESERVATION",
+      "name": "Meta-Invariant Preservation Binding",
+      "statement": "All meta-safety invariants (MSI-001) must remain satisfied to prevent Goodhart attacks",
+      "metaInvariants": [
+        {
+          "id": "MSI-001",
+          "name": "NO_PROXY_SATISFACTION",
+          "description": "Invariants must be satisfied directly, not via correlated metrics"
+        },
+        {
+          "id": "MSI-002",
+          "name": "EXPLANATION_NON_RECURSIVE",
+          "description": "Explanations cannot reference derived safety outputs"
+        },
+        {
+          "id": "MSI-003",
+          "name": "METRIC_INDEPENDENCE",
+          "description": "No single metric may serve as both trigger and justification"
+        },
+        {
+          "id": "MSI-004",
+          "name": "INVARIANT_OBSERVABILITY",
+          "description": "Every invariant must have an independent audit signal"
+        }
+      ],
+      "verification": {
+        "campaign": "MAC (Metric Adversarial Campaign)",
+        "frequency": "ON_CHANGE_AND_PERIODIC",
+        "attacks": [
+          "dominance_inflation",
+          "explanation_padding",
+          "capability_aliasing",
+          "metric_correlation"
+        ]
+      },
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "addedIn": "SEC-2"
+    },
+
+    "BIND-006": {
+      "id": "METRIC_AUDITABILITY_REQUIRED",
+      "name": "Metric Auditability Requirement",
+      "statement": "All metrics used in safety decisions must have complete audit trails with independent verification",
+      "requirements": [
+        {
+          "id": "AUDIT_TRAIL",
+          "description": "Every metric computation must be logged with inputs and outputs",
+          "retention": "PERMANENT"
+        },
+        {
+          "id": "CAUSAL_ATTRIBUTION",
+          "description": "Every metric must trace to source data and computation steps",
+          "verification": "REPLAY_HASH"
+        },
+        {
+          "id": "INDEPENDENT_VERIFICATION",
+          "description": "Metrics must be verifiable by at least 2 independent oracles",
+          "reference": "oracles/REDUNDANT_ORACLE_SYSTEM.json"
+        },
+        {
+          "id": "NO_SELF_REFERENCE",
+          "description": "Metrics cannot depend on their own previous values in circular fashion",
+          "verification": "DEPENDENCY_GRAPH_ACYCLICITY"
+        }
+      ],
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "addedIn": "SEC-2"
+    },
+
+    "BIND-007": {
+      "id": "ORACLE_REDUNDANCY_REQUIRED",
+      "name": "Oracle Redundancy Requirement",
+      "statement": "Safety invariants must be verified by redundant independent oracles with cross-check agreement",
+      "oracleSystem": {
+        "reference": "oracles/REDUNDANT_ORACLE_SYSTEM.json",
+        "oracles": [
+          {
+            "id": "SCO-1",
+            "name": "Symbolic Capability Oracle",
+            "type": "SYMBOLIC"
+          },
+          {
+            "id": "SAO-1",
+            "name": "Statistical Anomaly Oracle",
+            "type": "STATISTICAL"
+          },
+          {
+            "id": "HRO-1",
+            "name": "Historical Regression Oracle",
+            "type": "TEMPORAL"
+          }
+        ],
+        "crossCheck": {
+          "requiredAgreement": "2_of_3",
+          "vetoCondition": "S4_detected_by_any",
+          "tieBreaker": "REJECT"
+        },
+        "onDisagreement": {
+          "action": "ESCALATE_TO_SHADOW_REVIEW",
+          "defaultDecision": "REJECT",
+          "timeLimit": "24_hours"
+        }
+      },
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "addedIn": "SEC-2"
+    }
+  },
+
+  "principles": {
+    "PRIN-001": {
+      "name": "Determinism",
+      "statement": "All safety layer behavior must be fully deterministic and reproducible",
+      "constraints": ["no_randomness", "no_ml_inference", "hash_verifiable"],
+      "inheritedFrom": "SEC-1"
+    },
+    "PRIN-002": {
+      "name": "Transparency",
+      "statement": "All verdicts must be fully explainable through causal attribution",
+      "constraints": ["full_attribution", "human_readable_explanations", "replay_support"],
+      "inheritedFrom": "SEC-1"
+    },
+    "PRIN-003": {
+      "name": "Immutability",
+      "statement": "Frozen components cannot be modified without full recertification",
+      "constraints": ["frozen_after_certification", "version_controlled", "tamper_evident"],
+      "inheritedFrom": "SEC-1"
+    },
+    "PRIN-004": {
+      "name": "Fail-Safe",
+      "statement": "On any uncertainty or error, default to rejection",
+      "constraints": ["reject_on_error", "reject_on_timeout", "reject_on_ambiguity"],
+      "inheritedFrom": "SEC-1"
+    },
+    "PRIN-005": {
+      "name": "Goodhart Resistance",
+      "statement": "Metrics must not become targets that can be gamed separately from genuine safety",
+      "constraints": ["proxy_detection", "causal_verification", "adversarial_testing"],
+      "addedIn": "SEC-2"
+    },
+    "PRIN-006": {
+      "name": "Redundant Verification",
+      "statement": "No single point of verification failure may compromise safety",
+      "constraints": ["multi_oracle", "independent_codebases", "diverse_methods"],
+      "addedIn": "SEC-2"
+    }
+  },
+
+  "governance": {
+    "decisionAuthority": {
+      "certification": "CAMPAIGN_VALIDATION",
+      "promotion": "GRADUATION_CRITERIA",
+      "freeze": "TOPOLOGY_INVARIANCE_VERIFICATION",
+      "oracleDisagreement": "SHADOW_REVIEW_BOARD",
+      "exception": "NOT_PERMITTED"
+    },
+    "auditTrail": {
+      "required": true,
+      "retention": "PERMANENT",
+      "immutable": true,
+      "oracleLogs": "REQUIRED"
+    },
+    "versionControl": {
+      "required": true,
+      "tagging": "SEMANTIC_VERSIONING",
+      "rollbackCapability": true
+    }
+  },
+
+  "artifacts": {
+    "invariants": "invariants/GLOBAL_SAFETY_INVARIANTS.json",
+    "metaInvariants": "invariants/META_SAFETY_INVARIANTS.json",
+    "regressionBudget": "governance/REGRESSION_BUDGET.json",
+    "topologyFreeze": "topology/PIPELINE_TOPOLOGY_FREEZE.json",
+    "oracleSystem": "oracles/REDUNDANT_ORACLE_SYSTEM.json",
+    "predecessorConstitution": "constitutions/SEC-1_SAFETY_EVOLUTION_CONSTITUTION.json",
+    "parentConstitution": "constitutions/SMC-1_CONSTITUTION.json"
+  },
+
+  "validation": {
+    "campaigns": [
+      {"id": "SSC-3", "status": "PASSED", "validates": ["SHADOW_BEFORE_ENFORCE"]},
+      {"id": "TIC-1", "status": "PASSED", "validates": ["ORDER_INVARIANCE"]},
+      {"id": "TDS-1", "status": "PASSED", "validates": ["TEMPORAL_INVARIANCE_REQUIRED"]},
+      {"id": "MAC-1", "status": "PASSED", "validates": ["META_INVARIANT_PRESERVATION"]}
+    ]
+  },
+
+  "amendments": {
+    "allowed": false,
+    "note": "SEC-2 superseded by SEC-3. See SEC-3 for current bindings."
+  },
+
+  "ratification": {
+    "ratifiedBy": "Safety Governance Framework",
+    "ratifiedAt": "2026-01-19T11:30:00.000Z",
+    "validFrom": "2026-01-19T11:30:00.000Z",
+    "validUntil": "2026-01-19T13:05:00.000Z",
+    "supersedes": "SEC-1",
+    "successorConstitution": "SEC-3"
+  },
+
+  "signatures": {
+    "constitutionHash": "sha256:18116da1c85a50cc80e4d618c974a30139cc64373b639ec5899874dda3e0d3b2"
+  }
+}

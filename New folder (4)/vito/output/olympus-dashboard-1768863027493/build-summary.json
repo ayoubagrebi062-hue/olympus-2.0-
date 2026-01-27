@@ -1,0 +1,37 @@
+{
+  "buildId": "olympus-dashboard-1768863027493",
+  "success": false,
+  "duration": 66,
+  "progress": 71,
+  "completedPhases": [
+    "discovery",
+    "design",
+    "architecture"
+  ],
+  "completedAgents": [
+    "oracle",
+    "empathy",
+    "venture",
+    "strategos",
+    "scope",
+    "palette",
+    "grid",
+    "blocks",
+    "cartographer",
+    "flow",
+    "archon",
+    "datum",
+    "nexus",
+    "forge",
+    "sentinel"
+  ],
+  "tokensUsed": 67464,
+  "error": {
+    "code": "CRITICAL_COMPONENT_FAILED",
+    "message": "1 critical component(s) failed to generate",
+    "agentId": "pixel",
+    "phase": "frontend",
+    "recoverable": false
+  },
+  "timestamp": "2026-01-19T22:51:33.599Z"
+}

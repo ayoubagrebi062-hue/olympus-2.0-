@@ -1,0 +1,122 @@
+{
+  "ruleId": "CAP-SHADOW-001-STRIPPED",
+  "ruleType": "CAP_RULE",
+  "sourceCluster": "CLU-001",
+  "name": "Authentication Bypass Pattern",
+  "capability": "AUTH_BYPASS",
+  "patterns": [
+    "authentication",
+    "login"
+  ],
+  "combinedPattern": "(authentication|login)",
+  "ngramPatterns": [],
+  "strippingLog": {
+    "removed": [
+      "through",
+      "quantum",
+      "the"
+    ],
+    "original_count": 5,
+    "remaining_count": 2
+  },
+  "structuralCriteria": {
+    "verb_class_required": {
+      "classes": [
+        "BYPASS",
+        "TUNNEL",
+        "SHIFT"
+      ],
+      "verification": "Must contain verb from transition class",
+      "patterns": [
+        "bypass",
+        "circumvent",
+        "evade",
+        "sidestep",
+        "skip",
+        "avoid",
+        "tunnel",
+        "penetrate",
+        "breach",
+        "pass",
+        "shift",
+        "phase",
+        "warp",
+        "teleport"
+      ]
+    },
+    "subject_binding": {
+      "entity_class": "AGENT",
+      "indicators": [
+        "user",
+        "my",
+        "I",
+        "me",
+        "attacker",
+        "we"
+      ],
+      "requirement": "Subject must be identifiable as agent/user"
+    },
+    "object_binding": {
+      "entity_class": "SECURITY",
+      "indicators": [
+        "authentication",
+        "login",
+        "auth",
+        "credential",
+        "verification",
+        "password",
+        "session"
+      ],
+      "requirement": "Object must be security mechanism"
+    },
+    "transition_detection": {
+      "pattern": "AGENT → BYPASS_VERB → SECURITY",
+      "description": "Explicit unauthorized access attempt structure"
+    }
+  },
+  "detectionMode": "STRUCTURAL_PLUS_KEYWORD",
+  "verification": {
+    "keyword_check": {
+      "patterns": [
+        "authentication",
+        "login"
+      ],
+      "mode": "any_match"
+    },
+    "structural_check": {
+      "required": true,
+      "pattern": "AGENT → BYPASS → SECURITY",
+      "verb_classes": [
+        "BYPASS",
+        "TUNNEL",
+        "SHIFT"
+      ],
+      "binding_required": true
+    }
+  },
+  "msi001Verification": {
+    "compliant": true,
+    "checks": [
+      {
+        "check": "Capability-specific keywords",
+        "passed": true,
+        "evidence": "Contains: authentication, login"
+      },
+      {
+        "check": "Structural requirements defined",
+        "passed": true,
+        "evidence": "Structural detection criteria present"
+      },
+      {
+        "check": "No pure proxy patterns",
+        "passed": true,
+        "evidence": "All remaining patterns are meaningful"
+      }
+    ]
+  },
+  "version": "2.0.0",
+  "transformedAt": "2026-01-19T10:56:58.911Z",
+  "transformedFrom": "CAP-SHADOW-001",
+  "transformationType": "PROXY_STRIPPING",
+  "status": "VERIFIED"
+}

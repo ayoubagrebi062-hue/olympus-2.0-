@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Card.tsx",
+      "content": "import React, { useState } from 'react';\n\ninterface CardProps {\n  title: string;\n  description: string;\n  variant?: 'default' | 'highlighted';\n  onClick?: () => void;\n}\n\nconst Card: React.FC<CardProps> = ({ title, description, variant = 'default', onClick }) => {\n  const [isHovered, setIsHovered] = useState(false);\n\n  const handleMouseEnter = () => setIsHovered(true);\n  const handleMouseLeave = () => setIsHovered(false);\n\n  return (\n    <div\n      className={`bg-white shadow-md rounded-md p-4 transition-transform ${variant === 'highlighted' ? 'border-2 border-blue-500' : ''} ${isHovered ? 'scale-105' : ''}`}\n      onMouseEnter={handleMouseEnter}\n      onMouseLeave={handleMouseLeave}\n      onClick={onClick}\n      role=\"button\"\n      tabIndex={0}\n      onKeyPress={(e) => e.key === 'Enter' && onClick && onClick()}\n      aria-label={title}\n    >\n      <h2 className=\"text-lg font-semibold\">{title}</h2>\n      <p className=\"text-gray-600\">{description}</p>\n    </div>\n  );\n};\n\nexport default Card;"
+    }
+  ],
+  "timestamp": 1768783078369,
+  "promptVersion": "v3.0.0"
+}

@@ -1,0 +1,106 @@
+{
+  "version": "1.0.0",
+  "description": "Three-tier governance enforcement mapping - append-only",
+  "tiers": {
+    "tier1": {
+      "name": "Fast & Reversible",
+      "description": "No writes, no enforcement, pure analysis/read-only",
+      "path_patterns": [
+        "**/tier1/**/*.ts",
+        "**/queries/**/*.ts",
+        "**/readers/**/*.ts",
+        "**/analyzers/**/*.ts"
+      ],
+      "prohibited_patterns": [
+        "db\\.write",
+        "db\\.insert",
+        "db\\.update",
+        "db\\.delete",
+        "db\\.create",
+        "db\\.drop",
+        "db\\.truncate",
+        "db\\.exec\\s*\\(",
+        "enforce\\(",
+        "reject\\(",
+        "block\\(",
+        "throw new"
+      ]
+    },
+    "tier2": {
+      "name": "Governed",
+      "description": "May write, may enforce, authority required",
+      "path_patterns": [
+        "**/tier2/**/*.ts",
+        "**/services/**/*.ts",
+        "**/writers/**/*.ts",
+        "**/enforcers/**/*.ts"
+      ],
+      "prohibited_patterns": [
+        "IRREVERSIBLE",
+        "ETHICAL_OVERRIDE",
+        "HUMAN_OVERRIDE_REQUIRED",
+        "DROP TABLE",
+        "TRUNCATE",
+        "DELETE\\s+FROM",
+        "rm -rf",
+        "unlinkSync"
+      ],
+      "required_markers": [
+        "AUTHORITY_CHECK"
+      ]
+    },
+    "tier3": {
+      "name": "Irreversible",
+      "description": "Ethical oversight + named human override required",
+      "path_patterns": [
+        "**/tier3/**/*.ts",
+        "**/critical/**/*.ts",
+        "**/destructive/**/*.ts",
+        "**/overrides/**/*.ts"
+      ],
+      "required_markers": [
+        "ETHICAL_OVERSIGHT",
+        "HUMAN_OVERRIDE_REQUIRED",
+        "HUMAN_ACCOUNTABILITY"
+      ]
+    }
+  },
+  "irreversibility_patterns": [
+    "DROP",
+    "TRUNCATE",
+    "DELETE\\s+FROM\\s+WHERE\\s+1=1",
+    "DELETE\\s+\\*",
+    "rm\\s+-rf",
+    "rmdir\\s+-s",
+    "unlinkSync\\(",
+    "rmdirSync\\(",
+    "execSync\\(.*rm",
+    "exec\\(.*rm",
+    "IRREVERSIBLE"
+  ],
+  "ethical_markers": [
+    "ETHICAL_OVERSIGHT",
+    "ETHICAL_REVIEW",
+    "ETHICS_APPROVED",
+    "@ethical"
+  ],
+  "human_accountability_markers": [
+    "HUMAN_ACCOUNTABILITY",
+    "HUMAN_OVERRIDE",
+    "ACCOUNTABLE:",
+    "OVERRIDDEN_BY:"
+  ],
+  "human_override_markers": [
+    "HUMAN_OVERRIDE_REQUIRED",
+    "REQUIRES_HUMAN_OVERRIDE",
+    "@human-override"
+  ],
+  "authority_markers": [
+    "AUTHORITY_CHECK",
+    "REQUIRES_AUTHORITY",
+    "CHECK_AUTHORITY",
+    "@authority"
+  ],
+  "append_only": true,
+  "last_modified": "2026-01-18"
+}

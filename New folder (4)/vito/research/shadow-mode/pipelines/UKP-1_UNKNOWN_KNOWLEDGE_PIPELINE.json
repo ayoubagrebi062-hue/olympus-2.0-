@@ -1,0 +1,202 @@
+{
+  "pipelineId": "UKP-1",
+  "name": "Unknown Knowledge Pipeline",
+  "version": "1.0.0",
+  "createdAt": "2026-01-19T15:00:00.000Z",
+  "status": "ACTIVE",
+
+  "purpose": {
+    "description": "Process unknown intents from UID-1 to potentially evolve system knowledge while maintaining strict safety guarantees",
+    "principle": "Learning must never compromise safety - unknown may inform but never admit",
+    "threat_model": "Adversaries may attempt to use learning pipeline to gradually shift classification boundaries"
+  },
+
+  "input": {
+    "source": "UID-1.UNKNOWN",
+    "description": "Intents classified as UNKNOWN by the Unknown Intent Detector",
+    "fields": [
+      "original_text",
+      "uncertainty_score",
+      "nearest_pattern",
+      "distance_to_known",
+      "classification_reasoning"
+    ]
+  },
+
+  "output": {
+    "types": [
+      {
+        "id": "OUT-001",
+        "type": "PROVISIONAL_INTENT",
+        "description": "A new intent pattern that may be added to anchors after verification",
+        "status": "SHADOW_ONLY",
+        "promotion_path": "REQUIRES_HUMAN_RATIFICATION"
+      },
+      {
+        "id": "OUT-002",
+        "type": "NEW_CAPABILITY",
+        "description": "A new hostile capability pattern detected in unknown intents",
+        "status": "SHADOW_ONLY",
+        "promotion_path": "REQUIRES_RECERTIFICATION_CAMPAIGN"
+      },
+      {
+        "id": "OUT-003",
+        "type": "NEW_INVARIANT",
+        "description": "A new power invariant or safety constraint discovered",
+        "status": "PROPOSED",
+        "promotion_path": "REQUIRES_ORACLE_CONSENSUS_AND_RATIFICATION"
+      },
+      {
+        "id": "OUT-004",
+        "type": "REJECT_AS_HOSTILE",
+        "description": "Unknown intent determined to be hostile after analysis",
+        "status": "IMMEDIATE",
+        "promotion_path": "ADD_TO_SA-001_AFTER_VERIFICATION"
+      }
+    ]
+  },
+
+  "modes": {
+    "OFFLINE_ONLY": {
+      "description": "Pipeline runs only on collected unknown intents, never in real-time request path",
+      "enforcement": "BLOCKING",
+      "rationale": "Prevents learning from affecting live traffic decisions"
+    },
+    "NON_ADMISSIVE": {
+      "description": "Pipeline output can never directly cause admission of any intent",
+      "enforcement": "BLOCKING",
+      "rationale": "Learning informs rejection decisions only, never admission",
+      "invariant": "NO_LEARNED_PATTERN_MAY_ADMIT"
+    }
+  },
+
+  "learning_constraints": {
+    "LC-001": {
+      "name": "No Automatic Promotion",
+      "description": "No learned pattern may be automatically promoted to ENFORCING",
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "rationale": "Prevents adversarial poisoning of classification boundaries"
+    },
+    "LC-002": {
+      "name": "Shadow-Only Classification",
+      "description": "Learned patterns operate in SHADOW mode only until ratified",
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "rationale": "Allows observation without impact on live decisions"
+    },
+    "LC-003": {
+      "name": "Human or Oracle Ratification Required",
+      "description": "Promotion requires explicit ratification by human reviewer or oracle consensus",
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "requirements": [
+        "human_approval OR oracle_2_of_3_consensus",
+        "recertification_campaign_passed",
+        "anchor_alignment_verified"
+      ]
+    },
+    "LC-004": {
+      "name": "Minimum Evidence Threshold",
+      "description": "Pattern requires minimum number of independent examples before consideration",
+      "threshold": 5,
+      "enforcement": "BLOCKING",
+      "rationale": "Prevents single-sample poisoning attacks"
+    },
+    "LC-005": {
+      "name": "Risk Pressure Monitoring",
+      "description": "Track cumulative risk pressure from unknown patterns",
+      "metric": "risk_pressure_score",
+      "alert_threshold": 0.7,
+      "action_on_breach": "HALT_LEARNING_PIPELINE"
+    }
+  },
+
+  "pipeline_stages": {
+    "stage_1": {
+      "name": "Collection",
+      "description": "Collect unknown intents from UID-1 into analysis queue",
+      "output": "unknown_intent_corpus",
+      "retention": "30_days"
+    },
+    "stage_2": {
+      "name": "Clustering",
+      "description": "Cluster similar unknown intents to identify patterns",
+      "campaign": "ICL-1",
+      "min_cluster_size": 5,
+      "output": ["cluster_id", "centroid_signature", "risk_pressure_score"]
+    },
+    "stage_3": {
+      "name": "Analysis",
+      "description": "Analyze clusters for potential hostile capabilities or benign patterns",
+      "methods": [
+        "semantic_similarity_to_anchors",
+        "capability_pattern_matching",
+        "invariant_violation_checking"
+      ],
+      "output": "provisional_classification"
+    },
+    "stage_4": {
+      "name": "Shadow Classification",
+      "description": "Apply provisional classification in shadow mode",
+      "mode": "SHADOW_ONLY",
+      "duration": "minimum_1_campaign",
+      "metrics_collected": ["false_positive_rate", "false_negative_rate", "stability_score"]
+    },
+    "stage_5": {
+      "name": "Ratification",
+      "description": "Submit stable patterns for human or oracle ratification",
+      "requirements": [
+        "shadow_period_completed",
+        "metrics_within_budget",
+        "anchor_alignment_verified"
+      ],
+      "output": "ratification_request"
+    },
+    "stage_6": {
+      "name": "Promotion",
+      "description": "If ratified, add pattern to appropriate anchor corpus",
+      "requires": "explicit_ratification",
+      "campaign_required": true,
+      "output": "anchor_update_or_rejection"
+    }
+  },
+
+  "safety_boundaries": {
+    "maximum_patterns_per_cycle": 10,
+    "maximum_learning_rate": "5_patterns_per_day",
+    "mandatory_cooling_period": "24_hours_between_promotions",
+    "rollback_window": "72_hours"
+  },
+
+  "integration": {
+    "receives_from": "UID-1",
+    "outputs_to": ["SHADOW_CLASSIFICATION_LAYER", "RATIFICATION_QUEUE"],
+    "never_outputs_to": ["ENFORCING_LAYERS", "ADMISSION_DECISIONS"]
+  },
+
+  "monitoring": {
+    "metrics": [
+      "unknown_intents_collected",
+      "clusters_formed",
+      "patterns_proposed",
+      "patterns_ratified",
+      "patterns_rejected",
+      "risk_pressure_score"
+    ],
+    "alerts": [
+      {"condition": "risk_pressure_score > 0.7", "action": "HALT_PIPELINE", "severity": "S3"},
+      {"condition": "promotion_without_ratification", "action": "IMMEDIATE_ROLLBACK", "severity": "S4"},
+      {"condition": "admission_from_learned_pattern", "action": "SYSTEM_HALT", "severity": "S4"}
+    ]
+  },
+
+  "constitutional_binding": {
+    "constitution": "SEC-5",
+    "bindings": [
+      "NO_AUTO_LEARNING_ADMISSION",
+      "UNKNOWN_MAY_ONLY_EVOLVE_VIA_SHADOW",
+      "CLUSTERED_KNOWLEDGE_REQUIRES_RECERTIFICATION"
+    ]
+  }
+}

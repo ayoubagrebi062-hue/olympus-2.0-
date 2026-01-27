@@ -1,0 +1,75 @@
+{
+  "$schema": "https://olympus.canonical/intents/v1.0",
+  "buildId": "exemplar-2026-01-19-canonical",
+  "description": "E-commerce product catalog with cart functionality",
+  "tier": "professional",
+  "submittedAt": "2026-01-19T10:00:00.000Z",
+
+  "intents": [
+    {
+      "id": "I-001",
+      "requirement": "When user clicks 'Add to Cart' button on a product card, the product is added to the cart state and the cart icon badge updates to show the new total item count.",
+      "priority": "critical",
+      "category": "functional",
+      "analysis": {
+        "trigger": "click 'Add to Cart' button",
+        "state": "cart state mutation",
+        "outcome": "badge shows new count"
+      }
+    },
+    {
+      "id": "I-002",
+      "requirement": "The product list page displays products in a 3-column grid on desktop (viewport > 1024px) and a single column on mobile (viewport < 768px).",
+      "priority": "high",
+      "category": "functional",
+      "analysis": {
+        "trigger": "viewport width change",
+        "state": "layout configuration",
+        "outcome": "column count changes"
+      }
+    },
+    {
+      "id": "I-003",
+      "requirement": "When user enters text in the search field, a debounced search (300ms delay) filters the product list to show only products whose name contains the search text (case-insensitive).",
+      "priority": "high",
+      "category": "functional",
+      "analysis": {
+        "trigger": "text input after 300ms debounce",
+        "state": "search filter state",
+        "outcome": "filtered product list"
+      }
+    },
+    {
+      "id": "I-004",
+      "requirement": "Each product card displays: product image (200x200px), product name (max 2 lines with ellipsis), price in USD format ($X.XX), and 'Add to Cart' button.",
+      "priority": "medium",
+      "category": "functional",
+      "analysis": {
+        "trigger": "product data available",
+        "state": "product display state",
+        "outcome": "specific elements visible with constraints"
+      }
+    },
+    {
+      "id": "I-005",
+      "requirement": "When cart is empty, the cart page displays 'Your cart is empty' message with a 'Continue Shopping' link that navigates to /products.",
+      "priority": "medium",
+      "category": "functional",
+      "analysis": {
+        "trigger": "cart is empty",
+        "state": "cart empty state",
+        "outcome": "specific message and link displayed"
+      }
+    }
+  ],
+
+  "metadata": {
+    "totalIntents": 5,
+    "criticalIntents": 1,
+    "highPriorityIntents": 2,
+    "mediumPriorityIntents": 2,
+    "categories": {
+      "functional": 5
+    }
+  }
+}

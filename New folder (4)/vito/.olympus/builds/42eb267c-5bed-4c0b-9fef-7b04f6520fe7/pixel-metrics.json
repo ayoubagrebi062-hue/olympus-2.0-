@@ -1,0 +1,14 @@
+{
+  "componentCount": 1,
+  "filesGenerated": 1,
+  "successRate": 100,
+  "batchCount": 1,
+  "executionMode": "cached-batched-criticality",
+  "cacheHits": 1,
+  "cacheMisses": 0,
+  "cacheHitRate": 100,
+  "criticalFailures": 0,
+  "importantFailures": 0,
+  "optionalFailures": 0,
+  "degraded": false
+}

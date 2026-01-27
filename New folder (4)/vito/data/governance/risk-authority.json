@@ -1,0 +1,52 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-01-18T21:38:45.355Z",
+  "governancePhase": "OBSERVATION_ONLY",
+  "authorityAnalyses": [],
+  "summary": {
+    "totalAnalyzed": 0,
+    "mismatchCount": 0,
+    "criticalMismatchCount": 0,
+    "warningMismatchCount": 0,
+    "byRequiredAuthority": {
+      "TEAM": 0,
+      "TECH_LEAD": 0,
+      "ARCH_REVIEW": 0,
+      "PRODUCT": 0,
+      "EXECUTIVE": 0,
+      "UNKNOWN": 0
+    },
+    "byMismatchType": {
+      "underAuthorized": 0,
+      "properlyAuthorized": 0,
+      "unknown": 0
+    }
+  },
+  "history": [
+    {
+      "version": "1.0.0",
+      "timestamp": "2026-01-18T21:38:45.355Z",
+      "governancePhase": "OBSERVATION_ONLY",
+      "authorityAnalyses": [],
+      "summary": {
+        "totalAnalyzed": 0,
+        "mismatchCount": 0,
+        "criticalMismatchCount": 0,
+        "warningMismatchCount": 0,
+        "byRequiredAuthority": {
+          "TEAM": 0,
+          "TECH_LEAD": 0,
+          "ARCH_REVIEW": 0,
+          "PRODUCT": 0,
+          "EXECUTIVE": 0,
+          "UNKNOWN": 0
+        },
+        "byMismatchType": {
+          "underAuthorized": 0,
+          "properlyAuthorized": 0,
+          "unknown": 0
+        }
+      }
+    }
+  ]
+}

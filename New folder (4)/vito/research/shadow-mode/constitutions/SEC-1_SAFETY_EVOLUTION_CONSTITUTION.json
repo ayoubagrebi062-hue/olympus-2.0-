@@ -1,0 +1,185 @@
+{
+  "constitutionId": "SEC-1",
+  "name": "Safety Evolution Constitution",
+  "version": "1.0.0",
+  "timestamp": "2026-01-19T10:35:00.000Z",
+  "scope": "safety-evolution",
+  "status": "RATIFIED",
+  "parentConstitution": "SMC-1",
+
+  "preamble": {
+    "purpose": "To establish binding principles governing the evolution of safety layers while preserving core invariants",
+    "authority": "Derived from SMC-1 (Shadow Mode Constitution) with focus on evolutionary safety",
+    "binding": true,
+    "immutable": true
+  },
+
+  "bindings": {
+    "BIND-001": {
+      "id": "INVARIANT_PRESERVATION",
+      "name": "Invariant Preservation Binding",
+      "statement": "All global safety invariants (GSI-001) must remain satisfied through any evolutionary change",
+      "invariants": [
+        "NO_HOSTILE_ADMISSION",
+        "NO_UNEXPLAINED_VERDICT",
+        "ORDER_INVARIANCE",
+        "CAPABILITY_MONOTONICITY",
+        "EXPLANATION_ENTROPY_MINIMUM"
+      ],
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "verification": "REQUIRED_BEFORE_DEPLOYMENT"
+    },
+
+    "BIND-002": {
+      "id": "RECERTIFICATION_ON_CHANGE",
+      "name": "Recertification Requirement",
+      "statement": "Any modification to safety layer rules, patterns, or topology requires full recertification campaign",
+      "triggers": [
+        "rule_addition",
+        "rule_modification",
+        "rule_removal",
+        "pattern_change",
+        "layer_order_change",
+        "layer_addition",
+        "layer_removal",
+        "threshold_change"
+      ],
+      "campaign": {
+        "minVolume": 10000,
+        "mustInclude": ["benign_corpus", "hostile_corpus", "edge_cases"],
+        "successCriteria": "ALL_INVARIANTS_SATISFIED"
+      },
+      "enforcement": "BLOCKING",
+      "exception": "NONE"
+    },
+
+    "BIND-003": {
+      "id": "SHADOW_BEFORE_ENFORCE",
+      "name": "Shadow Mode Progression",
+      "statement": "All new safety components must progress through shadow mode before enforcement",
+      "progression": [
+        {
+          "stage": "OBSERVATIONAL",
+          "duration": "minimum_1_campaign",
+          "blocking": false,
+          "requirements": ["logging_enabled", "metrics_collected"]
+        },
+        {
+          "stage": "SHADOW_ENFORCING",
+          "duration": "minimum_1_stress_campaign",
+          "blocking": false,
+          "requirements": ["zero_s4", "s2_within_budget", "dominance_within_budget"]
+        },
+        {
+          "stage": "ENFORCING",
+          "duration": "permanent",
+          "blocking": true,
+          "requirements": ["graduation_criteria_met", "recertification_passed"]
+        }
+      ],
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "rollbackAllowed": true
+    },
+
+    "BIND-004": {
+      "id": "TEMPORAL_INVARIANCE_REQUIRED",
+      "name": "Temporal Stability Requirement",
+      "statement": "Safety properties must remain stable under temporal drift and evolutionary pressure",
+      "requirements": [
+        {
+          "id": "DRIFT_STABILITY",
+          "description": "Invariants must hold across simulated evolutionary epochs",
+          "verification": "TDS_CAMPAIGN",
+          "minEpochs": 100
+        },
+        {
+          "id": "REGRESSION_BUDGET",
+          "description": "Changes must stay within defined regression budget",
+          "reference": "governance/REGRESSION_BUDGET.json"
+        },
+        {
+          "id": "MONOTONIC_COVERAGE",
+          "description": "Detection coverage must never decrease",
+          "metric": "coverage_delta >= 0"
+        }
+      ],
+      "enforcement": "BLOCKING",
+      "exception": "NONE"
+    }
+  },
+
+  "principles": {
+    "PRIN-001": {
+      "name": "Determinism",
+      "statement": "All safety layer behavior must be fully deterministic and reproducible",
+      "constraints": ["no_randomness", "no_ml_inference", "hash_verifiable"]
+    },
+    "PRIN-002": {
+      "name": "Transparency",
+      "statement": "All verdicts must be fully explainable through causal attribution",
+      "constraints": ["full_attribution", "human_readable_explanations", "replay_support"]
+    },
+    "PRIN-003": {
+      "name": "Immutability",
+      "statement": "Frozen components cannot be modified without full recertification",
+      "constraints": ["frozen_after_certification", "version_controlled", "tamper_evident"]
+    },
+    "PRIN-004": {
+      "name": "Fail-Safe",
+      "statement": "On any uncertainty or error, default to rejection",
+      "constraints": ["reject_on_error", "reject_on_timeout", "reject_on_ambiguity"]
+    }
+  },
+
+  "governance": {
+    "decisionAuthority": {
+      "certification": "CAMPAIGN_VALIDATION",
+      "promotion": "GRADUATION_CRITERIA",
+      "freeze": "TOPOLOGY_INVARIANCE_VERIFICATION",
+      "exception": "NOT_PERMITTED"
+    },
+    "auditTrail": {
+      "required": true,
+      "retention": "PERMANENT",
+      "immutable": true
+    },
+    "versionControl": {
+      "required": true,
+      "tagging": "SEMANTIC_VERSIONING",
+      "rollbackCapability": true
+    }
+  },
+
+  "artifacts": {
+    "invariants": "invariants/GLOBAL_SAFETY_INVARIANTS.json",
+    "regressionBudget": "governance/REGRESSION_BUDGET.json",
+    "topologyFreeze": "topology/PIPELINE_TOPOLOGY_FREEZE.json",
+    "parentConstitution": "constitutions/SMC-1_CONSTITUTION.json"
+  },
+
+  "amendments": {
+    "allowed": false,
+    "note": "SEC-1 is immutable once ratified. New constitution required for changes."
+  },
+
+  "ratification": {
+    "ratifiedBy": "Safety Governance Framework",
+    "ratifiedAt": "2026-01-19T10:35:00.000Z",
+    "validFrom": "2026-01-19T10:35:00.000Z",
+    "validUntil": "PERMANENT",
+    "successorConstitution": "SEC-2",
+    "supersededAt": "2026-01-19T11:30:00.000Z",
+    "supersededBy": "SEC-2"
+  },
+
+  "signatures": {
+    "campaigns": [
+      {"id": "SSC-3", "status": "PASSED", "validates": ["SHADOW_BEFORE_ENFORCE"]},
+      {"id": "TIC-1", "status": "PASSED", "validates": ["ORDER_INVARIANCE"]},
+      {"id": "TDS-1", "status": "PASSED", "validates": ["TEMPORAL_INVARIANCE_REQUIRED"]}
+    ],
+    "constitutionHash": "sha256:26a3e99973d4fdced1f2598b5fd7270a38bc33d612c7be1f3a465dffbd193cf8"
+  }
+}

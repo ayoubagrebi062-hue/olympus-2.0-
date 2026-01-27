@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Card.tsx",
+      "content": "import React from 'react';\nimport PropTypes from 'prop-types';\n\ninterface CardProps {\n  variant: 'Product' | 'Promotion';\n  title: string;\n  content: string;\n  onClick?: () => void;\n  state?: 'Hover' | 'Active';\n}\n\nconst Card: React.FC<CardProps> = ({ variant, title, content, onClick, state }) => {\n  const padding = variant === 'Promotion' ? '24px' : '16px';\n  const boxShadow = state === 'Active' ? '0 0 10px rgba(0,0,0,0.4)' :\n                   state === 'Hover' ? '0 0 10px rgba(0,0,0,0.2)' : 'none';\n\n  return (\n    <div\n      className={`bg-white rounded-lg shadow transition-all duration-300 p-[${padding}]`} \n      style={{ boxShadow }}\n      onClick={onClick}\n      role=\"button\"\n      tabIndex={0}\n      onKeyPress={(e) => e.key === 'Enter' && onClick && onClick()}\n    >\n      <h2 className=\"font-bold text-lg mb-2\">{title}</h2>\n      <p className=\"text-gray-700\">{content}</p>\n    </div>\n  );\n};\n\nCard.propTypes = {\n  variant: PropTypes.oneOf(['Product', 'Promotion']).isRequired,\n  title: PropTypes.string.isRequired,\n  content: PropTypes.string.isRequired,\n  onClick: PropTypes.func,\n  state: PropTypes.oneOf(['Hover', 'Active']),\n};\n\nexport default Card;"
+    }
+  ],
+  "timestamp": 1768785865606,
+  "promptVersion": "v3.0.0"
+}

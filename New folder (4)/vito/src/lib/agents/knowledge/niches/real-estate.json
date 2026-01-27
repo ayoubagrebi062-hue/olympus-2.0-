@@ -1,0 +1,175 @@
+{
+  "niche": "real-estate",
+  "display_name": "Real Estate & Property Investment",
+
+  "headlines": {
+    "fear": [
+      "The Hidden Red Flags in That 'Perfect' Property",
+      "Why Waiting to Buy Will Cost You Thousands",
+      "The Market Shift Most Buyers Don't See Coming",
+      "What Your Agent Isn't Telling You About This Neighborhood",
+      "The Costly Mistake 83% of First-Time Buyers Make",
+      "Warning: These Homes Look Great But Hide Serious Problems",
+      "Why Your Dream Home Could Become a Financial Nightmare",
+      "The 5 Things That Tank a Property's Value (And How to Spot Them)"
+    ],
+    "greed": [
+      "How to Find Off-Market Deals Before They Go Public",
+      "The Strategy That Builds $1M in Real Estate Equity",
+      "Turn Your First Property Into a Cash-Flowing Portfolio",
+      "How to Buy Properties with Little to No Money Down",
+      "The Secret to Getting Sellers to Accept Lower Offers",
+      "How I Built a 6-Figure Passive Income From Real Estate",
+      "The Insider Negotiation Tactics That Save Thousands",
+      "How to Spot Undervalued Properties Before Anyone Else"
+    ],
+    "guilt": [
+      "Every Month You Rent Is Money You'll Never See Again",
+      "Your Family Deserves a Home They Can Call Their Own",
+      "Stop Building Someone Else's Wealth with Rent Payments",
+      "How Long Will You Put Off Your Real Estate Goals?",
+      "The Security and Legacy You're Not Providing",
+      "Your Kids' Future Depends on the Decisions You Make Now",
+      "The Wealth You Could Be Building Instead of Paying Rent",
+      "Why Are You Still Making Your Landlord Rich?"
+    ],
+    "exclusivity": [
+      "Access to Listings Before They Hit the Market",
+      "The Investor Network Where Deals Get Done First",
+      "Private Portfolio Opportunities Not Available Publicly",
+      "Join Our Inner Circle of Successful Property Investors",
+      "Exclusive Buyer Representation for Serious Purchasers Only",
+      "The Off-Market Inventory We Don't Advertise",
+      "VIP Early Access to New Development Projects",
+      "The Private Mastermind for 7-Figure Real Estate Investors"
+    ],
+    "salvation": [
+      "Finally, a Real Estate Agent Who Works for YOU",
+      "Stop Losing Out on Homes to Other Buyers",
+      "The End of Confusing, Stressful Home Buying",
+      "Your Complete Guide to Buying With Confidence",
+      "Never Get Outbid on Your Dream Home Again",
+      "The Stress-Free Path to Property Ownership",
+      "Cut Through the Noise: What Actually Matters When Buying",
+      "The Support System Every Home Buyer Needs"
+    ]
+  },
+
+  "pain_points": [
+    "Losing bidding wars on multiple properties",
+    "Can't find good deals in a competitive market",
+    "Overwhelmed by the complexity of buying/selling process",
+    "Worried about making a bad investment decision",
+    "Don't know which neighborhoods will appreciate",
+    "Struggling to qualify for financing",
+    "Past bad experience with agents who didn't deliver",
+    "Can't find properties that meet specific criteria",
+    "Market moves too fast to keep up",
+    "Afraid of hidden problems after purchase",
+    "Don't understand the legal and financial details",
+    "Current agent doesn't communicate enough",
+    "Unsure if now is the right time to buy/sell",
+    "Investment properties not cash flowing as expected",
+    "Can't find time to view properties with busy schedule"
+  ],
+
+  "dream_states": [
+    "Finding the perfect home before it goes public",
+    "Closing on a property below asking price",
+    "Building a portfolio that generates passive income",
+    "Having an agent who fights for your interests",
+    "Understanding exactly what you're buying with no surprises",
+    "Financial freedom through smart property investments",
+    "Owning a home your family will create memories in",
+    "Confidently navigating the buying/selling process",
+    "Getting pre-approved and knowing exactly what you can afford",
+    "Access to off-market deals others don't see",
+    "A real estate strategy tailored to your specific goals",
+    "Closing smoothly without stress or complications",
+    "Living in your dream neighborhood",
+    "Watching your property appreciate year after year",
+    "Having a trusted advisor for all future transactions"
+  ],
+
+  "objections": [
+    {
+      "objection": "I'm waiting for the market to drop",
+      "diffuse": "I understand the hesitation. Here's the data: historically, people who time the market lose more to rising prices than they save waiting. In the last 5 years alone, average prices rose 40%. Even if there's a dip, it rarely offsets years of appreciation. Let's look at some numbers for your specific situation."
+    },
+    {
+      "objection": "I already have an agent",
+      "diffuse": "That's great that you're working with someone. Out of curiosity, are they meeting your expectations? If you're ever not getting the level of service you deserve, I'd be happy to show you how we do things differently. No pressure at all."
+    },
+    {
+      "objection": "I'm not ready to buy yet",
+      "diffuse": "That's totally fine - let me ask, what would make you ready? Sometimes it's about knowing what you can afford or understanding the process better. I'm happy to chat now so when you ARE ready, you can move fast. The best deals don't wait."
+    },
+    {
+      "objection": "Real estate seems too risky",
+      "diffuse": "Risk is real, but it's also manageable. I specialize in helping clients understand exactly what they're getting into before they commit. With proper due diligence and the right strategy, real estate is one of the most consistent wealth builders. Let me show you how we mitigate risk."
+    },
+    {
+      "objection": "I can't afford to buy in this market",
+      "diffuse": "You might be surprised. There are programs for first-time buyers, down payment assistance, and creative financing options most people don't know about. Let's run some numbers together - many of my clients thought they couldn't afford it until we explored the options."
+    },
+    {
+      "objection": "I'll just use Zillow/Redfin",
+      "diffuse": "Those are great research tools, and I encourage you to use them. But here's what they can't give you: off-market inventory, negotiation expertise, local market insight, and someone advocating for your interests. The technology is a complement, not a replacement."
+    },
+    {
+      "objection": "How are you different from other agents?",
+      "diffuse": "Fair question. Three things: First, I respond within 10 minutes, not 10 hours. Second, I have access to off-market inventory through my investor network. Third, I don't just find you a house - I build you a strategy. My clients come back for their second and third properties because of the relationship we build."
+    },
+    {
+      "objection": "I've had bad experiences with agents before",
+      "diffuse": "I'm sorry to hear that - unfortunately, not all agents are created equal. I operate on a 'service first' model, which means you're never pressured. Read my reviews, talk to past clients, and see for yourself. If I'm not the right fit, I'll tell you."
+    }
+  ],
+
+  "power_words": [
+    "invest", "equity", "appreciation", "cash-flow", "portfolio",
+    "exclusive", "off-market", "pre-market", "leverage", "wealth",
+    "dream home", "forever home", "turnkey", "prime", "premium",
+    "undervalued", "opportunity", "strategic", "ROI", "passive income",
+    "secure", "legacy", "generational", "smart money", "savvy"
+  ],
+
+  "cta_templates": [
+    "Schedule Your Free Consultation",
+    "Get Your Home Valuation",
+    "Search Properties Now",
+    "Start Your Property Search",
+    "Get Pre-Approved Today",
+    "Book Your Buyer Strategy Session",
+    "See Off-Market Listings",
+    "Calculate Your Buying Power",
+    "Request a Market Analysis",
+    "Claim Your Free Buyer's Guide"
+  ],
+
+  "social_proof_templates": [
+    "Helped {X} families find their dream homes this year",
+    "Average of ${X}K saved through negotiation",
+    "Clients gain equity of ${X}K+ in first year",
+    "{X}% of my clients are referrals or repeat buyers",
+    "Closed ${X}M in transactions last year",
+    "Found {name} their home {X} days before it listed",
+    "Saved {name} ${X}K with off-market strategy",
+    "Average {X} days on market for my listings",
+    "{X}+ five-star reviews from verified clients",
+    "Top {X}% of agents in {area}"
+  ],
+
+  "subject_line_templates": [
+    "New listing in {neighborhood} - see it first",
+    "Your home just got a new neighbor (and it sold for...)",
+    "Quick question about {address/area}",
+    "I found something you might love",
+    "The market just shifted - here's what it means for you",
+    "{X} homes just hit the market in your criteria",
+    "What your home is worth today",
+    "Investor alert: {opportunity type}",
+    "Before you keep scrolling Zillow...",
+    "Your neighbors are asking about you"
+  ]
+}

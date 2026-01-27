@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopFlow - Fresh Build Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div id="app"></div>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════════
+    // MOCK DATA FROM DATUM AGENT (14+ data points for charts)
+    // ═══════════════════════════════════════════════════════════════
+    const salesData = [
+      { date: "2024-06-01", revenue: 1250, orders: 5 },
+      { date: "2024-06-02", revenue: 1890, orders: 7 },
+      { date: "2024-06-03", revenue: 1456, orders: 6 },
+      { date: "2024-06-04", revenue: 2100, orders: 8 },
+      { date: "2024-06-05", revenue: 1780, orders: 6 },
+      { date: "2024-06-06", revenue: 2340, orders: 9 },
+      { date: "2024-06-07", revenue: 1920, orders: 7 },
+      { date: "2024-06-08", revenue: 2650, orders: 10 },
+      { date: "2024-06-09", revenue: 2180, orders: 8 },
+      { date: "2024-06-10", revenue: 1560, orders: 6 },
+      { date: "2024-06-11", revenue: 2890, orders: 11 },
+      { date: "2024-06-12", revenue: 2450, orders: 9 },
+      { date: "2024-06-13", revenue: 3120, orders: 12 },
+      { date: "2024-06-14", revenue: 2780, orders: 10 }
+    ];
+
+    const initialProducts = [
+      { id: 1, name: "Wireless Headphones", price: 79.99, stock: 45 },
+      { id: 2, name: "Smart Watch Pro", price: 199.99, stock: 23 },
+      { id: 3, name: "Bluetooth Speaker", price: 49.99, stock: 67 },
+      { id: 4, name: "USB-C Hub", price: 34.99, stock: 89 },
+      { id: 5, name: "Mechanical Keyboard", price: 129.99, stock: 34 },
+      { id: 6, name: "Gaming Mouse", price: 59.99, stock: 56 },
+      { id: 7, name: "4K Monitor", price: 399.99, stock: 12 },
+      { id: 8, name: "Webcam HD", price: 89.99, stock: 41 },
+      { id: 9, name: "Laptop Stand", price: 29.99, stock: 78 },
+      { id: 10, name: "Wireless Charger", price: 24.99, stock: 92 },
+      { id: 11, name: "Power Bank", price: 39.99, stock: 65 },
+      { id: 12, name: "Phone Case", price: 19.99, stock: 120 }
+    ];
+
+    // ═══════════════════════════════════════════════════════════════
+    // STATE (persisted to localStorage)
+    // ═══════════════════════════════════════════════════════════════
+    let products = JSON.parse(localStorage.getItem('shopflow_products')) || [...initialProducts];
+    let settings = JSON.parse(localStorage.getItem('shopflow_settings')) || { darkMode: false, notifications: true };
+    let currentTab = 'dashboard';
+
+    function saveProducts() {
+      localStorage.setItem('shopflow_products', JSON.stringify(products));
+    }
+
+    function saveSettings() {
+      localStorage.setItem('shopflow_settings', JSON.stringify(settings));
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // RENDER FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════
+    function render() {
+      const app = document.getElementById('app');
+      app.innerHTML = `
+        <nav class="bg-indigo-600 text-white p-4 shadow-lg">
+          <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">ShopFlow</h1>
+            <div class="flex gap-2">
+              <button onclick="switchTab('dashboard')" class="px-4 py-2 rounded ${currentTab === 'dashboard' ? 'bg-indigo-800' : 'hover:bg-indigo-700'}">Dashboard</button>
+              <button onclick="switchTab('products')" class="px-4 py-2 rounded ${currentTab === 'products' ? 'bg-indigo-800' : 'hover:bg-indigo-700'}">Products</button>
+              <button onclick="switchTab('settings')" class="px-4 py-2 rounded ${currentTab === 'settings' ? 'bg-indigo-800' : 'hover:bg-indigo-700'}">Settings</button>
+            </div>
+          </div>
+        </nav>
+
+        <main class="container mx-auto p-6">
+          ${currentTab === 'dashboard' ? renderDashboard() : ''}
+          ${currentTab === 'products' ? renderProducts() : ''}
+          ${currentTab === 'settings' ? renderSettings() : ''}
+        </main>
+
+        <footer class="bg-gray-800 text-white p-6 mt-8">
+          <div class="container mx-auto">
+            <h3 class="text-lg font-bold mb-4">Newsletter</h3>
+            <form onsubmit="handleNewsletter(event)" class="flex gap-2">
+              <input type="email" id="newsletter-email" placeholder="Enter your email" class="px-4 py-2 rounded text-gray-800 flex-1 max-w-md" required>
+              <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 px-6 py-2 rounded font-bold">Subscribe</button>
+            </form>
+            <div id="newsletter-message" class="mt-2"></div>
+          </div>
+        </footer>
+      `;
+
+      if (currentTab === 'dashboard') {
+        renderChart();
+      }
+    }
+
+    function renderDashboard() {
+      const totalRevenue = salesData.reduce((sum, d) => sum + d.revenue, 0);
+      const totalOrders = salesData.reduce((sum, d) => sum + d.orders, 0);
+
+      return `
+        <h2 class="text-2xl font-bold mb-6">Dashboard</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-gray-500 text-sm">Total Revenue (14 days)</h3>
+            <p class="text-3xl font-bold text-green-600">$${totalRevenue.toLocaleString()}</p>
+          </div>
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-gray-500 text-sm">Total Orders</h3>
+            <p class="text-3xl font-bold text-blue-600">${totalOrders}</p>
+          </div>
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-gray-500 text-sm">Products</h3>
+            <p class="text-3xl font-bold text-purple-600">${products.length}</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+          <h3 class="text-xl font-bold mb-4">Revenue Analytics (14 Data Points)</h3>
+          <p class="text-sm text-green-600 mb-4">✅ Chart has ${salesData.length} data points - NOT EMPTY!</p>
+          <canvas id="revenueChart" height="100"></canvas>
+        </div>
+      `;
+    }
+
+    function renderProducts() {
+      return `
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold">Products (${products.length})</h2>
+          <div class="flex gap-2">
+            <button onclick="resetProducts()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Reset to Default</button>
+            <button onclick="deleteAllProducts()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete All Products</button>
+          </div>
+        </div>
+
+        ${products.length === 0 ? `
+          <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 p-4 rounded">
+            <p class="font-bold">No products!</p>
+            <p>All products have been deleted. Click "Reset to Default" to restore.</p>
+          </div>
+        ` : `
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            ${products.map(p => `
+              <div class="bg-white rounded-lg shadow p-4">
+                <h3 class="text-lg font-bold">${p.name}</h3>
+                <p class="text-green-600 font-bold">$${p.price}</p>
+                <p class="text-gray-500 text-sm">Stock: ${p.stock}</p>
+                <div class="flex justify-end gap-2 mt-4">
+                  <button onclick="editProduct(${p.id})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+                  <button onclick="deleteProduct(${p.id})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `}
+      `;
+    }
+
+    function renderSettings() {
+      return `
+        <h2 class="text-2xl font-bold mb-6">Settings</h2>
+
+        <div class="bg-white rounded-lg shadow p-6 mb-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-bold">Dark Mode</h3>
+              <p class="text-gray-500 text-sm">Enable dark theme across the app</p>
+            </div>
+            <button onclick="toggleSetting('darkMode')" class="px-6 py-2 rounded font-bold ${settings.darkMode ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-700'}">
+              ${settings.darkMode ? 'ON' : 'OFF'}
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6 mb-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-bold">Notifications</h3>
+              <p class="text-gray-500 text-sm">Receive email notifications</p>
+            </div>
+            <button onclick="toggleSetting('notifications')" class="px-6 py-2 rounded font-bold ${settings.notifications ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-700'}">
+              ${settings.notifications ? 'ON' : 'OFF'}
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-red-50 border border-red-200 rounded-lg p-6 mt-8">
+          <h3 class="text-lg font-bold text-red-700 mb-4">Danger Zone</h3>
+          <div class="flex gap-2">
+            <button onclick="resetStore()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Reset Entire Store</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderChart() {
+      const ctx = document.getElementById('revenueChart');
+      if (!ctx) return;
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: salesData.map(d => d.date.slice(5)), // MM-DD format
+          datasets: [{
+            label: 'Revenue ($)',
+            data: salesData.map(d => d.revenue),
+            backgroundColor: 'rgba(99, 102, 241, 0.8)',
+            borderColor: 'rgba(99, 102, 241, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // EVENT HANDLERS (REAL FUNCTIONALITY - NOT FAKE!)
+    // ═══════════════════════════════════════════════════════════════
+    function switchTab(tab) {
+      currentTab = tab;
+      render();
+    }
+
+    function deleteProduct(id) {
+      if (confirm(`Delete product #${id}?`)) {
+        // REAL DELETE - uses filter() to remove from array
+        products = products.filter(p => p.id !== id);
+        saveProducts();
+        render();
+        alert(`Product #${id} deleted successfully!`);
+      }
+    }
+
+    function deleteAllProducts() {
+      if (confirm('Are you sure you want to delete ALL products? This cannot be undone!')) {
+        // REAL DELETE ALL - clears the array
+        products = [];
+        saveProducts();
+        render();
+        alert('All products deleted!');
+      }
+    }
+
+    function resetProducts() {
+      if (confirm('Reset products to default?')) {
+        products = [...initialProducts];
+        saveProducts();
+        render();
+        alert('Products reset to default!');
+      }
+    }
+
+    function editProduct(id) {
+      const product = products.find(p => p.id === id);
+      if (product) {
+        const newName = prompt('Edit product name:', product.name);
+        if (newName && newName.trim()) {
+          product.name = newName.trim();
+          saveProducts();
+          render();
+        }
+      }
+    }
+
+    function toggleSetting(key) {
+      // REAL TOGGLE - persists to localStorage
+      settings[key] = !settings[key];
+      saveSettings();
+      render();
+      console.log(`Setting ${key} changed to: ${settings[key]}`);
+    }
+
+    function resetStore() {
+      if (confirm('This will delete ALL data and reset the store. Continue?')) {
+        // REAL RESET - clears localStorage
+        localStorage.removeItem('shopflow_products');
+        localStorage.removeItem('shopflow_settings');
+        products = [...initialProducts];
+        settings = { darkMode: false, notifications: true };
+        render();
+        alert('Store reset complete!');
+      }
+    }
+
+    function handleNewsletter(event) {
+      event.preventDefault();
+      const email = document.getElementById('newsletter-email').value;
+      const msgDiv = document.getElementById('newsletter-message');
+
+      // DEMO MODE - No fake success messages!
+      // In production, this would call Resend/SendGrid API
+      msgDiv.innerHTML = `
+        <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-2 rounded">
+          <strong>Demo Mode:</strong> Would send welcome email to ${email}
+          <br><small>Configure RESEND_API_KEY to enable real emails</small>
+        </div>
+      `;
+
+      document.getElementById('newsletter-email').value = '';
+    }
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>

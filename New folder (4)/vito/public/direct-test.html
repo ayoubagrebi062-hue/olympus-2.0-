@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Direct Preview Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body { margin: 0; font-family: system-ui; background: #111; color: #fff; }
+    .panel { background: #1a1a2e; padding: 20px; margin: 10px; border-radius: 8px; }
+    button { background: #3b82f6; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; margin: 5px; }
+    pre { background: #0a0a1a; padding: 10px; border-radius: 4px; overflow: auto; font-size: 11px; max-height: 200px; }
+    #preview-frame { width: 100%; height: 500px; border: 2px solid #3b82f6; border-radius: 8px; background: white; }
+    .success { color: #4ade80; }
+    .error { color: #f87171; }
+  </style>
+</head>
+<body>
+  <div style="padding: 20px; max-width: 1400px; margin: auto;">
+    <h1>🔥 Direct Preview Test</h1>
+
+    <div class="panel">
+      <h3>Step 1: Load Artifacts</h3>
+      <input id="buildId" value="02c495ef-eea9-493e-a3c2-fe234de5c323" style="width:400px;padding:8px;background:#222;color:white;border:1px solid #444;border-radius:4px;">
+      <button onclick="loadArtifacts()">Load from API</button>
+      <button onclick="useHardcoded()">Use Hardcoded</button>
+      <pre id="log">Click a button to start...</pre>
+    </div>
+
+    <div class="panel">
+      <h3>Step 2: Preview</h3>
+      <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin allow-modals"></iframe>
+    </div>
+
+    <div class="panel">
+      <h3>App.tsx Content</h3>
+      <pre id="code-display">No code loaded yet</pre>
+    </div>
+  </div>
+
+  <script>
+    function log(msg, isError) {
+      const el = document.getElementById('log');
+      el.innerHTML += `<span class="${isError ? 'error' : 'success'}">${new Date().toLocaleTimeString()}: ${msg}</span>\n`;
+      el.scrollTop = el.scrollHeight;
+    }
+
+    async function loadArtifacts() {
+      const buildId = document.getElementById('buildId').value;
+      log(`Loading artifacts for ${buildId.slice(0,8)}...`);
+
+      try {
+        const resp = await fetch(`/api/ai/builds/${buildId}/artifacts`);
+        log(`Response status: ${resp.status}`);
+
+        const data = await resp.json();
+        log(`Got data: ${JSON.stringify(Object.keys(data))}`);
+
+        const artifacts = data.data?.artifacts || [];
+        log(`Artifacts count: ${artifacts.length}`);
+
+        if (artifacts.length === 0) {
+          log('No artifacts found!', true);
+          return;
+        }
+
+        const files = {};
+        for (const a of artifacts) {
+          files[a.path] = a.content;
+          log(`File ${a.path}: ${a.content?.length || 0} chars`);
+        }
+
+        renderPreview(files);
+      } catch (e) {
+        log(`Error: ${e.message}`, true);
+      }
+    }
+
+    function useHardcoded() {
+      log('Using hardcoded code...');
+      const files = {
+        '/App.tsx': `import { useState } from 'react';
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+      <div className="bg-white rounded-2xl shadow-2xl p-8 text-center">
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">🚀 OLYMPUS Works!</h1>
+        <div className="text-6xl font-bold text-indigo-600 my-6">{count}</div>
+        <div className="flex gap-3 justify-center">
+          <button
+            onClick={() => setCount(c => c + 1)}
+            className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+          >
+            + Add
+          </button>
+          <button
+            onClick={() => setCount(0)}
+            className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+          >
+            Reset
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}`
+      };
+      renderPreview(files);
+    }
+
+    function renderPreview(files) {
+      const appCode = files['/App.tsx'] || 'export default function App() { return <div>No code</div>; }';
+      document.getElementById('code-display').textContent = appCode;
+
+      log('Building preview HTML...');
+
+      // Transform JSX to JS using Babel in the iframe
+      const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>body{margin:0;font-family:system-ui;}</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-presets="react">
+    const { useState, useEffect, useCallback, useMemo, useRef, createContext, useContext } = React;
+
+    ${appCode.replace(/export default /g, 'const App = ')}
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement(App));
+  </script>
+</body>
+</html>`;
+
+      log('Creating blob URL...');
+      const blob = new Blob([html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+
+      log('Loading into iframe...');
+      document.getElementById('preview-frame').src = url;
+
+      log('✅ Preview should be visible now!');
+    }
+  </script>
+</body>
+</html>

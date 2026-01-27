@@ -1,0 +1,12 @@
+{
+  "system": "OLYMPUS",
+  "mode": "ARCHIVAL_GOVERNANCE",
+  "allows_execution": false,
+  "allows_mutation": false,
+  "allows_extensions": false,
+  "allows_successors": false,
+  "governance_complete": true,
+  "activated_at": "2026-01-20T12:00:00.000Z",
+  "canonical_cockpit_hash": "4320b1bdeb3173356b3edb71411ea52e784ff842511ae2c326ac3a2c4c0cc056",
+  "seal_hash": "c12d7294d819c0fa5709acfeb3184e2b2b390d9ba4a1e09a28d2e6a47ad10a16"
+}

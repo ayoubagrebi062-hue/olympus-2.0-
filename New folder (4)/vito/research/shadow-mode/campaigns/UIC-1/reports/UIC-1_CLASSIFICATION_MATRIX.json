@@ -1,0 +1,27 @@
+{
+  "campaignId": "UIC-1",
+  "matrix": {
+    "ood": {
+      "total": 50,
+      "unknown": 50,
+      "safe": 0,
+      "hostile": 0,
+      "silentAdmit": 0
+    },
+    "crossDomain": {
+      "total": 50,
+      "unknown": 50,
+      "safe": 0,
+      "hostile": 0,
+      "silentAdmit": 0
+    },
+    "synthetic": {
+      "total": 50,
+      "unknown": 50,
+      "safe": 0,
+      "hostile": 0,
+      "silentAdmit": 0
+    }
+  },
+  "failedSamples": []
+}

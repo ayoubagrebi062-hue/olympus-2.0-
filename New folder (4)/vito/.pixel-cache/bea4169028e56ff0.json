@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Input.tsx",
+      "content": "import React from 'react';\n\ninterface InputProps {\n  label: string;\n  type?: 'text' | 'textarea';\n  value: string;\n  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;\n  error?: string;\n  className?: string;\n}\n\nconst Input: React.FC<InputProps> = ({ label, type = 'text', value, onChange, error, className }) => {\n  return (\n    <div className={`flex flex-col ${className}`}>  \n      <label className='mb-2'>{label}</label>\n      {type === 'textarea' ? (\n        <textarea\n          value={value}\n          onChange={onChange}\n          className={`border ${error ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}  \n        />\n      ) : (\n        <input\n          type={type}\n          value={value}\n          onChange={onChange}\n          className={`border ${error ? 'border-red-500' : 'border-gray-300'} p-2 rounded`}  \n        />\n      )}\n      {error && <span className='text-red-500 mt-1'>{error}</span>}\n    </div>\n  );\n};\n\nexport default Input;"
+    }
+  ],
+  "timestamp": 1768781108626,
+  "promptVersion": "v3.0.0"
+}

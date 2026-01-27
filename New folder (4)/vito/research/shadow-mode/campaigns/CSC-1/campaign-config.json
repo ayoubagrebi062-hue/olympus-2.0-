@@ -1,0 +1,101 @@
+{
+  "id": "CSC-1",
+  "name": "Cluster Saturation Campaign 1 - Hostile Pattern Convergence",
+  "scope": "pattern-saturation",
+  "focus": "Saturate hostile clusters to find convergent invariant patterns",
+  "status": "COMPLETED",
+  "startTimestamp": "2026-01-19T16:30:00.000Z",
+  "endTimestamp": "2026-01-19T16:43:21.125Z",
+
+  "input": {
+    "source": "ICL-1.CLUSTERS",
+    "clusters": ["CLU-001", "CLU-005", "CLU-007"],
+    "filter": "POTENTIAL_HOSTILE only"
+  },
+
+  "pipeline": "CLP-1",
+  "constitution": "SEC-5",
+
+  "parameters": {
+    "mutation_budget": "HIGH",
+    "mutations_per_sample": 100,
+    "max_iterations": 200,
+    "stop_condition": "invariant_convergence",
+    "stability_threshold": 0.95,
+    "min_iterations": 20,
+    "novelty_threshold": 0.05
+  },
+
+  "mutation_types": [
+    {
+      "id": "MT-001",
+      "name": "synonym_substitution",
+      "description": "Replace words with synonyms to test semantic stability"
+    },
+    {
+      "id": "MT-002",
+      "name": "abstraction_elevation",
+      "description": "Replace specific terms with abstract categories"
+    },
+    {
+      "id": "MT-003",
+      "name": "intent_reframing",
+      "description": "Reframe intent with different surface goals"
+    },
+    {
+      "id": "MT-004",
+      "name": "capability_euphemism",
+      "description": "Use euphemistic language to obscure capability"
+    },
+    {
+      "id": "MT-005",
+      "name": "structural_variation",
+      "description": "Vary sentence structure while preserving meaning"
+    },
+    {
+      "id": "MT-006",
+      "name": "context_shifting",
+      "description": "Shift context while maintaining core capability request"
+    }
+  ],
+
+  "output": {
+    "saturated_patterns": "Convergent pattern signatures per cluster",
+    "candidate_rules": "Derived rules for CAP_RULE, HIC_AXIOM, or GLOBAL_INVARIANT",
+    "convergence_metrics": "Stability and iteration counts"
+  },
+
+  "successCriteria": {
+    "convergence": {
+      "metric": "stability_score",
+      "operator": ">=",
+      "value": 0.95,
+      "description": "Patterns must converge to stable invariant"
+    },
+    "coverage": {
+      "metric": "mutation_coverage",
+      "operator": ">=",
+      "value": 0.8,
+      "description": "At least 80% of mutations captured by derived rule"
+    },
+    "meta_invariant_compliance": {
+      "metric": "msi_pass_count",
+      "operator": "==",
+      "value": 3,
+      "description": "All 3 meta-invariants must pass"
+    }
+  },
+
+  "safety_constraints": {
+    "shadow_mode_only": true,
+    "no_live_impact": true,
+    "ratification_required": true,
+    "max_rules_per_cluster": 1
+  },
+
+  "artifacts": [
+    "reports/CSC-1_SATURATION_RESULTS.json",
+    "reports/CSC-1_CANDIDATE_RULES.json",
+    "reports/CSC-1_META_INVARIANT_VERIFICATION.json"
+  ]
+}

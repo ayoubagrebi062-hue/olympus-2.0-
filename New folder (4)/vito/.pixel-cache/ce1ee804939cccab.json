@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Input.tsx",
+      "content": "import React, { useState } from 'react';\n\ninterface InputProps {\n  variant?: 'text' | 'email';\n  placeholder?: string;\n  onChange: (value: string) => void;\n  error?: string;\n}\n\nconst Input: React.FC<InputProps> = ({ variant = 'text', placeholder = '', onChange, error }) => {\n  const [isFocused, setIsFocused] = useState(false);\n  const baseStyles = 'border rounded p-2 transition duration-200';\n  const focusStyles = isFocused ? 'border-green-500' : 'border-gray-300';\n  const errorStyles = error ? 'border-red-500' : '';\n\n  return (\n    <div>\n      <input\n        type={variant}\n        placeholder={placeholder}\n        className={`${baseStyles} ${focusStyles} ${errorStyles}`}\n        onFocus={() => setIsFocused(true)}\n        onBlur={() => setIsFocused(false)}\n        onChange={(e) => onChange(e.target.value)}\n        aria-invalid={!!error}\n        aria-describedby={error ? 'error-message' : undefined}\n      />\n      {error && <p id='error-message' className='text-red-500'>{error}</p>}\n    </div>\n  );\n};\n\nexport default Input;"
+    }
+  ],
+  "timestamp": 1768785857739,
+  "promptVersion": "v3.0.0"
+}

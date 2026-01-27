@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Button.tsx",
+      "content": "import React from 'react';\n\ninterface ButtonProps {\n  variant: 'primary' | 'secondary';\n  onClick: () => void;\n  disabled?: boolean;\n  children: React.ReactNode;\n}\n\nconst Button: React.FC<ButtonProps> = ({ variant, onClick, disabled = false, children }) => {\n  const baseStyles = 'px-4 py-2 rounded focus:outline-none';\n  const variants = {\n    primary: {\n      default: 'bg-blue-600 text-white border-none',\n      hover: 'hover:bg-blue-700',\n      active: 'active:bg-blue-800',\n      disabled: 'bg-gray-400 cursor-not-allowed'\n    },\n    secondary: {\n      default: 'bg-gray-600 text-white border-none',\n      hover: 'hover:bg-gray-700',\n      active: 'active:bg-gray-800',\n      disabled: 'bg-gray-400 cursor-not-allowed'\n    }\n  };\n\n  const getStyles = () => {\n    const variantStyles = variants[variant];\n    return `${baseStyles} ${variantStyles.default} ${disabled ? variantStyles.disabled : ''}`;\n  };\n\n  return (\n    <button\n      className={getStyles()}\n      onClick={disabled ? undefined : onClick}\n      disabled={disabled}\n    >\n      {children}\n    </button>\n  );\n};\n\nexport default Button;"
+    }
+  ],
+  "timestamp": 1768780383958,
+  "promptVersion": "v3.0.0"
+}

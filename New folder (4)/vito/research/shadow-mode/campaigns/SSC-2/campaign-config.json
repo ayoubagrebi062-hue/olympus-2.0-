@@ -1,0 +1,95 @@
+{
+  "id": "SSC-2",
+  "name": "Shadow Stress Campaign 2 - HCA-1 Capability Analysis",
+  "baseline": "SSC-1",
+  "scope": "shadow-mode",
+  "status": "INITIALIZED",
+  "startTimestamp": null,
+  "endTimestamp": null,
+
+  "extensions": {
+    "capability_saturation": {
+      "description": "Saturating tests specifically targeting CAP-* rules",
+      "weight": 0.35,
+      "targetCount": 3500,
+      "rules": ["CAP-001", "CAP-002", "CAP-003", "CAP-004", "CAP-005", "CAP-006", "CAP-007"],
+      "characteristics": {
+        "benignRate": 0.10,
+        "hostileRate": 0.90,
+        "capabilityFocused": true
+      }
+    },
+    "capability_plus_composition": {
+      "description": "Combined capability acquisition + composition attacks",
+      "weight": 0.25,
+      "targetCount": 2500,
+      "combinations": [
+        ["CAP-001", "HIC-001"],
+        ["CAP-002", "HIC-002"],
+        ["CAP-003", "HIC-003"],
+        ["CAP-004", "HIC-004"],
+        ["CAP-005", "HIC-005"],
+        ["CAP-006", "HIC-001"],
+        ["CAP-007", "HIC-006"]
+      ],
+      "characteristics": {
+        "benignRate": 0.05,
+        "hostileRate": 0.95,
+        "compositionRate": 1.00
+      }
+    },
+    "benign_capability_noise": {
+      "description": "Benign intents that superficially resemble hostile capabilities",
+      "weight": 0.40,
+      "targetCount": 4000,
+      "purpose": "False positive stress testing",
+      "characteristics": {
+        "benignRate": 1.00,
+        "hostileRate": 0.00,
+        "capabilitySimilar": true
+      }
+    }
+  },
+
+  "volume": {
+    "targetIntents": 10000,
+    "batchSize": 100,
+    "parallelism": 1
+  },
+
+  "constraints": {
+    "smcLocked": true,
+    "smcId": "SMC-1",
+    "val1Required": true,
+    "val1Id": "VAL-1",
+    "hca1Enabled": true,
+    "hca1Id": "HCA-1",
+    "noLogicChanges": true,
+    "checksumVerification": true
+  },
+
+  "metrics": [
+    "verdict_distribution",
+    "causalLayer_frequency",
+    "firstDivergence_histogram",
+    "rule_trigger_rank",
+    "replayHash_collisions",
+    "capability_trigger_matrix",
+    "capability_composition_overlap",
+    "false_positive_rate_by_cap"
+  ],
+
+  "termination": {
+    "onVolumeReached": true,
+    "onS4Detected": "immediate_abort",
+    "maxDurationHours": 24,
+    "checkpointInterval": 1000
+  },
+
+  "artifacts": [
+    "reports/SSC-2_SUMMARY.md",
+    "reports/SSC-2_ATTRIBUTION_HEATMAP.json",
+    "reports/SSC-2_CAPABILITY_TRIGGER_MATRIX.json",
+    "reports/SSC-2_GRADUATION_READINESS.md"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Card.tsx",
+      "content": "import React from 'react';\nimport PropTypes from 'prop-types';\n\n/**\n * A basic card component\n *\n * @param {Object} props - React props\n * @param {string} props.title - Title of the card\n * @param {string} props.description - Description of the card\n * @param {React.ReactNode} props.children - Child elements to render inside the card\n * @param {boolean} [props.highlighted=false] - Whether the card is highlighted\n * @param {boolean} [props.selected=false] - Whether the card is selected\n * @returns {JSX.Element} The Card component\n */\nconst Card = ({ title, description, children, highlighted = false, selected = false }) => {\n  return (\n    <div\n      className={`border rounded-lg p-4 transition-transform duration-200 ${highlighted ? 'bg-yellow-100' : 'bg-white'} ${selected ? 'shadow-lg' : 'shadow-md'} hover:shadow-lg`}\n      role=\"button\"\n      tabIndex={0}\n    >\n      <h2 className=\"text-xl font-semibold mb-2\">{title}</h2>\n      <p className=\"text-gray-700 mb-4\">{description}</p>\n      <div>{children}</div>\n    </div>\n  );\n};\n\nCard.propTypes = {\n  title: PropTypes.string.isRequired,\n  description: PropTypes.string.isRequired,\n  children: PropTypes.node,\n  highlighted: PropTypes.bool,\n  selected: PropTypes.bool,\n};\n\nexport default Card;\n"
+    }
+  ],
+  "timestamp": 1768978575617,
+  "promptVersion": "v3.0.0"
+}

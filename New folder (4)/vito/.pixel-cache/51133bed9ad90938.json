@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Modal.tsx",
+      "content": "// components/Modal.tsx\n\nimport * as React from 'react';\nimport { motion, AnimatePresence } from 'framer-motion';\nimport { cn } from '@/lib/utils';\n\ninterface ModalProps {\n  size?: 'sm' | 'md' | 'lg' | 'full';\n  title?: string;\n  onClose: () => void;\n  isOpen: boolean;\n  children: React.ReactNode;\n}\n\nconst modalVariants = {\n  hidden: { opacity: 0 },\n  visible: { opacity: 1 },\n};\n\nconst Modal: React.FC<ModalProps> = ({ size = 'md', title, onClose, isOpen, children }) => {\n  return (\n    <AnimatePresence>\n      {isOpen && (\n        <div className=\"fixed inset-0 z-50 flex items-center justify-center bg-overlay\">\n          <motion.div\n            className={cn('bg-background rounded-lg shadow-lg p-6', modalVariants[size])}\n            variants={modalVariants}\n            initial=\"hidden\"\n            animate=\"visible\"\n            exit=\"hidden\"\n            transition={{ duration: 0.2 }}\n            role=\"dialog\"\n            aria-labelledby=\"modal-title\"\n            aria-describedby=\"modal-description\"\n            aria-hidden={!isOpen}\n          >\n            <div className=\"flex justify-between items-center\">\n              {title && <h2 id=\"modal-title\" className=\"text-lg font-semibold\">{title}</h2>}\n              <button className=\"text-muted-foreground\" onClick={onClose}>✕</button>\n            </div>\n            <div id=\"modal-description\" className=\"mt-4\">\n              {children}\n            </div>\n          </motion.div>\n        </div>\n      )}\n    </AnimatePresence>\n  );\n};\n\nexport default Modal;\n"
+    }
+  ],
+  "timestamp": 1769473179293,
+  "promptVersion": "v3.0.0"
+}

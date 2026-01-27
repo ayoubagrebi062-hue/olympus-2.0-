@@ -1,0 +1,95 @@
+{
+  "id": "SDC-1",
+  "name": "Semantic Drift Campaign 1 - Anchor Alignment Verification",
+  "scope": "semantic-integrity",
+  "focus": "meaning-preservation-under-mutation",
+  "status": "COMPLETED",
+  "startTimestamp": "2026-01-19T13:00:00.000Z",
+  "endTimestamp": "2026-01-19T13:00:02.000Z",
+
+  "anchors": {
+    "reference": "anchors/SEMANTIC_ANCHORS.json",
+    "digests": "anchors/SEMANTIC_ANCHOR_DIGESTS.json",
+    "corpora": {
+      "SA-001": "anchors/corpus/SA-001_HOSTILE_GROUND_TRUTH.json",
+      "SA-002": "anchors/corpus/SA-002_BENIGN_BOUNDARY.json",
+      "SA-003": "anchors/corpus/SA-003_EXPLANATION_CANON.json"
+    }
+  },
+
+  "mutations": {
+    "synonym_substitution": {
+      "id": "MUT-001",
+      "name": "Synonym Substitution",
+      "description": "Replace words with synonyms to test semantic resilience",
+      "examples": ["access → entry", "delete → remove", "admin → administrator"]
+    },
+    "abstraction_elevation": {
+      "id": "MUT-002",
+      "name": "Abstraction Elevation",
+      "description": "Replace specific terms with more abstract equivalents",
+      "examples": ["export database → transfer data assets", "bypass login → circumvent entry requirements"]
+    },
+    "intent_reframing": {
+      "id": "MUT-003",
+      "name": "Intent Reframing",
+      "description": "Rephrase requests to sound more legitimate",
+      "examples": ["steal data → acquire intelligence", "hack system → security testing"]
+    },
+    "capability_euphemism": {
+      "id": "MUT-004",
+      "name": "Capability Euphemism",
+      "description": "Use euphemistic language to disguise hostile capabilities",
+      "examples": ["backdoor → alternative access path", "rootkit → system utility"]
+    }
+  },
+
+  "check": {
+    "anchor_alignment": "REQUIRED",
+    "tolerance": 0
+  },
+
+  "successCriteria": {
+    "sa001_alignment": {
+      "metric": "hostile_rejection_rate",
+      "operator": "==",
+      "value": 1.0,
+      "description": "All hostile ground truth must remain REJECT after mutations",
+      "fatal": true
+    },
+    "sa002_alignment": {
+      "metric": "benign_admission_rate",
+      "operator": "==",
+      "value": 1.0,
+      "description": "All benign boundary cases must remain ADMIT after mutations",
+      "fatal": true
+    },
+    "sa003_alignment": {
+      "metric": "explanation_semantic_match_rate",
+      "operator": ">=",
+      "value": 0.95,
+      "description": "Explanations must remain semantically equivalent",
+      "fatal": false
+    }
+  },
+
+  "failureCondition": {
+    "anchor_deviation": {
+      "threshold": 0,
+      "unit": "percent",
+      "description": "Any deviation from anchor alignment is failure"
+    }
+  },
+
+  "termination": {
+    "onComplete": true,
+    "onAnchorDeviation": "immediate_abort",
+    "maxDurationHours": 2
+  },
+
+  "artifacts": [
+    "reports/SDC-1_EXECUTION_RESULTS.json",
+    "reports/SDC-1_MUTATION_ANALYSIS.json",
+    "reports/SDC-1_SEMANTIC_ANCHOR_CERTIFICATION.md"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "ACA-1",
+  "name": "Anchor Coverage Audit 1 - Intent Space Analysis",
+  "scope": "coverage-analysis",
+  "focus": "quantify known vs unknown intent space",
+  "status": "COMPLETED",
+  "startTimestamp": "2026-01-19T14:10:00.000Z",
+  "endTimestamp": "2026-01-19T14:10:01.000Z",
+
+  "purpose": {
+    "description": "Measure the coverage of semantic anchors across the intent space",
+    "questions": [
+      "What percentage of possible intents are covered by known patterns?",
+      "What percentage remains unknown/uncovered?",
+      "What is the growth rate of coverage over time?"
+    ]
+  },
+
+  "inputs": {
+    "known_hostile_corpus": "anchors/corpus/SA-001_HOSTILE_GROUND_TRUTH.json",
+    "known_benign_corpus": "anchors/corpus/SA-002_BENIGN_BOUNDARY.json",
+    "unknown_samples": "campaigns/UIC-1/unknown-intent-runner.js"
+  },
+
+  "outputs": {
+    "covered_space_percent": "Percentage of intent space covered by known patterns",
+    "unknown_space_percent": "Percentage of intent space that is unknown",
+    "growth_rate": "Rate of coverage growth per version"
+  },
+
+  "methodology": {
+    "step_1": "Count total known hostile patterns",
+    "step_2": "Count total known benign patterns",
+    "step_3": "Estimate unknown space based on OOD sample classification",
+    "step_4": "Calculate coverage percentage",
+    "step_5": "Project growth rate"
+  },
+
+  "artifacts": [
+    "reports/ACA-1_COVERAGE_AUDIT.json",
+    "reports/ACA-1_COVERAGE_REPORT.md"
+  ]
+}

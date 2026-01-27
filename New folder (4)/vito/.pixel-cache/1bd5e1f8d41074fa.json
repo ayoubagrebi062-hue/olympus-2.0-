@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Button.tsx",
+      "content": "import React from 'react';\nimport PropTypes from 'prop-types';\n\ninterface ButtonProps {\n  variant: 'primary' | 'secondary';\n  state?: 'default' | 'hover' | 'active' | 'disabled';\n  onClick: () => void;\n  children: React.ReactNode;\n  icon?: React.ReactNode;\n}\n\nconst Button: React.FC<ButtonProps> = ({ variant, state = 'default', onClick, children, icon }) => {\n  const baseStyles = 'flex items-center gap-2 px-4 py-2 rounded transition duration-200';\n  const variantStyles = variant === 'primary'\n    ? 'bg-blue-500 text-white'\n    : 'bg-gray-500 text-white';\n  const stateStyles = state === 'disabled'\n    ? 'opacity-50 cursor-not-allowed'\n    : 'hover:bg-opacity-80 active:bg-opacity-90 cursor-pointer';\n\n  const handleClick = () => {\n    if (state !== 'disabled') {\n      onClick();\n    }\n  };\n\n  return (\n    <button\n      className={`${baseStyles} ${variantStyles} ${stateStyles}`}\n      onClick={handleClick}\n      disabled={state === 'disabled'}\n      aria-disabled={state === 'disabled'}\n    >\n      {icon && <span>{icon}</span>}\n      {children}\n    </button>\n  );\n};\n\nButton.propTypes = {\n  variant: PropTypes.oneOf(['primary', 'secondary']).isRequired,\n  state: PropTypes.oneOf(['default', 'hover', 'active', 'disabled']),\n  onClick: PropTypes.func.isRequired,\n  children: PropTypes.node.isRequired,\n  icon: PropTypes.node,\n};\n\nexport default Button;"
+    }
+  ],
+  "timestamp": 1768801669171,
+  "promptVersion": "v3.0.0"
+}

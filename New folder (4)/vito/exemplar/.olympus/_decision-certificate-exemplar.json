@@ -1,0 +1,70 @@
+{
+  "$schema": "https://olympus.canonical/certificate/v2.1",
+
+  "certificateId": "CERT-A1B2C3D4E5F6G7H8",
+  "buildId": "exemplar-2026-01-19-canonical",
+  "timestamp": "2026-01-19T10:05:23.456Z",
+
+  "verdict": "SHIP_APPROVED",
+  "blockReason": null,
+
+  "constitutionVersion": "2.0",
+  "constitutionHash": "8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a7b",
+
+  "olympusVersion": {
+    "olympusVersion": "2.1-canonical",
+    "governanceAuthority": "CANONICAL",
+    "pipelineSteps": 22,
+    "hostileTestsRequired": true,
+    "fateEvolutionEnabled": true,
+    "ctelEnabled": true,
+    "governanceModeEnabled": true,
+    "freezeStatus": "ACTIVE",
+    "buildTimestamp": "2026-01-19T10:05:23.456Z"
+  },
+
+  "gates": {
+    "total": 15,
+    "passed": 15,
+    "failed": 0,
+    "hardFailed": 0,
+    "summary": [
+      { "name": "semantic", "passed": true, "type": "HARD" },
+      { "name": "behavioral", "passed": true, "type": "HARD" },
+      { "name": "causal", "passed": true, "type": "HARD" },
+      { "name": "icg", "passed": true, "type": "HARD" },
+      { "name": "era", "passed": true, "type": "HARD" },
+      { "name": "ircl", "passed": true, "type": "HARD" },
+      { "name": "itgcl", "passed": true, "type": "HARD" },
+      { "name": "stability", "passed": true, "type": "HARD" },
+      { "name": "hith", "passed": true, "type": "HARD" },
+      { "name": "ial", "passed": true, "type": "HARD" },
+      { "name": "uvdl", "passed": true, "type": "HARD" },
+      { "name": "ige", "passed": true, "type": "HARD" },
+      { "name": "fate", "passed": true, "type": "HARD" },
+      { "name": "ctel", "passed": true, "type": "HARD" },
+      { "name": "governance-harness", "passed": true, "type": "HARD" }
+    ]
+  },
+
+  "metrics": {
+    "wissd": 97,
+    "ssi": 0.95,
+    "uvd": 0.82,
+    "ias": 0.88,
+    "hostileBlockRate": 1.0
+  },
+
+  "governance": {
+    "overrideApplied": false,
+    "overrideTarget": null,
+    "ssiPenalty": 0,
+    "constitutionalViolations": 0,
+    "governanceExploitsBlocked": 28
+  },
+
+  "inputHash": "1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b",
+  "outputHash": "f1e2d3c4b5a6978869504132f1e2d3c4b5a6978869504132f1e2d3c4b5a69788",
+  "certificateHash": "deadbeef12345678abcdef90deadbeef12345678abcdef90deadbeef12345678",
+  "signature": "cafe0123456789abcdefcafe0123456789abcdefcafe0123456789abcdefcafe"
+}

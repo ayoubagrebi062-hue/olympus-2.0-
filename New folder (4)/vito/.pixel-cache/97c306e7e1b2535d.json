@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Card.tsx",
+      "content": "import React from 'react';\n\ninterface CardProps {\n  header: React.ReactNode;\n  content: React.ReactNode;\n  actions: React.ReactNode;\n}\n\n/**\n * Card component displays a header, content, and action buttons.\n *\n * @param {CardProps} props - Component properties.\n * @returns {JSX.Element} The rendered card component.\n */\nconst Card: React.FC<CardProps> = ({ header, content, actions }) => {\n  return (\n    <div className=\"border rounded-lg shadow-md p-4\">\n      <div className=\"flex justify-between mb-4\">\n        <div className=\"font-bold text-lg\">{header}</div>\n      </div>\n      <div className=\"mb-4\">\n        {content}\n      </div>\n      <div className=\"flex justify-end gap-4\">\n        {actions}\n      </div>\n    </div>\n  );\n};\n\nexport default Card;\n"
+    }
+  ],
+  "timestamp": 1768781117185,
+  "promptVersion": "v3.0.0"
+}

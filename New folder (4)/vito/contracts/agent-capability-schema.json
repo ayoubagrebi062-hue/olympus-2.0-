@@ -1,0 +1,480 @@
+{
+  "version": "1.0.0",
+  "effectiveDate": "2026-01-18",
+  "description": "Agent capability contract - defines current capabilities, allowed growth, prohibited areas, and upgrade policy",
+  "appendOnly": true,
+
+  "agentIdentity": {
+    "id": "agent-identifier",
+    "name": "agent name",
+    "version": "agent semantic version",
+    "type": "type/classification",
+    "architecture": "system architecture type",
+    "deploymentScope": "production | staging | development"
+  },
+
+  "capabilityCategories": {
+    "current": "Capabilities currently available and operational",
+    "allowedGrowth": "Capabilities that may be added with proper approval",
+    "prohibited": "Capabilities that are never permitted",
+    "deprecated": "Capabilities being phased out"
+  },
+
+  "capabilities": {
+    "current": [
+      {
+        "id": "CAPABILITY_ID",
+        "name": "Human-readable capability name",
+        "description": "Detailed description of what this capability does",
+        "category": "reasoning | analysis | communication | execution | learning | governance",
+        "tierClass": "A | B | C",
+        "enabled": true,
+        "lastEnabledDate": "ISO-8601",
+        "evidenceLevel": "L1 | L2 | L3 | L4",
+        "humanApproved": true,
+        "ethicalReview": "approved | pending | waived",
+        "riskLevel": "low | medium | high",
+        "dependencies": ["CAPABILITY_ID_1", "CAPABILITY_ID_2"],
+        "usageLimits": {
+          "maxDaily": 1000,
+          "maxPerSession": 50,
+          "requiresHumanAbove": 10
+        },
+        "qualityMetrics": {
+          "accuracy": 0.95,
+          "latency": 100,
+          "successRate": 0.98
+        },
+        "governanceMarkers": ["AUTHORITY_CHECK", "ETHICAL_OVERSIGHT", "HUMAN_ACCOUNTABILITY"],
+        "rollbackCapability": true,
+        "rollbackMethod": "description of how to rollback this capability",
+        "monitoringRequired": true,
+        "alertThresholds": {
+          "failureRate": 0.05,
+          "ethicalVetos": 3,
+          "humanEscalations": 5
+        }
+      }
+    ],
+    "allowedGrowth": [
+      {
+        "id": "CAPABILITY_ID",
+        "name": "Human-readable capability name",
+        "description": "Detailed description of what this capability would do",
+        "category": "reasoning | analysis | communication | execution | learning | governance",
+        "proposedTierClass": "A | B | C",
+        "proposedRiskLevel": "low | medium | high",
+        "proposedDependencies": ["CAPABILITY_ID_1", "CAPABILITY_ID_2"],
+        "evidenceRequired": {
+          "type": "prototype | simulation | proof-of-concept | production-evidence",
+          "minimumQuality": "L1 | L2",
+          "sources": ["academic", "industry", "internal", "experimental"],
+          "requiredMetrics": ["accuracy", "safety", "ethical-impact", "performance"],
+          "minimumSuccessRate": 0.95,
+          "minimumSafetyMargin": 0.99
+        },
+        "humanApprovalRequired": true,
+        "approvalAuthority": "who must approve",
+        "approvalCriteria": ["safety-assessment", "ethical-review", "security-audit", "performance-validation"],
+        "ethicalReviewRequired": true,
+        "ethicalReviewCriteria": ["stakeholder-impact", "harm-potential", "autonomy-preservation", "fairness-assessment"],
+        "pilotRequired": true,
+        "pilotDuration": "30 days",
+        "pilotScope": "limited | sandboxed | production-limited",
+        "pilotSuccessCriteria": ["zero-incidents", "ethical-compliance", "performance-metrics"],
+        "expectedUpgradeImpact": {
+          "affectedCapabilities": ["CAPABILITY_ID_1", "CAPABILITY_ID_2"],
+          "performanceImpact": "positive | negative | neutral",
+          "resourceImpact": "increase | decrease | neutral",
+          "riskImpact": "increase | decrease | neutral"
+        },
+        "rollbackPlan": {
+          "possible": true,
+          "method": "description of rollback method",
+          "timeToRollback": "seconds | minutes | hours",
+          "dataPreservation": "full | partial | none",
+          "statePreservation": "full | partial | none"
+        },
+        "governanceMarkers": ["AUTHORITY_CHECK", "ETHICAL_OVERSIGHT", "HUMAN_ACCOUNTABILITY"],
+        "monitoringPlan": {
+          "metrics": ["success-rate", "failure-rate", "ethical-vetos", "human-escalations"],
+          "alertThresholds": {
+            "failureRate": 0.05,
+            "ethicalVetos": 3,
+            "humanEscalations": 5
+          },
+          "reviewFrequency": "daily | weekly | monthly"
+        },
+        "growthPath": ["capability-step-1", "capability-step-2"],
+        "estimatedAvailabilityDate": "ISO-8601",
+        "status": "proposed | evidence-gathering | human-review | ethical-review | pilot | approved | rejected"
+      }
+    ],
+    "prohibited": [
+      {
+        "id": "CAPABILITY_ID",
+        "name": "Human-readable capability name",
+        "description": "Description of prohibited capability",
+        "prohibitionReason": "safety | ethical | legal | security | policy | governance",
+        "prohibitionCategory": "hard-prohibition | soft-prohibition | conditional-prohibition",
+        "prohibitionExplanation": "Detailed explanation of why this capability is prohibited",
+        "conditions": {
+          "ifConditionMet": "conditional explanation (for conditional prohibitions)",
+          "overrideRequires": "what is required to override (if possible)"
+        },
+        "prohibitedSince": "ISO-8601",
+        "reviewDate": "ISO-8601",
+        "reviewStatus": "active | under-review | expired",
+        "alternatives": ["CAPABILITY_ID_1", "CAPABILITY_ID_2"]
+      }
+    ],
+    "deprecated": [
+      {
+        "id": "CAPABILITY_ID",
+        "name": "Human-readable capability name",
+        "description": "Description of deprecated capability",
+        "deprecationReason": "obsoleted | security | ethical | performance | maintenance",
+        "deprecationDate": "ISO-8601",
+        "endOfSupportDate": "ISO-8601",
+        "replacementCapabilities": ["CAPABILITY_ID_1", "CAPABILITY_ID_2"],
+        "migrationPath": "description of migration path",
+        "dataPreservation": "full | partial | none",
+        "statePreservation": "full | partial | none",
+        "currentUsage": "active | disabled | phased-out"
+      }
+    ]
+  },
+
+  "upgradePolicy": {
+    "evidenceRequirements": {
+      "minimumEvidenceLevel": "L1",
+      "evidenceTypes": ["academic", "industry", "internal", "experimental"],
+      "evidenceQuality": {
+        "academic": {
+          "peerReviewRequired": true,
+          "impactFactor": "minimum impact factor threshold",
+          "citationCount": "minimum citation count threshold"
+        },
+        "industry": {
+          "productionUsage": "minimum deployment duration",
+          "caseStudies": "minimum number of case studies",
+          "successRate": "minimum success rate threshold"
+        },
+        "internal": {
+          "prototypeDuration": "minimum testing duration",
+          "successCriteria": ["criteria-1", "criteria-2"],
+          "independentReview": "requires independent review"
+        },
+        "experimental": {
+          "simulationRequired": true,
+          "safetyChecks": "required safety checks",
+          "humanInLoop": "human in loop required"
+        }
+      }
+    },
+    "humanApprovalRequirements": {
+      "requiredFor": ["all-capabilities", "tier2-only", "tier3-only", "high-risk-only"],
+      "approvalAuthority": {
+        "tierA": "lead-developer",
+        "tierB": "technical-manager",
+        "tierC": "executive-approval"
+      },
+      "approvalCriteria": [
+        "safety-assessment",
+        "ethical-review",
+        "security-audit",
+        "performance-validation",
+        "cost-benefit-analysis",
+        "risk-assessment"
+      ],
+      "approvalDocumentation": {
+        "required": true,
+        "sections": ["rationale", "alternatives", "risks", "mitigations", "rollback-plan", "monitoring-plan"]
+      },
+      "approvalProcess": {
+        "requestSubmission": "ISO-8601",
+        "reviewPeriod": "minimum review duration",
+        "decisionDate": "ISO-8601",
+        "approvalExpiry": "ISO-8601 (optional)",
+        "renewalRequired": true,
+        "renewalFrequency": "annually | quarterly"
+      }
+    },
+    "ethicalReviewRequirements": {
+      "requiredFor": ["all-capabilities", "tier3-only", "high-risk-only", "human-impact-only"],
+      "reviewType": "standard | expedited | comprehensive",
+      "reviewCriteria": [
+        "stakeholder-impact",
+        "harm-potential",
+        "autonomy-preservation",
+        "fairness-assessment",
+        "transparency-requirements",
+        "accountability-mechanisms"
+      ],
+      "reviewBoard": "ethics-committee | designated-ethics-reviewer",
+      "reviewProcess": {
+        "submissionDate": "ISO-8601",
+        "reviewPeriod": "minimum review duration",
+        "decisionDate": "ISO-8601",
+        "reviewExpiry": "ISO-8601 (optional)",
+        "renewalRequired": true,
+        "renewalFrequency": "annually | as-needed"
+      },
+      "ethicalConstraints": [
+        "must-not-harm-humans",
+        "must-preserve-human-autonomy",
+        "must-ensure-fairness",
+        "must-be-transparent",
+        "must-be-accountable",
+        "must-respect-privacy"
+      ]
+    },
+    "upgradeStages": [
+      {
+        "stage": "proposal",
+        "description": "Capability proposed for addition",
+        "requirements": ["problem-definition", "solution-proposal", "risk-assessment"],
+        "exitCriteria": ["proposal-accepted"]
+      },
+      {
+        "stage": "evidence-gathering",
+        "description": "Collect evidence supporting capability",
+        "requirements": ["prototype", "simulation", "academic-research"],
+        "exitCriteria": ["evidence-meets-L1"]
+      },
+      {
+        "stage": "human-review",
+        "description": "Human approval process",
+        "requirements": ["documentation", "approval-request", "review"],
+        "exitCriteria": ["human-approval-granted"]
+      },
+      {
+        "stage": "ethical-review",
+        "description": "Ethical review process",
+        "requirements": ["ethical-assessment", "stakeholder-analysis", "review-board"],
+        "exitCriteria": ["ethical-approval-granted"]
+      },
+      {
+        "stage": "pilot",
+        "description": "Limited deployment for testing",
+        "requirements": ["pilot-environment", "monitoring", "success-criteria"],
+        "exitCriteria": ["pilot-success"],
+        "fallback": "immediate-rollback"
+      },
+      {
+        "stage": "deployment",
+        "description": "Full deployment",
+        "requirements": ["final-approval", "deployment-plan", "monitoring"],
+        "exitCriteria": ["operational"]
+      },
+      {
+        "stage": "monitoring",
+        "description": "Ongoing monitoring and review",
+        "requirements": ["metrics", "alerts", "periodic-review"],
+        "exitCriteria": ["stable-operation"]
+      }
+    ],
+    "rollbackPolicy": {
+      "alwaysPossible": true,
+      "rollbackTriggers": [
+        "ethical-violation",
+        "safety-incident",
+        "excessive-failures",
+        "performance-degradation",
+        "human-request",
+        "governance-violation"
+      ],
+      "rollbackProcedure": {
+        "detection": "how issue is detected",
+        "notification": "how stakeholders are notified",
+        "decision": "who decides to rollback",
+        "execution": "how rollback is executed",
+        "verification": "how rollback is verified",
+        "documentation": "how rollback is documented"
+      },
+      "rollbackMetrics": {
+        "timeToDetect": "milliseconds",
+        "timeToDecision": "milliseconds",
+        "timeToRollback": "milliseconds",
+        "dataLoss": "none | minimal | significant",
+        "stateImpact": "minimal | moderate | severe"
+      }
+    }
+  },
+
+  "governanceIntegration": {
+    "decisionSchemaCompatibility": "1.0.0",
+    "decisionClassMapping": {
+      "tierA": ["informational", "read-only"],
+      "tierB": ["operational", "bounded-consequences"],
+      "tierC": ["critical", "irreversible", "high-impact"]
+    },
+    "requiredGovernanceMarkers": [
+      "AUTHORITY_CHECK",
+      "ETHICAL_OVERSIGHT",
+      "HUMAN_ACCOUNTABILITY",
+      "HUMAN_OVERRIDE_REQUIRED"
+    ],
+    "auditTrailRequired": true,
+    "monitoringIntegration": true,
+    "signalIntegration": true
+  },
+
+  "performanceMetrics": {
+    "overall": {
+      "uptime": 0.999,
+      "responseTime": 100,
+      "successRate": 0.98
+    },
+    "byCapability": {
+      "CAPABILITY_ID": {
+        "accuracy": 0.95,
+        "latency": 50,
+        "throughput": 1000,
+        "errorRate": 0.02,
+        "ethicalVetoRate": 0.01,
+        "humanEscalationRate": 0.03
+      }
+    },
+    "trends": {
+      "improving": ["CAPABILITY_ID_1", "CAPABILITY_ID_2"],
+      "stable": ["CAPABILITY_ID_3"],
+      "declining": ["CAPABILITY_ID_4"]
+    }
+  },
+
+  "riskAssessment": {
+    "overallRiskLevel": "low | medium | high",
+    "byCapability": {
+      "CAPABILITY_ID": {
+        "riskLevel": "low | medium | high",
+        "riskFactors": [
+          {
+            "factor": "risk factor description",
+            "likelihood": "low | medium | high",
+            "impact": "low | medium | high",
+            "mitigation": "mitigation strategy"
+          }
+        ],
+        "riskScore": "numeric-score-0-100"
+      }
+    },
+    "emergingRisks": [
+      {
+        "risk": "risk description",
+        "detectedDate": "ISO-8601",
+        "status": "monitoring | mitigating | resolved",
+        "assignedTo": "who is addressing"
+      }
+    ]
+  },
+
+  "versionHistory": [
+    {
+      "version": "1.0.0",
+      "effectiveDate": "2026-01-18",
+      "changes": [
+        {
+          "type": "initial",
+          "description": "Initial agent capability contract established",
+          "capabilitiesAdded": [],
+          "capabilitiesRemoved": [],
+          "capabilitiesModified": []
+        }
+      ],
+      "approvedBy": "approver name",
+      "ethicalReviewDate": "ISO-8601"
+    }
+  ],
+
+  "upgradeLog": [
+    {
+      "capabilityId": "CAPABILITY_ID",
+      "upgradeType": "new-capability | capability-enhancement | capability-removal",
+      "upgradeDate": "ISO-8601",
+      "previousVersion": "previous version number",
+      "newVersion": "new version number",
+      "evidenceSummary": "summary of evidence supporting upgrade",
+      "humanApproval": {
+        "approvedBy": "name of approver",
+        "approvalDate": "ISO-8601",
+        "approvalRationale": "rationale for approval"
+      },
+      "ethicalReview": {
+        "reviewedBy": "name of reviewer",
+        "reviewDate": "ISO-8601",
+        "reviewRationale": "rationale for ethical review outcome"
+      },
+      "pilotResults": {
+        "duration": "pilot duration",
+        "successRate": 0.98,
+        "ethicalIncidents": 0,
+        "humanEscalations": 2,
+        "recommendation": "approved | rejected | needs-modification"
+      },
+      "deploymentDate": "ISO-8601",
+      "rollbackTriggered": false,
+      "rollbackDate": "ISO-8601 (if rolled back)",
+      "rollbackReason": "reason for rollback (if rolled back)",
+      "status": "operational | degraded | failed | rolled-back"
+    }
+  ],
+
+  "maintenanceWindow": {
+    "nextReviewDate": "ISO-8601",
+    "reviewFrequency": "quarterly | semi-annually | annually",
+    "responsibleParty": "who is responsible for review",
+    "reviewScope": ["current-capabilities", "prohibited-capabilities", "upgrade-policy", "risk-assessment"]
+  },
+
+  "emergencyOverride": {
+    "possible": true,
+    "overrideConditions": [
+      "safety-emergency",
+      "system-failure",
+      "security-breach"
+    ],
+    "overrideProcess": {
+      "required": "description of override process",
+      "approvalRequired": "immediate-post-override",
+      "documentationRequired": "immediate-post-override",
+      "ethicalReviewRequired": "within-24-hours",
+      "retrospectiveRequired": true
+    },
+    "overrideLog": [
+      {
+        "capabilityId": "CAPABILITY_ID",
+        "overrideDate": "ISO-8601",
+        "overrideReason": "reason for override",
+        "overriddenBy": "name of person who authorized override",
+        "postOverrideReview": {
+          "reviewedBy": "name of reviewer",
+          "reviewDate": "ISO-8601",
+          "findings": "review findings",
+          "actionsTaken": ["action-1", "action-2"]
+        }
+      }
+    ]
+  },
+
+  "appendOnly": true,
+  "immutableFields": [
+    "agentIdentity.id",
+    "versionHistory",
+    "upgradeLog",
+    "version"
+  ],
+  "mutableFields": [
+    "capabilities.current",
+    "capabilities.allowedGrowth",
+    "capabilities.prohibited",
+    "capabilities.deprecated",
+    "performanceMetrics",
+    "riskAssessment",
+    "maintenanceWindow.nextReviewDate"
+  ],
+
+  "lastModified": "2026-01-18",
+  "maintainedBy": "Governance Team",
+  "approver": "Executive Approval Required for All Changes"
+}

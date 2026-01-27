@@ -1,0 +1,417 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://olympus.research/intent-authentication-layer/intent-admissibility/v0.1",
+  "title": "Intent Admissibility Schema",
+  "description": "Schema defining what makes an intent admissible for OLYMPUS constitutional evaluation",
+
+  "definitions": {
+    "ProvenanceSpan": {
+      "type": "object",
+      "description": "Source text span for provenance tracking",
+      "required": ["start", "end", "text"],
+      "properties": {
+        "start": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Start character index (inclusive)"
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "End character index (exclusive)"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Actual text at this span (for verification)"
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Line number (1-indexed)"
+        },
+        "column": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Column number (1-indexed)"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Provenance": {
+      "type": "object",
+      "description": "Provenance information - REQUIRED for admissibility",
+      "required": ["source", "span", "rule", "confidence"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["input"],
+          "description": "Must be 'input' - template/default sources rejected"
+        },
+        "span": {
+          "$ref": "#/definitions/ProvenanceSpan"
+        },
+        "rule": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Extraction rule that produced this derivation"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0.5,
+          "maximum": 1.0,
+          "description": "Confidence score - must be >= 0.5 for admissibility"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "IntentCategory": {
+      "type": "string",
+      "enum": ["functional", "constraint", "initialization", "navigation", "validation"],
+      "description": "Intent category - REQUIRED"
+    },
+
+    "IntentPriority": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low"],
+      "description": "Intent priority - REQUIRED"
+    },
+
+    "TriggerType": {
+      "type": "string",
+      "enum": ["click", "input", "change", "submit", "lifecycle", "timer", "external"],
+      "description": "Type of trigger"
+    },
+
+    "EffectAction": {
+      "type": "string",
+      "enum": ["set", "increment", "decrement", "toggle", "append", "remove", "clear", "display", "hide", "navigate", "call"],
+      "description": "Type of effect action"
+    },
+
+    "Trigger": {
+      "type": "object",
+      "description": "Trigger specification - counts as 1 axis if present",
+      "required": ["type", "provenance"],
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/TriggerType"
+        },
+        "event": {
+          "type": "string",
+          "description": "Specific event (e.g., 'page_load')"
+        },
+        "target": {
+          "type": "string",
+          "description": "UI element that triggers - MUST appear in source text"
+        },
+        "condition": {
+          "type": "string",
+          "description": "Condition for trigger"
+        },
+        "provenance": {
+          "$ref": "#/definitions/Provenance"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "State": {
+      "type": "object",
+      "description": "State specification - counts as 1 axis if present",
+      "required": ["name", "provenance"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "State variable name - MUST appear in source text",
+          "not": {
+            "pattern": "^(the|a|an|on|in|at|to|if|is|it)s?$"
+          }
+        },
+        "type": {
+          "type": "string",
+          "enum": ["number", "string", "boolean", "array", "object", "unknown"]
+        },
+        "initialValue": {
+          "description": "Initial value if specified"
+        },
+        "provenance": {
+          "$ref": "#/definitions/Provenance"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Effect": {
+      "type": "object",
+      "description": "Effect specification - counts as 1 axis if present",
+      "required": ["action", "provenance"],
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/EffectAction"
+        },
+        "target": {
+          "type": "string",
+          "description": "What the action affects - MUST appear in source text"
+        },
+        "value": {
+          "description": "Value involved in the action"
+        },
+        "provenance": {
+          "$ref": "#/definitions/Provenance"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Outcome": {
+      "type": "object",
+      "description": "Outcome specification - counts as 1 axis if present",
+      "required": ["description", "provenance"],
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 5,
+          "description": "Human-readable outcome"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["display", "state_change", "navigation", "visibility", "validation"]
+        },
+        "verifiable": {
+          "type": "boolean",
+          "description": "Whether outcome can be programmatically verified"
+        },
+        "provenance": {
+          "$ref": "#/definitions/Provenance"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "AdmissibleIntent": {
+      "type": "object",
+      "description": "An intent that is admissible for OLYMPUS evaluation",
+      "required": ["id", "requirement", "category", "priority", "provenance"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[A-Z]+-[0-9]+$",
+          "description": "Unique intent identifier"
+        },
+        "requirement": {
+          "type": "string",
+          "minLength": 10,
+          "description": "The requirement text - minimum 10 characters"
+        },
+        "category": {
+          "$ref": "#/definitions/IntentCategory"
+        },
+        "priority": {
+          "$ref": "#/definitions/IntentPriority"
+        },
+        "trigger": {
+          "$ref": "#/definitions/Trigger"
+        },
+        "state": {
+          "$ref": "#/definitions/State"
+        },
+        "effect": {
+          "$ref": "#/definitions/Effect"
+        },
+        "outcome": {
+          "$ref": "#/definitions/Outcome"
+        },
+        "provenance": {
+          "$ref": "#/definitions/Provenance"
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "description": "ADMISSIBILITY RULE: At least 2 of 4 axes must be specified",
+          "anyOf": [
+            {
+              "required": ["trigger", "effect"]
+            },
+            {
+              "required": ["trigger", "state"]
+            },
+            {
+              "required": ["trigger", "outcome"]
+            },
+            {
+              "required": ["state", "effect"]
+            },
+            {
+              "required": ["state", "outcome"]
+            },
+            {
+              "required": ["effect", "outcome"]
+            },
+            {
+              "required": ["trigger", "state", "effect"]
+            },
+            {
+              "required": ["trigger", "state", "outcome"]
+            },
+            {
+              "required": ["trigger", "effect", "outcome"]
+            },
+            {
+              "required": ["state", "effect", "outcome"]
+            },
+            {
+              "required": ["trigger", "state", "effect", "outcome"]
+            }
+          ]
+        }
+      ]
+    },
+
+    "RejectionReason": {
+      "type": "string",
+      "enum": [
+        "REJECT_NO_PROVENANCE",
+        "REJECT_MALFORMED",
+        "REJECT_UNDERSPECIFIED",
+        "REJECT_HOSTILE",
+        "REJECT_PHANTOM"
+      ],
+      "description": "Reason for intent rejection"
+    },
+
+    "RejectedIntent": {
+      "type": "object",
+      "description": "A rejected intent with rejection details",
+      "required": ["intentId", "status", "reason", "details", "timestamp"],
+      "properties": {
+        "intentId": {
+          "type": "string",
+          "description": "ID of the rejected intent"
+        },
+        "status": {
+          "type": "string",
+          "const": "REJECTED"
+        },
+        "reason": {
+          "$ref": "#/definitions/RejectionReason"
+        },
+        "details": {
+          "type": "object",
+          "required": ["check", "message"],
+          "properties": {
+            "check": {
+              "type": "string",
+              "description": "Which IAL-0 check failed"
+            },
+            "message": {
+              "type": "string",
+              "description": "Human-readable rejection message"
+            },
+            "suggestion": {
+              "type": "string",
+              "description": "How to fix the rejection"
+            },
+            "evidence": {
+              "type": "object",
+              "description": "Evidence for the rejection"
+            }
+          }
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "type": "object",
+  "title": "IAL-0 Authentication Result",
+  "required": ["version", "sourceHash", "authenticated", "rejected", "summary"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string",
+      "const": "0.1.0",
+      "description": "IAL-0 version"
+    },
+    "sourceHash": {
+      "type": "string",
+      "description": "SHA-256 hash of source text"
+    },
+    "authenticatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "authenticated": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/AdmissibleIntent"
+      },
+      "description": "Intents that passed authentication"
+    },
+    "rejected": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/RejectedIntent"
+      },
+      "description": "Intents that failed authentication"
+    },
+    "summary": {
+      "type": "object",
+      "required": ["total", "authenticated", "rejected", "authenticationRate"],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "authenticated": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rejected": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "authenticationRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "rejectionsByReason": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "guarantees": {
+      "type": "object",
+      "properties": {
+        "noPhantoms": {
+          "type": "boolean",
+          "description": "True if no phantom intents passed"
+        },
+        "minimumSpecificity": {
+          "type": "boolean",
+          "description": "True if all authenticated intents have ≥2 axes"
+        },
+        "deterministic": {
+          "type": "boolean",
+          "description": "True if authentication was deterministic"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

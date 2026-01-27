@@ -1,0 +1,209 @@
+{
+  "tier": "ultimate",
+  "extractedAt": "2026-01-27T08:10:23.396Z",
+  "sources": [
+    "oracle",
+    "empathy",
+    "venture",
+    "strategos",
+    "scope",
+    "psyche",
+    "scribe",
+    "architect_conversion",
+    "palette",
+    "grid",
+    "blocks",
+    "cartographer",
+    "flow",
+    "artist",
+    "archon",
+    "datum",
+    "nexus",
+    "forge",
+    "sentinel",
+    "atlas",
+    "pixel",
+    "wire",
+    "polish",
+    "engine",
+    "cron",
+    "gateway",
+    "keeper",
+    "notify",
+    "bridge",
+    "sync",
+    "search",
+    "load",
+    "junit",
+    "cypress",
+    "a11y"
+  ],
+  "architecture": {
+    "isMultiTenant": false,
+    "tenantIsolation": "none",
+    "tenantScopedTables": [],
+    "softDeletes": true,
+    "idStrategy": "cuid",
+    "apiBasePath": "/api/v1",
+    "paginationStyle": "cursor",
+    "responseEnvelope": true,
+    "rateLimitingEnabled": true,
+    "cachingEnabled": true,
+    "cachedEntities": [
+      "builds",
+      "settings"
+    ],
+    "optimisticUpdates": true,
+    "rbacEnabled": true,
+    "roles": [
+      {
+        "name": "user",
+        "permissions": [
+          "read:own",
+          "write:own"
+        ]
+      },
+      {
+        "name": "admin",
+        "permissions": [
+          "read:all",
+          "write:all",
+          "delete:all"
+        ]
+      }
+    ],
+    "errorBoundaries": "page"
+  },
+  "design": {
+    "colorPalette": {
+      "primary": "#3b82f6",
+      "secondary": "#64748b",
+      "accent": "#f59e0b",
+      "background": "#ffffff",
+      "foreground": "#0f172a",
+      "muted": "#f1f5f9",
+      "destructive": "#ef4444",
+      "border": "#e2e8f0"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "scale": "default"
+    },
+    "borderRadius": "medium",
+    "spacing": "default",
+    "darkMode": true,
+    "animations": "subtle"
+  },
+  "data": {
+    "entities": [
+      "User",
+      "Build",
+      "Template",
+      "Tenant"
+    ],
+    "relationships": [
+      {
+        "from": "Build",
+        "to": "User",
+        "type": "many-to-one",
+        "cascadeDelete": true
+      },
+      {
+        "from": "User",
+        "to": "Tenant",
+        "type": "many-to-one",
+        "cascadeDelete": true
+      },
+      {
+        "from": "Tenant",
+        "to": "User",
+        "type": "one-to-many",
+        "cascadeDelete": true
+      }
+    ],
+    "softDeleteEntities": [],
+    "searchableEntities": [],
+    "auditedEntities": [],
+    "enums": [
+      {
+        "name": "UserRole",
+        "values": [
+          "OWNER",
+          "ADMIN",
+          "MEMBER",
+          "GUEST"
+        ]
+      },
+      {
+        "name": "BuildStatus",
+        "values": [
+          "PENDING",
+          "IN_PROGRESS",
+          "COMPLETED",
+          "FAILED"
+        ]
+      }
+    ]
+  },
+  "api": {
+    "endpoints": [],
+    "webhooks": [],
+    "publicEndpoints": [],
+    "adminEndpoints": []
+  },
+  "security": {
+    "authMethod": "supabase",
+    "mfaRequired": false,
+    "mfaRoles": [],
+    "session": {
+      "duration": 604800,
+      "refreshEnabled": true,
+      "maxConcurrent": 5
+    },
+    "rateLimits": [],
+    "encryptedFields": [],
+    "auditEvents": []
+  },
+  "pages": {
+    "pages": [],
+    "navigation": {
+      "main": [],
+      "footer": []
+    },
+    "layouts": []
+  },
+  "rawDecisions": [
+    {
+      "id": "venture-decision-business_model",
+      "type": "business_model",
+      "choice": "{\"value_proposition\":\"Build complete applications in minutes with 40 AI agents\",\"customer_segments\":",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "strategos-decision-mvp_features",
+      "type": "mvp_features",
+      "choice": "[{\"id\":\"landing_page\",\"name\":\"Landing Page\",\"category\":\"core\",\"priority\":\"must_have\",\"rice_score\":95",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "archon-decision-tech_stack",
+      "type": "tech_stack",
+      "choice": "{\"framework\":\"Next.js 14 App Router\",\"database\":\"Supabase PostgreSQL\",\"orm\":\"Prisma\",\"auth\":\"Supabas",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "archon-decision-architecture",
+      "type": "architecture",
+      "choice": "{\"pattern\":\"modular-monolith\",\"reasoning\":\"The project involves a marketing website and a dashboard ",
+      "reasoning": "The project involves a marketing website and a dashboard with multiple features, warranting a modular structure to separate concerns without the overhead of microservices.",
+      "alternatives": [],
+      "confidence": 0.8
+    }
+  ]
+}

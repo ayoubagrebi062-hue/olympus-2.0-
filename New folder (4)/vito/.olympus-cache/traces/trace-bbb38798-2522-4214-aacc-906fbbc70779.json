@@ -1,0 +1,661 @@
+[
+  {
+    "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+    "spanId": "18f3a8aa9b2bdf3d",
+    "operationName": "build:bbb38798-2522-4214-aacc-906fbbc70779",
+    "startTime": 1769484496682,
+    "status": "SUCCESS",
+    "metadata": {
+      "totalAgents": 40,
+      "tier": "PLATINUM",
+      "healthScore": 88,
+      "finalTier": "PLATINUM",
+      "circuitBreaks": 0,
+      "selfHealingSuccesses": 0
+    },
+    "children": [
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "d47cf8849cbba2cc",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:oracle",
+        "agentId": "oracle",
+        "phase": "discovery",
+        "startTime": 1769484496688,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 14410
+        },
+        "children": [],
+        "endTime": 1769484511100,
+        "duration": 14412
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "d428fae570ac3d80",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:empathy",
+        "agentId": "empathy",
+        "phase": "discovery",
+        "startTime": 1769484511101,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 18526
+        },
+        "children": [],
+        "endTime": 1769484529628,
+        "duration": 18527
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "fd51cb10fa5abaeb",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:venture",
+        "agentId": "venture",
+        "phase": "discovery",
+        "startTime": 1769484529629,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 13098
+        },
+        "children": [],
+        "endTime": 1769484542729,
+        "duration": 13100
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "995201011935a13d",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:strategos",
+        "agentId": "strategos",
+        "phase": "discovery",
+        "startTime": 1769484542730,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 23592
+        },
+        "children": [],
+        "endTime": 1769484566322,
+        "duration": 23592
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "c767c94fb5a28ef8",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:scope",
+        "agentId": "scope",
+        "phase": "discovery",
+        "startTime": 1769484566322,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 12393
+        },
+        "children": [],
+        "endTime": 1769484578717,
+        "duration": 12395
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "71d4fab9801d1fa1",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:psyche",
+        "agentId": "psyche",
+        "phase": "conversion",
+        "startTime": 1769484578723,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 11617
+        },
+        "children": [],
+        "endTime": 1769484590343,
+        "duration": 11620
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "313fb88b48480ec0",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:scribe",
+        "agentId": "scribe",
+        "phase": "conversion",
+        "startTime": 1769484590343,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 24513
+        },
+        "children": [],
+        "endTime": 1769484614857,
+        "duration": 24514
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "b431481c6096c9cd",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:architect_conversion",
+        "agentId": "architect_conversion",
+        "phase": "conversion",
+        "startTime": 1769484614857,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 11699
+        },
+        "children": [],
+        "endTime": 1769484626557,
+        "duration": 11700
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "239fd77d8dda3329",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:conversion_judge",
+        "agentId": "conversion_judge",
+        "phase": "conversion",
+        "startTime": 1769484626557,
+        "status": "SUCCESS",
+        "metadata": {
+          "skipped": "degradation"
+        },
+        "children": [],
+        "endTime": 1769484626558,
+        "duration": 1
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "9e243d4ae9ef7bbd",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:palette",
+        "agentId": "palette",
+        "phase": "design",
+        "startTime": 1769484626562,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 19739
+        },
+        "children": [],
+        "endTime": 1769484646302,
+        "duration": 19740
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "b539fb410ad6a0f5",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:grid",
+        "agentId": "grid",
+        "phase": "design",
+        "startTime": 1769484646302,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 13152
+        },
+        "children": [],
+        "endTime": 1769484659456,
+        "duration": 13154
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "196fdbc4246d20b5",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:blocks",
+        "agentId": "blocks",
+        "phase": "design",
+        "startTime": 1769484659456,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 15660
+        },
+        "children": [],
+        "endTime": 1769484675117,
+        "duration": 15661
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "fd7736f9f16d604b",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:cartographer",
+        "agentId": "cartographer",
+        "phase": "design",
+        "startTime": 1769484675118,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 27497
+        },
+        "children": [],
+        "endTime": 1769484702616,
+        "duration": 27498
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "b6d1c3e97ec99246",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:flow",
+        "agentId": "flow",
+        "phase": "design",
+        "startTime": 1769484702617,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 22872
+        },
+        "children": [],
+        "endTime": 1769484725492,
+        "duration": 22875
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "3c5e4d8dccab2932",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:artist",
+        "agentId": "artist",
+        "phase": "design",
+        "startTime": 1769484725492,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 17302
+        },
+        "children": [],
+        "endTime": 1769484742796,
+        "duration": 17304
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "e546b836a4371bcb",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:archon",
+        "agentId": "archon",
+        "phase": "architecture",
+        "startTime": 1769484742800,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 23351
+        },
+        "children": [],
+        "endTime": 1769484766152,
+        "duration": 23352
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "16128d913a57e187",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:datum",
+        "agentId": "datum",
+        "phase": "architecture",
+        "startTime": 1769484766152,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 60364
+        },
+        "children": [],
+        "endTime": 1769484826516,
+        "duration": 60364
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "3389d2d92430d8d2",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:nexus",
+        "agentId": "nexus",
+        "phase": "architecture",
+        "startTime": 1769484826517,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 60197
+        },
+        "children": [],
+        "endTime": 1769484886715,
+        "duration": 60198
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "98da7378db25a950",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:forge",
+        "agentId": "forge",
+        "phase": "architecture",
+        "startTime": 1769484886716,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 19984
+        },
+        "children": [],
+        "endTime": 1769484906702,
+        "duration": 19986
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "ed00ebeea47984c2",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:sentinel",
+        "agentId": "sentinel",
+        "phase": "architecture",
+        "startTime": 1769484906702,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 32403
+        },
+        "children": [],
+        "endTime": 1769484939106,
+        "duration": 32404
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "bd5f63927d0ae4f6",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:atlas",
+        "agentId": "atlas",
+        "phase": "architecture",
+        "startTime": 1769484939107,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 25560
+        },
+        "children": [],
+        "endTime": 1769484964668,
+        "duration": 25561
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "6fee1f01f448c37e",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:pixel",
+        "agentId": "pixel",
+        "phase": "frontend",
+        "startTime": 1769484964675,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 343
+        },
+        "children": [],
+        "endTime": 1769484965019,
+        "duration": 344
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "2bd773164174535d",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:wire",
+        "agentId": "wire",
+        "phase": "frontend",
+        "startTime": 1769484965020,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 25913
+        },
+        "children": [],
+        "endTime": 1769484990934,
+        "duration": 25914
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "333769a29d32a0e5",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:polish",
+        "agentId": "polish",
+        "phase": "frontend",
+        "startTime": 1769484990934,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 23530
+        },
+        "children": [],
+        "endTime": 1769485014465,
+        "duration": 23531
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "6abff0ba747bd73e",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:engine",
+        "agentId": "engine",
+        "phase": "backend",
+        "startTime": 1769485015451,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 42814
+        },
+        "children": [],
+        "endTime": 1769485058266,
+        "duration": 42815
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "c10aab2816df1e47",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:gateway",
+        "agentId": "gateway",
+        "phase": "backend",
+        "startTime": 1769485058267,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 9403
+        },
+        "children": [],
+        "endTime": 1769485067671,
+        "duration": 9404
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "69101e1c9e91cefd",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:keeper",
+        "agentId": "keeper",
+        "phase": "backend",
+        "startTime": 1769485058272,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 18501
+        },
+        "children": [],
+        "endTime": 1769485076773,
+        "duration": 18501
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "1a10cf837b314316",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:cron",
+        "agentId": "cron",
+        "phase": "backend",
+        "startTime": 1769485058279,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 6811
+        },
+        "children": [],
+        "endTime": 1769485065091,
+        "duration": 6812
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "154b62b048c23b2f",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:bridge",
+        "agentId": "bridge",
+        "phase": "integration",
+        "startTime": 1769485076774,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 18947
+        },
+        "children": [],
+        "endTime": 1769485095722,
+        "duration": 18948
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "2ba810c8077542cb",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:sync",
+        "agentId": "sync",
+        "phase": "integration",
+        "startTime": 1769485076776,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 10854
+        },
+        "children": [],
+        "endTime": 1769485087632,
+        "duration": 10856
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "296ce64752a0c538",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:notify",
+        "agentId": "notify",
+        "phase": "integration",
+        "startTime": 1769485076777,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 6383
+        },
+        "children": [],
+        "endTime": 1769485083161,
+        "duration": 6384
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "7be63d7c0058f4d9",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:search",
+        "agentId": "search",
+        "phase": "integration",
+        "startTime": 1769485095723,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 11617
+        },
+        "children": [],
+        "endTime": 1769485107341,
+        "duration": 11618
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "e4fbf0412c8e16d5",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:junit",
+        "agentId": "junit",
+        "phase": "testing",
+        "startTime": 1769485107342,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 16263
+        },
+        "children": [],
+        "endTime": 1769485123606,
+        "duration": 16264
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "177b35645260a52d",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:cypress",
+        "agentId": "cypress",
+        "phase": "testing",
+        "startTime": 1769485107344,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 11242
+        },
+        "children": [],
+        "endTime": 1769485118587,
+        "duration": 11243
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "b9df9a960dcecd16",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:load",
+        "agentId": "load",
+        "phase": "testing",
+        "startTime": 1769485107346,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 8059
+        },
+        "children": [],
+        "endTime": 1769485115407,
+        "duration": 8061
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "97dca41413985705",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:a11y",
+        "agentId": "a11y",
+        "phase": "testing",
+        "startTime": 1769485123607,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 4865
+        },
+        "children": [],
+        "endTime": 1769485128473,
+        "duration": 4866
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "76a79353a5b933d2",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:docker",
+        "agentId": "docker",
+        "phase": "deployment",
+        "startTime": 1769485158511,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 4412
+        },
+        "children": [],
+        "endTime": 1769485162923,
+        "duration": 4412
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "29ac9d0d9c34b810",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:pipeline",
+        "agentId": "pipeline",
+        "phase": "deployment",
+        "startTime": 1769485158512,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 5868
+        },
+        "children": [],
+        "endTime": 1769485164380,
+        "duration": 5868
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "13dd3000d59decc8",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:monitor",
+        "agentId": "monitor",
+        "phase": "deployment",
+        "startTime": 1769485158513,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 5676
+        },
+        "children": [],
+        "endTime": 1769485164189,
+        "duration": 5676
+      },
+      {
+        "traceId": "bbb38798-2522-4214-aacc-906fbbc70779",
+        "spanId": "b88150033f6b5ea6",
+        "parentSpanId": "18f3a8aa9b2bdf3d",
+        "operationName": "agent:scale",
+        "agentId": "scale",
+        "phase": "deployment",
+        "startTime": 1769485164380,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 7908
+        },
+        "children": [],
+        "endTime": 1769485172288,
+        "duration": 7908
+      }
+    ],
+    "endTime": 1769485172307,
+    "duration": 675625
+  }
+]

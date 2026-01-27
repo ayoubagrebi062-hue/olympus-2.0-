@@ -1,0 +1,4 @@
+{
+  "agentId": "pixel",
+  "prompt": "Create a recruiting dashboard React component with TypeScript. Requirements: 1) Hiring funnel chart showing 14+ data points for stages: Applied (100), Screening (45), Interview (20), Offer (8), Hired (5). Use realistic daily data. 2) Candidate action buttons: Schedule Interview, Reject Candidate, Advance to Next Stage - each button MUST have onClick handler that updates state (NOT empty). 3) Delete candidate button that shows confirmation modal before actually removing candidate from state. 4) All button groups must use flex with gap-2 spacing. 5) Include mock data for 10 candidates with names, emails, skills. Return complete working component code."
+}

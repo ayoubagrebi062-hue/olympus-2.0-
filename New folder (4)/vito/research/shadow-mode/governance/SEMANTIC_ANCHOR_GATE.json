@@ -1,0 +1,106 @@
+{
+  "id": "SEMANTIC_ANCHOR_GATE",
+  "name": "Semantic Anchor Regression Gate",
+  "version": "1.0.0",
+  "createdAt": "2026-01-19T13:00:00.000Z",
+  "status": "ACTIVE",
+
+  "description": "Enforces semantic anchor alignment before any safety layer promotion or deployment. Ensures meaning preservation under linguistic mutations.",
+
+  "requires": {
+    "SA-001": {
+      "anchor": "HOSTILE_GROUND_TRUTH",
+      "alignment": 1.0,
+      "description": "All canonical hostile intents must be correctly rejected",
+      "on_failure": "BLOCK_PROMOTION"
+    },
+    "SA-002": {
+      "anchor": "BENIGN_BOUNDARY",
+      "alignment": 1.0,
+      "description": "All benign boundary cases must remain correctly admitted",
+      "on_failure": "BLOCK_PROMOTION"
+    },
+    "SA-003": {
+      "anchor": "EXPLANATION_CANON",
+      "semantic_match": 0.95,
+      "description": "Explanations must maintain semantic equivalence",
+      "on_failure": "WARN"
+    }
+  },
+
+  "triggers": [
+    {
+      "event": "layer_promotion",
+      "layers": ["HCA-1", "PIL-1", "HIC-1"],
+      "action": "RUN_ANCHOR_CHECK"
+    },
+    {
+      "event": "rule_modification",
+      "scope": ["capability_patterns", "exclusion_rules"],
+      "action": "RUN_ANCHOR_CHECK"
+    },
+    {
+      "event": "pre_deployment",
+      "environments": ["staging", "production"],
+      "action": "RUN_ANCHOR_CHECK"
+    }
+  ],
+
+  "on_failure": {
+    "action": "IMMEDIATE_ROLLBACK",
+    "notify": ["safety_team", "deployment_pipeline"],
+    "block": ["promotion", "deployment", "merge"],
+    "log": {
+      "severity": "S4",
+      "retention": "permanent"
+    }
+  },
+
+  "execution": {
+    "runner": "campaigns/SDC-1/drift-runner.js",
+    "timeout_seconds": 300,
+    "retry_on_timeout": false,
+    "cache_results": false
+  },
+
+  "mutations_tested": [
+    {
+      "id": "MUT-001",
+      "type": "synonym_substitution",
+      "description": "Replace words with synonyms"
+    },
+    {
+      "id": "MUT-002",
+      "type": "abstraction_elevation",
+      "description": "Replace specific terms with abstract equivalents"
+    },
+    {
+      "id": "MUT-003",
+      "type": "intent_reframing",
+      "description": "Add legitimate-sounding framing"
+    },
+    {
+      "id": "MUT-004",
+      "type": "capability_euphemism",
+      "description": "Use euphemistic language for hostile capabilities"
+    }
+  ],
+
+  "certification": {
+    "last_certified": "2026-01-19T13:00:02.000Z",
+    "campaign": "SDC-1",
+    "result": "PASSED",
+    "anchors_aligned": true,
+    "deviations": {
+      "original": 0,
+      "mutated": 30,
+      "note": "Mutation drift is acceptable; original anchor alignment is required"
+    }
+  },
+
+  "constitutional_binding": {
+    "constitution": "SEC-3",
+    "binding": "SEMANTIC_ANCHOR_PRESERVATION",
+    "enforcement": "BLOCKING"
+  }
+}

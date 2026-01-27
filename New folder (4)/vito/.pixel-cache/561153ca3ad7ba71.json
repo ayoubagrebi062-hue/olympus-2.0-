@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Input.tsx",
+      "content": "import React from 'react';\n\ninterface InputProps {\n  label: string;\n  type?: 'text' | 'password';\n  value: string;\n  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;\n}\n\nconst Input: React.FC<InputProps> = ({ label, type = 'text', value, onChange }) => {\n  return (\n    <div className='mb-4'>\n      <label className='block text-gray-700 mb-2'>{label}</label>\n      <input\n        type={type}\n        value={value}\n        onChange={onChange}\n        className='border border-gray-300 p-2 rounded'\n        aria-label={label}\n      />\n    </div>\n  );\n};\n\nexport default Input;"
+    }
+  ],
+  "timestamp": 1768781380048,
+  "promptVersion": "v3.0.0"
+}

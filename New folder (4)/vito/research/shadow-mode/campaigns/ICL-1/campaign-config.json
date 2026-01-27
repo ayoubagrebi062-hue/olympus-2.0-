@@ -1,0 +1,63 @@
+{
+  "id": "ICL-1",
+  "name": "Intent Clustering Campaign 1 - Unknown Intent Pattern Discovery",
+  "scope": "pattern-discovery",
+  "focus": "cluster unknown intents to identify emerging patterns",
+  "status": "COMPLETED",
+  "startTimestamp": "2026-01-19T15:00:00.000Z",
+  "endTimestamp": "2026-01-19T15:05:00.000Z",
+
+  "input": {
+    "source": "UID-1.UNKNOWN",
+    "description": "Unknown intents collected from UID-1 Unknown Intent Detector",
+    "samples": "Synthetic unknown intent corpus for testing"
+  },
+
+  "parameters": {
+    "min_cluster_size": 5,
+    "clustering_algorithm": "semantic_similarity",
+    "similarity_threshold": 0.6,
+    "max_clusters": 50
+  },
+
+  "output": {
+    "cluster_id": "Unique identifier for each cluster",
+    "centroid_signature": "Semantic signature of cluster center",
+    "risk_pressure_score": "0.0-1.0 score indicating potential threat level",
+    "sample_count": "Number of samples in cluster",
+    "provisional_classification": "POTENTIAL_HOSTILE | POTENTIAL_BENIGN | AMBIGUOUS"
+  },
+
+  "successCriteria": {
+    "clustering_coverage": {
+      "metric": "clustered_samples / total_samples",
+      "operator": ">=",
+      "value": 0.8,
+      "description": "At least 80% of samples should cluster (not be noise)"
+    },
+    "cluster_coherence": {
+      "metric": "average_intra_cluster_similarity",
+      "operator": ">=",
+      "value": 0.6,
+      "description": "Clusters should be internally coherent"
+    },
+    "risk_identification": {
+      "metric": "hostile_clusters_identified",
+      "operator": ">=",
+      "value": 1,
+      "description": "At least one potential hostile cluster should be found"
+    }
+  },
+
+  "safety_constraints": {
+    "no_live_impact": true,
+    "shadow_mode_only": true,
+    "ratification_required": true
+  },
+
+  "artifacts": [
+    "reports/ICL-1_CLUSTERING_RESULTS.json",
+    "reports/ICL-1_CLUSTER_ANALYSIS.md",
+    "reports/ICL-1_RISK_ASSESSMENT.json"
+  ]
+}

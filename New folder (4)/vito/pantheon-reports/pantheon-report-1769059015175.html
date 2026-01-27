@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> - PANTHEON Report</title>
+  <style>
+    :root {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-tertiary: #21262d;
+      --text-primary: #e6edf3;
+      --text-secondary: #8b949e;
+      --accent-green: #3fb950;
+      --accent-red: #f85149;
+      --accent-yellow: #d29922;
+      --accent-blue: #58a6ff;
+      --accent-purple: #a371f7;
+      --border-color: #30363d;
+    }
+
+    .light-theme {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f6f8fa;
+      --bg-tertiary: #eaeef2;
+      --text-primary: #1f2328;
+      --text-secondary: #656d76;
+      --border-color: #d0d7de;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.25rem;
+    }
+
+    .theme-toggle {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .metric-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .metric-label {
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .metric-value.success { color: var(--accent-green); }
+    .metric-value.warning { color: var(--accent-yellow); }
+    .metric-value.error { color: var(--accent-red); }
+
+    .metric-bar {
+      height: 4px;
+      background: var(--bg-tertiary);
+      border-radius: 2px;
+      margin-top: 0.75rem;
+      overflow: hidden;
+    }
+
+    .metric-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.5s ease-out;
+    }
+
+    .section {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-content {
+      padding: 1.25rem;
+    }
+
+    /* Timeline Chart */
+    .timeline-container {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+    }
+
+    .timeline-canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Agent Swimlanes */
+    .swimlane-container {
+      overflow-x: auto;
+      padding-bottom: 1rem;
+    }
+
+    .swimlane {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .swimlane-label {
+      width: 120px;
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      padding-right: 0.5rem;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .swimlane-track {
+      flex: 1;
+      height: 24px;
+      background: var(--bg-tertiary);
+      border-radius: 4px;
+      position: relative;
+      min-width: 200px; /* Reduced for mobile compatibility */
+    }
+
+    .swimlane-segment {
+      position: absolute;
+      height: 100%;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .swimlane-segment:hover {
+      opacity: 0.8;
+    }
+
+    .swimlane-segment.pending { background: var(--bg-tertiary); }
+    .swimlane-segment.running { background: var(--accent-blue); }
+    .swimlane-segment.completed { background: var(--accent-green); }
+    .swimlane-segment.failed { background: var(--accent-red); }
+
+    /* Events Log */
+    .events-log {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .event-item {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.875rem;
+    }
+
+    .event-tick {
+      width: 50px;
+      color: var(--text-secondary);
+      font-family: monospace;
+    }
+
+    .event-type {
+      width: 120px;
+      padding: 0.125rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .event-type.started { background: var(--accent-blue); color: white; }
+    .event-type.completed { background: var(--accent-green); color: white; }
+    .event-type.failed { background: var(--accent-red); color: white; }
+    .event-type.retried { background: var(--accent-yellow); color: black; }
+
+    .event-agent {
+      flex: 1;
+      margin-left: 1rem;
+    }
+
+    /* Insights */
+    .insight-card {
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid;
+    }
+
+    .insight-card.critical { border-left-color: var(--accent-red); }
+    .insight-card.warning { border-left-color: var(--accent-yellow); }
+    .insight-card.info { border-left-color: var(--accent-blue); }
+    .insight-card.success { border-left-color: var(--accent-green); }
+
+    .insight-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .insight-description {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .insight-suggestion {
+      background: var(--bg-secondary);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+    }
+
+    /* Flakiness Chart */
+    .flakiness-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 4px;
+      margin-top: 1rem;
+    }
+
+    .flakiness-cell {
+      aspect-ratio: 1;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .flakiness-cell:hover {
+      transform: scale(1.1);
+    }
+
+    .flakiness-cell.pass { background: var(--accent-green); }
+    .flakiness-cell.fail { background: var(--accent-red); }
+
+    /* Regression Comparison */
+    .comparison-row {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .comparison-metric {
+      width: 150px;
+      font-weight: 500;
+    }
+
+    .comparison-values {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .comparison-old {
+      color: var(--text-secondary);
+    }
+
+    .comparison-arrow {
+      font-size: 1.25rem;
+    }
+
+    .comparison-arrow.up { color: var(--accent-green); }
+    .comparison-arrow.down { color: var(--accent-red); }
+    .comparison-arrow.same { color: var(--text-secondary); }
+
+    .comparison-new {
+      font-weight: 600;
+    }
+
+    /* Replay Controls */
+    .replay-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .replay-btn {
+      background: var(--accent-blue);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .replay-btn:hover {
+      opacity: 0.9;
+    }
+
+    .replay-slider {
+      flex: 1;
+      height: 4px;
+      -webkit-appearance: none;
+      background: var(--bg-tertiary);
+      border-radius: 2px;
+      outline: none;
+    }
+
+    .replay-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      background: var(--accent-blue);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .replay-tick {
+      width: 60px;
+      text-align: center;
+      font-family: monospace;
+      color: var(--text-secondary);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    footer a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .container { padding: 1rem; }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+      .metric-card { padding: 1rem; }
+      .metric-value { font-size: 1.5rem; }
+      .swimlane-row { flex-direction: column; align-items: flex-start; }
+      .swimlane-label { width: 100%; margin-bottom: 0.25rem; }
+      .swimlane-track { min-width: 100%; width: 100%; }
+      .event-item { flex-wrap: wrap; }
+      .event-tick, .event-type { width: auto; margin-right: 0.5rem; }
+      .chart-container { height: 150px; }
+      header h1 { font-size: 1.25rem; }
+      .logo { width: 30px; height: 30px; font-size: 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+      .metric-label { font-size: 0.75rem; }
+      .section-header { font-size: 1rem; padding: 0.75rem 1rem; }
+      .section-content { padding: 0.75rem; }
+      .replay-btn, .controls button { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>
+        <div class="logo">P</div>
+        PANTHEON Report
+      </h1>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
+    </header>
+
+    <!-- Key Metrics -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Overall Score</div>
+        <div class="metric-value error">
+          0.0%
+        </div>
+        <div class="metric-bar">
+          <div class="metric-bar-fill" style="width: 0%; background: var(--accent-red)"></div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Mutation Score</div>
+        <div class="metric-value success">
+          100.0%
+        </div>
+        <div class="metric-bar">
+          <div class="metric-bar-fill" style="width: 100%; background: var(--accent-purple)"></div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Chaos Resilience</div>
+        <div class="metric-value success">
+          100%
+        </div>
+        <div class="metric-bar">
+          <div class="metric-bar-fill" style="width: 100%; background: var(--accent-yellow)"></div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Status</div>
+        <div class="metric-value success">
+          ✓ PASSED
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="section">
+      <div class="section-header">
+        📊 Regression Analysis vs Baseline
+      </div>
+      <div class="section-content">
+        
+      <div class="comparison-row">
+        <div class="comparison-metric">Overall Score</div>
+        <div class="comparison-values">
+          <span class="comparison-old">90.0%</span>
+          <span class="comparison-arrow down">↓</span>
+          <span class="comparison-new">0.0%</span>
+        </div>
+      </div>
+    
+      <div class="comparison-row">
+        <div class="comparison-metric">Mutation Score</div>
+        <div class="comparison-values">
+          <span class="comparison-old">100.0%</span>
+          <span class="comparison-arrow same">→</span>
+          <span class="comparison-new">100.0%</span>
+        </div>
+      </div>
+    
+      <div class="comparison-row">
+        <div class="comparison-metric">Chaos Resilience</div>
+        <div class="comparison-values">
+          <span class="comparison-old">100.0%</span>
+          <span class="comparison-arrow same">→</span>
+          <span class="comparison-new">100.0%</span>
+        </div>
+      </div>
+    
+      <div class="comparison-row">
+        <div class="comparison-metric">Violations</div>
+        <div class="comparison-values">
+          <span class="comparison-old">10</span>
+          <span class="comparison-arrow down">↓</span>
+          <span class="comparison-new">3</span>
+        </div>
+      </div>
+    
+      </div>
+    </div>
+  
+
+    
+    <div class="section">
+      <div class="section-header">
+        🧠 Insights (Health: 0/100)
+      </div>
+      <div class="section-content">
+        
+      <div class="insight-card warning">
+        <div class="insight-title">🟡 Underutilized Parallelism</div>
+        <div class="insight-description">The build is not utilizing available parallelism effectively, resulting in slower execution.</div>
+        <div class="insight-suggestion">💡 Review dependency graph - agents may be over-constrained. Look for bottleneck agents that block many others.</div>
+      </div>
+    
+      <div class="insight-card warning">
+        <div class="insight-title">🟡 Bottleneck Agent Detected</div>
+        <div class="insight-description">A single agent is taking disproportionately long, blocking other work.</div>
+        <div class="insight-suggestion">💡 Consider breaking &#039;datum&#039; into smaller parallel tasks, or optimizing its execution time.</div>
+      </div>
+    
+      </div>
+    </div>
+  
+
+    <!-- Timeline Section -->
+    <div class="section">
+      <div class="section-header">
+        📈 Build Progress Timeline
+      </div>
+      <div class="section-content">
+        <div class="replay-controls">
+          <button class="replay-btn" onclick="toggleReplay()">
+            <span id="replay-icon">▶</span> Replay
+          </button>
+          <input type="range" class="replay-slider" id="timeline-slider" min="0" max="33" value="0" oninput="seekTo(this.value)">
+          <div class="replay-tick">Tick <span id="current-tick">0</span></div>
+        </div>
+        <canvas class="timeline-canvas" id="timeline-chart"></canvas>
+      </div>
+    </div>
+
+    <!-- Agent Swimlanes -->
+    <div class="section">
+      <div class="section-header">
+        🏊 Agent Execution Swimlanes
+      </div>
+      <div class="section-content">
+        <div class="swimlane-container" id="swimlanes">
+          
+      <div class="swimlane">
+        <div class="swimlane-label" title="oracle">oracle</div>
+        <div class="swimlane-track"><div class="swimlane-segment pending"
+                   style="left: 0%; width: 2.941176470588235%"
+                   data-start="0"
+                   data-end="0"
+                   title="oracle: pending (0-0)"></div><div class="swimlane-segment running"
+                   style="left: 2.941176470588235%; width: 8.823529411764707%"
+                   data-start="1"
+                   data-end="3"
+                   title="oracle: running (1-3)"></div><div class="swimlane-segment completed"
+                   style="left: 11.76470588235294%; width: 88.23529411764706%"
+                   data-start="4"
+                   data-end="33"
+                   title="oracle: completed (4-33)"></div></div>
+      </div>
+    
+      <div class="swimlane">
+        <div class="swimlane-label" title="scope">scope</div>
+        <div class="swimlane-track"><div class="swimlane-segment pending"
+                   style="left: 0%; width: 11.76470588235294%"
+                   data-start="0"
+                   data-end="3"
+                   title="scope: pending (0-3)"></div><div class="swimlane-segment running"
+                   style="left: 11.76470588235294%; width: 5.88235294117647%"
+                   data-start="4"
+                   data-end="5"
+                   title="scope: running (4-5)"></div><div class="swimlane-segment completed"
+                   style="left: 17.647058823529413%; width: 82.35294117647058%"
+                   data-start="6"
+                   data-end="33"
+                   title="scope: completed (6-33)"></div></div>
+      </div>
+    
+      <div class="swimlane">
+        <div class="swimlane-label" title="archon">archon</div>
+        <div class="swimlane-track"><div class="swimlane-segment pending"
+                   style="left: 0%; width: 20.588235294117645%"
+                   data-start="0"
+                   data-end="6"
+                   title="archon: pending (0-6)"></div><div class="swimlane-segment running"
+                   style="left: 20.588235294117645%; width: 14.705882352941178%"
+                   data-start="7"
+                   data-end="11"
+                   title="archon: running (7-11)"></div><div class="swimlane-segment completed"
+                   style="left: 35.294117647058826%; width: 64.70588235294117%"
+                   data-start="12"
+                   data-end="33"
+                   title="archon: completed (12-33)"></div></div>
+      </div>
+    
+      <div class="swimlane">
+        <div class="swimlane-label" title="datum">datum</div>
+        <div class="swimlane-track"><div class="swimlane-segment pending"
+                   style="left: 0%; width: 20.588235294117645%"
+                   data-start="0"
+                   data-end="6"
+                   title="datum: pending (0-6)"></div><div class="swimlane-segment running"
+                   style="left: 20.588235294117645%; width: 32.35294117647059%"
+                   data-start="7"
+                   data-end="17"
+                   title="datum: running (7-17)"></div><div class="swimlane-segment completed"
+                   style="left: 52.94117647058824%; width: 47.05882352941176%"
+                   data-start="18"
+                   data-end="33"
+                   title="datum: completed (18-33)"></div></div>
+      </div>
+    
+      <div class="swimlane">
+        <div class="swimlane-label" title="pixel">pixel</div>
+        <div class="swimlane-track"><div class="swimlane-segment pending"
+                   style="left: 0%; width: 55.88235294117647%"
+                   data-start="0"
+                   data-end="18"
+                   title="pixel: pending (0-18)"></div><div class="swimlane-segment running"
+                   style="left: 55.88235294117647%; width: 8.823529411764707%"
+                   data-start="19"
+                   data-end="21"
+                   title="pixel: running (19-21)"></div><div class="swimlane-segment completed"
+                   style="left: 64.70588235294117%; width: 35.294117647058826%"
+                   data-start="22"
+                   data-end="33"
+                   title="pixel: completed (22-33)"></div></div>
+      </div>
+    
+      <div class="swimlane">
+        <div class="swimlane-label" title="wire">wire</div>
+        <div class="swimlane-track"><div class="swimlane-segment pending"
+                   style="left: 0%; width: 55.88235294117647%"
+                   data-start="0"
+                   data-end="18"
+                   title="wire: pending (0-18)"></div><div class="swimlane-segment running"
+                   style="left: 55.88235294117647%; width: 14.705882352941178%"
+                   data-start="19"
+                   data-end="23"
+                   title="wire: running (19-23)"></div><div class="swimlane-segment completed"
+                   style="left: 70.58823529411765%; width: 29.411764705882355%"
+                   data-start="24"
+                   data-end="33"
+                   title="wire: completed (24-33)"></div></div>
+      </div>
+    
+      <div class="swimlane">
+        <div class="swimlane-label" title="nexus">nexus</div>
+        <div class="swimlane-track"><div class="swimlane-segment pending"
+                   style="left: 0%; width: 55.88235294117647%"
+                   data-start="0"
+                   data-end="18"
+                   title="nexus: pending (0-18)"></div><div class="swimlane-segment running"
+                   style="left: 55.88235294117647%; width: 2.941176470588235%"
+                   data-start="19"
+                   data-end="19"
+                   title="nexus: running (19-19)"></div><div class="swimlane-segment completed"
+                   style="left: 58.82352941176471%; width: 41.17647058823529%"
+                   data-start="20"
+                   data-end="33"
+                   title="nexus: completed (20-33)"></div></div>
+      </div>
+    
+      <div class="swimlane">
+        <div class="swimlane-label" title="forge">forge</div>
+        <div class="swimlane-track"><div class="swimlane-segment pending"
+                   style="left: 0%; width: 58.82352941176471%"
+                   data-start="0"
+                   data-end="19"
+                   title="forge: pending (0-19)"></div><div class="swimlane-segment running"
+                   style="left: 58.82352941176471%; width: 14.705882352941178%"
+                   data-start="20"
+                   data-end="24"
+                   title="forge: running (20-24)"></div><div class="swimlane-segment completed"
+                   style="left: 73.52941176470588%; width: 26.47058823529412%"
+                   data-start="25"
+                   data-end="33"
+                   title="forge: completed (25-33)"></div></div>
+      </div>
+    
+      <div class="swimlane">
+        <div class="swimlane-label" title="sentinel">sentinel</div>
+        <div class="swimlane-track"><div class="swimlane-segment pending"
+                   style="left: 0%; width: 76.47058823529412%"
+                   data-start="0"
+                   data-end="25"
+                   title="sentinel: pending (0-25)"></div><div class="swimlane-segment running"
+                   style="left: 76.47058823529412%; width: 8.823529411764707%"
+                   data-start="26"
+                   data-end="28"
+                   title="sentinel: running (26-28)"></div><div class="swimlane-segment completed"
+                   style="left: 85.29411764705883%; width: 14.705882352941178%"
+                   data-start="29"
+                   data-end="33"
+                   title="sentinel: completed (29-33)"></div></div>
+      </div>
+    
+      <div class="swimlane">
+        <div class="swimlane-label" title="guardian">guardian</div>
+        <div class="swimlane-track"><div class="swimlane-segment pending"
+                   style="left: 0%; width: 76.47058823529412%"
+                   data-start="0"
+                   data-end="25"
+                   title="guardian: pending (0-25)"></div><div class="swimlane-segment running"
+                   style="left: 76.47058823529412%; width: 20.588235294117645%"
+                   data-start="26"
+                   data-end="32"
+                   title="guardian: running (26-32)"></div><div class="swimlane-segment completed"
+                   style="left: 97.05882352941177%; width: 2.941176470588235%"
+                   data-start="33"
+                   data-end="33"
+                   title="guardian: completed (33-33)"></div></div>
+      </div>
+    
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="section">
+      <div class="section-header">
+        🎲 Flakiness Analysis (10 runs)
+      </div>
+      <div class="section-content">
+        <div class="metrics-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="metric-card">
+            <div class="metric-label">Success Rate</div>
+            <div class="metric-value success">
+              100.0%
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Flakiness Score</div>
+            <div class="metric-value success">
+              0.0%
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">95% Confidence</div>
+            <div class="metric-value">
+              72-100%
+            </div>
+          </div>
+        </div>
+        <div class="flakiness-grid">
+          <div class="flakiness-cell pass" title="Run 1: Pass">1</div><div class="flakiness-cell pass" title="Run 2: Pass">2</div><div class="flakiness-cell pass" title="Run 3: Pass">3</div><div class="flakiness-cell pass" title="Run 4: Pass">4</div><div class="flakiness-cell pass" title="Run 5: Pass">5</div><div class="flakiness-cell pass" title="Run 6: Pass">6</div><div class="flakiness-cell pass" title="Run 7: Pass">7</div><div class="flakiness-cell pass" title="Run 8: Pass">8</div><div class="flakiness-cell pass" title="Run 9: Pass">9</div><div class="flakiness-cell pass" title="Run 10: Pass">10</div>
+        </div>
+      </div>
+    </div>
+  
+
+    <!-- Events Log -->
+    <div class="section">
+      <div class="section-header">
+        📋 Event Log (40 events)
+      </div>
+      <div class="section-content">
+        <div class="events-log">
+          
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">BUILD_STARTED</div>
+        <div class="event-agent"></div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">PHASE_STARTED</div>
+        <div class="event-agent"></div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">oracle</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type completed">COMPLETED</div>
+        <div class="event-agent">oracle</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">scope</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type completed">COMPLETED</div>
+        <div class="event-agent">scope</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">PHASE_STARTED</div>
+        <div class="event-agent"></div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">archon</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">datum</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type retried">RETRIED</div>
+        <div class="event-agent">archon</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">archon</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type completed">COMPLETED</div>
+        <div class="event-agent">archon</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type ">CHAOS_INJECTED</div>
+        <div class="event-agent">datum</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type retried">RETRIED</div>
+        <div class="event-agent">datum</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">datum</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type completed">COMPLETED</div>
+        <div class="event-agent">datum</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">PHASE_STARTED</div>
+        <div class="event-agent"></div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">pixel</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">wire</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">nexus</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type ">CHAOS_INJECTED</div>
+        <div class="event-agent">pixel</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type retried">RETRIED</div>
+        <div class="event-agent">pixel</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type completed">COMPLETED</div>
+        <div class="event-agent">nexus</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">pixel</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">forge</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type ">CHAOS_INJECTED</div>
+        <div class="event-agent">wire</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type retried">RETRIED</div>
+        <div class="event-agent">wire</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">wire</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type completed">COMPLETED</div>
+        <div class="event-agent">pixel</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type completed">COMPLETED</div>
+        <div class="event-agent">wire</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type completed">COMPLETED</div>
+        <div class="event-agent">forge</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">PHASE_STARTED</div>
+        <div class="event-agent"></div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">sentinel</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">guardian</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type ">CHAOS_INJECTED</div>
+        <div class="event-agent">sentinel</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type retried">RETRIED</div>
+        <div class="event-agent">sentinel</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type started">STARTED</div>
+        <div class="event-agent">sentinel</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type completed">COMPLETED</div>
+        <div class="event-agent">sentinel</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type completed">COMPLETED</div>
+        <div class="event-agent">guardian</div>
+      </div>
+    
+      <div class="event-item">
+        <div class="event-tick">undefined</div>
+        <div class="event-type completed">BUILD_COMPLETED</div>
+        <div class="event-agent"></div>
+      </div>
+    
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      Generated by <a href="#">PANTHEON</a> v2.1.0 "TITAN" at 2026-01-22T05:16:55.174Z
+    </footer>
+  </div>
+
+  <script>
+    // Data (XSS-safe: escape </script> tags in JSON)
+    const snapshots = [{"tick":0,"progress":0,"state":"pending","activeAgents":0,"completedAgents":0,"failedAgents":0,"totalAgents":10},{"tick":1,"progress":0,"state":"running","activeAgents":1,"completedAgents":0,"failedAgents":0,"totalAgents":10},{"tick":2,"progress":0,"state":"running","activeAgents":1,"completedAgents":0,"failedAgents":0,"totalAgents":10},{"tick":3,"progress":0,"state":"running","activeAgents":1,"completedAgents":0,"failedAgents":0,"totalAgents":10},{"tick":4,"progress":1300,"state":"running","activeAgents":1,"completedAgents":1,"failedAgents":0,"totalAgents":10},{"tick":5,"progress":1300,"state":"running","activeAgents":1,"completedAgents":1,"failedAgents":0,"totalAgents":10},{"tick":6,"progress":2500,"state":"running","activeAgents":0,"completedAgents":2,"failedAgents":0,"totalAgents":10},{"tick":7,"progress":2500,"state":"running","activeAgents":2,"completedAgents":2,"failedAgents":0,"totalAgents":10},{"tick":8,"progress":2500,"state":"running","activeAgents":2,"completedAgents":2,"failedAgents":0,"totalAgents":10},{"tick":9,"progress":2500,"state":"running","activeAgents":2,"completedAgents":2,"failedAgents":0,"totalAgents":10},{"tick":10,"progress":2500,"state":"running","activeAgents":2,"completedAgents":2,"failedAgents":0,"totalAgents":10},{"tick":11,"progress":2500,"state":"running","activeAgents":2,"completedAgents":2,"failedAgents":0,"totalAgents":10},{"tick":12,"progress":3800,"state":"running","activeAgents":1,"completedAgents":3,"failedAgents":0,"totalAgents":10},{"tick":13,"progress":3800,"state":"running","activeAgents":1,"completedAgents":3,"failedAgents":0,"totalAgents":10},{"tick":14,"progress":3800,"state":"running","activeAgents":1,"completedAgents":3,"failedAgents":0,"totalAgents":10},{"tick":15,"progress":3800,"state":"running","activeAgents":1,"completedAgents":3,"failedAgents":0,"totalAgents":10},{"tick":16,"progress":3800,"state":"running","activeAgents":1,"completedAgents":3,"failedAgents":0,"totalAgents":10},{"tick":17,"progress":3800,"state":"running","activeAgents":1,"completedAgents":3,"failedAgents":0,"totalAgents":10},{"tick":18,"progress":5000,"state":"running","activeAgents":0,"completedAgents":4,"failedAgents":0,"totalAgents":10},{"tick":19,"progress":5000,"state":"running","activeAgents":3,"completedAgents":4,"failedAgents":0,"totalAgents":10},{"tick":20,"progress":6300,"state":"running","activeAgents":3,"completedAgents":5,"failedAgents":0,"totalAgents":10},{"tick":21,"progress":6300,"state":"running","activeAgents":3,"completedAgents":5,"failedAgents":0,"totalAgents":10},{"tick":22,"progress":7500,"state":"running","activeAgents":2,"completedAgents":6,"failedAgents":0,"totalAgents":10},{"tick":23,"progress":7500,"state":"running","activeAgents":2,"completedAgents":6,"failedAgents":0,"totalAgents":10},{"tick":24,"progress":8800,"state":"running","activeAgents":1,"completedAgents":7,"failedAgents":0,"totalAgents":10},{"tick":25,"progress":10000,"state":"running","activeAgents":0,"completedAgents":8,"failedAgents":0,"totalAgents":10},{"tick":26,"progress":10000,"state":"running","activeAgents":2,"completedAgents":8,"failedAgents":0,"totalAgents":10},{"tick":27,"progress":10000,"state":"running","activeAgents":2,"completedAgents":8,"failedAgents":0,"totalAgents":10},{"tick":28,"progress":10000,"state":"running","activeAgents":2,"completedAgents":8,"failedAgents":0,"totalAgents":10},{"tick":29,"progress":10000,"state":"running","activeAgents":1,"completedAgents":9,"failedAgents":0,"totalAgents":10},{"tick":30,"progress":10000,"state":"running","activeAgents":1,"completedAgents":9,"failedAgents":0,"totalAgents":10},{"tick":31,"progress":10000,"state":"running","activeAgents":1,"completedAgents":9,"failedAgents":0,"totalAgents":10},{"tick":32,"progress":10000,"state":"running","activeAgents":1,"completedAgents":9,"failedAgents":0,"totalAgents":10},{"tick":33,"progress":10000,"state":"completed","activeAgents":0,"completedAgents":10,"failedAgents":0,"totalAgents":10}];
+    const events = [{"type":"BUILD_STARTED","data":{}},{"type":"PHASE_STARTED","data":{"phase":"discovery"}},{"type":"AGENT_STARTED","agentId":"oracle","data":{"agentId":"oracle","phase":"discovery"}},{"type":"AGENT_COMPLETED","agentId":"oracle","data":{"agentId":"oracle"}},{"type":"AGENT_STARTED","agentId":"scope","data":{"agentId":"scope","phase":"discovery"}},{"type":"AGENT_COMPLETED","agentId":"scope","data":{"agentId":"scope"}},{"type":"PHASE_STARTED","data":{"phase":"architecture"}},{"type":"AGENT_STARTED","agentId":"archon","data":{"agentId":"archon","phase":"architecture"}},{"type":"AGENT_STARTED","agentId":"datum","data":{"agentId":"datum","phase":"architecture"}},{"type":"AGENT_RETRIED","agentId":"archon","data":{"agentId":"archon","attempt":1}},{"type":"AGENT_STARTED","agentId":"archon","data":{"agentId":"archon","phase":"architecture"}},{"type":"AGENT_COMPLETED","agentId":"archon","data":{"agentId":"archon"}},{"type":"CHAOS_INJECTED","agentId":"datum","data":{"agentId":"datum","type":"failure"}},{"type":"AGENT_RETRIED","agentId":"datum","data":{"agentId":"datum","attempt":1}},{"type":"AGENT_STARTED","agentId":"datum","data":{"agentId":"datum","phase":"architecture"}},{"type":"AGENT_COMPLETED","agentId":"datum","data":{"agentId":"datum"}},{"type":"PHASE_STARTED","data":{"phase":"implementation"}},{"type":"AGENT_STARTED","agentId":"pixel","data":{"agentId":"pixel","phase":"implementation"}},{"type":"AGENT_STARTED","agentId":"wire","data":{"agentId":"wire","phase":"implementation"}},{"type":"AGENT_STARTED","agentId":"nexus","data":{"agentId":"nexus","phase":"implementation"}},{"type":"CHAOS_INJECTED","agentId":"pixel","data":{"agentId":"pixel","type":"failure"}},{"type":"AGENT_RETRIED","agentId":"pixel","data":{"agentId":"pixel","attempt":1}},{"type":"AGENT_COMPLETED","agentId":"nexus","data":{"agentId":"nexus"}},{"type":"AGENT_STARTED","agentId":"pixel","data":{"agentId":"pixel","phase":"implementation"}},{"type":"AGENT_STARTED","agentId":"forge","data":{"agentId":"forge","phase":"implementation"}},{"type":"CHAOS_INJECTED","agentId":"wire","data":{"agentId":"wire","type":"failure"}},{"type":"AGENT_RETRIED","agentId":"wire","data":{"agentId":"wire","attempt":1}},{"type":"AGENT_STARTED","agentId":"wire","data":{"agentId":"wire","phase":"implementation"}},{"type":"AGENT_COMPLETED","agentId":"pixel","data":{"agentId":"pixel"}},{"type":"AGENT_COMPLETED","agentId":"wire","data":{"agentId":"wire"}},{"type":"AGENT_COMPLETED","agentId":"forge","data":{"agentId":"forge"}},{"type":"PHASE_STARTED","data":{"phase":"quality"}},{"type":"AGENT_STARTED","agentId":"sentinel","data":{"agentId":"sentinel","phase":"quality"}},{"type":"AGENT_STARTED","agentId":"guardian","data":{"agentId":"guardian","phase":"quality"}},{"type":"CHAOS_INJECTED","agentId":"sentinel","data":{"agentId":"sentinel","type":"failure"}},{"type":"AGENT_RETRIED","agentId":"sentinel","data":{"agentId":"sentinel","attempt":1}},{"type":"AGENT_STARTED","agentId":"sentinel","data":{"agentId":"sentinel","phase":"quality"}},{"type":"AGENT_COMPLETED","agentId":"sentinel","data":{"agentId":"sentinel"}},{"type":"AGENT_COMPLETED","agentId":"guardian","data":{"agentId":"guardian"}},{"type":"BUILD_COMPLETED","data":{}}];
+
+    // Theme toggle
+    function toggleTheme() {
+      document.body.classList.toggle('light-theme');
+      const btn = document.querySelector('.theme-toggle');
+      btn.textContent = document.body.classList.contains('light-theme') ? '🌙 Dark' : '☀️ Light';
+    }
+
+    // Timeline chart
+    const canvas = document.getElementById('timeline-chart');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth * 2;
+      canvas.height = canvas.offsetHeight * 2;
+      ctx.scale(2, 2);
+      drawChart();
+    }
+
+    function drawChart(highlightTick = -1) {
+      const w = canvas.offsetWidth;
+      const h = canvas.offsetHeight;
+      const padding = { top: 20, right: 20, bottom: 30, left: 50 };
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Grid
+      ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--border-color');
+      ctx.lineWidth = 0.5;
+
+      for (let i = 0; i <= 10; i++) {
+        const y = padding.top + (h - padding.top - padding.bottom) * (1 - i / 10);
+        ctx.beginPath();
+        ctx.moveTo(padding.left, y);
+        ctx.lineTo(w - padding.right, y);
+        ctx.stroke();
+
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text-secondary');
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(i * 10 + '%', padding.left - 5, y + 3);
+      }
+
+      // Progress line
+      ctx.beginPath();
+      ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--accent-blue');
+      ctx.lineWidth = 2;
+
+      const xScale = (w - padding.left - padding.right) / (snapshots.length - 1);
+      const yScale = (h - padding.top - padding.bottom) / 100;
+
+      for (let i = 0; i < snapshots.length; i++) {
+        const x = padding.left + i * xScale;
+        const y = h - padding.bottom - snapshots[i].progress * yScale;
+
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Active agents area
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(88, 166, 255, 0.2)';
+
+      const maxAgents = Math.max(...snapshots.map(s => s.totalAgents));
+
+      for (let i = 0; i < snapshots.length; i++) {
+        const x = padding.left + i * xScale;
+        const y = h - padding.bottom - (snapshots[i].activeAgents / maxAgents) * (h - padding.top - padding.bottom);
+
+        if (i === 0) {
+          ctx.moveTo(x, h - padding.bottom);
+          ctx.lineTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+      }
+      ctx.lineTo(padding.left + (snapshots.length - 1) * xScale, h - padding.bottom);
+      ctx.closePath();
+      ctx.fill();
+
+      // Highlight tick
+      if (highlightTick >= 0 && highlightTick < snapshots.length) {
+        const x = padding.left + highlightTick * xScale;
+        ctx.beginPath();
+        ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--accent-purple');
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 5]);
+        ctx.moveTo(x, padding.top);
+        ctx.lineTo(x, h - padding.bottom);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Tooltip
+        const snap = snapshots[highlightTick];
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg-tertiary');
+        ctx.fillRect(x + 10, padding.top, 120, 60);
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text-primary');
+        ctx.font = '11px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('Tick ' + highlightTick, x + 15, padding.top + 15);
+        ctx.fillText('Progress: ' + snap.progress + '%', x + 15, padding.top + 30);
+        ctx.fillText('Active: ' + snap.activeAgents, x + 15, padding.top + 45);
+      }
+    }
+
+    // Replay functionality
+    let isPlaying = false;
+    let currentTick = 0;
+    let animationFrame = null;
+
+    function toggleReplay() {
+      isPlaying = !isPlaying;
+      document.getElementById('replay-icon').textContent = isPlaying ? '⏸' : '▶';
+
+      if (isPlaying) {
+        playReplay();
+      } else {
+        cancelAnimationFrame(animationFrame);
+      }
+    }
+
+    function playReplay() {
+      if (!isPlaying) return;
+
+      currentTick++;
+      if (currentTick >= snapshots.length) {
+        currentTick = 0;
+      }
+
+      document.getElementById('timeline-slider').value = currentTick;
+      document.getElementById('current-tick').textContent = currentTick;
+      drawChart(currentTick);
+      updateSwimlanes(currentTick);
+
+      animationFrame = requestAnimationFrame(() => setTimeout(playReplay, 100));
+    }
+
+    function seekTo(tick) {
+      currentTick = parseInt(tick);
+      document.getElementById('current-tick').textContent = currentTick;
+      drawChart(currentTick);
+      updateSwimlanes(currentTick);
+    }
+
+    function updateSwimlanes(tick) {
+      const segments = document.querySelectorAll('.swimlane-segment');
+      segments.forEach(seg => {
+        const start = parseInt(seg.dataset.start);
+        const end = parseInt(seg.dataset.end);
+        seg.style.opacity = (tick >= start && tick <= end) ? '1' : '0.5';
+      });
+    }
+
+    // Initialize
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+  </script>
+</body>
+</html>

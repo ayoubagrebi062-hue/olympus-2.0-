@@ -1,0 +1,22 @@
+{
+  "record_id": "exec_1768875382382_8be091bf15516313",
+  "attack_id": "ATK-008",
+  "execution_order": 7,
+  "status": "COMPLETED",
+  "outcome": "BLOCKED",
+  "started_at": "2026-01-20T02:16:22.381Z",
+  "completed_at": "2026-01-20T02:16:22.382Z",
+  "duration_ms": 0,
+  "detection_latency_ms": 0,
+  "evidence_hashes": [
+    "4d12713da321f5fa517dcdc8e1d82ba67c1abdea9849f070fd0c43aaffa282b4",
+    "1c1610b3bd24f41aea361011d7813af1db51358f467df65a067e24407a6b58ad"
+  ],
+  "evidence_raw": [
+    "PASS: Race condition blocked - anchor locked to original hash",
+    "PASS: Modification after submission would cause mismatch"
+  ],
+  "record_hash": "5bfa1ef151eb5ff0318b92e61606d1439ba8ed7068da9fc0e2343fddf778a741",
+  "previous_hash": "0c3ed91580f8c7510dc8857c6ecaecd736a0fdeb00241470d6f1a985c020f77e",
+  "chain_position": 6
+}

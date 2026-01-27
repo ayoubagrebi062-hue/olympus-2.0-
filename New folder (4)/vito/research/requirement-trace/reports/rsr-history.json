@@ -1,0 +1,24 @@
+[
+  {
+    "timestamp": "2026-01-19T11:59:51.645Z",
+    "run_id": "RICP-1768823991642-2f24f22f",
+    "global_rsr": 1.3333333333333333,
+    "per_shape_rsr": {
+      "FILTER_CAPABILITY": 1,
+      "PAGINATION_CAPABILITY": 1,
+      "STATIC_DISPLAY_CAPABILITY": 2
+    },
+    "verdict": "SELECTIVE_DESTRUCTION_CONFIRMED"
+  },
+  {
+    "timestamp": "2026-01-19T12:00:10.322Z",
+    "run_id": "RICP-1768824010318-a8bf1022",
+    "global_rsr": 1.3333333333333333,
+    "per_shape_rsr": {
+      "FILTER_CAPABILITY": 1,
+      "PAGINATION_CAPABILITY": 1,
+      "STATIC_DISPLAY_CAPABILITY": 2
+    },
+    "verdict": "SELECTIVE_DESTRUCTION_CONFIRMED"
+  }
+]

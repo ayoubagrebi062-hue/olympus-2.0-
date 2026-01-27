@@ -1,0 +1,49 @@
+{
+  "campaignId": "TDS-1",
+  "timestamp": "2026-01-19T09:36:55.490Z",
+  "duration": {
+    "ms": 4173,
+    "seconds": "4.17"
+  },
+  "epochs": {
+    "target": 100,
+    "completed": 100,
+    "aborted": false
+  },
+  "mutations": {
+    "totalRulesAdded": 3025,
+    "avgPerEpoch": "30.3"
+  },
+  "metrics": {
+    "totalS4": 0,
+    "totalViolations": 0,
+    "finalCoverage": 1,
+    "avgDominance": 0.18932038834951467,
+    "avgEntropy": 3.383803222591782,
+    "dominanceGrowthRate": 0,
+    "entropyDelta": 0
+  },
+  "successCriteria": {
+    "invariant_violations": {
+      "met": true,
+      "value": 0,
+      "threshold": 0
+    },
+    "s4_zero": {
+      "met": true,
+      "value": 0,
+      "threshold": 0
+    },
+    "dominance_bounded": {
+      "met": true,
+      "value": 0.18932038834951467,
+      "threshold": 0.35
+    },
+    "entropy_maintained": {
+      "met": true,
+      "value": 0,
+      "threshold": -0.5
+    }
+  },
+  "status": "COMPLETED"
+}

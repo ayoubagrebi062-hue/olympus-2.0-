@@ -1,0 +1,1410 @@
+{
+  "metadata": {
+    "generated_at": "2026-01-19T12:00:10.319Z",
+    "ricp_version": "1.0.0",
+    "shapes_traced": [
+      "FILTER_CAPABILITY",
+      "PAGINATION_CAPABILITY",
+      "STATIC_DISPLAY_CAPABILITY"
+    ],
+    "gates_executed": [
+      "PRE_WIRE_GATE"
+    ],
+    "run_id": "RICP-1768824010318-a8bf1022"
+  },
+  "registry": {
+    "shapes": [
+      {
+        "id": "FILTER_CAPABILITY",
+        "name": "Filter Capability",
+        "category": "STATEFUL",
+        "attributes": {
+          "required": [
+            "target_entity",
+            "filter_attribute",
+            "filter_values",
+            "ui_control",
+            "state_hook",
+            "event_handler"
+          ],
+          "optional": [
+            "filter_type",
+            "default_value",
+            "triggers_refetch",
+            "client_side_only",
+            "state_location"
+          ]
+        },
+        "survival": {
+          "must_reach_stage": "wire",
+          "forbidden_loss_classes": [
+            "L0_TOTAL_OMISSION",
+            "L1_PARTIAL_CAPTURE",
+            "L5_DEPENDENCY_SKIP",
+            "L6_SUMMARY_COLLAPSE"
+          ]
+        },
+        "extraction": {
+          "root_paths": {
+            "strategos": [
+              "mvp_features[*]",
+              "mvp_features[*].acceptance_criteria[*]"
+            ],
+            "scope": [
+              "in_scope[*]",
+              "in_scope[*].acceptance_criteria[*]"
+            ],
+            "cartographer": [
+              "pages[*].sections[*].components[*]"
+            ],
+            "blocks": [
+              "components[*]",
+              "components[*].variants"
+            ],
+            "wire": [
+              "files[*].content"
+            ],
+            "pixel": [
+              "files[*].content",
+              "components[*]"
+            ]
+          },
+          "structural_signals": {
+            "feature_keywords": [
+              "filter",
+              "status",
+              "filterBy",
+              "filterValue"
+            ],
+            "component_types": [
+              "filter",
+              "filter-bar",
+              "tabs",
+              "status-filter",
+              "dropdown",
+              "select"
+            ],
+            "state_patterns": [
+              "useState",
+              "useFilter",
+              "filterState",
+              "activeFilter"
+            ],
+            "handler_patterns": [
+              "onFilterChange",
+              "handleFilter",
+              "setFilter",
+              "onChange"
+            ]
+          }
+        }
+      },
+      {
+        "id": "PAGINATION_CAPABILITY",
+        "name": "Pagination Capability",
+        "category": "STATEFUL",
+        "attributes": {
+          "required": [
+            "target_entity",
+            "page_size",
+            "page_state_hook",
+            "navigation_handler",
+            "total_indicator"
+          ],
+          "optional": [
+            "infinite_scroll",
+            "cursor_based",
+            "load_more_button",
+            "page_info_display"
+          ]
+        },
+        "survival": {
+          "must_reach_stage": "wire",
+          "forbidden_loss_classes": [
+            "L0_TOTAL_OMISSION",
+            "L1_PARTIAL_CAPTURE",
+            "L6_SUMMARY_COLLAPSE"
+          ]
+        },
+        "extraction": {
+          "root_paths": {
+            "strategos": [
+              "mvp_features[*]",
+              "mvp_features[*].acceptance_criteria[*]"
+            ],
+            "scope": [
+              "in_scope[*]",
+              "in_scope[*].acceptance_criteria[*]"
+            ],
+            "cartographer": [
+              "pages[*].sections[*].components[*]"
+            ],
+            "blocks": [
+              "components[*]",
+              "components[*].props"
+            ],
+            "wire": [
+              "files[*].content"
+            ],
+            "pixel": [
+              "files[*].content",
+              "components[*]"
+            ]
+          },
+          "structural_signals": {
+            "feature_keywords": [
+              "pagination",
+              "paginate",
+              "page",
+              "paging",
+              "loadMore"
+            ],
+            "component_types": [
+              "pagination",
+              "paginator",
+              "page-nav",
+              "load-more"
+            ],
+            "state_patterns": [
+              "useState",
+              "usePagination",
+              "pageState",
+              "currentPage",
+              "pageSize"
+            ],
+            "handler_patterns": [
+              "onPageChange",
+              "handlePage",
+              "setPage",
+              "goToPage",
+              "nextPage",
+              "prevPage"
+            ]
+          }
+        }
+      },
+      {
+        "id": "STATIC_DISPLAY_CAPABILITY",
+        "name": "Static Display Capability",
+        "category": "CONTROL",
+        "attributes": {
+          "required": [
+            "target_entity",
+            "display_fields",
+            "layout_type"
+          ],
+          "optional": [
+            "styling_class",
+            "container_type",
+            "responsive_breakpoints"
+          ]
+        },
+        "survival": {
+          "must_reach_stage": "pixel",
+          "forbidden_loss_classes": [
+            "L0_TOTAL_OMISSION",
+            "L1_PARTIAL_CAPTURE",
+            "L2_SEMANTIC_DRIFT",
+            "L3_SPECIFICITY_LOSS",
+            "L4_CONTEXT_TRUNCATION",
+            "L5_DEPENDENCY_SKIP",
+            "L6_SUMMARY_COLLAPSE",
+            "L7_SCHEMA_MISMATCH"
+          ]
+        },
+        "extraction": {
+          "root_paths": {
+            "strategos": [
+              "mvp_features[*]",
+              "mvp_features[*].description"
+            ],
+            "scope": [
+              "in_scope[*]",
+              "in_scope[*].description"
+            ],
+            "cartographer": [
+              "pages[*].sections[*].components[*]"
+            ],
+            "blocks": [
+              "components[*]"
+            ],
+            "wire": [
+              "files[*].content"
+            ],
+            "pixel": [
+              "files[*].content",
+              "components[*]"
+            ]
+          },
+          "structural_signals": {
+            "feature_keywords": [
+              "display",
+              "show",
+              "view",
+              "list",
+              "render"
+            ],
+            "component_types": [
+              "heading",
+              "text",
+              "label",
+              "card",
+              "list-item",
+              "data-display"
+            ],
+            "layout_patterns": [
+              "grid",
+              "flex",
+              "stack",
+              "column",
+              "row"
+            ],
+            "element_patterns": [
+              "div",
+              "span",
+              "p",
+              "h1",
+              "h2",
+              "ul",
+              "li"
+            ]
+          }
+        }
+      }
+    ],
+    "budgets": [
+      {
+        "handoff_id": "H1",
+        "source": "strategos",
+        "target": "scope",
+        "budgets": {
+          "STATEFUL": {
+            "allowed": {
+              "max_attributes_degraded": 2,
+              "tolerated_loss_classes": [
+                "L3_SPECIFICITY_LOSS",
+                "L7_SCHEMA_MISMATCH"
+              ]
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE",
+                "L5_DEPENDENCY_SKIP",
+                "L6_SUMMARY_COLLAPSE"
+              ],
+              "min_required_attributes": 2
+            }
+          },
+          "STATELESS": {
+            "allowed": {
+              "max_attributes_degraded": 1,
+              "tolerated_loss_classes": [
+                "L3_SPECIFICITY_LOSS",
+                "L7_SCHEMA_MISMATCH"
+              ]
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "min_required_attributes": 2
+            }
+          },
+          "CONTROL": {
+            "allowed": {
+              "max_attributes_degraded": 0,
+              "tolerated_loss_classes": []
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE",
+                "L2_SEMANTIC_DRIFT",
+                "L3_SPECIFICITY_LOSS",
+                "L4_CONTEXT_TRUNCATION",
+                "L5_DEPENDENCY_SKIP",
+                "L6_SUMMARY_COLLAPSE",
+                "L7_SCHEMA_MISMATCH"
+              ],
+              "min_required_attributes": 999
+            }
+          }
+        }
+      },
+      {
+        "handoff_id": "H2",
+        "source": "scope",
+        "target": "cartographer",
+        "budgets": {
+          "STATEFUL": {
+            "allowed": {
+              "max_attributes_degraded": 2,
+              "tolerated_loss_classes": [
+                "L3_SPECIFICITY_LOSS",
+                "L7_SCHEMA_MISMATCH"
+              ]
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE",
+                "L5_DEPENDENCY_SKIP",
+                "L6_SUMMARY_COLLAPSE"
+              ],
+              "min_required_attributes": 2
+            }
+          },
+          "STATELESS": {
+            "allowed": {
+              "max_attributes_degraded": 1,
+              "tolerated_loss_classes": [
+                "L3_SPECIFICITY_LOSS",
+                "L7_SCHEMA_MISMATCH"
+              ]
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "min_required_attributes": 2
+            }
+          },
+          "CONTROL": {
+            "allowed": {
+              "max_attributes_degraded": 0,
+              "tolerated_loss_classes": []
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE",
+                "L2_SEMANTIC_DRIFT",
+                "L3_SPECIFICITY_LOSS",
+                "L4_CONTEXT_TRUNCATION",
+                "L5_DEPENDENCY_SKIP",
+                "L6_SUMMARY_COLLAPSE",
+                "L7_SCHEMA_MISMATCH"
+              ],
+              "min_required_attributes": 999
+            }
+          }
+        }
+      },
+      {
+        "handoff_id": "H3",
+        "source": "cartographer",
+        "target": "blocks",
+        "budgets": {
+          "STATEFUL": {
+            "allowed": {
+              "max_attributes_degraded": 1,
+              "tolerated_loss_classes": [
+                "L3_SPECIFICITY_LOSS"
+              ]
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE",
+                "L2_SEMANTIC_DRIFT",
+                "L5_DEPENDENCY_SKIP",
+                "L6_SUMMARY_COLLAPSE"
+              ],
+              "min_required_attributes": 3
+            }
+          },
+          "STATELESS": {
+            "allowed": {
+              "max_attributes_degraded": 1,
+              "tolerated_loss_classes": [
+                "L3_SPECIFICITY_LOSS"
+              ]
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE",
+                "L2_SEMANTIC_DRIFT"
+              ],
+              "min_required_attributes": 2
+            }
+          },
+          "CONTROL": {
+            "allowed": {
+              "max_attributes_degraded": 0,
+              "tolerated_loss_classes": []
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE",
+                "L2_SEMANTIC_DRIFT",
+                "L3_SPECIFICITY_LOSS",
+                "L4_CONTEXT_TRUNCATION",
+                "L5_DEPENDENCY_SKIP",
+                "L6_SUMMARY_COLLAPSE",
+                "L7_SCHEMA_MISMATCH"
+              ],
+              "min_required_attributes": 999
+            }
+          }
+        }
+      },
+      {
+        "handoff_id": "H4",
+        "source": "blocks",
+        "target": "wire",
+        "budgets": {
+          "STATEFUL": {
+            "allowed": {
+              "max_attributes_degraded": 0,
+              "tolerated_loss_classes": []
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE",
+                "L2_SEMANTIC_DRIFT",
+                "L3_SPECIFICITY_LOSS",
+                "L4_CONTEXT_TRUNCATION",
+                "L5_DEPENDENCY_SKIP",
+                "L6_SUMMARY_COLLAPSE",
+                "L7_SCHEMA_MISMATCH"
+              ],
+              "min_required_attributes": 999
+            }
+          },
+          "STATELESS": {
+            "allowed": {
+              "max_attributes_degraded": 1,
+              "tolerated_loss_classes": [
+                "L3_SPECIFICITY_LOSS",
+                "L7_SCHEMA_MISMATCH"
+              ]
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE",
+                "L2_SEMANTIC_DRIFT",
+                "L5_DEPENDENCY_SKIP",
+                "L6_SUMMARY_COLLAPSE"
+              ],
+              "min_required_attributes": 2
+            }
+          },
+          "CONTROL": {
+            "allowed": {
+              "max_attributes_degraded": 0,
+              "tolerated_loss_classes": []
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE",
+                "L2_SEMANTIC_DRIFT",
+                "L3_SPECIFICITY_LOSS",
+                "L4_CONTEXT_TRUNCATION",
+                "L5_DEPENDENCY_SKIP",
+                "L6_SUMMARY_COLLAPSE",
+                "L7_SCHEMA_MISMATCH"
+              ],
+              "min_required_attributes": 999
+            }
+          }
+        }
+      },
+      {
+        "handoff_id": "H5",
+        "source": "wire",
+        "target": "pixel",
+        "budgets": {
+          "STATEFUL": {
+            "allowed": {
+              "max_attributes_degraded": 0,
+              "tolerated_loss_classes": []
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE",
+                "L2_SEMANTIC_DRIFT",
+                "L3_SPECIFICITY_LOSS",
+                "L4_CONTEXT_TRUNCATION",
+                "L5_DEPENDENCY_SKIP",
+                "L6_SUMMARY_COLLAPSE",
+                "L7_SCHEMA_MISMATCH"
+              ],
+              "min_required_attributes": 999
+            }
+          },
+          "STATELESS": {
+            "allowed": {
+              "max_attributes_degraded": 0,
+              "tolerated_loss_classes": []
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "min_required_attributes": 2
+            }
+          },
+          "CONTROL": {
+            "allowed": {
+              "max_attributes_degraded": 0,
+              "tolerated_loss_classes": []
+            },
+            "fatal": {
+              "loss_classes": [
+                "L0_TOTAL_OMISSION",
+                "L1_PARTIAL_CAPTURE",
+                "L2_SEMANTIC_DRIFT",
+                "L3_SPECIFICITY_LOSS",
+                "L4_CONTEXT_TRUNCATION",
+                "L5_DEPENDENCY_SKIP",
+                "L6_SUMMARY_COLLAPSE",
+                "L7_SCHEMA_MISMATCH"
+              ],
+              "min_required_attributes": 999
+            }
+          }
+        }
+      }
+    ]
+  },
+  "shape_traces": {
+    "FILTER_CAPABILITY": {
+      "shape_id": "FILTER_CAPABILITY",
+      "category": "STATEFUL",
+      "extractions": {
+        "strategos": {
+          "shape_id": "FILTER_CAPABILITY",
+          "agent_id": "strategos",
+          "timestamp": "2026-01-19T12:00:10.320Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity"
+          ],
+          "attributes_missing": [
+            "filter_attribute",
+            "filter_values",
+            "ui_control",
+            "state_hook",
+            "event_handler"
+          ],
+          "attribute_values": {
+            "target_entity": "Task Management"
+          },
+          "source_paths": {
+            "target_entity": "mvp_features[0].name"
+          },
+          "confidence": 0.16666666666666666
+        },
+        "scope": {
+          "shape_id": "FILTER_CAPABILITY",
+          "agent_id": "scope",
+          "timestamp": "2026-01-19T12:00:10.320Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity"
+          ],
+          "attributes_missing": [
+            "filter_attribute",
+            "filter_values",
+            "ui_control",
+            "state_hook",
+            "event_handler"
+          ],
+          "attribute_values": {
+            "target_entity": "tasks"
+          },
+          "source_paths": {
+            "target_entity": "in_scope[0].entity"
+          },
+          "confidence": 0.16666666666666666
+        },
+        "cartographer": {
+          "shape_id": "FILTER_CAPABILITY",
+          "agent_id": "cartographer",
+          "timestamp": "2026-01-19T12:00:10.320Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity",
+            "filter_attribute",
+            "filter_values"
+          ],
+          "attributes_missing": [
+            "ui_control",
+            "state_hook",
+            "event_handler"
+          ],
+          "attribute_values": {
+            "target_entity": "Dashboard",
+            "filter_attribute": "status",
+            "filter_values": [
+              "pending",
+              "in_progress",
+              "done"
+            ]
+          },
+          "source_paths": {
+            "target_entity": "pages[0].name",
+            "filter_attribute": "pages[0].sections[0].components[1].filterAttribute",
+            "filter_values": "pages[0].sections[0].components[1].values"
+          },
+          "confidence": 0.5
+        },
+        "blocks": {
+          "shape_id": "FILTER_CAPABILITY",
+          "agent_id": "blocks",
+          "timestamp": "2026-01-19T12:00:10.320Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity",
+            "filter_attribute",
+            "filter_values",
+            "event_handler"
+          ],
+          "attributes_missing": [
+            "ui_control",
+            "state_hook"
+          ],
+          "attribute_values": {
+            "target_entity": "Heading",
+            "filter_attribute": "status",
+            "filter_values": [
+              "pending",
+              "in_progress",
+              "done"
+            ],
+            "event_handler": "function"
+          },
+          "source_paths": {
+            "target_entity": "components[0].name",
+            "filter_attribute": "components[1].filterAttribute",
+            "filter_values": "components[1].variants",
+            "event_handler": "components[1].props.onChange"
+          },
+          "confidence": 0.6666666666666666
+        },
+        "wire": {
+          "shape_id": "FILTER_CAPABILITY",
+          "agent_id": "wire",
+          "timestamp": "2026-01-19T12:00:10.320Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity"
+          ],
+          "attributes_missing": [
+            "filter_attribute",
+            "filter_values",
+            "ui_control",
+            "state_hook",
+            "event_handler"
+          ],
+          "attribute_values": {
+            "target_entity": "tasks"
+          },
+          "source_paths": {
+            "target_entity": "files[1].entity"
+          },
+          "confidence": 0.16666666666666666
+        },
+        "pixel": {
+          "shape_id": "FILTER_CAPABILITY",
+          "agent_id": "pixel",
+          "timestamp": "2026-01-19T12:00:10.320Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity"
+          ],
+          "attributes_missing": [
+            "filter_attribute",
+            "filter_values",
+            "ui_control",
+            "state_hook",
+            "event_handler"
+          ],
+          "attribute_values": {
+            "target_entity": "tasks"
+          },
+          "source_paths": {
+            "target_entity": "files[1].entity"
+          },
+          "confidence": 0.16666666666666666
+        }
+      },
+      "handoff_losses": {
+        "H1": {
+          "handoff_id": "H1",
+          "source_agent": "strategos",
+          "target_agent": "scope",
+          "loss_detected": false,
+          "loss_class": null,
+          "attributes_lost": [],
+          "attributes_degraded": [],
+          "budget_status": "WITHIN"
+        },
+        "H2": {
+          "handoff_id": "H2",
+          "source_agent": "scope",
+          "target_agent": "cartographer",
+          "loss_detected": false,
+          "loss_class": null,
+          "attributes_lost": [],
+          "attributes_degraded": [],
+          "budget_status": "WITHIN"
+        },
+        "H3": {
+          "handoff_id": "H3",
+          "source_agent": "cartographer",
+          "target_agent": "blocks",
+          "loss_detected": false,
+          "loss_class": null,
+          "attributes_lost": [],
+          "attributes_degraded": [],
+          "budget_status": "WITHIN"
+        },
+        "H4": {
+          "handoff_id": "H4",
+          "source_agent": "blocks",
+          "target_agent": "wire",
+          "loss_detected": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "attributes_lost": [
+            "filter_attribute",
+            "filter_values",
+            "event_handler"
+          ],
+          "attributes_degraded": [],
+          "budget_status": "FATAL"
+        },
+        "H5": {
+          "handoff_id": "H5",
+          "source_agent": "wire",
+          "target_agent": "pixel",
+          "loss_detected": false,
+          "loss_class": null,
+          "attributes_lost": [],
+          "attributes_degraded": [],
+          "budget_status": "WITHIN"
+        }
+      },
+      "survival_status": {
+        "survived_to_target": true,
+        "target_stage": "wire",
+        "actual_last_stage": "pixel",
+        "failure_point": null,
+        "failure_class": null
+      },
+      "rsr": 1
+    },
+    "PAGINATION_CAPABILITY": {
+      "shape_id": "PAGINATION_CAPABILITY",
+      "category": "STATEFUL",
+      "extractions": {
+        "strategos": {
+          "shape_id": "PAGINATION_CAPABILITY",
+          "agent_id": "strategos",
+          "timestamp": "2026-01-19T12:00:10.321Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity"
+          ],
+          "attributes_missing": [
+            "page_size",
+            "page_state_hook",
+            "navigation_handler",
+            "total_indicator"
+          ],
+          "attribute_values": {
+            "target_entity": "Task Management"
+          },
+          "source_paths": {
+            "target_entity": "mvp_features[0].name"
+          },
+          "confidence": 0.2
+        },
+        "scope": {
+          "shape_id": "PAGINATION_CAPABILITY",
+          "agent_id": "scope",
+          "timestamp": "2026-01-19T12:00:10.321Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity"
+          ],
+          "attributes_missing": [
+            "page_size",
+            "page_state_hook",
+            "navigation_handler",
+            "total_indicator"
+          ],
+          "attribute_values": {
+            "target_entity": "tasks"
+          },
+          "source_paths": {
+            "target_entity": "in_scope[0].entity"
+          },
+          "confidence": 0.2
+        },
+        "cartographer": {
+          "shape_id": "PAGINATION_CAPABILITY",
+          "agent_id": "cartographer",
+          "timestamp": "2026-01-19T12:00:10.321Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity",
+            "page_size"
+          ],
+          "attributes_missing": [
+            "page_state_hook",
+            "navigation_handler",
+            "total_indicator"
+          ],
+          "attribute_values": {
+            "target_entity": [
+              {
+                "name": "Dashboard",
+                "path": "/dashboard",
+                "sections": [
+                  {
+                    "name": "Task List",
+                    "components": [
+                      {
+                        "type": "heading",
+                        "text": "My Tasks",
+                        "layout": "flex"
+                      },
+                      {
+                        "type": "filter-bar",
+                        "entity": "tasks",
+                        "filterAttribute": "status",
+                        "values": [
+                          "pending",
+                          "in_progress",
+                          "done"
+                        ]
+                      },
+                      {
+                        "type": "pagination",
+                        "entity": "tasks",
+                        "pageSize": 10
+                      },
+                      {
+                        "type": "data-display",
+                        "entity": "tasks",
+                        "fields": [
+                          "title",
+                          "status"
+                        ],
+                        "layout": "grid"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "page_size": 10
+          },
+          "source_paths": {
+            "target_entity": "pages",
+            "page_size": "pages[0].sections[0].components[2].pageSize"
+          },
+          "confidence": 0.4
+        },
+        "blocks": {
+          "shape_id": "PAGINATION_CAPABILITY",
+          "agent_id": "blocks",
+          "timestamp": "2026-01-19T12:00:10.321Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity",
+            "page_size",
+            "total_indicator"
+          ],
+          "attributes_missing": [
+            "page_state_hook",
+            "navigation_handler"
+          ],
+          "attribute_values": {
+            "target_entity": "Heading",
+            "page_size": 10,
+            "total_indicator": "number"
+          },
+          "source_paths": {
+            "target_entity": "components[0].name",
+            "page_size": "components[2].pageSize",
+            "total_indicator": "components[2].props.total"
+          },
+          "confidence": 0.6
+        },
+        "wire": {
+          "shape_id": "PAGINATION_CAPABILITY",
+          "agent_id": "wire",
+          "timestamp": "2026-01-19T12:00:10.321Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity"
+          ],
+          "attributes_missing": [
+            "page_size",
+            "page_state_hook",
+            "navigation_handler",
+            "total_indicator"
+          ],
+          "attribute_values": {
+            "target_entity": "tasks"
+          },
+          "source_paths": {
+            "target_entity": "files[1].entity"
+          },
+          "confidence": 0.2
+        },
+        "pixel": {
+          "shape_id": "PAGINATION_CAPABILITY",
+          "agent_id": "pixel",
+          "timestamp": "2026-01-19T12:00:10.321Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity"
+          ],
+          "attributes_missing": [
+            "page_size",
+            "page_state_hook",
+            "navigation_handler",
+            "total_indicator"
+          ],
+          "attribute_values": {
+            "target_entity": "tasks"
+          },
+          "source_paths": {
+            "target_entity": "files[1].entity"
+          },
+          "confidence": 0.2
+        }
+      },
+      "handoff_losses": {
+        "H1": {
+          "handoff_id": "H1",
+          "source_agent": "strategos",
+          "target_agent": "scope",
+          "loss_detected": false,
+          "loss_class": null,
+          "attributes_lost": [],
+          "attributes_degraded": [],
+          "budget_status": "WITHIN"
+        },
+        "H2": {
+          "handoff_id": "H2",
+          "source_agent": "scope",
+          "target_agent": "cartographer",
+          "loss_detected": false,
+          "loss_class": null,
+          "attributes_lost": [],
+          "attributes_degraded": [],
+          "budget_status": "WITHIN"
+        },
+        "H3": {
+          "handoff_id": "H3",
+          "source_agent": "cartographer",
+          "target_agent": "blocks",
+          "loss_detected": false,
+          "loss_class": null,
+          "attributes_lost": [],
+          "attributes_degraded": [],
+          "budget_status": "WITHIN"
+        },
+        "H4": {
+          "handoff_id": "H4",
+          "source_agent": "blocks",
+          "target_agent": "wire",
+          "loss_detected": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "attributes_lost": [
+            "page_size",
+            "total_indicator"
+          ],
+          "attributes_degraded": [],
+          "budget_status": "FATAL"
+        },
+        "H5": {
+          "handoff_id": "H5",
+          "source_agent": "wire",
+          "target_agent": "pixel",
+          "loss_detected": false,
+          "loss_class": null,
+          "attributes_lost": [],
+          "attributes_degraded": [],
+          "budget_status": "WITHIN"
+        }
+      },
+      "survival_status": {
+        "survived_to_target": true,
+        "target_stage": "wire",
+        "actual_last_stage": "pixel",
+        "failure_point": null,
+        "failure_class": null
+      },
+      "rsr": 1
+    },
+    "STATIC_DISPLAY_CAPABILITY": {
+      "shape_id": "STATIC_DISPLAY_CAPABILITY",
+      "category": "CONTROL",
+      "extractions": {
+        "strategos": {
+          "shape_id": "STATIC_DISPLAY_CAPABILITY",
+          "agent_id": "strategos",
+          "timestamp": "2026-01-19T12:00:10.321Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity"
+          ],
+          "attributes_missing": [
+            "display_fields",
+            "layout_type"
+          ],
+          "attribute_values": {
+            "target_entity": "Task Management"
+          },
+          "source_paths": {
+            "target_entity": "mvp_features[0].name"
+          },
+          "confidence": 0.3333333333333333
+        },
+        "scope": {
+          "shape_id": "STATIC_DISPLAY_CAPABILITY",
+          "agent_id": "scope",
+          "timestamp": "2026-01-19T12:00:10.321Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity",
+            "display_fields"
+          ],
+          "attributes_missing": [
+            "layout_type"
+          ],
+          "attribute_values": {
+            "target_entity": "tasks",
+            "display_fields": [
+              "id",
+              "title",
+              "status",
+              "createdAt"
+            ]
+          },
+          "source_paths": {
+            "target_entity": "in_scope[0].entity",
+            "display_fields": "in_scope[0].fields"
+          },
+          "confidence": 0.6666666666666666
+        },
+        "cartographer": {
+          "shape_id": "STATIC_DISPLAY_CAPABILITY",
+          "agent_id": "cartographer",
+          "timestamp": "2026-01-19T12:00:10.321Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity",
+            "display_fields",
+            "layout_type"
+          ],
+          "attributes_missing": [],
+          "attribute_values": {
+            "target_entity": "Dashboard",
+            "display_fields": [
+              "title",
+              "status"
+            ],
+            "layout_type": "My Tasks"
+          },
+          "source_paths": {
+            "target_entity": "pages[0].name",
+            "display_fields": "pages[0].sections[0].components[3].fields",
+            "layout_type": "pages[0].sections[0].components[0].text"
+          },
+          "confidence": 1
+        },
+        "blocks": {
+          "shape_id": "STATIC_DISPLAY_CAPABILITY",
+          "agent_id": "blocks",
+          "timestamp": "2026-01-19T12:00:10.321Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity",
+            "display_fields"
+          ],
+          "attributes_missing": [
+            "layout_type"
+          ],
+          "attribute_values": {
+            "target_entity": "Heading",
+            "display_fields": [
+              "title"
+            ]
+          },
+          "source_paths": {
+            "target_entity": "components[0].name",
+            "display_fields": "components[0].fields"
+          },
+          "confidence": 0.6666666666666666
+        },
+        "wire": {
+          "shape_id": "STATIC_DISPLAY_CAPABILITY",
+          "agent_id": "wire",
+          "timestamp": "2026-01-19T12:00:10.321Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity",
+            "display_fields"
+          ],
+          "attributes_missing": [
+            "layout_type"
+          ],
+          "attribute_values": {
+            "target_entity": "tasks",
+            "display_fields": [
+              "title",
+              "status"
+            ]
+          },
+          "source_paths": {
+            "target_entity": "files[1].entity",
+            "display_fields": "files[1].displayFields"
+          },
+          "confidence": 0.6666666666666666
+        },
+        "pixel": {
+          "shape_id": "STATIC_DISPLAY_CAPABILITY",
+          "agent_id": "pixel",
+          "timestamp": "2026-01-19T12:00:10.321Z",
+          "present": true,
+          "attributes_found": [
+            "target_entity",
+            "display_fields"
+          ],
+          "attributes_missing": [
+            "layout_type"
+          ],
+          "attribute_values": {
+            "target_entity": "tasks",
+            "display_fields": [
+              "title",
+              "status"
+            ]
+          },
+          "source_paths": {
+            "target_entity": "files[1].entity",
+            "display_fields": "files[1].displayFields"
+          },
+          "confidence": 0.6666666666666666
+        }
+      },
+      "handoff_losses": {
+        "H1": {
+          "handoff_id": "H1",
+          "source_agent": "strategos",
+          "target_agent": "scope",
+          "loss_detected": false,
+          "loss_class": null,
+          "attributes_lost": [],
+          "attributes_degraded": [],
+          "budget_status": "WITHIN"
+        },
+        "H2": {
+          "handoff_id": "H2",
+          "source_agent": "scope",
+          "target_agent": "cartographer",
+          "loss_detected": false,
+          "loss_class": null,
+          "attributes_lost": [],
+          "attributes_degraded": [],
+          "budget_status": "WITHIN"
+        },
+        "H3": {
+          "handoff_id": "H3",
+          "source_agent": "cartographer",
+          "target_agent": "blocks",
+          "loss_detected": true,
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "attributes_lost": [
+            "layout_type"
+          ],
+          "attributes_degraded": [],
+          "budget_status": "FATAL"
+        },
+        "H4": {
+          "handoff_id": "H4",
+          "source_agent": "blocks",
+          "target_agent": "wire",
+          "loss_detected": false,
+          "loss_class": null,
+          "attributes_lost": [],
+          "attributes_degraded": [],
+          "budget_status": "WITHIN"
+        },
+        "H5": {
+          "handoff_id": "H5",
+          "source_agent": "wire",
+          "target_agent": "pixel",
+          "loss_detected": false,
+          "loss_class": null,
+          "attributes_lost": [],
+          "attributes_degraded": [],
+          "budget_status": "WITHIN"
+        }
+      },
+      "survival_status": {
+        "survived_to_target": true,
+        "target_stage": "pixel",
+        "actual_last_stage": "pixel",
+        "failure_point": null,
+        "failure_class": null
+      },
+      "rsr": 2
+    }
+  },
+  "gate_results": [
+    {
+      "gate_id": "PRE_WIRE_GATE",
+      "timestamp": "2026-01-19T12:00:10.322Z",
+      "verdict": "FAIL",
+      "shape_results": [
+        {
+          "shape_id": "FILTER_CAPABILITY",
+          "category": "STATEFUL",
+          "survived": true,
+          "attributes_present": 4,
+          "attributes_required": 6,
+          "budget_status": "FATAL",
+          "degradations_used": 0,
+          "degradations_allowed": 0,
+          "loss_detected": null,
+          "loss_is_fatal": true
+        },
+        {
+          "shape_id": "PAGINATION_CAPABILITY",
+          "category": "STATEFUL",
+          "survived": true,
+          "attributes_present": 3,
+          "attributes_required": 5,
+          "budget_status": "FATAL",
+          "degradations_used": 0,
+          "degradations_allowed": 0,
+          "loss_detected": null,
+          "loss_is_fatal": true
+        },
+        {
+          "shape_id": "STATIC_DISPLAY_CAPABILITY",
+          "category": "CONTROL",
+          "survived": true,
+          "attributes_present": 2,
+          "attributes_required": 3,
+          "budget_status": "FATAL",
+          "degradations_used": 0,
+          "degradations_allowed": 0,
+          "loss_detected": null,
+          "loss_is_fatal": true
+        }
+      ],
+      "fatal_violations": [
+        {
+          "shape_id": "FILTER_CAPABILITY",
+          "violation_type": "FATAL_LOSS",
+          "handoff_id": "H4",
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "evidence": {
+            "source_path": "agentOutputs.blocks",
+            "target_path": "agentOutputs.wire",
+            "explanation": "Fatal loss class L1_PARTIAL_CAPTURE detected at H4 for STATEFUL shape FILTER_CAPABILITY"
+          }
+        },
+        {
+          "shape_id": "PAGINATION_CAPABILITY",
+          "violation_type": "FATAL_LOSS",
+          "handoff_id": "H4",
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "evidence": {
+            "source_path": "agentOutputs.blocks",
+            "target_path": "agentOutputs.wire",
+            "explanation": "Fatal loss class L1_PARTIAL_CAPTURE detected at H4 for STATEFUL shape PAGINATION_CAPABILITY"
+          }
+        },
+        {
+          "shape_id": "STATIC_DISPLAY_CAPABILITY",
+          "violation_type": "FATAL_LOSS",
+          "handoff_id": "H3",
+          "loss_class": "L1_PARTIAL_CAPTURE",
+          "evidence": {
+            "source_path": "agentOutputs.cartographer",
+            "target_path": "agentOutputs.blocks",
+            "explanation": "Fatal loss class L1_PARTIAL_CAPTURE detected at H3 for CONTROL shape STATIC_DISPLAY_CAPABILITY"
+          }
+        }
+      ],
+      "block_downstream": true
+    }
+  ],
+  "rsr_metrics": {
+    "global_rsr": 1.3333333333333333,
+    "per_shape_rsr": {
+      "FILTER_CAPABILITY": 1,
+      "PAGINATION_CAPABILITY": 1,
+      "STATIC_DISPLAY_CAPABILITY": 2
+    },
+    "per_category_rsr": {
+      "STATEFUL": 1,
+      "STATELESS": 0,
+      "CONTROL": 2
+    },
+    "timestamp": "2026-01-19T12:00:10.322Z",
+    "run_id": "RICP-1768824010318-a8bf1022"
+  },
+  "comparative_analysis": {
+    "control_shapes_survived": [
+      "STATIC_DISPLAY_CAPABILITY"
+    ],
+    "stateful_shapes_lost": [
+      "FILTER_CAPABILITY",
+      "PAGINATION_CAPABILITY"
+    ],
+    "loss_is_selective": true,
+    "selectivity_evidence": "SELECTIVE LOSS PROVEN: Control shapes [STATIC_DISPLAY_CAPABILITY] survived H4 while stateful shapes [FILTER_CAPABILITY, PAGINATION_CAPABILITY] were destroyed. This proves the loss mechanism targets stateful capabilities specifically."
+  },
+  "counterfactual_analysis": [],
+  "root_cause": {
+    "class": "SELECTIVE_DESTRUCTION",
+    "mechanism": "The OLYMPUS pipeline selectively destroys STATEFUL shapes at handoff H4. CONTROL shapes survive the same handoff, proving the loss is not due to general truncation or errors, but due to how STATEFUL capabilities (requiring hooks/handlers) are collapsed during summarization.",
+    "handoff": "H4",
+    "evidence": {
+      "source_path": "agentOutputs.blocks",
+      "target_path": "agentOutputs.wire",
+      "explanation": "SELECTIVE DESTRUCTION CONFIRMED:\n  - Control shape \"STATIC_DISPLAY_CAPABILITY\" (STATELESS) survived handoff H4\n  - Stateful shape \"FILTER_CAPABILITY\" was destroyed at handoff H4\n  - Same pipeline, same handoff, different outcomes\n  - Conclusion: The loss mechanism discriminates against STATEFUL shapes"
+    },
+    "recommendation": "Modify summarizeOutputForDependency to preserve stateful capability attributes. Do not collapse shape data to generic summaries."
+  },
+  "verdict": {
+    "verdict": "SELECTIVE_DESTRUCTION_CONFIRMED",
+    "blocking": true,
+    "reason_code": "SELECTIVE_DESTRUCTION",
+    "explanation": "CRITICAL: Selective destruction of stateful capabilities confirmed. Control shape \"STATIC_DISPLAY_CAPABILITY\" survived while stateful shape \"FILTER_CAPABILITY\" was destroyed at H4. This is a fundamental integrity violation.",
+    "culpable_agents": [
+      "blocks",
+      "wire"
+    ],
+    "culpable_mechanisms": [
+      "summarizeOutputForDependency",
+      "dependency_summary_collapse"
+    ]
+  },
+  "execution_decision": {
+    "wire_blocked": true,
+    "pixel_blocked": true,
+    "blocked_event_emitted": true,
+    "reason": "CRITICAL: Selective destruction of stateful capabilities confirmed. Control shape \"STATIC_DISPLAY_CAPABILITY\" survived while stateful shape \"FILTER_CAPABILITY\" was destroyed at H4. This is a fundamental integrity violation."
+  }
+}

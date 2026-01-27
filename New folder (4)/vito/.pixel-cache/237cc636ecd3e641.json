@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/CounterDisplay.tsx",
+      "content": "import React, { useState } from 'react';\n\n/**\n * CounterDisplay component that displays and manages a counter value.\n *\n * @returns {JSX.Element} The rendered CounterDisplay component.\n */\nconst CounterDisplay: React.FC = () => {\n  const [count, setCount] = useState<number>(0);\n\n  const handleIncrement = () => {\n    setCount(prevCount => prevCount + 1);\n  };\n\n  const handleDecrement = () => {\n    if (count > 0) {\n      setCount(prevCount => prevCount - 1);\n    }\n  };\n\n  const handleClear = () => {\n    setCount(0);\n  };\n\n  return (\n    <div className=\"p-4 flex flex-col items-center justify-center space-y-4\">\n      <h1 className=\"text-2xl font-bold\">Counter: {count}</h1>\n      <div className=\"flex gap-2\">\n        <button\n          onClick={handleIncrement}\n          className=\"px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600\"\n        >\n          Plus\n        </button>\n        <button\n          onClick={handleDecrement}\n          className=\"px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600\"\n        >\n          Minus\n        </button>\n        <button\n          onClick={handleClear}\n          className=\"px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600\"\n        >\n          Clear\n        </button>\n      </div>\n    </div>\n  );\n};\n\nexport default CounterDisplay;"
+    }
+  ],
+  "timestamp": 1768801676131,
+  "promptVersion": "v3.0.0"
+}

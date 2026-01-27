@@ -1,0 +1,23 @@
+{
+  "labId": "RCL-1",
+  "timestamp": "2026-01-19T10:56:10.137Z",
+  "invariants": [
+    {
+      "clusterId": "CLU-005",
+      "invariant": "AGENT → TRANSFORM → AGENT",
+      "frequency": 0.8333333333333334,
+      "capability": "PRIV_ESCALATION"
+    },
+    {
+      "clusterId": "CLU-007",
+      "invariant": "RESOURCE → TRANSFER → RESOURCE",
+      "frequency": 0.6,
+      "capability": "DATA_EXFIL"
+    }
+  ],
+  "verification": {
+    "keyword_free": true,
+    "vocabulary_independent": true,
+    "msi001_compliant": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Card.tsx",
+      "content": "import React, { useState } from 'react';\nimport PropTypes from 'prop-types';\n\n/**\n * Card component\n * @param {Object} props\n * @param {string} props.title - Title of the card\n * @param {string} props.content - Content of the card\n * @param {'default' | 'highlighted'} [props.variant='default'] - Variant of the card\n * @param {boolean} [props.isActive=false] - State indicating if the card is active\n * @returns {JSX.Element}\n */\nconst Card = ({ title, content, variant = 'default', isActive = false }) => {\n  const [isHovered, setIsHovered] = useState(false);\n\n  const handleMouseEnter = () => setIsHovered(true);\n  const handleMouseLeave = () => setIsHovered(false);\n\n  const cardStyles = `\n    p-4 \n    border \n    rounded-md \n    ${variant === 'highlighted' ? 'border-blue-500 bg-blue-100' : 'border-gray-300 bg-white'}\n    ${isActive ? 'shadow-lg' : 'shadow-md'}\n    ${isHovered ? 'transform scale-105' : ''}\n  `;\n\n  return (\n    <div \n      className={cardStyles}\n      onMouseEnter={handleMouseEnter}\n      onMouseLeave={handleMouseLeave}\n      role=\"button\"\n      tabIndex={0}\n      aria-label={title}\n    >\n      <h3 className=\"text-lg font-semibold\">{title}</h3>\n      <p>{content}</p>\n    </div>\n  );\n};\n\nCard.propTypes = {\n  title: PropTypes.string.isRequired,\n  content: PropTypes.string.isRequired,\n  variant: PropTypes.oneOf(['default', 'highlighted']),\n  isActive: PropTypes.bool,\n};\n\nexport default Card;"
+    }
+  ],
+  "timestamp": 1768781947755,
+  "promptVersion": "v3.0.0"
+}

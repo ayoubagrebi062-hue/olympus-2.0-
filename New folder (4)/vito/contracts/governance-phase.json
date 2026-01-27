@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "currentPhase": "OBSERVATION_ONLY",
+  "phases": {
+    "OBSERVATION_ONLY": {
+      "description": "No blocking except schema/contract violations",
+      "blockingModules": ["decision-binding", "decision-finalization"],
+      "observationModules": ["deliberation-audit", "reasoning-quality-audit", "capability-learning", "governance-observatory", "destruction-patterns", "risk-acknowledgment", "risk-aging", "attention-index"]
+    },
+    "SCOPED_ENFORCEMENT": {
+      "description": "Block only on new/modified files",
+      "blockingModules": ["decision-binding", "decision-finalization", "deliberation-audit"],
+      "scope": "git-diff",
+      "observationModules": ["reasoning-quality-audit", "capability-learning", "governance-observatory", "destruction-patterns", "risk-acknowledgment", "risk-aging", "attention-index"]
+    },
+    "FULL_ENFORCEMENT": {
+      "description": "All governance rules enforced",
+      "blockingModules": "ALL",
+      "observationModules": ["destruction-patterns", "risk-acknowledgment", "risk-aging", "attention-index"]
+    }
+  }
+}

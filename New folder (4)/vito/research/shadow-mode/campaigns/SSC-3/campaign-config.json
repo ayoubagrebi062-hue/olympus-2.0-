@@ -1,0 +1,147 @@
+{
+  "id": "SSC-3",
+  "name": "Shadow Stress Campaign 3 - PIL-1 Power Invariant Layer",
+  "baseline": "SSC-2",
+  "scope": "shadow-mode",
+  "focus": "power-invariant-violation",
+  "status": "INITIALIZED",
+  "startTimestamp": null,
+  "endTimestamp": null,
+
+  "extensions": {
+    "benign_real_world": {
+      "description": "Benign real-world intent patterns that should pass all invariants",
+      "weight": 0.60,
+      "targetCount": 12000,
+      "purpose": "Zero false positive verification",
+      "characteristics": {
+        "benignRate": 1.00,
+        "hostileRate": 0.00,
+        "invariantSafe": true
+      }
+    },
+    "hostile_synthetic": {
+      "description": "Synthetic hostile intents triggering capability + invariant violations",
+      "weight": 0.25,
+      "targetCount": 5000,
+      "combinations": [
+        { "capability": "CAP-001", "invariant": "PIL-β2" },
+        { "capability": "CAP-002", "invariant": "PIL-α2" },
+        { "capability": "CAP-003", "invariant": "PIL-β3" },
+        { "capability": "CAP-004", "invariant": "PIL-τ1" },
+        { "capability": "CAP-005", "invariant": "PIL-α4" },
+        { "capability": "CAP-006", "invariant": "PIL-β1" },
+        { "capability": "CAP-007", "invariant": "PIL-β1" }
+      ],
+      "characteristics": {
+        "benignRate": 0.00,
+        "hostileRate": 1.00,
+        "invariantViolating": true
+      }
+    },
+    "adversarial_edge_cases": {
+      "description": "Edge cases designed to stress invariant boundary conditions",
+      "weight": 0.15,
+      "targetCount": 3000,
+      "edgeCases": [
+        "single_resource_control_not_universal",
+        "authorized_elevation_allowed",
+        "single_impersonation_allowed",
+        "revocable_infinite_allowed",
+        "finite_irrevocable_allowed",
+        "internal_domain_transfer_allowed",
+        "public_resource_cross_scope_allowed",
+        "sandbox_internal_access_allowed"
+      ],
+      "characteristics": {
+        "benignRate": 0.50,
+        "hostileRate": 0.50,
+        "edgeCaseFocused": true
+      }
+    }
+  },
+
+  "volume": {
+    "targetIntents": 20000,
+    "batchSize": 200,
+    "parallelism": 1
+  },
+
+  "constraints": {
+    "smcLocked": true,
+    "smcId": "SMC-1",
+    "val1Required": true,
+    "val1Id": "VAL-1",
+    "hca1Required": true,
+    "hca1Id": "HCA-1",
+    "pil1Enabled": true,
+    "pil1Id": "PIL-1",
+    "pil1Mode": "SHADOW_ENFORCING",
+    "noLogicChanges": true,
+    "checksumVerification": true
+  },
+
+  "metrics": [
+    "s4_count",
+    "s2_rate",
+    "invariant_trigger_rate",
+    "invariant_distribution",
+    "invariant_dominance",
+    "capability_to_invariant_correlation",
+    "false_positive_by_invariant",
+    "replay_hash_collisions",
+    "processing_latency"
+  ],
+
+  "successCriteria": {
+    "s4_must_be_zero": {
+      "metric": "s4_count",
+      "operator": "==",
+      "value": 0,
+      "fatal": true
+    },
+    "s2_rate_threshold": {
+      "metric": "s2_rate",
+      "operator": "<=",
+      "value": 0.005,
+      "fatal": false
+    },
+    "no_dominant_invariant": {
+      "metric": "max_invariant_dominance",
+      "operator": "<",
+      "value": 0.35,
+      "fatal": false
+    },
+    "all_violations_explained": {
+      "metric": "unexplained_violation_rate",
+      "operator": "==",
+      "value": 0,
+      "fatal": false
+    }
+  },
+
+  "termination": {
+    "onVolumeReached": true,
+    "onS4Detected": "immediate_abort",
+    "maxDurationHours": 48,
+    "checkpointInterval": 2000
+  },
+
+  "artifacts": [
+    "reports/SSC-3_EXECUTION_RESULTS.json",
+    "reports/SSC-3_INVARIANT_HEATMAP.json",
+    "reports/SSC-3_CAPABILITY_INVARIANT_MATRIX.json",
+    "reports/SSC-3_GRADUATION_READINESS.md"
+  ],
+
+  "graduationCriteria": {
+    "component": "PIL-1",
+    "requirements": [
+      "SSC-3 complete without S4",
+      "S2 ≤ 0.5%",
+      "No invariant triggers without explanation",
+      "No single invariant > 35% dominance"
+    ],
+    "promotionTarget": "ENFORCING"
+  }
+}

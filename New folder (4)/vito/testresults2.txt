@@ -1,0 +1,1047 @@
+
+> olympus-2.0@0.1.0 test
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv4.0.16 [39m[90mC:/Users/SBS/Desktop/New folder (4)/vito[39m
+
+[90mstdout[2m | tests/orchestrator/pantheon/chaos.test.ts[2m > [22m[2m🐒 PANTHEON Chaos Monkey[2m > [22m[2mCore Chaos Scenarios[2m > [22m[2mCHAOS: Light Drizzle - Minor random failures - typical production conditions
+[22m[39m
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ CHAOS REPORT: Light Drizzle                                                │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Total Runs:               50                                         │
+│ Success Rate:         100.0%  (min: 80%)                        │
+│ Chaos Events/Build:     0.52                                         │
+│ Retries/Build:          1.54                                         │
+│ Avg Duration:             1ms                                        │
+│ P99 Duration:             3ms                                        │
+│ Invariant Violations:      0                                         │
+│ PASSED:               ✅ YES                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+[90mstdout[2m | tests/orchestrator/pantheon/chaos.test.ts[2m > [22m[2m🐒 PANTHEON Chaos Monkey[2m > [22m[2mCore Chaos Scenarios[2m > [22m[2mCHAOS: Thunderstorm - Moderate chaos - stress testing
+[22m[39m
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ CHAOS REPORT: Thunderstorm                                                 │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Total Runs:               50                                         │
+│ Success Rate:          94.0%  (min: 50%)                        │
+│ Chaos Events/Build:     1.58                                         │
+│ Retries/Build:          2.10                                         │
+│ Avg Duration:             1ms                                        │
+│ P99 Duration:             2ms                                        │
+│ Invariant Violations:      0                                         │
+│ PASSED:               ✅ YES                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+[90mstdout[2m | tests/orchestrator/pantheon/chaos.test.ts[2m > [22m[2m🐒 PANTHEON Chaos Monkey[2m > [22m[2mCore Chaos Scenarios[2m > [22m[2mCHAOS: Hurricane - Heavy chaos - disaster recovery testing
+[22m[39m
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ CHAOS REPORT: Hurricane                                                    │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Total Runs:               50                                         │
+│ Success Rate:          86.0%  (min: 20%)                        │
+│ Chaos Events/Build:     3.40                                         │
+│ Retries/Build:          4.14                                         │
+│ Avg Duration:             1ms                                        │
+│ P99 Duration:             2ms                                        │
+│ Invariant Violations:      0                                         │
+│ PASSED:               ✅ YES                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+ [32m✓[39m tests/failure-modes/ai-provider.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 110[2mms[22m[39m
+[90mstdout[2m | tests/orchestrator/pantheon/chaos.test.ts[2m > [22m[2m🐒 PANTHEON Chaos Monkey[2m > [22m[2mCore Chaos Scenarios[2m > [22m[2mCHAOS: Apocalypse - Maximum chaos - everything that can go wrong, will
+[22m[39m
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ CHAOS REPORT: Apocalypse                                                   │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Total Runs:               30                                         │
+│ Success Rate:          13.3%  (min: 5%)                        │
+│ Chaos Events/Build:     5.33                                         │
+│ Retries/Build:          4.57                                         │
+│ Avg Duration:             0ms                                        │
+│ P99 Duration:             2ms                                        │
+│ Invariant Violations:      0                                         │
+│ PASSED:               ✅ YES                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+[90mstdout[2m | tests/orchestrator/pantheon/chaos.test.ts[2m > [22m[2m🐒 PANTHEON Chaos Monkey[2m > [22m[2mCore Chaos Scenarios[2m > [22m[2mCHAOS: Targeted Strike: Discovery - High failure rate specifically in discovery phase
+[22m[39m
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ CHAOS REPORT: Targeted Strike: Discovery                                   │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Total Runs:               50                                         │
+│ Success Rate:          76.0%  (min: 30%)                        │
+│ Chaos Events/Build:     3.06                                         │
+│ Retries/Build:          2.94                                         │
+│ Avg Duration:             0ms                                        │
+│ P99 Duration:             1ms                                        │
+│ Invariant Violations:      0                                         │
+│ PASSED:               ✅ YES                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+[90mstdout[2m | tests/orchestrator/pantheon/chaos.test.ts[2m > [22m[2m🐒 PANTHEON Chaos Monkey[2m > [22m[2mCore Chaos Scenarios[2m > [22m[2mCHAOS: Network Partition - High network failure, simulating split-brain
+[22m[39m
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ CHAOS REPORT: Network Partition                                            │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Total Runs:               50                                         │
+│ Success Rate:          92.0%  (min: 30%)                        │
+│ Chaos Events/Build:     0.58                                         │
+│ Retries/Build:          1.40                                         │
+│ Avg Duration:             0ms                                        │
+│ P99 Duration:             1ms                                        │
+│ Invariant Violations:      0                                         │
+│ PASSED:               ✅ YES                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mconstructor[2m > [22m[2mshould initialize with default config
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mconstructor[2m > [22m[2mshould accept custom config
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mconstructor[2m > [22m[2mshould accept custom config
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mfalse[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mevolve[2m > [22m[2mshould return disabled status when disabled
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mevolve[2m > [22m[2mshould return disabled status when disabled
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mfalse[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mevolve[2m > [22m[2mshould run complete evolution cycle
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mevolve[2m > [22m[2mshould run complete evolution cycle
+[22m[39m[EvolutionEngine] Analyzed 0 agents
+[EvolutionEngine] Found 0 underperformers
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mevolve[2m > [22m[2mshould run complete evolution cycle
+[22m[39m[EvolutionEngine] Detected 0 capability gaps
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mevolve[2m > [22m[2mshould emit events during evolution
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mevolve[2m > [22m[2mshould emit events during evolution
+[22m[39m[EvolutionEngine] Analyzed 0 agents
+[EvolutionEngine] Found 0 underperformers
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mevolve[2m > [22m[2mshould emit events during evolution
+[22m[39m[EvolutionEngine] Detected 0 capability gaps
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mevolve[2m > [22m[2mshould handle errors gracefully
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mevolve[2m > [22m[2mshould handle errors gracefully
+[22m[39m[EvolutionEngine] Analyzed 0 agents
+[EvolutionEngine] Found 0 underperformers
+
+[90mstdout[2m | tests/orchestrator/pantheon/chaos.test.ts[2m > [22m[2m🐒 PANTHEON Chaos Monkey[2m > [22m[2mCore Chaos Scenarios[2m > [22m[2mCHAOS: Timeout Hell - Everything times out
+[22m[39m
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ CHAOS REPORT: Timeout Hell                                                 │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Total Runs:               50                                         │
+│ Success Rate:         100.0%  (min: 20%)                        │
+│ Chaos Events/Build:     1.36                                         │
+│ Retries/Build:          2.26                                         │
+│ Avg Duration:             0ms                                        │
+│ P99 Duration:             1ms                                        │
+│ Invariant Violations:      0                                         │
+│ PASSED:               ✅ YES                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2manalyzeAgent[2m > [22m[2mshould return performance analysis
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2manalyzeAgent[2m > [22m[2mshould accept custom period
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2msuggestImprovements[2m > [22m[2mshould return multiple improvement suggestions
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2maction management[2m > [22m[2mshould track pending actions
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2maction management[2m > [22m[2mshould require approval for agent creation
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2maction management[2m > [22m[2mshould require approval for agent creation
+[22m[39m[AgentCreator] Proposing agent for gap: payment integration
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2maction management[2m > [22m[2mshould require approval for agent creation
+[22m[39m[AgentCreator] Created proposal proposal-1769396507139-ehv2kjg08 for agent undefined
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mconfiguration[2m > [22m[2mshould update configuration
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mconfiguration[2m > [22m[2mshould update configuration
+[22m[39m[EvolutionEngine] Configuration updated
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mconfiguration[2m > [22m[2mshould return current configuration
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mpatterns[2m > [22m[2mshould start with no patterns
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mpatterns[2m > [22m[2mshould allow adding patterns
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEvolutionEngine[2m > [22m[2mpatterns[2m > [22m[2mshould allow adding patterns
+[22m[39m[PromptOptimizer] Loaded 1 meta-patterns
+
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mThroughput Tests[2m > [22m[2mLOAD: 100 starter builds, 10 concurrent
+[22m[39m
+╔══════════════════════════════════════════════════════════════════════════════════╗
+║ 🏋️ LOAD TEST REPORT: 100 Starter Builds                                      ║
+╠══════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                  ║
+║  THROUGHPUT                                                                      ║
+║  ├─ Total Builds:             100                                       ║
+║  ├─ Successful:                98 (98.0%)                            ║
+║  ├─ Failed:                     2 (2.0%)                            ║
+║  ├─ Builds/second:         558.66                                       ║
+║  └─ Peak Concurrency:          10                                       ║
+║                                                                                  ║
+║  LATENCY                                                                         ║
+║  ├─ Average:                    2 ms                                   ║
+║  ├─ P50:                        2 ms                                   ║
+║  ├─ P95:                        5 ms                                   ║
+║  ├─ P99:                        7 ms                                   ║
+║  ├─ Min:                        0 ms                                   ║
+║  └─ Max:                        7 ms                                   ║
+║                                                                                  ║
+║  MEMORY                                                                          ║
+║  ├─ Start:                  11.20 MB                                   ║
+║  ├─ End:                    10.72 MB                                   ║
+║  └─ Growth:                 -0.48 MB                                   ║
+║                                                                                  ║
+║  DURATION: 0.18s                                                       ║
+╚══════════════════════════════════════════════════════════════════════════════════╝
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mPromptOptimizer[2m > [22m[2mcreateExperiment[2m > [22m[2mshould create and start experiment
+[22m[39m[PromptOptimizer] Started experiment exp-uuid-1 for architect
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mPromptOptimizer[2m > [22m[2mloadPatterns[2m > [22m[2mshould load meta-patterns
+[22m[39m[PromptOptimizer] Loaded 1 meta-patterns
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mAgentCreator[2m > [22m[2mproposeAgent[2m > [22m[2mshould create agent proposal
+[22m[39m[AgentCreator] Proposing agent for gap: payment integration
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mAgentCreator[2m > [22m[2mproposeAgent[2m > [22m[2mshould create agent proposal
+[22m[39m[AgentCreator] Created proposal proposal-1769396507147-224j2wgi1 for agent PAYMENTS
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mAgentCreator[2m > [22m[2mproposeAgent[2m > [22m[2mshould include test cases
+[22m[39m[AgentCreator] Proposing agent for gap: payment integration
+
+[90mstdout[2m | tests/orchestrator/pantheon/chaos.test.ts[2m > [22m[2m🐒 PANTHEON Chaos Monkey[2m > [22m[2mCore Chaos Scenarios[2m > [22m[2mCHAOS: Resource Exhaustion - Memory pressure with random failures
+[22m[39m
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ CHAOS REPORT: Resource Exhaustion                                          │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Total Runs:               30                                         │
+│ Success Rate:          86.7%  (min: 30%)                        │
+│ Chaos Events/Build:     3.03                                         │
+│ Retries/Build:          3.23                                         │
+│ Avg Duration:             1ms                                        │
+│ P99 Duration:             1ms                                        │
+│ Invariant Violations:      0                                         │
+│ PASSED:               ✅ YES                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mAgentCreator[2m > [22m[2mproposeAgent[2m > [22m[2mshould include test cases
+[22m[39m[AgentCreator] Created proposal proposal-1769396507148-2rzzv9doc for agent PAYMENTS
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mAgentCreator[2m > [22m[2mproposeAgent[2m > [22m[2mshould include justification
+[22m[39m[AgentCreator] Proposing agent for gap: payment integration
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mAgentCreator[2m > [22m[2mproposeAgent[2m > [22m[2mshould include justification
+[22m[39m[AgentCreator] Created proposal proposal-1769396507148-0ezqxuq2v for agent PAYMENTS
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mAgentCreator[2m > [22m[2mtestAgent[2m > [22m[2mshould run test cases
+[22m[39m[AgentCreator] Testing proposal proposal-1
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mAgentCreator[2m > [22m[2mtestAgent[2m > [22m[2mshould run test cases
+[22m[39m[AgentCreator] Test results for proposal-1: passed=true, passRate=100.0%, avgQuality=8.5
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mAgentCreator[2m > [22m[2mtestAgent[2m > [22m[2mshould calculate pass rate
+[22m[39m[AgentCreator] Testing proposal proposal-1
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mAgentCreator[2m > [22m[2mtestAgent[2m > [22m[2mshould calculate pass rate
+[22m[39m[AgentCreator] Test results for proposal-1: passed=true, passRate=100.0%, avgQuality=8.5
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mAgentCreator[2m > [22m[2mtestAgent[2m > [22m[2mshould handle test failures gracefully
+[22m[39m[AgentCreator] Testing proposal proposal-1
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mAgentCreator[2m > [22m[2mtestAgent[2m > [22m[2mshould handle test failures gracefully
+[22m[39m[AgentCreator] Test results for proposal-1: passed=false, passRate=0.0%, avgQuality=0.0
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mAgentCreator[2m > [22m[2mdeployAgent[2m > [22m[2mshould deploy agent and create prompt
+[22m[39m[AgentCreator] Deploying agent from proposal proposal-1
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mAgentCreator[2m > [22m[2mdeployAgent[2m > [22m[2mshould deploy agent and create prompt
+[22m[39m[AgentCreator] Deployed agent payments with prompt prompt-uuid-2
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mIntegration[2m > [22m[2mEvolution cycle flow[2m > [22m[2mshould complete full analyze-optimize-test cycle
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mtrue[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mIntegration[2m > [22m[2mEvolution cycle flow[2m > [22m[2mshould complete full analyze-optimize-test cycle
+[22m[39m[EvolutionEngine] Analyzed 0 agents
+[EvolutionEngine] Found 0 underperformers
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mIntegration[2m > [22m[2mEvolution cycle flow[2m > [22m[2mshould complete full analyze-optimize-test cycle
+[22m[39m[EvolutionEngine] Detected 0 capability gaps
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mIntegration[2m > [22m[2mEvent emission[2m > [22m[2mshould emit all expected events
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mIntegration[2m > [22m[2mEvent emission[2m > [22m[2mshould emit all expected events
+[22m[39m[EvolutionEngine] Analyzed 0 agents
+[EvolutionEngine] Found 0 underperformers
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mIntegration[2m > [22m[2mEvent emission[2m > [22m[2mshould emit all expected events
+[22m[39m[EvolutionEngine] Detected 0 capability gaps
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mIntegration[2m > [22m[2mFactory function[2m > [22m[2mshould create engine with createEvolutionEngine
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEdge Cases[2m > [22m[2mEmpty data handling[2m > [22m[2mshould handle no agents gracefully
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEdge Cases[2m > [22m[2mError recovery[2m > [22m[2mshould handle database errors
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEdge Cases[2m > [22m[2mError recovery[2m > [22m[2mshould handle database errors
+[22m[39m[EvolutionEngine] Analyzed 0 agents
+[EvolutionEngine] Found 0 underperformers
+
+[90mstdout[2m | tests/orchestrator/pantheon/chaos.test.ts[2m > [22m[2m🐒 PANTHEON Chaos Monkey[2m > [22m[2mResilience Patterns[2m > [22m[2mRESILIENCE: Retry mechanism works under pressure
+[22m[39mRetries needed: 1, Final status: completed
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEdge Cases[2m > [22m[2mError recovery[2m > [22m[2mshould handle database errors
+[22m[39m[EvolutionEngine] Detected 0 capability gaps
+
+[90mstdout[2m | src/lib/agents/conductor/evolution/__tests__/evolution.test.ts[2m > [22m[2mEdge Cases[2m > [22m[2mConcurrent operations[2m > [22m[2mshould handle concurrent analysis requests
+[22m[39m[EvolutionEngine] Initialized with config: {
+  enabled: [33mtrue[39m,
+  automation: {
+    autoAnalyze: [33mtrue[39m,
+    autoSuggest: [33mtrue[39m,
+    autoTest: [33mfalse[39m,
+    autoPromote: [33mfalse[39m,
+    autoCreateAgents: [33mfalse[39m
+  }
+}
+
+ [32m✓[39m src/lib/agents/conductor/evolution/__tests__/evolution.test.ts [2m([22m[2m55 tests[22m[2m)[22m[32m 48[2mms[22m[39m
+[90mstdout[2m | tests/orchestrator/pantheon/chaos.test.ts[2m > [22m[2m🐒 PANTHEON Chaos Monkey[2m > [22m[2mStatistical Chaos Analysis[2m > [22m[2mSTATS: Chaos events follow expected distribution
+[22m[39mAverage chaos events per build: 2.09
+
+[90mstdout[2m | tests/orchestrator/pantheon/chaos.test.ts[2m > [22m[2m🐒 PANTHEON Chaos Monkey[2m > [22m[2mMemory & Performance Under Chaos[2m > [22m[2mMEMORY: No memory leaks after many chaos runs
+[22m[39mMemory growth: 0.22 MB
+
+ [32m✓[39m tests/orchestrator/pantheon/chaos.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 284[2mms[22m[39m
+ [32m✓[39m src/lib/agents/intelligence/__tests__/chaos-attacks.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 98[2mms[22m[39m
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mThroughput Tests[2m > [22m[2mLOAD: 50 professional builds, 5 concurrent
+[22m[39m
+╔══════════════════════════════════════════════════════════════════════════════════╗
+║ 🏋️ LOAD TEST REPORT: 50 Professional Builds                                  ║
+╠══════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                  ║
+║  THROUGHPUT                                                                      ║
+║  ├─ Total Builds:              50                                       ║
+║  ├─ Successful:                50 (100.0%)                            ║
+║  ├─ Failed:                     0 (0.0%)                            ║
+║  ├─ Builds/second:         294.12                                       ║
+║  └─ Peak Concurrency:           5                                       ║
+║                                                                                  ║
+║  LATENCY                                                                         ║
+║  ├─ Average:                    2 ms                                   ║
+║  ├─ P50:                        2 ms                                   ║
+║  ├─ P95:                        4 ms                                   ║
+║  ├─ P99:                        9 ms                                   ║
+║  ├─ Min:                        0 ms                                   ║
+║  └─ Max:                        9 ms                                   ║
+║                                                                                  ║
+║  MEMORY                                                                          ║
+║  ├─ Start:                  10.86 MB                                   ║
+║  ├─ End:                    10.14 MB                                   ║
+║  └─ Growth:                 -0.72 MB                                   ║
+║                                                                                  ║
+║  DURATION: 0.17s                                                       ║
+╚══════════════════════════════════════════════════════════════════════════════════╝
+
+ [32m✓[39m tests/orchestrator/pantheon/mutation.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 332[2mms[22m[39m
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mThroughput Tests[2m > [22m[2mLOAD: 20 enterprise builds, 3 concurrent
+[22m[39m
+╔══════════════════════════════════════════════════════════════════════════════════╗
+║ 🏋️ LOAD TEST REPORT: 20 Enterprise Builds                                    ║
+╠══════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                  ║
+║  THROUGHPUT                                                                      ║
+║  ├─ Total Builds:              20                                       ║
+║  ├─ Successful:                20 (100.0%)                            ║
+║  ├─ Failed:                     0 (0.0%)                            ║
+║  ├─ Builds/second:         166.67                                       ║
+║  └─ Peak Concurrency:           3                                       ║
+║                                                                                  ║
+║  LATENCY                                                                         ║
+║  ├─ Average:                    1 ms                                   ║
+║  ├─ P50:                        1 ms                                   ║
+║  ├─ P95:                        2 ms                                   ║
+║  ├─ P99:                        2 ms                                   ║
+║  ├─ Min:                        0 ms                                   ║
+║  └─ Max:                        2 ms                                   ║
+║                                                                                  ║
+║  MEMORY                                                                          ║
+║  ├─ Start:                  10.21 MB                                   ║
+║  ├─ End:                    10.21 MB                                   ║
+║  └─ Growth:                  0.00 MB                                   ║
+║                                                                                  ║
+║  DURATION: 0.12s                                                       ║
+╚══════════════════════════════════════════════════════════════════════════════════╝
+
+ [32m✓[39m tests/failure-modes/infrastructure.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mConcurrency Stress Tests[2m > [22m[2mLOAD: 50 builds at 50 concurrent (max stress)
+[22m[39m
+╔══════════════════════════════════════════════════════════════════════════════════╗
+║ 🏋️ LOAD TEST REPORT: Max Concurrency Stress                                  ║
+╠══════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                  ║
+║  THROUGHPUT                                                                      ║
+║  ├─ Total Builds:              50                                       ║
+║  ├─ Successful:                50 (100.0%)                            ║
+║  ├─ Failed:                     0 (0.0%)                            ║
+║  ├─ Builds/second:        1666.67                                       ║
+║  └─ Peak Concurrency:          50                                       ║
+║                                                                                  ║
+║  LATENCY                                                                         ║
+║  ├─ Average:                    4 ms                                   ║
+║  ├─ P50:                        4 ms                                   ║
+║  ├─ P95:                        7 ms                                   ║
+║  ├─ P99:                        7 ms                                   ║
+║  ├─ Min:                        0 ms                                   ║
+║  └─ Max:                        7 ms                                   ║
+║                                                                                  ║
+║  MEMORY                                                                          ║
+║  ├─ Start:                  10.28 MB                                   ║
+║  ├─ End:                    14.27 MB                                   ║
+║  └─ Growth:                  3.99 MB                                   ║
+║                                                                                  ║
+║  DURATION: 0.03s                                                       ║
+╚══════════════════════════════════════════════════════════════════════════════════╝
+
+ [32m✓[39m tests/orchestrator/pantheon/properties.test.ts [2m([22m[2m18 tests[22m[2m)[22m[33m 515[2mms[22m[39m
+ [32m✓[39m src/lib/agents/orchestrator/__tests__/phase3.test.ts [2m([22m[2m74 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+ [32m✓[39m src/lib/vision/__tests__/integration.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 520[2mms[22m[39m
+ [32m✓[39m src/lib/agents/intelligence/__tests__/chaos-engineering.test.ts [2m([22m[2m33 tests[22m[2m)[22m[33m 435[2mms[22m[39m
+ [32m✓[39m src/lib/agents/conductor/prompts/__tests__/prompts.test.ts [2m([22m[2m51 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+ [32m✓[39m src/lib/agents/conductor/memory/__tests__/memory.test.ts [2m([22m[2m92 tests[22m[2m)[22m[32m 37[2mms[22m[39m
+ [32m✓[39m src/lib/agents/quality/__tests__/conversion-scorer.test.ts [2m([22m[2m40 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mConcurrency Stress Tests[2m > [22m[2mLOAD: Concurrency ramp-up (1 -> 10 -> 50 -> 100)
+[22m[39mConcurrency 1: 64.10 builds/sec
+
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mConcurrency Stress Tests[2m > [22m[2mLOAD: Concurrency ramp-up (1 -> 10 -> 50 -> 100)
+[22m[39mConcurrency 10: 666.67 builds/sec
+
+ [32m✓[39m src/lib/agents/knowledge/__tests__/knowledge-base.test.ts [2m([22m[2m49 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mConcurrency Stress Tests[2m > [22m[2mLOAD: Concurrency ramp-up (1 -> 10 -> 50 -> 100)
+[22m[39mConcurrency 50: 1333.33 builds/sec
+
+ [32m✓[39m tests/security/security.test.ts [2m([22m[2m44 tests[22m[2m)[22m[32m 59[2mms[22m[39m
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mConcurrency Stress Tests[2m > [22m[2mLOAD: Concurrency ramp-up (1 -> 10 -> 50 -> 100)
+[22m[39mConcurrency 100: 1333.33 builds/sec
+
+ [32m✓[39m tests/conductor/judge/index.test.ts [2m([22m[2m33 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m tests/conductor/judge/scorer.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m tests/orchestrator/orchestrator.integration.test.ts [2m([22m[2m18 tests[22m[2m)[22m[33m 1021[2mms[22m[39m
+ [32m✓[39m tests/billing/constants.test.ts [2m([22m[2m24 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m src/lib/agents/__tests__/multi-tenant-constraint-flow.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process subscription.created event
+[22m[39m[webhook] Processing customer.subscription.created (evt_sub_created)
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process subscription.created event
+[22m[39m[webhook] Successfully processed customer.subscription.created (evt_sub_created)
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process subscription.deleted event
+[22m[39m[webhook] Processing customer.subscription.deleted (evt_sub_deleted)
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process subscription.deleted event
+[22m[39m[webhook] Deleted subscription sub_123
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process subscription.deleted event
+[22m[39m[webhook] Successfully processed customer.subscription.deleted (evt_sub_deleted)
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process invoice.paid event
+[22m[39m[webhook] Processing invoice.paid (evt_inv_paid)
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process invoice.paid event
+[22m[39m[webhook] Invoice in_123 paid
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process invoice.paid event
+[22m[39m[webhook] Successfully processed invoice.paid (evt_inv_paid)
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process invoice.payment_failed event
+[22m[39m[webhook] Processing invoice.payment_failed (evt_inv_failed)
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process invoice.payment_failed event
+[22m[39m[webhook] Invoice in_123 payment failed
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process invoice.payment_failed event
+[22m[39m[webhook] Successfully processed invoice.payment_failed (evt_inv_failed)
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process trial_will_end event
+[22m[39m[webhook] Processing customer.subscription.trial_will_end (evt_trial_end)
+[webhook] Trial ending soon for subscription sub_123
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process trial_will_end event
+[22m[39m[webhook] Successfully processed customer.subscription.trial_will_end (evt_trial_end)
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process payment_method.attached event
+[22m[39m[webhook] Processing payment_method.attached (evt_pm_attached)
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process payment_method.attached event
+[22m[39m[webhook] No tenant found for customer cus_123
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould process payment_method.attached event
+[22m[39m[webhook] Successfully processed payment_method.attached (evt_pm_attached)
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mprocessWebhook[2m > [22m[2mshould skip unknown event types
+[22m[39m[webhook] Processing unknown.event.type (evt_unknown)
+[webhook] No handler for unknown.event.type
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mWebhook Handlers[2m > [22m[2mshould handle invoice handler
+[22m[39m[webhook] Invoice in_123 paid
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mWebhook Handlers[2m > [22m[2mshould handle payment method handler
+[22m[39m[webhook] No tenant found for customer cus_123
+
+[90mstdout[2m | tests/billing/webhooks.test.ts[2m > [22m[2mWebhook Processing[2m > [22m[2mWebhook Handlers[2m > [22m[2mshould handle customer handler
+[22m[39m[webhook] Customer cus_123 updated
+
+ [32m✓[39m tests/billing/webhooks.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [32m✓[39m tests/conductor/judge/validator.test.ts [2m([22m[2m35 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/multi-tenant/isolation.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/api/filters.test.ts [2m([22m[2m50 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/conductor/judge/improver.test.ts [2m([22m[2m33 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/api/api-keys.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mMemory Leak Detection[2m > [22m[2mMEMORY: No memory leak over 200 builds
+[22m[39mMemory growth after 200 builds: 1.00 MB
+
+ [32m✓[39m tests/conductor/conductor-service.test.ts [2m([22m[2m58 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m tests/api/responses.test.ts [2m([22m[2m33 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/orchestrator/planner.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m src/lib/architecture/__tests__/integration.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/conductor/router.test.ts [2m([22m[2m30 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m src/lib/validation/__tests__/output-validator.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+[90mstdout[2m | src/lib/vision/__tests__/advanced.test.ts[2m > [22m[2mFull Demo[2m > [22m[2mdemo runs without errors
+[22m[39m{
+  trace: [32m'vis_123'[39m,
+  doubled: [33m84[39m,
+  computed: [33m11[39m,
+  request: { apiKey: [32m'sk-ant-xxx'[39m, prompt: [32m'Create a button'[39m, timeout: [33m5000[39m },
+  message: [32m'Wait and retry'[39m
+}
+
+ [32m✓[39m tests/billing/usage-limits.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m src/lib/vision/__tests__/advanced.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/test-governance-seal.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/api/builds.test.ts [2m([22m[2m36 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m tests/failure-modes/user-input.test.ts [2m([22m[2m24 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/orchestrator/scheduler.test.ts [2m([22m[2m30 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/generated-sample/src/lib/services/task-service.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/api/auth.test.ts [2m([22m[2m28 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mMemory Leak Detection[2m > [22m[2mMEMORY: Memory stable over 5 iterations of 50 builds
+[22m[39mAverage memory growth per iteration: -0.96 MB
+
+ [32m✓[39m tests/real-validation/analyticspro/node_modules/@stablelib/base64/base64.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m src/lib/auth/security/__tests__/brute-force.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/billing/subscriptions.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m src/lib/auth/security/__tests__/session.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/billing/features-trials.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mPerformance Regression Tests[2m > [22m[2mBASELINE: Starter builds meets performance requirements
+[22m[39m
+╔══════════════════════════════════════════════════════════════════════════════════╗
+║ 🏋️ LOAD TEST REPORT: Starter builds                                          ║
+╠══════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                  ║
+║  THROUGHPUT                                                                      ║
+║  ├─ Total Builds:              30                                       ║
+║  ├─ Successful:                30 (100.0%)                            ║
+║  ├─ Failed:                     0 (0.0%)                            ║
+║  ├─ Builds/second:         322.58                                       ║
+║  └─ Peak Concurrency:           5                                       ║
+║                                                                                  ║
+║  LATENCY                                                                         ║
+║  ├─ Average:                    0 ms                                   ║
+║  ├─ P50:                        0 ms                                   ║
+║  ├─ P95:                        1 ms                                   ║
+║  ├─ P99:                        1 ms                                   ║
+║  ├─ Min:                        0 ms                                   ║
+║  └─ Max:                        1 ms                                   ║
+║                                                                                  ║
+║  MEMORY                                                                          ║
+║  ├─ Start:                  15.41 MB                                   ║
+║  ├─ End:                    14.87 MB                                   ║
+║  └─ Growth:                 -0.54 MB                                   ║
+║                                                                                  ║
+║  DURATION: 0.09s                                                       ║
+╚══════════════════════════════════════════════════════════════════════════════════╝
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mEpoch Creation[2m > [22m[2mshould create daily epoch
+[22m[39m[EpochManager] Created epoch ed02f63b-f476-4158-8d4b-0d7c4b8fd098: Daily Test Epoch
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mEpoch Creation[2m > [22m[2mshould create custom epoch
+[22m[39m[EpochManager] Created epoch fb6ec1cd-5d84-4fd7-b87d-fd9bb2efdcc1: Custom Test Epoch
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mPhase Transitions[2m > [22m[2mshould advance phase
+[22m[39m[EpochManager] Created epoch 8c3c3252-4b30-43ec-9bc6-28b215f30484: Test Epoch
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mPhase Transitions[2m > [22m[2mshould advance phase
+[22m[39m[EpochManager] Epoch 8c3c3252-4b30-43ec-9bc6-28b215f30484 advanced from preparation to active
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mPhase Transitions[2m > [22m[2mshould close epoch
+[22m[39m[EpochManager] Created epoch e018d98a-ec37-4c0a-b5c0-c3db96edad0a: Test Epoch
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mPhase Transitions[2m > [22m[2mshould close epoch
+[22m[39m[EpochManager] Epoch e018d98a-ec37-4c0a-b5c0-c3db96edad0a advanced from preparation to active
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mPhase Transitions[2m > [22m[2mshould close epoch
+[22m[39m[EpochManager] Epoch e018d98a-ec37-4c0a-b5c0-c3db96edad0a advanced from active to closed
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mBuild Tracking[2m > [22m[2mshould record successful build completion
+[22m[39m[EpochManager] Created epoch afcf44f0-82df-44ed-b12f-2cff440cbabd: Test Epoch
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mBuild Tracking[2m > [22m[2mshould record failed build completion
+[22m[39m[EpochManager] Created epoch fba3bc1a-8c45-4b19-b05a-f1f606672c3a: Test Epoch
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mAction Tracking[2m > [22m[2mshould record allowed action
+[22m[39m[EpochManager] Created epoch 5c79d2ab-775c-4c60-92cf-f4cfcf2c403e: Test Epoch
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mAction Tracking[2m > [22m[2mshould record blocked action
+[22m[39m[EpochManager] Created epoch c7435894-b790-4bcf-a6f6-255d4598d920: Test Epoch
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mAuto Rollback[2m > [22m[2mshould trigger auto-rollback on high failure rate
+[22m[39m[EpochManager] Created epoch e5755927-8b30-47ea-8167-b2c9c8592ea4: Test Epoch
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mAuto Rollback[2m > [22m[2mshould not trigger auto-rollback when disabled
+[22m[39m[EpochManager] Created epoch 38f2884f-22fd-40a3-8799-368d98cd53f0: Test Epoch
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mEpoch History[2m > [22m[2mshould return epoch history
+[22m[39m[EpochManager] Created epoch e4467cf3-5cf9-418a-891c-cb5dec243542: Epoch 1
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mEpoch History[2m > [22m[2mshould return epoch history
+[22m[39m[EpochManager] Created epoch 2e7e6d70-69f3-4968-b2cd-e4ec8c5c1097: Epoch 2
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mEpoch History[2m > [22m[2mshould return epoch history
+[22m[39m[EpochManager] Created epoch a1874764-8ab1-49a4-9d73-2f7480eaf711: Epoch 3
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mEpoch History[2m > [22m[2mshould limit history results
+[22m[39m[EpochManager] Created epoch 091ccf95-07b2-4438-ac50-fd2bda08e8cc: Epoch 1
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mEpoch History[2m > [22m[2mshould limit history results
+[22m[39m[EpochManager] Created epoch 07d2e116-f7fc-47ba-826a-8196452eeb64: Epoch 2
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.2: Epoch Manager[2m > [22m[2mEpoch History[2m > [22m[2mshould limit history results
+[22m[39m[EpochManager] Created epoch a5112f86-2378-45ad-acd6-0ed638fc05a0: Epoch 3
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.3: Blast Radius Engine[2m > [22m[2mImpact Assessment[2m > [22m[2mshould assess impact for build
+[22m[39m[BlastRadiusEngine] Impact assessed for build build-123: zone=single_build, severity=medium
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.3: Blast Radius Engine[2m > [22m[2mImpact Assessment[2m > [22m[2mshould determine severity based on affected resources
+[22m[39m[BlastRadiusEngine] Impact assessed for build build-123: zone=single_build, severity=medium
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.3: Blast Radius Engine[2m > [22m[2mBuild Quarantine[2m > [22m[2mshould quarantine build
+[22m[39m[BlastRadiusEngine] Quarantined build build-123: Security violation
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.3: Blast Radius Engine[2m > [22m[2mBuild Quarantine[2m > [22m[2mshould release quarantined build
+[22m[39m[BlastRadiusEngine] Quarantined build build-123: Test
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.3: Blast Radius Engine[2m > [22m[2mBuild Quarantine[2m > [22m[2mshould release quarantined build
+[22m[39m[BlastRadiusEngine] Released build build-123 from quarantine
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.3: Blast Radius Engine[2m > [22m[2mBuild Quarantine[2m > [22m[2mshould not quarantine already quarantined build
+[22m[39m[BlastRadiusEngine] Quarantined build build-123: Test
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.3: Blast Radius Engine[2m > [22m[2mTenant Quarantine[2m > [22m[2mshould quarantine tenant
+[22m[39m[BlastRadiusEngine] Quarantined tenant tenant-456: Security violation
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.3: Blast Radius Engine[2m > [22m[2mTenant Quarantine[2m > [22m[2mshould release quarantined tenant
+[22m[39m[BlastRadiusEngine] Quarantined tenant tenant-456: Test
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.3: Blast Radius Engine[2m > [22m[2mTenant Quarantine[2m > [22m[2mshould release quarantined tenant
+[22m[39m[BlastRadiusEngine] Released tenant tenant-456 from quarantine
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.3: Blast Radius Engine[2m > [22m[2mContainment Policies[2m > [22m[2mshould set custom policy
+[22m[39m[BlastRadiusEngine] Policy updated for zone single_build: Custom Policy
+
+[90mstdout[2m | tests/test_phase8_integration.test.ts[2m > [22m[2mPhase 8.3: Blast Radius Engine[2m > [22m[2mBlast Escalation[2m > [22m[2mshould escalate blast to global zone
+[22m[39m[BlastRadiusEngine] Impact assessed for build build-123: zone=single_build, severity=medium
+
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mPerformance Regression Tests[2m > [22m[2mBASELINE: Professional builds meets performance requirements
+[22m[39m
+╔══════════════════════════════════════════════════════════════════════════════════╗
+║ 🏋️ LOAD TEST REPORT: Professional builds                                     ║
+╠══════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                  ║
+║  THROUGHPUT                                                                      ║
+║  ├─ Total Builds:              30                                       ║
+║  ├─ Successful:                30 (100.0%)                            ║
+║  ├─ Failed:                     0 (0.0%)                            ║
+║  ├─ Builds/second:         309.28                                       ║
+║  └─ Peak Concurrency:           5                                       ║
+║                                                                                  ║
+║  LATENCY                                                                         ║
+║  ├─ Average:                    0 ms                                   ║
+║  ├─ P50:                        0 ms                                   ║
+║  ├─ P95:                        1 ms                                   ║
+║  ├─ P99:                        2 ms                                   ║
+║  ├─ Min:                        0 ms                                   ║
+║  └─ Max:                        2 ms                                   ║
+║                                                                                  ║
+║  MEMORY                                                                          ║
+║  ├─ Start:                  14.99 MB                                   ║
+║  ├─ End:                    16.65 MB                                   ║
+║  └─ Growth:                  1.66 MB                                   ║
+║                                                                                  ║
+║  DURATION: 0.10s                                                       ║
+╚══════════════════════════════════════════════════════════════════════════════════╝
+
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mPerformance Regression Tests[2m > [22m[2mBASELINE: Enterprise builds meets performance requirements
+[22m[39m
+╔══════════════════════════════════════════════════════════════════════════════════╗
+║ 🏋️ LOAD TEST REPORT: Enterprise builds                                       ║
+╠══════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                  ║
+║  THROUGHPUT                                                                      ║
+║  ├─ Total Builds:              30                                       ║
+║  ├─ Successful:                30 (100.0%)                            ║
+║  ├─ Failed:                     0 (0.0%)                            ║
+║  ├─ Builds/second:         272.73                                       ║
+║  └─ Peak Concurrency:           5                                       ║
+║                                                                                  ║
+║  LATENCY                                                                         ║
+║  ├─ Average:                    1 ms                                   ║
+║  ├─ P50:                        1 ms                                   ║
+║  ├─ P95:                        1 ms                                   ║
+║  ├─ P99:                        1 ms                                   ║
+║  ├─ Min:                        0 ms                                   ║
+║  └─ Max:                        1 ms                                   ║
+║                                                                                  ║
+║  MEMORY                                                                          ║
+║  ├─ Start:                  16.72 MB                                   ║
+║  ├─ End:                    11.72 MB                                   ║
+║  └─ Growth:                 -5.00 MB                                   ║
+║                                                                                  ║
+║  DURATION: 0.11s                                                       ║
+╚══════════════════════════════════════════════════════════════════════════════════╝
+
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mChaos Under Load[2m > [22m[2mCHAOS+LOAD: System survives chaos at scale
+[22m[39m
+╔══════════════════════════════════════════════════════════════════════════════════╗
+║ 🏋️ LOAD TEST REPORT: Chaos Under Load                                        ║
+╠══════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                  ║
+║  THROUGHPUT                                                                      ║
+║  ├─ Total Builds:              50                                       ║
+║  ├─ Successful:                48 (96.0%)                            ║
+║  ├─ Failed:                     2 (4.0%)                            ║
+║  ├─ Builds/second:         543.48                                       ║
+║  └─ Peak Concurrency:          10                                       ║
+║                                                                                  ║
+║  LATENCY                                                                         ║
+║  ├─ Average:                    1 ms                                   ║
+║  ├─ P50:                        1 ms                                   ║
+║  ├─ P95:                        3 ms                                   ║
+║  ├─ P99:                        3 ms                                   ║
+║  ├─ Min:                        0 ms                                   ║
+║  └─ Max:                        3 ms                                   ║
+║                                                                                  ║
+║  MEMORY                                                                          ║
+║  ├─ Start:                  11.79 MB                                   ║
+║  ├─ End:                    20.74 MB                                   ║
+║  └─ Growth:                  8.94 MB                                   ║
+║                                                                                  ║
+║  DURATION: 0.09s                                                       ║
+╚══════════════════════════════════════════════════════════════════════════════════╝
+
+ [32m✓[39m src/lib/agents/intelligence/__tests__/intelligence-engine.test.ts [2m([22m[2m245 tests[22m[2m)[22m[33m 1791[2mms[22m[39m
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mChaos Under Load[2m > [22m[2mCHAOS+LOAD: Extreme chaos does not crash system
+[22m[39m
+╔══════════════════════════════════════════════════════════════════════════════════╗
+║ 🏋️ LOAD TEST REPORT: Extreme Chaos Under Load                                ║
+╠══════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                  ║
+║  THROUGHPUT                                                                      ║
+║  ├─ Total Builds:              30                                       ║
+║  ├─ Successful:                15 (50.0%)                            ║
+║  ├─ Failed:                    15 (50.0%)                            ║
+║  ├─ Builds/second:         652.17                                       ║
+║  └─ Peak Concurrency:          15                                       ║
+║                                                                                  ║
+║  LATENCY                                                                         ║
+║  ├─ Average:                    1 ms                                   ║
+║  ├─ P50:                        1 ms                                   ║
+║  ├─ P95:                        2 ms                                   ║
+║  ├─ P99:                        2 ms                                   ║
+║  ├─ Min:                        0 ms                                   ║
+║  └─ Max:                        2 ms                                   ║
+║                                                                                  ║
+║  MEMORY                                                                          ║
+║  ├─ Start:                  20.80 MB                                   ║
+║  ├─ End:                    14.59 MB                                   ║
+║  └─ Growth:                 -6.20 MB                                   ║
+║                                                                                  ║
+║  DURATION: 0.05s                                                       ║
+╚══════════════════════════════════════════════════════════════════════════════════╝
+
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mLatency Percentile Tests[2m > [22m[2mLATENCY: P99 is within 3x of P50
+[22m[39mP99/P50 ratio: 2.00
+
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mLatency Percentile Tests[2m > [22m[2mLATENCY: Max duration is within 5x of P99
+[22m[39mMax/P99 ratio: 1.00
+
+[90mstdout[2m | tests/orchestrator/pantheon/load.test.ts[2m > [22m[2m🏋️ PANTHEON Load Cannon[2m > [22m[2mThroughput Scaling[2m > [22m[2mSCALE: Throughput scales with concurrency (up to limit)
+[22m[39m
+Throughput Scaling:
+  Concurrency 1: 55.71 builds/sec
+  Concurrency 2: 115.61 builds/sec
+  Concurrency 5: 317.46 builds/sec
+  Concurrency 10: 625.00 builds/sec
+
+ [32m✓[39m tests/orchestrator/pantheon/load.test.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 3012[2mms[22m[39m
+       [33m[2m✓[22m[39m LOAD: Concurrency ramp-up (1 -> 10 -> 50 -> 100) [33m 376[2mms[22m[39m
+       [33m[2m✓[22m[39m MEMORY: No memory leak over 200 builds [33m 345[2mms[22m[39m
+       [33m[2m✓[22m[39m MEMORY: Memory stable over 5 iterations of 50 builds [33m 387[2mms[22m[39m
+       [33m[2m✓[22m[39m SCALE: Throughput scales with concurrency (up to limit) [33m 627[2mms[22m[39m
+ [32m✓[39m src/lib/vision/__tests__/core.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 3338[2mms[22m[39m
+     [33m[2m✓[22m[39m retries on retryable error [33m 3137[2mms[22m[39m
+ [32m✓[39m tests/orchestrator/pantheon/chaos-destruction.test.ts [2m([22m[2m22 tests[22m[2m)[22m[33m 9487[2mms[22m[39m
+     [33m[2m✓[22m[39m 1000 agents should not crash [33m 9448[2mms[22m[39m
+[90mstdout[2m | src/lib/recovery/sdk/__tests__/self-healing.test.ts[2m > [22m[2mIntegration[2m > [22m[2mfull resilience pattern: retry + timeout + circuit breaker + fallback + metrics
+[22m[39m[Integration Test] Retry 1: Simulated failure (attempt 1)
+
+[90mstdout[2m | src/lib/recovery/sdk/__tests__/self-healing.test.ts[2m > [22m[2mIntegration[2m > [22m[2mfull resilience pattern: retry + timeout + circuit breaker + fallback + metrics
+[22m[39m[Integration Test] Retry 2: Simulated failure (attempt 2)
+
+ [32m✓[39m src/lib/recovery/sdk/__tests__/self-healing.test.ts [2m([22m[2m47 tests[22m[2m)[22m[33m 10963[2mms[22m[39m
+       [33m[2m✓[22m[39m retries and succeeds [33m 2600[2mms[22m[39m
+       [33m[2m✓[22m[39m throws after max attempts [33m 893[2mms[22m[39m
+       [33m[2m✓[22m[39m returns Err after exhausting retries [33m 797[2mms[22m[39m
+       [33m[2m✓[22m[39m retries on failure [33m 2702[2mms[22m[39m
+       [33m[2m✓[22m[39m emits failure metric when all retries exhausted [33m 1219[2mms[22m[39m
+     [33m[2m✓[22m[39m sanitizes NaN delay to default [33m 1058[2mms[22m[39m
+     [33m[2m✓[22m[39m sanitizes negative delay to default [33m 1234[2mms[22m[39m
+ [32m✓[39m src/lib/recovery/sdk/v2/__tests__/presets.test.ts [2m([22m[2m34 tests[22m[2m)[22m[33m 24211[2mms[22m[39m
+       [33m[2m✓[22m[39m retries on failure and succeeds [33m 1001[2mms[22m[39m
+       [33m[2m✓[22m[39m throws after max retries [33m 3017[2mms[22m[39m
+       [33m[2m✓[22m[39m uses fallback when all retries fail [33m 3028[2mms[22m[39m
+       [33m[2m✓[22m[39m uses fallback function when all retries fail [33m 3017[2mms[22m[39m
+         [33m[2m✓[22m[39m retries more times before giving up [33m 14032[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m51 passed[39m[22m[90m (52)[39m
+[2m      Tests [22m [1m[32m1594 passed[39m[22m[90m (1636)[39m
+[2m     Errors [22m [1m[31m1 error[39m[22m
+[2m   Start at [22m 04:01:46
+[2m   Duration [22m 24.84s[2m (transform 4.71s, setup 0ms, import 7.00s, tests 56.70s, environment 8ms)[22m
+

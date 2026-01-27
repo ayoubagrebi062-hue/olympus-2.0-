@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/BuildList.tsx",
+      "content": "import React, { useState, useEffect } from 'react';\nimport axios from 'axios';\nimport { AiOutlineLoading3Quarters } from 'react-icons/ai';\nimport { WiError } from 'react-icons/wi';\n\ninterface BuildListProps {\n  variant?: 'default' | 'compact';\n}\n\nconst BuildList: React.FC<BuildListProps> = ({ variant = 'default' }) => {\n  const [builds, setBuilds] = useState([]);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(false);\n\n  useEffect(() => {\n    const fetchBuilds = async () => {\n      try {\n        const response = await axios.get('/api/builds');\n        setBuilds(response.data);\n      } catch (error) {\n        setError(true);\n      } finally {\n        setLoading(false);\n      }\n    };\n    fetchBuilds();\n  }, []);\n\n  if (loading) {\n    return (\n      <div className=\"flex justify-center\">\n        <AiOutlineLoading3Quarters size={24} className=\"animate-spin\" />\n      </div>\n    );\n  }\n\n  if (error) {\n    return (\n      <div className=\"flex justify-center\">\n        <WiError size={24} />\n        <p>Error loading builds</p>\n      </div>\n    );\n  }\n\n  return (\n    <div className={variant === 'compact' ? 'max-w-md' : 'max-w-2xl'}>\n      <h2 className=\"text-lg font-bold\">Build List</h2>\n      <ul>\n        {builds.map((build) => (\n          <li key={build.id}>\n            <span>{build.name}</span>\n            <span>{build.status}</span>\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n};\n\nexport default BuildList;\n"
+    }
+  ],
+  "timestamp": 1768863067604,
+  "promptVersion": "v3.0.0"
+}

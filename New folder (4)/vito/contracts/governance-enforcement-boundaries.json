@@ -1,0 +1,294 @@
+{
+  "_contractMeta": {
+    "name": "Governance Enforcement Boundaries",
+    "version": "1.0.0",
+    "created": "2026-01-18T21:45:00.000Z",
+    "lastModified": "2026-01-18T21:45:00.000Z",
+    "purpose": "Define EXACT enforcement scope for Phase B (shadow mode). This is the final gate between Phase A (observation) and Phase B (shadow enforcement).",
+    "owner": "HUMAN_ONLY",
+    "appendOnly": true
+  },
+
+  "phase": {
+    "current": "PHASE_B_SHADOW",
+    "_comment": "Shadow mode: enforcement logic runs but NEVER blocks CI. All would-be blocks are logged as warnings only.",
+    "allowedTransitions": ["PHASE_A_OBSERVATION", "PHASE_C_SOFT_ENFORCE"],
+    "transitionRequires": "HUMAN_APPROVAL"
+  },
+
+  "scopeRules": {
+    "_comment": "Enforcement scope is LIMITED to new or modified files. Legacy code is observation-only.",
+
+    "fileScope": {
+      "rule": "NEW_OR_MODIFIED_ONLY",
+      "_comment": "Only files that are NEW (first commit) or MODIFIED (changed in current PR/commit) can trigger enforcement. Existing untouched files are exempt.",
+      "determination": {
+        "method": "GIT_DIFF",
+        "compareBase": "origin/main",
+        "includeStaged": true,
+        "includeUnstaged": false
+      }
+    },
+
+    "exemptPatterns": {
+      "_comment": "Files matching these patterns are ALWAYS exempt from enforcement, regardless of modification status.",
+      "patterns": [
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        "**/*.md",
+        "**/fixtures/**",
+        "**/mocks/**",
+        "**/migrations/**"
+      ],
+      "reason": "Test files, documentation, and migrations should not block CI"
+    }
+  },
+
+  "authorityEnforcement": {
+    "_comment": "Authority gap enforcement is ONLY active for CRITICAL severity mismatches. Warning-level gaps are logged but never enforced.",
+
+    "enabled": true,
+    "mode": "SHADOW",
+
+    "severityRules": {
+      "critical": {
+        "action": "LOG_WOULD_BLOCK",
+        "_comment": "Critical gaps (2+ authority levels below required) would block in real enforcement. In shadow mode, log only.",
+        "enforced": true
+      },
+      "warning": {
+        "action": "LOG_ONLY",
+        "_comment": "Warning gaps (1 authority level below) are informational. Never enforced.",
+        "enforced": false
+      },
+      "none": {
+        "action": "PASS",
+        "_comment": "No gap detected. No action needed.",
+        "enforced": false
+      }
+    },
+
+    "constraints": {
+      "neverAutoAssign": true,
+      "_comment_neverAutoAssign": "System must NEVER auto-assign a person to resolve authority gap. Only role suggestions allowed.",
+
+      "neverRewriteHumanFields": true,
+      "_comment_neverRewriteHumanFields": "Fields set by humans (acknowledgedBy, rationale, decision) are immutable to automation.",
+
+      "neverAutoEscalate": true,
+      "_comment_neverAutoEscalate": "System must NEVER automatically escalate to higher authority. Human must initiate."
+    }
+  },
+
+  "causalityEnforcement": {
+    "_comment": "Enforcement rules per causality type. Some causalities can NEVER trigger enforcement.",
+
+    "ARCH_CONSTRAINT": {
+      "canEnforce": false,
+      "action": "SIGNAL_ONLY",
+      "_comment": "Architectural constraints represent deliberate design decisions. Refactors must NEVER be blocked by governance. Architecture review is advisory only.",
+      "reason": "ARCH_CONSTRAINT risks require human architectural decisions, not automated gates"
+    },
+
+    "BUSINESS_CRITICAL": {
+      "canEnforce": true,
+      "action": "LOG_WOULD_BLOCK",
+      "_comment": "Business-critical risks CAN trigger enforcement in shadow mode, but only for NEW code introducing new business-critical patterns.",
+      "onlyForNewCode": true
+    },
+
+    "MISSING_OWNER": {
+      "canEnforce": true,
+      "action": "LOG_WOULD_BLOCK",
+      "_comment": "Missing owner on NEW high-risk code can be enforced. Existing unowned code is exempt (legacy amnesty).",
+      "onlyForNewCode": true
+    },
+
+    "LEGACY_DEBT": {
+      "canEnforce": false,
+      "action": "SIGNAL_ONLY",
+      "_comment": "Legacy debt is inherited technical debt. Cannot be enforced - would block all maintenance work on old code.",
+      "reason": "Legacy debt requires modernization strategy, not enforcement gates"
+    },
+
+    "TOOLING_GAP": {
+      "canEnforce": false,
+      "action": "SIGNAL_ONLY",
+      "_comment": "Tooling gaps are infrastructure issues, not code quality issues. Cannot block developers for tooling failures.",
+      "reason": "Tooling gaps require platform team resolution"
+    },
+
+    "AWAITING_REDESIGN": {
+      "canEnforce": false,
+      "action": "SIGNAL_ONLY",
+      "_comment": "Code awaiting redesign is acknowledged tech debt. Blocking would prevent necessary maintenance.",
+      "reason": "Redesign is planned work tracked in backlog"
+    },
+
+    "UNKNOWN": {
+      "canEnforce": false,
+      "action": "SIGNAL_ONLY",
+      "_comment": "Unknown causality means insufficient data. Cannot enforce what we cannot classify.",
+      "reason": "Unknown causality requires investigation before enforcement"
+    }
+  },
+
+  "resistanceEnforcement": {
+    "_comment": "Resistance score indicates how long a risk has survived. High resistance = system constraint, not enforcement target.",
+
+    "EXTREME": {
+      "canEnforce": false,
+      "action": "SIGNAL_ONLY",
+      "_comment": "Extreme resistance (score >= 150) indicates true system constraints. These survive for architectural reasons, not negligence.",
+      "reason": "Extreme resistance risks are architectural constraints requiring design decisions"
+    },
+
+    "HIGH": {
+      "canEnforce": false,
+      "action": "SIGNAL_ONLY",
+      "_comment": "High resistance (score 100-149) suggests significant constraints. Signal only.",
+      "reason": "High resistance suggests deliberate tradeoffs"
+    },
+
+    "MODERATE": {
+      "canEnforce": true,
+      "action": "LOG_WOULD_BLOCK",
+      "_comment": "Moderate resistance (score 50-99) on NEW code may indicate emerging patterns worth addressing.",
+      "onlyForNewCode": true
+    },
+
+    "LOW": {
+      "canEnforce": true,
+      "action": "LOG_WOULD_BLOCK",
+      "_comment": "Low resistance (score 25-49) on new code is fair game for enforcement.",
+      "onlyForNewCode": true
+    },
+
+    "MINIMAL": {
+      "canEnforce": true,
+      "action": "LOG_WOULD_BLOCK",
+      "_comment": "Minimal resistance (score < 25) is typically new issues. Enforceable for new code.",
+      "onlyForNewCode": true
+    }
+  },
+
+  "fossilRiskPolicy": {
+    "_comment": "Fossil risks (>180 days old) are explicitly signal-only. They represent long-standing accepted tradeoffs.",
+
+    "enforcementAllowed": false,
+    "action": "SIGNAL_ONLY",
+    "reason": "Fossil risks have survived 180+ days of pressure. They are either: (1) architectural constraints, (2) accepted tradeoffs, or (3) awaiting larger redesign. None of these should be enforced by automated gates.",
+
+    "humanOverride": {
+      "allowed": true,
+      "_comment": "Humans CAN manually flag a fossil risk for enforcement review, but automation must not."
+    }
+  },
+
+  "ciIntegration": {
+    "_comment": "CI behavior in PHASE_B_SHADOW mode.",
+
+    "blocking": {
+      "enabled": false,
+      "_comment": "CI blocking is DISABLED in shadow mode. All checks pass regardless of findings."
+    },
+
+    "exitCode": {
+      "always": 0,
+      "_comment": "All governance CI steps MUST exit 0. Non-zero exits are reserved for Phase C+."
+    },
+
+    "reporting": {
+      "wouldHaveBlocked": true,
+      "_comment": "Report what WOULD have blocked if enforcement were active. This builds confidence before Phase C.",
+      "outputFormat": "CONSOLE_AND_ARTIFACT",
+      "artifactPath": "data/governance/shadow-enforcement-log.json"
+    }
+  },
+
+  "humanOverrides": {
+    "_comment": "Mechanisms for human override of any enforcement boundary.",
+
+    "bypassMechanism": {
+      "allowed": true,
+      "method": "EXPLICIT_ACKNOWLEDGMENT",
+      "_comment": "Any enforcement boundary can be bypassed with explicit human acknowledgment in the risk acknowledgment file.",
+      "requiredFields": ["acknowledgedBy", "rationale", "bypassReason"]
+    },
+
+    "emergencyBypass": {
+      "allowed": true,
+      "method": "CI_FLAG",
+      "_comment": "Emergency bypass via CI flag for critical production fixes.",
+      "flag": "--governance-bypass",
+      "requiresJustification": true,
+      "logsToAudit": true
+    }
+  },
+
+  "validationNotes": {
+    "_comment": "Explains why this configuration is SAFE to activate.",
+
+    "safetyGuarantees": [
+      {
+        "guarantee": "NO_CI_BLOCKING",
+        "explanation": "Phase B is shadow mode. exitCode is always 0. No PR or commit will ever be blocked by this configuration."
+      },
+      {
+        "guarantee": "LEGACY_AMNESTY",
+        "explanation": "Only NEW_OR_MODIFIED files are in scope. Existing legacy code is 100% exempt. No surprise failures on old code."
+      },
+      {
+        "guarantee": "ARCH_CONSTRAINT_PROTECTED",
+        "explanation": "ARCH_CONSTRAINT causality can NEVER trigger enforcement. Refactors are safe. Design decisions remain human-owned."
+      },
+      {
+        "guarantee": "FOSSIL_SIGNAL_ONLY",
+        "explanation": "All fossil risks (>180 days) are explicitly signal-only. Long-standing accepted tradeoffs are respected."
+      },
+      {
+        "guarantee": "CRITICAL_GAPS_ONLY",
+        "explanation": "Authority enforcement only considers CRITICAL severity gaps. Warning-level gaps are informational only."
+      },
+      {
+        "guarantee": "NO_AUTO_ESCALATION",
+        "explanation": "System will never auto-escalate, auto-assign, or rewrite human fields. All enforcement is passive observation."
+      },
+      {
+        "guarantee": "HUMAN_OVERRIDE_ALWAYS",
+        "explanation": "Every enforcement boundary has a human override mechanism. Automation never has final say."
+      },
+      {
+        "guarantee": "DETERMINISTIC",
+        "explanation": "All rules are deterministic. Same input always produces same output. No ML, no heuristics, no guessing."
+      }
+    ],
+
+    "activationChecklist": [
+      "[ ] All Phase A analyzers running successfully (attention-index, risk-causality, risk-authority)",
+      "[ ] Shadow enforcement log artifact configured",
+      "[ ] Human owner assigned to governance-enforcement-boundaries.json",
+      "[ ] Team notified of Phase B activation",
+      "[ ] Rollback plan documented (revert to PHASE_A_OBSERVATION)"
+    ],
+
+    "rollbackProcedure": {
+      "steps": [
+        "1. Set phase.current to PHASE_A_OBSERVATION",
+        "2. Commit change to governance-enforcement-boundaries.json",
+        "3. All enforcement logic becomes no-op immediately",
+        "4. No data loss - all history preserved in append-only artifacts"
+      ],
+      "timeToRollback": "< 1 minute"
+    }
+  },
+
+  "changeLog": [
+    {
+      "version": "1.0.0",
+      "date": "2026-01-18T21:45:00.000Z",
+      "author": "GOVERNANCE_SYSTEM",
+      "changes": "Initial creation of enforcement boundaries contract for Phase B shadow mode"
+    }
+  ]
+}

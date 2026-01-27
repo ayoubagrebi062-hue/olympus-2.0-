@@ -1,0 +1,362 @@
+{
+  "phase_id": "phase_1768874758948_da30b0d636fb6fbe",
+  "completed_at": "2026-01-20T02:18:36.961Z",
+  "chain_length": 15,
+  "records": [
+    {
+      "record_id": "exec_1768874928201_a2f647c1ec0711f4",
+      "attack_id": "ATK-005",
+      "execution_order": 1,
+      "status": "COMPLETED",
+      "outcome": "DETECTED",
+      "started_at": "2026-01-20T02:08:48.200Z",
+      "completed_at": "2026-01-20T02:08:48.201Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "9650d93ce077abb3af4c0a358a0fe8d1345330a76a80f74d9619805466fabfe0",
+        "087ab31d1864376e36473332cb10c8af9bd87120c8f2af350f3b34f8387003d9",
+        "2ab07431507481e5d5852a9fd83bff5cf3bc218f06dce06161957c24acce5a01",
+        "ff831b857387e2a283fa1f2af35c427ab6e8a5c53f1d899b96776b344c265eb0",
+        "c33c7a1ca770ba0fa14908df2aec3fb71e9c051a84ce96d82e4ba2a3c411a6f3",
+        "22b303bbd7a442799b342b6eaa0d226f8d0441b030239a0728100ed96809bdf4",
+        "2c857db3bae62019a2fb25972ecc04a9675c83de33df5d128d3abdb325f198d3",
+        "7e5023d3e95589e3fedab8e21b499f5807f931d4dd6e4dc61df4fed9b42308a2"
+      ],
+      "evidence_raw": [
+        "PASS: Malformed input 0 threw: CORRUPTED: null input",
+        "PASS: Malformed input 1 threw: CORRUPTED: null input",
+        "PASS: Malformed input 2 threw: CORRUPTED: missing required fields",
+        "PASS: Malformed input 3 threw: CORRUPTED: missing required fields",
+        "PASS: Malformed input 4 threw: CORRUPTED: missing required fields",
+        "PASS: Malformed input 5 threw: CORRUPTED: invalid witness structure",
+        "PASS: Malformed input 6 threw: CORRUPTED: non-object input",
+        "PASS: Malformed input 7 threw: CORRUPTED: missing required fields"
+      ],
+      "record_hash": "baf52d244700c560d8ef8cb15d5f59e1867fb3ed722751d9b4dd6889c32aba02",
+      "previous_hash": null,
+      "chain_position": 0
+    },
+    {
+      "record_id": "exec_1768875119721_1ef7545f3f81134b",
+      "attack_id": "ATK-001",
+      "execution_order": 2,
+      "status": "COMPLETED",
+      "outcome": "DETECTED",
+      "started_at": "2026-01-20T02:11:59.720Z",
+      "completed_at": "2026-01-20T02:11:59.721Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "615bfe14f215b5136cfa42a8faba25878d1cd0edc8c78bae17b5c426e1613fea",
+        "24ef4a340f121257ff90c2a09966f471f12c6fbd0d691dafa112b99eda8d7612",
+        "3c29caaa2b2e00fc46c052ebe4cc9c8a957c3844453ae3b8dc19d876e80564e9",
+        "6b533e9082abae16f0a178f248ce49f93cf3c713bc3b8eb37db053ab8c21ec8c"
+      ],
+      "evidence_raw": [
+        "PASS: Forged witness rejected: MERKLE_ROOT_MISMATCH",
+        "PASS: Detection triggered by: archive.merkleRoot",
+        "PASS: Expected merkle root mismatch detected",
+        "PASS: Hash chain verification failed as expected"
+      ],
+      "record_hash": "16827616ac508099b6d675c09955baf92c80e2c943daf5db38600b04298fa94c",
+      "previous_hash": "baf52d244700c560d8ef8cb15d5f59e1867fb3ed722751d9b4dd6889c32aba02",
+      "chain_position": 1
+    },
+    {
+      "record_id": "exec_1768875346514_35d7ba19e717398e",
+      "attack_id": "ATK-013",
+      "execution_order": 3,
+      "status": "COMPLETED",
+      "outcome": "BLOCKED",
+      "started_at": "2026-01-20T02:15:46.513Z",
+      "completed_at": "2026-01-20T02:15:46.514Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "d34f2b5cbfe4994648cfbf21b17979cb823555b75329274dd4adeb8068423e0a",
+        "c9a303f1cdc72e69f1ae09c3fba89a15237f1f3537fa47442b369b780a1dd1d0"
+      ],
+      "evidence_raw": [
+        "PASS: No witness ID collisions detected in 100 parallel generations",
+        "PASS: 100 unique IDs generated"
+      ],
+      "record_hash": "7ca50cf8a4b5ab8d2f9e2df9abef21dddcc4eda205b8ebf4b0f6169e73b37915",
+      "previous_hash": "16827616ac508099b6d675c09955baf92c80e2c943daf5db38600b04298fa94c",
+      "chain_position": 2
+    },
+    {
+      "record_id": "exec_1768875355842_ad4d07bed3c9343e",
+      "attack_id": "ATK-004",
+      "execution_order": 4,
+      "status": "COMPLETED",
+      "outcome": "BLOCKED",
+      "started_at": "2026-01-20T02:15:55.840Z",
+      "completed_at": "2026-01-20T02:15:55.842Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "bddda6a625bfb7e8011302cbe13508dfb1db97fd806f1ffa1d14917ff4847f6f",
+        "5155b492ce1bcd36b1bbc831d1d54b3067349319e752b42a0e6c7ddb4994f5ed",
+        "62370ddd45897137ce63524b491229a2038d70a53136df3fd7b367afc6c7bf89"
+      ],
+      "evidence_raw": [
+        "PASS: No hash collision detected",
+        "PASS: Hash1=0851f7d7729105e4...",
+        "PASS: Hash2=9bd172d8bd7ddc07..."
+      ],
+      "record_hash": "8861c3dc77949f45664dcca93b9bbdfebeb52176466b1cac9a0631660511b580",
+      "previous_hash": "7ca50cf8a4b5ab8d2f9e2df9abef21dddcc4eda205b8ebf4b0f6169e73b37915",
+      "chain_position": 3
+    },
+    {
+      "record_id": "exec_1768875365375_a6530b9bcb588e80",
+      "attack_id": "ATK-003",
+      "execution_order": 5,
+      "status": "COMPLETED",
+      "outcome": "DETECTED",
+      "started_at": "2026-01-20T02:16:05.374Z",
+      "completed_at": "2026-01-20T02:16:05.375Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "4a976a4c93cca30d4033ca498ee9c19d5d3055bc0d1bedc985656e28c01c8466",
+        "8501c3f9061d6de2e285c3d84ecd426678ba808667e321028904c4412571c924",
+        "6fa63b816c1bcbff00d72a6ec044c847d5a06b10f7cf176440bd76727e00723d"
+      ],
+      "evidence_raw": [
+        "PASS: Timestamp modification detected via hash mismatch",
+        "PASS: Original hash: 831b5522eec1e8a7...",
+        "PASS: Tampered hash: c24956eb720c3c1c..."
+      ],
+      "record_hash": "97a2d28e5fd28a08a0b0d4d9679f7c83dd92a0bd3bd64b4c30f1841b7e898ae0",
+      "previous_hash": "8861c3dc77949f45664dcca93b9bbdfebeb52176466b1cac9a0631660511b580",
+      "chain_position": 4
+    },
+    {
+      "record_id": "exec_1768875374090_fe83c3497f59918f",
+      "attack_id": "ATK-002",
+      "execution_order": 6,
+      "status": "COMPLETED",
+      "outcome": "DETECTED",
+      "started_at": "2026-01-20T02:16:14.089Z",
+      "completed_at": "2026-01-20T02:16:14.090Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "a23dca1dad890d78e079d62a143ecee8ce44b44e2eb84d2d36edd396a641254c",
+        "e37f61ebbcaafa4a373997de6c7f8be0dc172894d5a89825f273fff6648327d8",
+        "e8d25bf988f73b4ddb0b62a854b4e16e18cf306662d2f4f45c584d5116048f90"
+      ],
+      "evidence_raw": [
+        "PASS: Anchor gap detected - previous hash mismatch",
+        "PASS: Expected prev: 3128d782411c8ac9...",
+        "PASS: Got prev: invalid_hash..."
+      ],
+      "record_hash": "0c3ed91580f8c7510dc8857c6ecaecd736a0fdeb00241470d6f1a985c020f77e",
+      "previous_hash": "97a2d28e5fd28a08a0b0d4d9679f7c83dd92a0bd3bd64b4c30f1841b7e898ae0",
+      "chain_position": 5
+    },
+    {
+      "record_id": "exec_1768875382382_8be091bf15516313",
+      "attack_id": "ATK-008",
+      "execution_order": 7,
+      "status": "COMPLETED",
+      "outcome": "BLOCKED",
+      "started_at": "2026-01-20T02:16:22.381Z",
+      "completed_at": "2026-01-20T02:16:22.382Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "4d12713da321f5fa517dcdc8e1d82ba67c1abdea9849f070fd0c43aaffa282b4",
+        "1c1610b3bd24f41aea361011d7813af1db51358f467df65a067e24407a6b58ad"
+      ],
+      "evidence_raw": [
+        "PASS: Race condition blocked - anchor locked to original hash",
+        "PASS: Modification after submission would cause mismatch"
+      ],
+      "record_hash": "5bfa1ef151eb5ff0318b92e61606d1439ba8ed7068da9fc0e2343fddf778a741",
+      "previous_hash": "0c3ed91580f8c7510dc8857c6ecaecd736a0fdeb00241470d6f1a985c020f77e",
+      "chain_position": 6
+    },
+    {
+      "record_id": "exec_1768875391536_de614b4e1e6af08d",
+      "attack_id": "ATK-006",
+      "execution_order": 8,
+      "status": "COMPLETED",
+      "outcome": "DETECTED",
+      "started_at": "2026-01-20T02:16:31.535Z",
+      "completed_at": "2026-01-20T02:16:31.536Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "c128c9febc3f57ae20e48d91dd8cae3a8bf465abf7ccbec4b828175ad38ff514",
+        "a79cc0111825648a13bbd1773de5453950c1f0d3f9c0d184323c35dece4ce07c"
+      ],
+      "evidence_raw": [
+        "PASS: Fake transaction ID rejected",
+        "PASS: External verification failed as expected"
+      ],
+      "record_hash": "6a6362fb4fef06b2dd414852f9b7c7bdfda95a3e42c1652d2c1c34013b7d239b",
+      "previous_hash": "5bfa1ef151eb5ff0318b92e61606d1439ba8ed7068da9fc0e2343fddf778a741",
+      "chain_position": 7
+    },
+    {
+      "record_id": "exec_1768875401732_034cfef31fbda83b",
+      "attack_id": "ATK-011",
+      "execution_order": 9,
+      "status": "COMPLETED",
+      "outcome": "BLOCKED",
+      "started_at": "2026-01-20T02:16:41.731Z",
+      "completed_at": "2026-01-20T02:16:41.732Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "b578f020a7c1f0937ef28f825e19a72a76d9e041fa1ae60610b7f0ff5af9970e",
+        "8000a81d48ae0a297bbb84eb73144829563cba3d8c02bd61755c1e5d6b57ca77"
+      ],
+      "evidence_raw": [
+        "PASS: DNS anchor TTL not expired",
+        "PASS: System requires re-verification on TTL expiry"
+      ],
+      "record_hash": "e1c9f707fbee189797ef45c4cc1da7518652be8483226631f28452e88c6a9c06",
+      "previous_hash": "6a6362fb4fef06b2dd414852f9b7c7bdfda95a3e42c1652d2c1c34013b7d239b",
+      "chain_position": 8
+    },
+    {
+      "record_id": "exec_1768875411616_67a28cb7038cd6ce",
+      "attack_id": "ATK-012",
+      "execution_order": 10,
+      "status": "COMPLETED",
+      "outcome": "BLOCKED",
+      "started_at": "2026-01-20T02:16:51.615Z",
+      "completed_at": "2026-01-20T02:16:51.616Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "87eaec5e8e01d766b4f8aab3c06dd23973125f3e9d02fe58252bd28fb22dfc88",
+        "d5691b90698ec0c24fee7817eff0253fbbe124a25689e1324466e6e6c7b40dd4"
+      ],
+      "evidence_raw": [
+        "PASS: IPFS content remains pinned",
+        "PASS: Multiple pin services provide redundancy"
+      ],
+      "record_hash": "f8083adfa2fda539c1b36efcd8e53190ead7ca67a2c35efaef3bcae15d303587",
+      "previous_hash": "e1c9f707fbee189797ef45c4cc1da7518652be8483226631f28452e88c6a9c06",
+      "chain_position": 9
+    },
+    {
+      "record_id": "exec_1768875421265_643251a6daccd46b",
+      "attack_id": "ATK-007",
+      "execution_order": 11,
+      "status": "COMPLETED",
+      "outcome": "DETECTED",
+      "started_at": "2026-01-20T02:17:01.264Z",
+      "completed_at": "2026-01-20T02:17:01.265Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "7ffd9747c17e12d3da8d6fabd3071a3e7c1249ce75596ebdfd648acace98421e",
+        "b61f8b03284175567b5c018bf5b779623dab39131774291f6f6ba2effa0501a1"
+      ],
+      "evidence_raw": [
+        "PASS: Silent replacement detected",
+        "PASS: Audit log entry created: {\"event\":\"REPLACEMENT_DETECTED\",\"original\":\"0682c5f2076f099c34cfdd15a9e063849ed437a49677e6fcc5b4198c76575be5\",\"replacement\":\"95713e9cbdd1dfcb2d4080c2537f418d43ca0da25f0d7d6631f4f7c97b89dc47\"}"
+      ],
+      "record_hash": "3cd32ab28c931cab0bbf99667aafadc004b4f4b2ac27cc74ec008fece6f35d13",
+      "previous_hash": "f8083adfa2fda539c1b36efcd8e53190ead7ca67a2c35efaef3bcae15d303587",
+      "chain_position": 10
+    },
+    {
+      "record_id": "exec_1768875430437_cd83a4bba603d53d",
+      "attack_id": "ATK-010",
+      "execution_order": 12,
+      "status": "COMPLETED",
+      "outcome": "DETECTED",
+      "started_at": "2026-01-20T02:17:10.437Z",
+      "completed_at": "2026-01-20T02:17:10.437Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "66fe0c95ac659c7d497d5ab048e77445d5c63de0d8d0517cc0ef31ab0a24af3b",
+        "7e5d4cd64b78990ade3f8b73ad4518107be2a4ae19e633e2d71f35ad997fafdb"
+      ],
+      "evidence_raw": [
+        "PASS: Merkle root substitution rejected",
+        "PASS: All witnesses validated against canonical root"
+      ],
+      "record_hash": "915e6df5c098d6c3c36c531487195298a211dab2dc59350393769fcb727682cc",
+      "previous_hash": "3cd32ab28c931cab0bbf99667aafadc004b4f4b2ac27cc74ec008fece6f35d13",
+      "chain_position": 11
+    },
+    {
+      "record_id": "exec_1768875506126_2e20e961801254b3",
+      "attack_id": "ATK-015",
+      "execution_order": 13,
+      "status": "COMPLETED",
+      "outcome": "BLOCKED",
+      "started_at": "2026-01-20T02:18:26.125Z",
+      "completed_at": "2026-01-20T02:18:26.126Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "9ccef91f4d5cfa5c3e479379239e63fa1248e26ca7c3820ea91615ca0c3d8f72"
+      ],
+      "evidence_raw": [
+        "PASS: Double initialization blocked: FATAL: Archive root already initialized"
+      ],
+      "record_hash": "cb7b4be664dd1bef8248710a87fe6a5336ad57ffcb73201b79af4d37344fca50",
+      "previous_hash": "915e6df5c098d6c3c36c531487195298a211dab2dc59350393769fcb727682cc",
+      "chain_position": 12
+    },
+    {
+      "record_id": "exec_1768875512489_8737d44045679df7",
+      "attack_id": "ATK-014",
+      "execution_order": 14,
+      "status": "COMPLETED",
+      "outcome": "DETECTED",
+      "started_at": "2026-01-20T02:18:32.488Z",
+      "completed_at": "2026-01-20T02:18:32.489Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "ed20f23116a7a528a56e5ab54b80e4151f00c281e0eaff10910913fff9c7e82c",
+        "2d0bf72121b8034d1b8ecad6f1942206fe33dbbb617efffdfeb35fbbd658ebe3",
+        "661950e51da2d71c7004dd2f814e5c551ec8d1a299eb794c82092b0a0a066b21"
+      ],
+      "evidence_raw": [
+        "PASS: Verification function tampering detected",
+        "PASS: Original integrity: c869a1df0c295951...",
+        "PASS: Tampered integrity: f7262e9f813a61cd..."
+      ],
+      "record_hash": "508938ec9094e55e5746063f8025fe509d893f614fe0750b9d66a67539277e04",
+      "previous_hash": "cb7b4be664dd1bef8248710a87fe6a5336ad57ffcb73201b79af4d37344fca50",
+      "chain_position": 13
+    },
+    {
+      "record_id": "exec_1768875516957_25dedc0bbf80807e",
+      "attack_id": "ATK-009",
+      "execution_order": 15,
+      "status": "COMPLETED",
+      "outcome": "BLOCKED",
+      "started_at": "2026-01-20T02:18:36.957Z",
+      "completed_at": "2026-01-20T02:18:36.957Z",
+      "duration_ms": 0,
+      "detection_latency_ms": 0,
+      "evidence_hashes": [
+        "1f5c08abccceaac5a4ca13ce4ecc702d19d775f773d07312a1b2ea53218e0a2f",
+        "3633b5bc8b12221146da38fc4591397830c04c710672bc34d6c04cdafb0a73de"
+      ],
+      "evidence_raw": [
+        "PASS: Private key not accessible from execution context",
+        "PASS: Key extraction attempt blocked"
+      ],
+      "record_hash": "baf90f249677300ab4aea6a0992f88eddfdc0f52d45a481a549d2fadd6de64ad",
+      "previous_hash": "508938ec9094e55e5746063f8025fe509d893f614fe0750b9d66a67539277e04",
+      "chain_position": 14
+    }
+  ],
+  "first_hash": "baf52d244700c560d8ef8cb15d5f59e1867fb3ed722751d9b4dd6889c32aba02",
+  "last_hash": "baf90f249677300ab4aea6a0992f88eddfdc0f52d45a481a549d2fadd6de64ad",
+  "system_validity": "VALID"
+}

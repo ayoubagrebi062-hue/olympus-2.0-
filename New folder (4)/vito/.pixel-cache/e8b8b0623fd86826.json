@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Button.tsx",
+      "content": "import React from 'react';\n\ninterface ButtonProps {\n  variant?: 'primary' | 'secondary';\n  onClick: () => void;\n  children: React.ReactNode;\n  className?: string;\n}\n\nconst Button: React.FC<ButtonProps> = ({ variant = 'primary', onClick, children, className = '' }) => {\n  const baseStyles = 'px-4 py-2 rounded transition duration-200';\n  const variantStyles = variant === 'primary'\n    ? 'bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700'\n    : 'bg-yellow-400 text-gray-800 hover:bg-yellow-300 active:bg-yellow-500';\n\n  return (\n    <button\n      className={`${baseStyles} ${variantStyles} ${className}`}\n      onClick={onClick}\n      aria-label={`Button: ${children}`}\n    >\n      {children}\n    </button>\n  );\n};\n\nexport default Button;"
+    }
+  ],
+  "timestamp": 1768785857737,
+  "promptVersion": "v3.0.0"
+}

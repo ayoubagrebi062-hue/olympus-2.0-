@@ -1,0 +1,24 @@
+{
+  "record_id": "exec_1768875355842_ad4d07bed3c9343e",
+  "attack_id": "ATK-004",
+  "execution_order": 4,
+  "status": "COMPLETED",
+  "outcome": "BLOCKED",
+  "started_at": "2026-01-20T02:15:55.840Z",
+  "completed_at": "2026-01-20T02:15:55.842Z",
+  "duration_ms": 0,
+  "detection_latency_ms": 0,
+  "evidence_hashes": [
+    "bddda6a625bfb7e8011302cbe13508dfb1db97fd806f1ffa1d14917ff4847f6f",
+    "5155b492ce1bcd36b1bbc831d1d54b3067349319e752b42a0e6c7ddb4994f5ed",
+    "62370ddd45897137ce63524b491229a2038d70a53136df3fd7b367afc6c7bf89"
+  ],
+  "evidence_raw": [
+    "PASS: No hash collision detected",
+    "PASS: Hash1=0851f7d7729105e4...",
+    "PASS: Hash2=9bd172d8bd7ddc07..."
+  ],
+  "record_hash": "8861c3dc77949f45664dcca93b9bbdfebeb52176466b1cac9a0631660511b580",
+  "previous_hash": "7ca50cf8a4b5ab8d2f9e2df9abef21dddcc4eda205b8ebf4b0f6169e73b37915",
+  "chain_position": 3
+}

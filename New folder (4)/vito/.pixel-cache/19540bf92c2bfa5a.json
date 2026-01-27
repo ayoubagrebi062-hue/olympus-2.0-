@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Button.tsx",
+      "content": "// Button.tsx\nimport React from 'react';\n/**\n * Standard button component\n */\ninterface ButtonProps {\n  variant?: 'danger' | 'primary' | 'secondary';\n  state?: 'active' | 'disabled' | 'hover';\n  onClick: () => void;\n  children: React.ReactNode;\n}\nconst Button: React.FC<ButtonProps> = ({\n  variant = 'primary',\n  state = 'normal',\n  onClick,\n  children,\n}) => {\n  const handleClick = () => {\n    if (state !== 'disabled') {\n      onClick();\n    }\n  };\n  return (\n    <button\n      className={\n        `min-w-80px px-16px py-8px ${\n          variant === 'danger'\n            ? 'bg-red-500 hover:bg-red-700 text-white'\n            : variant === 'primary'\n            ? 'bg-blue-500 hover:bg-blue-700 text-white'\n            : 'bg-gray-200 hover:bg-gray-300 text-gray-600'\n        } ${\n          state === 'active'\n            ? 'active:ring-2 ring-blue-500'\n            : state === 'disabled'\n            ? 'opacity-50 cursor-not-allowed'\n            : 'hover:ring-2 ring-blue-500'\n        }`\n      }\n      onClick={handleClick}\n    >\n      {children}\n    </button>\n  );\n};\nexport default Button;\n"
+    }
+  ],
+  "timestamp": 1768780077791,
+  "promptVersion": "v3.0.0"
+}

@@ -1,0 +1,511 @@
+{
+  "name": "OLYMPUS 10X - Ultimate Free Image Generation",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "🧪 Manual Test",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ═══════════════════════════════════════════════════════════════\n// 🧪 TEST DATA - Edit this to test different prompts!\n// ═══════════════════════════════════════════════════════════════\nreturn {\n  body: {\n    prompt: 'A majestic dragon flying over a crystal castle at sunset, epic fantasy art, highly detailed, 8k resolution',\n    type: 'hero',\n    style: 'cinematic',\n    width: 1024,\n    height: 768,\n    seed: null,  // Set number for reproducible results\n    enhance: true,\n    negative: 'blurry, low quality, distorted'\n  }\n};"
+      },
+      "id": "test-data",
+      "name": "📝 Test Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [420, 300]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "olympus/generate-image",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "id": "webhook-trigger",
+      "name": "🌐 Webhook (Production)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [200, 540],
+      "webhookId": "olympus-image-gen-10x"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ═══════════════════════════════════════════════════════════════\n// 🔍 INPUT VALIDATION & EXTRACTION\n// ═══════════════════════════════════════════════════════════════\nconst input = $input.first().json;\nconst body = input.body || input;\n\n// Extract parameters with defaults\nconst prompt = body.prompt?.trim();\nconst type = body.type || 'custom';\nconst style = body.style || 'none';\nconst width = Math.min(Math.max(body.width || 1024, 256), 2048);\nconst height = Math.min(Math.max(body.height || 768, 256), 2048);\nconst seed = body.seed || Math.floor(Math.random() * 999999999);\nconst enhance = body.enhance !== false;\nconst negative = body.negative || '';\nconst model = body.model || 'flux';  // flux, turbo, flux-realism, flux-anime, flux-3d\nconst nologo = body.nologo !== false;\n\n// Validation\nconst errors = [];\n\nif (!prompt) {\n  errors.push('prompt is required');\n}\n\nif (prompt && prompt.length > 2000) {\n  errors.push('prompt must be under 2000 characters');\n}\n\nconst validTypes = ['hero', 'icon', 'background', 'illustration', 'avatar', 'product', 'logo', 'banner', 'thumbnail', 'custom'];\nif (!validTypes.includes(type)) {\n  errors.push(`type must be one of: ${validTypes.join(', ')}`);\n}\n\nconst validStyles = ['none', 'cinematic', 'anime', 'photorealistic', 'digital-art', 'oil-painting', 'watercolor', '3d-render', 'pixel-art', 'comic', 'minimalist', 'vintage', 'neon', 'cyberpunk', 'fantasy', 'steampunk'];\nif (!validStyles.includes(style)) {\n  errors.push(`style must be one of: ${validStyles.join(', ')}`);\n}\n\nconst validModels = ['flux', 'turbo', 'flux-realism', 'flux-anime', 'flux-3d'];\nif (!validModels.includes(model)) {\n  errors.push(`model must be one of: ${validModels.join(', ')}`);\n}\n\nreturn {\n  valid: errors.length === 0,\n  errors,\n  data: {\n    prompt,\n    type,\n    style,\n    width,\n    height,\n    seed,\n    enhance,\n    negative,\n    model,\n    nologo\n  },\n  timestamp: new Date().toISOString(),\n  requestId: `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`\n};"
+      },
+      "id": "validate-input",
+      "name": "🔍 Validate Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [640, 420]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.valid }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "check-validation",
+      "name": "✅ Valid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [860, 420]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ═══════════════════════════════════════════════════════════════\n// 🎨 PROMPT ENHANCEMENT ENGINE\n// ═══════════════════════════════════════════════════════════════\nconst input = $input.first().json;\nconst { data, requestId, timestamp } = input;\n\n// Style enhancement presets\nconst STYLE_ENHANCERS = {\n  'none': '',\n  'cinematic': ', cinematic lighting, movie poster style, dramatic atmosphere, professional color grading, 8k resolution',\n  'anime': ', anime style, Studio Ghibli inspired, vibrant colors, detailed linework, beautiful scenery',\n  'photorealistic': ', photorealistic, ultra detailed, DSLR quality, natural lighting, sharp focus, 8k UHD',\n  'digital-art': ', digital art, trending on ArtStation, highly detailed, vibrant colors, professional illustration',\n  'oil-painting': ', oil painting style, classical art, rich textures, masterpiece quality, museum worthy',\n  'watercolor': ', watercolor painting, soft edges, flowing colors, artistic, delicate brushstrokes',\n  '3d-render': ', 3D render, Octane render, highly detailed, volumetric lighting, ray tracing, Blender',\n  'pixel-art': ', pixel art style, 16-bit, retro gaming aesthetic, crisp pixels, nostalgic',\n  'comic': ', comic book style, bold lines, dynamic composition, superhero aesthetic, pop art colors',\n  'minimalist': ', minimalist design, clean lines, simple shapes, modern aesthetic, elegant',\n  'vintage': ', vintage style, retro aesthetic, aged texture, nostalgic colors, film grain',\n  'neon': ', neon lights, glowing effects, cyberpunk city, vibrant pink and blue, night scene',\n  'cyberpunk': ', cyberpunk style, futuristic, neon lights, dystopian, high tech low life, blade runner',\n  'fantasy': ', fantasy art, magical, ethereal, mystical atmosphere, enchanted, epic scale',\n  'steampunk': ', steampunk style, Victorian era, brass and copper, gears and cogs, industrial fantasy'\n};\n\n// Type-specific enhancements\nconst TYPE_ENHANCERS = {\n  'hero': ', hero banner composition, wide aspect ratio, impactful, professional marketing',\n  'icon': ', icon design, simple, recognizable, centered, clean background, app icon style',\n  'background': ', seamless pattern, tileable, subtle, non-distracting, wallpaper quality',\n  'illustration': ', illustration, artistic, expressive, storytelling, book illustration quality',\n  'avatar': ', portrait, centered face, professional headshot, friendly expression, clean background',\n  'product': ', product photography, studio lighting, white background, commercial quality, e-commerce',\n  'logo': ', logo design, vector style, simple, memorable, professional branding, scalable',\n  'banner': ', web banner, horizontal composition, marketing material, eye-catching, call to action',\n  'thumbnail': ', YouTube thumbnail style, bold, eye-catching, high contrast, clickable',\n  'custom': ''\n};\n\n// Build enhanced prompt\nlet enhancedPrompt = data.prompt;\n\nif (data.enhance) {\n  enhancedPrompt += STYLE_ENHANCERS[data.style] || '';\n  enhancedPrompt += TYPE_ENHANCERS[data.type] || '';\n}\n\n// Add negative prompt handling for Pollinations\nlet finalPrompt = enhancedPrompt;\nif (data.negative) {\n  // Some models support negative prompts via special syntax\n  finalPrompt = `${enhancedPrompt} | negative: ${data.negative}`;\n}\n\nconsole.log('═══════════════════════════════════════════════════════════');\nconsole.log('🎨 PROMPT ENHANCEMENT');\nconsole.log('═══════════════════════════════════════════════════════════');\nconsole.log('Original:', data.prompt.substring(0, 80) + '...');\nconsole.log('Style:', data.style);\nconsole.log('Type:', data.type);\nconsole.log('Enhanced length:', enhancedPrompt.length, 'chars');\n\nreturn {\n  ...input,\n  enhancedPrompt,\n  finalPrompt,\n  promptStats: {\n    originalLength: data.prompt.length,\n    enhancedLength: enhancedPrompt.length,\n    styleApplied: data.style,\n    typeApplied: data.type\n  }\n};"
+      },
+      "id": "enhance-prompt",
+      "name": "🎨 Enhance Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1080, 360]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ═══════════════════════════════════════════════════════════════\n// 🔗 BUILD POLLINATIONS URL\n// ═══════════════════════════════════════════════════════════════\nconst input = $input.first().json;\nconst { data, finalPrompt, requestId } = input;\n\n// URL encode the prompt\nconst encodedPrompt = encodeURIComponent(finalPrompt);\n\n// Build query string manually (URLSearchParams not available in n8n)\nconst queryParts = [];\nqueryParts.push('width=' + data.width);\nqueryParts.push('height=' + data.height);\nqueryParts.push('seed=' + data.seed);\nqueryParts.push('model=' + data.model);\nif (data.nologo) queryParts.push('nologo=true');\n\nconst queryString = queryParts.join('&');\nconst imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?${queryString}`;\n\nconsole.log('═══════════════════════════════════════════════════════════');\nconsole.log('🔗 URL BUILDER');\nconsole.log('═══════════════════════════════════════════════════════════');\nconsole.log('Model:', data.model);\nconsole.log('Dimensions:', data.width, 'x', data.height);\nconsole.log('Seed:', data.seed);\nconsole.log('URL length:', imageUrl.length, 'chars');\n\nreturn {\n  ...input,\n  imageUrl,\n  urlStats: {\n    length: imageUrl.length,\n    model: data.model,\n    dimensions: `${data.width}x${data.height}`,\n    seed: data.seed\n  }\n};"
+      },
+      "id": "build-url",
+      "name": "🔗 Build URL",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1300, 360]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.imageUrl }}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 120000
+        }
+      },
+      "id": "fetch-image",
+      "name": "📥 Fetch Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1520, 360],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $binary && $binary.data ? true : false }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "check-image",
+      "name": "🖼️ Got Image?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1740, 360]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ═══════════════════════════════════════════════════════════════\n// ✅ FORMAT SUCCESS RESPONSE\n// ═══════════════════════════════════════════════════════════════\nconst input = $input.first();\nconst prevData = $('🔗 Build URL').first().json;\n\nconst response = {\n  success: true,\n  requestId: prevData.requestId,\n  timestamp: prevData.timestamp,\n  \n  image: {\n    url: prevData.imageUrl,\n    width: prevData.data.width,\n    height: prevData.data.height,\n    format: 'png',\n    seed: prevData.data.seed,\n    model: prevData.data.model\n  },\n  \n  prompt: {\n    original: prevData.data.prompt,\n    enhanced: prevData.enhancedPrompt,\n    style: prevData.data.style,\n    type: prevData.data.type\n  },\n  \n  stats: {\n    promptLength: prevData.promptStats.enhancedLength,\n    urlLength: prevData.urlStats.length,\n    processingTime: Date.now() - new Date(prevData.timestamp).getTime() + 'ms'\n  },\n  \n  meta: {\n    provider: 'Pollinations.ai',\n    cost: 'FREE',\n    apiVersion: '10X',\n    poweredBy: 'OLYMPUS'\n  }\n};\n\nconsole.log('═══════════════════════════════════════════════════════════');\nconsole.log('✅ SUCCESS!');\nconsole.log('═══════════════════════════════════════════════════════════');\nconsole.log('Image URL:', response.image.url.substring(0, 80) + '...');\nconsole.log('Processing time:', response.stats.processingTime);\n\nreturn response;"
+      },
+      "id": "format-success",
+      "name": "✅ Format Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1960, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Powered-By",
+                "value": "OLYMPUS-10X"
+              },
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $json.requestId }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "respond-success",
+      "name": "📤 Send Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [2180, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ═══════════════════════════════════════════════════════════════\n// ❌ FORMAT VALIDATION ERROR\n// ═══════════════════════════════════════════════════════════════\nconst input = $input.first().json;\n\nconst response = {\n  success: false,\n  requestId: input.requestId || `err_${Date.now()}`,\n  timestamp: input.timestamp || new Date().toISOString(),\n  \n  error: {\n    type: 'VALIDATION_ERROR',\n    message: 'Request validation failed',\n    details: input.errors || ['Unknown validation error']\n  },\n  \n  help: {\n    validTypes: ['hero', 'icon', 'background', 'illustration', 'avatar', 'product', 'logo', 'banner', 'thumbnail', 'custom'],\n    validStyles: ['none', 'cinematic', 'anime', 'photorealistic', 'digital-art', 'oil-painting', 'watercolor', '3d-render', 'pixel-art', 'comic', 'minimalist', 'vintage', 'neon', 'cyberpunk', 'fantasy', 'steampunk'],\n    validModels: ['flux', 'turbo', 'flux-realism', 'flux-anime', 'flux-3d'],\n    exampleRequest: {\n      prompt: 'A beautiful sunset over mountains',\n      type: 'hero',\n      style: 'cinematic',\n      width: 1024,\n      height: 768\n    }\n  },\n  \n  meta: {\n    provider: 'Pollinations.ai',\n    cost: 'FREE',\n    apiVersion: '10X',\n    poweredBy: 'OLYMPUS'\n  }\n};\n\nconsole.log('❌ VALIDATION ERROR:', input.errors);\n\nreturn response;"
+      },
+      "id": "format-validation-error",
+      "name": "❌ Validation Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1080, 540]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": "400",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Powered-By",
+                "value": "OLYMPUS-10X"
+              },
+              {
+                "name": "X-Error-Type",
+                "value": "VALIDATION_ERROR"
+              }
+            ]
+          }
+        }
+      },
+      "id": "respond-validation-error",
+      "name": "📤 Send 400",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1300, 540]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ═══════════════════════════════════════════════════════════════\n// ❌ FORMAT GENERATION ERROR\n// ═══════════════════════════════════════════════════════════════\nconst prevData = $('🔗 Build URL').first().json;\n\nconst response = {\n  success: false,\n  requestId: prevData.requestId,\n  timestamp: prevData.timestamp,\n  \n  error: {\n    type: 'GENERATION_ERROR',\n    message: 'Image generation failed after retries',\n    details: ['The image generation service did not return a valid image', 'This could be due to an invalid prompt or temporary service issues']\n  },\n  \n  attempted: {\n    url: prevData.imageUrl,\n    model: prevData.data.model,\n    dimensions: `${prevData.data.width}x${prevData.data.height}`\n  },\n  \n  suggestions: [\n    'Try a simpler prompt',\n    'Reduce image dimensions',\n    'Try a different model (flux, turbo, flux-realism)',\n    'Remove special characters from prompt',\n    'Try again in a few moments'\n  ],\n  \n  meta: {\n    provider: 'Pollinations.ai',\n    cost: 'FREE',\n    apiVersion: '10X',\n    poweredBy: 'OLYMPUS'\n  }\n};\n\nconsole.log('❌ GENERATION ERROR: Image fetch failed');\n\nreturn response;"
+      },
+      "id": "format-generation-error",
+      "name": "❌ Generation Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1960, 480]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": "500",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Powered-By",
+                "value": "OLYMPUS-10X"
+              },
+              {
+                "name": "X-Error-Type",
+                "value": "GENERATION_ERROR"
+              }
+            ]
+          }
+        }
+      },
+      "id": "respond-generation-error",
+      "name": "📤 Send 500",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [2180, 480]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ═══════════════════════════════════════════════════════════════\n// 📊 EXECUTION LOGGER\n// ═══════════════════════════════════════════════════════════════\nconst input = $input.first().json;\n\nconsole.log('');\nconsole.log('╔══════════════════════════════════════════════════════════════╗');\nconsole.log('║           🎉 OLYMPUS 10X - EXECUTION COMPLETE                 ║');\nconsole.log('╠══════════════════════════════════════════════════════════════╣');\nconsole.log(`║ Request ID: ${(input.requestId || 'N/A').padEnd(47)}║`);\nconsole.log(`║ Success: ${(input.success ? 'YES ✅' : 'NO ❌').padEnd(50)}║`);\nconsole.log(`║ Provider: Pollinations.ai (FREE)${' '.repeat(26)}║`);\nconsole.log('╚══════════════════════════════════════════════════════════════╝');\nconsole.log('');\n\nreturn input;"
+      },
+      "id": "logger",
+      "name": "📊 Logger",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2400, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ═══════════════════════════════════════════════════════════════\n// 🎲 BATCH TEST - Multiple Styles Demo\n// ═══════════════════════════════════════════════════════════════\nconst styles = ['cinematic', 'anime', 'photorealistic', 'cyberpunk', 'fantasy'];\nconst randomStyle = styles[Math.floor(Math.random() * styles.length)];\n\nconst prompts = [\n  'A magical forest with glowing mushrooms and fireflies',\n  'An astronaut riding a horse on Mars',\n  'A cozy coffee shop interior on a rainy day',\n  'A samurai warrior standing in cherry blossom rain',\n  'An underwater city with bioluminescent buildings'\n];\nconst randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];\n\nreturn {\n  body: {\n    prompt: randomPrompt,\n    type: 'hero',\n    style: randomStyle,\n    width: 1024,\n    height: 768,\n    seed: null,\n    enhance: true,\n    model: 'flux'\n  }\n};"
+      },
+      "id": "random-test",
+      "name": "🎲 Random Test",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [420, 140]
+    },
+    {
+      "parameters": {},
+      "id": "manual-random",
+      "name": "🎰 Test Random",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [200, 140]
+    },
+    {
+      "parameters": {
+        "content": "## 🎨 OLYMPUS 10X - Ultimate Image Generation\n\n### Features:\n- ✅ 16 Style Presets (cinematic, anime, cyberpunk...)\n- ✅ 10 Type Presets (hero, icon, avatar...)\n- ✅ 5 AI Models (flux, turbo, realism...)\n- ✅ Input Validation with helpful errors\n- ✅ Prompt Enhancement Engine\n- ✅ Auto-retry on failure (3 attempts)\n- ✅ Detailed logging\n- ✅ Custom headers & request tracking\n- ✅ 100% FREE - No API Key!\n\n### Test Options:\n1. **📝 Test Data** - Edit the prompt manually\n2. **🎲 Random Test** - Random prompt & style\n\n### Webhook URL (when active):\n`POST /webhook/olympus/generate-image`",
+        "height": 380,
+        "width": 340
+      },
+      "id": "sticky-note",
+      "name": "📋 Instructions",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-140, 100]
+    },
+    {
+      "parameters": {
+        "content": "## 🔄 Flow Path\n\n**Happy Path:**\nTrigger → Validate ✅ → Enhance → Build URL → Fetch → Success\n\n**Validation Error:**\nTrigger → Validate ❌ → Error 400\n\n**Generation Error:**\nTrigger → Validate ✅ → ... → Fetch ❌ → Error 500",
+        "height": 180,
+        "width": 300
+      },
+      "id": "sticky-flow",
+      "name": "📋 Flow",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [640, 620]
+    }
+  ],
+  "connections": {
+    "🧪 Manual Test": {
+      "main": [
+        [
+          {
+            "node": "📝 Test Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📝 Test Data": {
+      "main": [
+        [
+          {
+            "node": "🔍 Validate Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🌐 Webhook (Production)": {
+      "main": [
+        [
+          {
+            "node": "🔍 Validate Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 Validate Input": {
+      "main": [
+        [
+          {
+            "node": "✅ Valid?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Valid?": {
+      "main": [
+        [
+          {
+            "node": "🎨 Enhance Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "❌ Validation Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🎨 Enhance Prompt": {
+      "main": [
+        [
+          {
+            "node": "🔗 Build URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔗 Build URL": {
+      "main": [
+        [
+          {
+            "node": "📥 Fetch Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📥 Fetch Image": {
+      "main": [
+        [
+          {
+            "node": "🖼️ Got Image?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🖼️ Got Image?": {
+      "main": [
+        [
+          {
+            "node": "✅ Format Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "❌ Generation Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Format Success": {
+      "main": [
+        [
+          {
+            "node": "📤 Send Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📤 Send Success": {
+      "main": [
+        [
+          {
+            "node": "📊 Logger",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "❌ Validation Error": {
+      "main": [
+        [
+          {
+            "node": "📤 Send 400",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "❌ Generation Error": {
+      "main": [
+        [
+          {
+            "node": "📤 Send 500",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🎰 Test Random": {
+      "main": [
+        [
+          {
+            "node": "🎲 Random Test",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🎲 Random Test": {
+      "main": [
+        [
+          {
+            "node": "🔍 Validate Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "any",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "olympus-10x"
+  },
+  "pinData": {},
+  "versionId": "",
+  "triggerCount": 0,
+  "tags": [
+    {
+      "name": "OLYMPUS",
+      "createdAt": "2026-01-22T00:00:00.000Z",
+      "updatedAt": "2026-01-22T00:00:00.000Z"
+    },
+    {
+      "name": "10X",
+      "createdAt": "2026-01-22T00:00:00.000Z",
+      "updatedAt": "2026-01-22T00:00:00.000Z"
+    },
+    {
+      "name": "FREE",
+      "createdAt": "2026-01-22T00:00:00.000Z",
+      "updatedAt": "2026-01-22T00:00:00.000Z"
+    },
+    {
+      "name": "Pollinations",
+      "createdAt": "2026-01-22T00:00:00.000Z",
+      "updatedAt": "2026-01-22T00:00:00.000Z"
+    }
+  ]
+}

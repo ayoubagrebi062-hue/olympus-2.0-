@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Input.tsx",
+      "content": "import React, { useState } from 'react';\n\ninterface InputProps {\n  type: 'text' | 'password';\n  placeholder?: string;\n  onChange: (value: string) => void;\n  error?: boolean;\n}\n\nconst Input: React.FC<InputProps> = ({ type, placeholder, onChange, error = false }) => {\n  const [isFocused, setIsFocused] = useState(false);\n\n  const baseStyle = 'border rounded p-2 transition duration-200';\n  const errorStyle = error ? 'border-red-500' : 'border-gray-300';\n  const focusStyle = isFocused ? 'border-blue-500' : '';\n\n  return (\n    <input\n      type={type}\n      placeholder={placeholder}\n      className={`${baseStyle} ${errorStyle} ${focusStyle}`}\n      onFocus={() => setIsFocused(true)}\n      onBlur={() => setIsFocused(false)}\n      onChange={(e) => onChange(e.target.value)}\n      aria-invalid={error}\n    />\n  );\n};\n\nexport default Input;"
+    }
+  ],
+  "timestamp": 1768782641224,
+  "promptVersion": "v3.0.0"
+}

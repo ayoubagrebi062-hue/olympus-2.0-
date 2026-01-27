@@ -1,0 +1,43 @@
+{
+  "buildId": "olympus-dashboard-1769508690316",
+  "success": false,
+  "duration": 411,
+  "progress": 66,
+  "completedPhases": [
+    "discovery",
+    "conversion",
+    "design",
+    "architecture"
+  ],
+  "completedAgents": [
+    "oracle",
+    "empathy",
+    "venture",
+    "strategos",
+    "scope",
+    "psyche",
+    "scribe",
+    "architect_conversion",
+    "conversion_judge",
+    "palette",
+    "grid",
+    "blocks",
+    "cartographer",
+    "flow",
+    "artist",
+    "archon",
+    "datum",
+    "nexus",
+    "forge",
+    "sentinel",
+    "atlas"
+  ],
+  "tokensUsed": 128524,
+  "error": {
+    "code": "SECURITY_BLOCKED",
+    "message": "Security issue in src/app/console/page.tsx: AWS Secret Access Key: Potential AWS Secret Access Key",
+    "agentId": "pixel",
+    "recoverable": false
+  },
+  "timestamp": "2026-01-27T10:18:20.918Z"
+}

@@ -1,0 +1,39 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
+}
+
+model User {
+  id       String   @id @default(cuid())
+  email    String   @unique
+  password String
+  name     String?
+  createdAt DateTime @default(now())
+  tasks    Task[]
+  categories Category[]
+}
+
+model Task {
+  id        String   @id @default(cuid())
+  title     String
+  completed Boolean @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id       String   @id @default(cuid())
+  name     String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  tasks    Task[]
+  createdAt DateTime @default(now())
+}

@@ -1,0 +1,18 @@
+{
+  "buildId": "olympus-dashboard-1769505859486",
+  "success": false,
+  "duration": 28,
+  "progress": 6,
+  "completedPhases": [],
+  "completedAgents": [
+    "oracle",
+    "empathy"
+  ],
+  "tokensUsed": 11441,
+  "error": {
+    "code": "ORCHESTRATION_ERROR",
+    "message": "output.artifacts is not iterable",
+    "recoverable": false
+  },
+  "timestamp": "2026-01-27T09:24:47.775Z"
+}

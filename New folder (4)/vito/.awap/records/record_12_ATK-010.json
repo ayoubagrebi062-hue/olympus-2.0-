@@ -1,0 +1,22 @@
+{
+  "record_id": "exec_1768875430437_cd83a4bba603d53d",
+  "attack_id": "ATK-010",
+  "execution_order": 12,
+  "status": "COMPLETED",
+  "outcome": "DETECTED",
+  "started_at": "2026-01-20T02:17:10.437Z",
+  "completed_at": "2026-01-20T02:17:10.437Z",
+  "duration_ms": 0,
+  "detection_latency_ms": 0,
+  "evidence_hashes": [
+    "66fe0c95ac659c7d497d5ab048e77445d5c63de0d8d0517cc0ef31ab0a24af3b",
+    "7e5d4cd64b78990ade3f8b73ad4518107be2a4ae19e633e2d71f35ad997fafdb"
+  ],
+  "evidence_raw": [
+    "PASS: Merkle root substitution rejected",
+    "PASS: All witnesses validated against canonical root"
+  ],
+  "record_hash": "915e6df5c098d6c3c36c531487195298a211dab2dc59350393769fcb727682cc",
+  "previous_hash": "3cd32ab28c931cab0bbf99667aafadc004b4f4b2ac27cc74ec008fece6f35d13",
+  "chain_position": 11
+}

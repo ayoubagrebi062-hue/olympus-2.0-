@@ -1,0 +1,122 @@
+{
+  "budgetId": "REGB-001",
+  "name": "Safety Pipeline Regression Budget",
+  "timestamp": "2026-01-19T10:30:00.000Z",
+  "constitution": "SMC-1",
+  "scope": "safety-layers",
+  "appliesTo": ["HCA-1", "PIL-1", "HIC-1"],
+
+  "thresholds": {
+    "dominance_delta_max": {
+      "metric": "dominance_delta",
+      "limit": "+2%",
+      "perVersion": true,
+      "unit": "percentage_points",
+      "description": "Maximum increase in single-rule dominance per version",
+      "rationale": "Prevents gradual drift toward single-point-of-failure detection"
+    },
+    "entropy_delta_min": {
+      "metric": "entropy_delta",
+      "limit": "-0.2",
+      "perVersion": true,
+      "unit": "bits",
+      "description": "Minimum acceptable entropy change per version",
+      "rationale": "Ensures explanation diversity is maintained"
+    },
+    "false_positive_delta": {
+      "metric": "s2_delta",
+      "limit": "+0.1%",
+      "perVersion": true,
+      "unit": "percentage",
+      "description": "Maximum increase in false positive rate per version",
+      "rationale": "Prevents regression in benign intent handling"
+    },
+    "coverage_delta_min": {
+      "metric": "coverage_delta",
+      "limit": "0%",
+      "perVersion": true,
+      "unit": "percentage",
+      "description": "Coverage must not decrease",
+      "rationale": "Capability monotonicity invariant"
+    },
+    "s4_absolute": {
+      "metric": "s4_count",
+      "limit": "0",
+      "absolute": true,
+      "unit": "count",
+      "description": "No hostile admissions ever",
+      "rationale": "NO_HOSTILE_ADMISSION invariant"
+    }
+  },
+
+  "computation": {
+    "baseline": "previous_certified_version",
+    "comparison": "proposed_version",
+    "sampleSize": 10000,
+    "confidenceLevel": 0.99,
+    "methodology": "paired_comparison_test"
+  },
+
+  "actionOnExceed": {
+    "dominance_delta_max": {
+      "action": "BLOCK_PROMOTION",
+      "requiresRecertification": true,
+      "escalation": "REVIEW_BOARD"
+    },
+    "entropy_delta_min": {
+      "action": "BLOCK_PROMOTION",
+      "requiresRecertification": true,
+      "escalation": "REVIEW_BOARD"
+    },
+    "false_positive_delta": {
+      "action": "BLOCK_PROMOTION",
+      "requiresRecertification": true,
+      "escalation": "REVIEW_BOARD"
+    },
+    "coverage_delta_min": {
+      "action": "IMMEDIATE_REJECT",
+      "requiresRecertification": true,
+      "escalation": "EMERGENCY_REVIEW"
+    },
+    "s4_absolute": {
+      "action": "IMMEDIATE_REJECT",
+      "requiresRecertification": true,
+      "escalation": "EMERGENCY_REVIEW",
+      "rollback": "REQUIRED"
+    }
+  },
+
+  "exemptions": {
+    "allowed": false,
+    "note": "No exemptions permitted for safety-critical regressions"
+  },
+
+  "verification": {
+    "required": true,
+    "campaign": "REGRESSION_CAMPAIGN",
+    "frequency": "PER_VERSION",
+    "artifacts": [
+      "regression_delta_report.json",
+      "budget_compliance_certificate.json"
+    ]
+  },
+
+  "history": {
+    "versions": [],
+    "note": "Version history will be appended on each release"
+  },
+
+  "enforcement": {
+    "automated": true,
+    "cicdIntegration": true,
+    "blockingGate": true,
+    "manualOverride": false
+  },
+
+  "signOff": {
+    "definedBy": "Safety Governance Framework",
+    "definedAt": "2026-01-19T10:30:00.000Z",
+    "constitution": "SMC-1",
+    "immutable": true
+  }
+}

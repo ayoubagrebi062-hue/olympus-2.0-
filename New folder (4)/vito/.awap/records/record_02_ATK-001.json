@@ -1,0 +1,26 @@
+{
+  "record_id": "exec_1768875119721_1ef7545f3f81134b",
+  "attack_id": "ATK-001",
+  "execution_order": 2,
+  "status": "COMPLETED",
+  "outcome": "DETECTED",
+  "started_at": "2026-01-20T02:11:59.720Z",
+  "completed_at": "2026-01-20T02:11:59.721Z",
+  "duration_ms": 0,
+  "detection_latency_ms": 0,
+  "evidence_hashes": [
+    "615bfe14f215b5136cfa42a8faba25878d1cd0edc8c78bae17b5c426e1613fea",
+    "24ef4a340f121257ff90c2a09966f471f12c6fbd0d691dafa112b99eda8d7612",
+    "3c29caaa2b2e00fc46c052ebe4cc9c8a957c3844453ae3b8dc19d876e80564e9",
+    "6b533e9082abae16f0a178f248ce49f93cf3c713bc3b8eb37db053ab8c21ec8c"
+  ],
+  "evidence_raw": [
+    "PASS: Forged witness rejected: MERKLE_ROOT_MISMATCH",
+    "PASS: Detection triggered by: archive.merkleRoot",
+    "PASS: Expected merkle root mismatch detected",
+    "PASS: Hash chain verification failed as expected"
+  ],
+  "record_hash": "16827616ac508099b6d675c09955baf92c80e2c943daf5db38600b04298fa94c",
+  "previous_hash": "baf52d244700c560d8ef8cb15d5f59e1867fb3ed722751d9b4dd6889c32aba02",
+  "chain_position": 1
+}

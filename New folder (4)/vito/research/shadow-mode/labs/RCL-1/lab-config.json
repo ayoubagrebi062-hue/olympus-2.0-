@@ -1,0 +1,115 @@
+{
+  "labId": "RCL-1",
+  "name": "Rejected Cluster Laboratory",
+  "version": "1.0.0",
+  "createdAt": "2026-01-19T17:00:00.000Z",
+  "status": "ACTIVE",
+
+  "purpose": {
+    "description": "Analyze clusters that failed meta-invariant verification using non-linguistic methods",
+    "principle": "Structural analysis must transcend vocabulary to capture true capability intent",
+    "threat_model": "Adversaries may use vocabulary substitution to evade keyword-based detection"
+  },
+
+  "input": {
+    "source": "CLP-1.REJECTED_CLUSTERS",
+    "clusters": ["CLU-005", "CLU-007"],
+    "rejection_reasons": {
+      "CLU-005": "MSI-001 violation: proxy indicators without direct capability reference",
+      "CLU-007": "MSI-001 violation: proxy indicators without direct capability reference"
+    }
+  },
+
+  "constraints": {
+    "non_linguistic_only": {
+      "id": "RCL-C001",
+      "description": "Analysis must not rely on specific words or vocabulary",
+      "enforcement": "BLOCKING",
+      "rationale": "Keywords can be substituted; structure cannot be easily masked"
+    },
+    "no_keyword_based_rules": {
+      "id": "RCL-C002",
+      "description": "Derived rules must not use keyword/regex matching",
+      "enforcement": "BLOCKING",
+      "rationale": "Prevents Goodhart's Law violations from vocabulary optimization"
+    },
+    "no_admission_influence": {
+      "id": "RCL-C003",
+      "description": "Lab outputs may only inform rejection, never admission",
+      "enforcement": "BLOCKING",
+      "rationale": "SEC-5 BIND-013: NO_AUTO_LEARNING_ADMISSION"
+    }
+  },
+
+  "analysis_methods": {
+    "structural_analysis": {
+      "id": "SA-001",
+      "name": "Syntactic Structure Extraction",
+      "description": "Extract verb-object relationships, agent-action-target triples",
+      "output": "structural_invariants"
+    },
+    "capability_graphing": {
+      "id": "CG-001",
+      "name": "Capability Graph Construction",
+      "description": "Build directed graphs of capability transitions (source → action → target)",
+      "output": "capability_graphs"
+    },
+    "negative_pattern_synthesis": {
+      "id": "NP-001",
+      "name": "Negative Pattern Synthesis",
+      "description": "Derive patterns that indicate hostile capability without vocabulary dependence",
+      "output": "negative_patterns"
+    }
+  },
+
+  "outputs": {
+    "structural_invariants": {
+      "description": "Invariant structural patterns that persist across vocabulary changes",
+      "format": {
+        "pattern_type": "STRUCTURAL",
+        "verb_class": "Verb category (transform, transfer, bypass, etc.)",
+        "subject_role": "Subject role (agent, user, system)",
+        "object_role": "Object role (resource, permission, data)",
+        "transition_type": "Type of state transition"
+      }
+    },
+    "capability_graphs": {
+      "description": "Directed graphs representing capability requests",
+      "format": {
+        "nodes": "Entities (agent, resource, permission, etc.)",
+        "edges": "Actions/transitions between entities",
+        "hostile_subgraphs": "Subgraph patterns indicating hostile intent"
+      }
+    },
+    "negative_patterns": {
+      "description": "Patterns for rejection that don't rely on keywords",
+      "format": {
+        "pattern_id": "NP-XXX",
+        "structural_signature": "Structural pattern description",
+        "capability_class": "Hostile capability class",
+        "rejection_confidence": "0.0-1.0"
+      }
+    }
+  },
+
+  "verification": {
+    "meta_invariant_compliance": {
+      "MSI-001": "Structural patterns detect actual capability, not vocabulary",
+      "MSI-002": "Explanations based on structure, not derived outputs",
+      "MSI-003": "Detection via structure independent from justification"
+    }
+  },
+
+  "integration": {
+    "receives_from": "CLP-1.REJECTED",
+    "outputs_to": "SHADOW_REJECTION_LAYER",
+    "never_outputs_to": ["ADMISSION_PATH", "ENFORCING_LAYERS"],
+    "constitutional_binding": "SEC-5"
+  },
+
+  "artifacts": [
+    "analysis/structural_invariants.json",
+    "analysis/capability_graphs.json",
+    "analysis/negative_patterns.json"
+  ]
+}

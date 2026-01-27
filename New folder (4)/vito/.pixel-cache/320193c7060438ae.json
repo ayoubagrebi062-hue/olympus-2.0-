@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Card.tsx",
+      "content": "import React from 'react';\nimport PropTypes from 'prop-types';\n\n/**\n * Card component to display content in a styled container.\n *\n * @param {React.PropsWithChildren<CardProps>} props - The props for the Card component.\n * @param {string} [props.className] - Additional class names for custom styling.\n * @param {React.ReactNode} props.children - The content to display inside the card.\n * @returns {JSX.Element} The rendered Card component.\n */\nconst Card = ({ className, children }: React.PropsWithChildren<{ className?: string }>): JSX.Element => {\n  return (\n    <div className={`bg-white border border-gray-300 rounded p-4 ${className}`.trim()}>\n      {children}\n    </div>\n  );\n};\n\nCard.propTypes = {\n  className: PropTypes.string,\n  children: PropTypes.node.isRequired,\n};\n\nexport default Card;\n"
+    }
+  ],
+  "timestamp": 1768783759622,
+  "promptVersion": "v3.0.0"
+}

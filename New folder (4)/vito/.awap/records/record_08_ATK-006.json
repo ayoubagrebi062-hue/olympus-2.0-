@@ -1,0 +1,22 @@
+{
+  "record_id": "exec_1768875391536_de614b4e1e6af08d",
+  "attack_id": "ATK-006",
+  "execution_order": 8,
+  "status": "COMPLETED",
+  "outcome": "DETECTED",
+  "started_at": "2026-01-20T02:16:31.535Z",
+  "completed_at": "2026-01-20T02:16:31.536Z",
+  "duration_ms": 0,
+  "detection_latency_ms": 0,
+  "evidence_hashes": [
+    "c128c9febc3f57ae20e48d91dd8cae3a8bf465abf7ccbec4b828175ad38ff514",
+    "a79cc0111825648a13bbd1773de5453950c1f0d3f9c0d184323c35dece4ce07c"
+  ],
+  "evidence_raw": [
+    "PASS: Fake transaction ID rejected",
+    "PASS: External verification failed as expected"
+  ],
+  "record_hash": "6a6362fb4fef06b2dd414852f9b7c7bdfda95a3e42c1652d2c1c34013b7d239b",
+  "previous_hash": "5bfa1ef151eb5ff0318b92e61606d1439ba8ed7068da9fc0e2343fddf778a741",
+  "chain_position": 7
+}

@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/IncrementButton.tsx",
+      "content": "import React from 'react';\n\ninterface IncrementButtonProps {\n  onIncrement: () => void;\n}\n\nconst IncrementButton: React.FC<IncrementButtonProps> = ({ onIncrement }) => {\n  return (\n    <button\n      className=\"bg-green-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-green-600\"\n      onClick={onIncrement}\n      aria-label=\"Increment\"\n    >\n      INCREMENT\n    </button>\n  );\n};\n\nexport default IncrementButton;"
+    }
+  ],
+  "timestamp": 1768801032373,
+  "promptVersion": "v3.0.0"
+}

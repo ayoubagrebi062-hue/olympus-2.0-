@@ -1,0 +1,248 @@
+{
+  "tier": "professional",
+  "extractedAt": "2026-01-27T09:54:20.725Z",
+  "sources": [
+    "oracle",
+    "empathy",
+    "venture",
+    "strategos",
+    "scope",
+    "psyche",
+    "scribe",
+    "architect_conversion",
+    "conversion_judge",
+    "palette",
+    "grid",
+    "blocks",
+    "cartographer",
+    "flow",
+    "artist",
+    "archon",
+    "datum",
+    "nexus",
+    "forge",
+    "sentinel",
+    "atlas"
+  ],
+  "architecture": {
+    "isMultiTenant": false,
+    "tenantIsolation": "none",
+    "tenantScopedTables": [],
+    "softDeletes": true,
+    "idStrategy": "cuid",
+    "apiBasePath": "/api/v1",
+    "paginationStyle": "cursor",
+    "responseEnvelope": true,
+    "rateLimitingEnabled": false,
+    "cachingEnabled": true,
+    "cachedEntities": [
+      "builds",
+      "agents"
+    ],
+    "optimisticUpdates": false,
+    "rbacEnabled": true,
+    "roles": [
+      {
+        "name": "user",
+        "permissions": [
+          "read:builds",
+          "read:build_details"
+        ]
+      },
+      {
+        "name": "admin",
+        "permissions": [
+          "read:all",
+          "write:all",
+          "manage:all"
+        ]
+      }
+    ],
+    "errorBoundaries": "page"
+  },
+  "design": {
+    "colorPalette": {
+      "primary": "#3b82f6",
+      "secondary": "#64748b",
+      "accent": "#f59e0b",
+      "background": "#ffffff",
+      "foreground": "#0f172a",
+      "muted": "#f1f5f9",
+      "destructive": "#ef4444",
+      "border": "#e2e8f0"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "scale": "default"
+    },
+    "borderRadius": "medium",
+    "spacing": "default",
+    "darkMode": true,
+    "animations": "subtle"
+  },
+  "data": {
+    "entities": [
+      "Build",
+      "BuildPhase",
+      "Agent",
+      "ConstitutionalCheck"
+    ],
+    "relationships": [
+      {
+        "from": "BuildPhase",
+        "to": "Build",
+        "type": "many-to-one",
+        "cascadeDelete": true
+      },
+      {
+        "from": "Agent",
+        "to": "Build",
+        "type": "many-to-one",
+        "cascadeDelete": true
+      },
+      {
+        "from": "ConstitutionalCheck",
+        "to": "Build",
+        "type": "many-to-one",
+        "cascadeDelete": true
+      }
+    ],
+    "softDeleteEntities": [
+      "Build"
+    ],
+    "searchableEntities": [],
+    "auditedEntities": [],
+    "enums": [
+      {
+        "name": "BuildStatus",
+        "values": [
+          "QUEUED",
+          "RUNNING",
+          "COMPLETED",
+          "FAILED"
+        ]
+      },
+      {
+        "name": "PhaseStatus",
+        "values": [
+          "PENDING",
+          "ACTIVE",
+          "COMPLETED",
+          "FAILED"
+        ]
+      },
+      {
+        "name": "AgentStatus",
+        "values": [
+          "IDLE",
+          "WORKING",
+          "COMPLETED",
+          "FAILED"
+        ]
+      },
+      {
+        "name": "CheckStatus",
+        "values": [
+          "COMPLIANT",
+          "WARNING",
+          "VIOLATION"
+        ]
+      }
+    ]
+  },
+  "api": {
+    "endpoints": [],
+    "webhooks": [],
+    "publicEndpoints": [],
+    "adminEndpoints": []
+  },
+  "security": {
+    "authMethod": "supabase",
+    "mfaRequired": false,
+    "mfaRoles": [],
+    "session": {
+      "duration": 604800,
+      "refreshEnabled": true,
+      "maxConcurrent": 5
+    },
+    "rateLimits": [],
+    "encryptedFields": [],
+    "auditEvents": []
+  },
+  "pages": {
+    "pages": [],
+    "navigation": {
+      "main": [],
+      "footer": []
+    },
+    "layouts": []
+  },
+  "rawDecisions": [
+    {
+      "id": "skip-venture-1769507349619",
+      "type": "skip",
+      "description": "Agent venture was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "strategos-decision-mvp_features",
+      "type": "mvp_features",
+      "choice": "[{\"id\":\"build_list\",\"name\":\"Build List\",\"category\":\"core\",\"priority\":\"must_have\",\"rice_score\":90,\"ri",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "skip-psyche-1769507380868",
+      "type": "skip",
+      "description": "Agent psyche was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-conversion_judge-1769507418560",
+      "type": "skip",
+      "description": "Agent conversion_judge was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-grid-1769507438238",
+      "type": "skip",
+      "description": "Agent grid was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "skip-flow-1769507481407",
+      "type": "skip",
+      "description": "Agent flow was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    },
+    {
+      "id": "archon-decision-tech_stack",
+      "type": "tech_stack",
+      "choice": "{\"framework\":\"Next.js 14 App Router\",\"database\":\"Supabase PostgreSQL\",\"orm\":\"Prisma\",\"auth\":\"Supabas",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "archon-decision-architecture",
+      "type": "architecture",
+      "choice": "{\"pattern\":\"monolith\",\"reasoning\":\"The OLYMPUS Builder Dashboard is a focused tool with manageable c",
+      "reasoning": "The OLYMPUS Builder Dashboard is a focused tool with manageable complexity, suitable for a monolithic architecture that facilitates rapid development and iteration. As it currently targets a single interface and set of features, the monolith pattern allows for streamlined deployment and easier management.",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "skip-atlas-1769507660725",
+      "type": "skip",
+      "description": "Agent atlas was skipped due to tier degradation (GOLD)",
+      "confidence": 1,
+      "reasoning": "Tier degradation - agent not active in current tier"
+    }
+  ]
+}

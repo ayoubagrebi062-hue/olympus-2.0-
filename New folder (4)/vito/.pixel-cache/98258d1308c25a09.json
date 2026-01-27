@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Button.tsx",
+      "content": "'use client';\nimport Link from 'next/link';\nimport { forwardRef, ButtonHTMLAttributes } from 'react';\n\ninterface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {\n  variant?: 'primary' | 'secondary' | 'ghost' | 'outline';\n  size?: 'sm' | 'md' | 'lg';\n  href?: string;\n  children: React.ReactNode;\n}\n\nexport const Button = forwardRef<HTMLButtonElement, ButtonProps>(\n  ({ variant = 'primary', size = 'md', href, children, className = '', ...props }, ref) => {\n    const baseStyles = 'inline-flex items-center justify-center font-medium transition-all rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] disabled:opacity-50';\n\n    const variants = {\n      primary: 'bg-primary-600 hover:bg-primary-700 text-white',\n      secondary: 'bg-white/10 hover:bg-white/20 text-white',\n      ghost: 'hover:bg-white/5 text-white/60 hover:text-white',\n      outline: 'border border-white/20 hover:bg-white/5 text-white',\n    };\n\n    const sizes = {\n      sm: 'px-3 py-1.5 text-sm',\n      md: 'px-4 py-2 text-sm',\n      lg: 'px-6 py-3 text-base',\n    };\n\n    const styles = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;\n\n    if (href) {\n      return <Link href={href} className={styles}>{children}</Link>;\n    }\n\n    return <button ref={ref} className={styles} {...props}>{children}</button>;\n  }\n);\nButton.displayName = 'Button';"
+    }
+  ],
+  "timestamp": 1768989477631,
+  "promptVersion": "v3.0.0"
+}

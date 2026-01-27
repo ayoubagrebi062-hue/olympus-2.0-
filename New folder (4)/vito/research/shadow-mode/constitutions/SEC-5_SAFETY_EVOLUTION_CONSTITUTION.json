@@ -1,0 +1,311 @@
+{
+  "constitutionId": "SEC-5",
+  "name": "Safety Evolution Constitution v5",
+  "version": "5.0.0",
+  "timestamp": "2026-01-19T15:10:00.000Z",
+  "scope": "safety-evolution",
+  "status": "RATIFIED",
+  "predecessorConstitution": "SEC-4",
+  "parentConstitution": "SMC-1",
+
+  "amendment": {
+    "from": "SEC-4",
+    "to": "SEC-5",
+    "reason": "Add controlled learning constraints preventing automatic admission from learned patterns and requiring shadow-only evolution with recertification",
+    "addedBindings": [
+      "NO_AUTO_LEARNING_ADMISSION",
+      "UNKNOWN_MAY_ONLY_EVOLVE_VIA_SHADOW",
+      "CLUSTERED_KNOWLEDGE_REQUIRES_RECERTIFICATION"
+    ],
+    "preservedBindings": [
+      "INVARIANT_PRESERVATION",
+      "RECERTIFICATION_ON_CHANGE",
+      "SHADOW_BEFORE_ENFORCE",
+      "TEMPORAL_INVARIANCE_REQUIRED",
+      "META_INVARIANT_PRESERVATION",
+      "METRIC_AUDITABILITY_REQUIRED",
+      "ORACLE_REDUNDANCY_REQUIRED",
+      "SEMANTIC_ANCHOR_PRESERVATION",
+      "MEANING_IMMUTABILITY",
+      "HISTORICAL_INTENT_ALIGNMENT",
+      "UNKNOWN_INTENT_MUST_NOT_ADMIT",
+      "EPISTEMIC_UNCERTAINTY_ESCALATION"
+    ],
+    "addedPipeline": {
+      "id": "UKP-1",
+      "name": "Unknown Knowledge Pipeline",
+      "mode": "OFFLINE_ONLY, NON_ADMISSIVE"
+    },
+    "amendedAt": "2026-01-19T15:10:00.000Z"
+  },
+
+  "preamble": {
+    "purpose": "To establish binding principles governing safe knowledge evolution from unknown intents with strict non-admission guarantees",
+    "authority": "Derived from SEC-4 with additions for controlled learning constraints",
+    "binding": true,
+    "immutable": true,
+    "keyPrinciple": "Learning must never compromise safety - learned patterns may inform rejection but never admission"
+  },
+
+  "bindings": {
+    "BIND-001": { "id": "INVARIANT_PRESERVATION", "inheritedFrom": "SEC-1", "status": "ACTIVE" },
+    "BIND-002": { "id": "RECERTIFICATION_ON_CHANGE", "inheritedFrom": "SEC-1", "extendedIn": "SEC-5", "status": "ACTIVE" },
+    "BIND-003": { "id": "SHADOW_BEFORE_ENFORCE", "inheritedFrom": "SEC-1", "extendedIn": "SEC-5", "status": "ACTIVE" },
+    "BIND-004": { "id": "TEMPORAL_INVARIANCE_REQUIRED", "inheritedFrom": "SEC-1", "status": "ACTIVE" },
+    "BIND-005": { "id": "META_INVARIANT_PRESERVATION", "inheritedFrom": "SEC-2", "status": "ACTIVE" },
+    "BIND-006": { "id": "METRIC_AUDITABILITY_REQUIRED", "inheritedFrom": "SEC-2", "status": "ACTIVE" },
+    "BIND-007": { "id": "ORACLE_REDUNDANCY_REQUIRED", "inheritedFrom": "SEC-2", "status": "ACTIVE" },
+    "BIND-008": { "id": "SEMANTIC_ANCHOR_PRESERVATION", "inheritedFrom": "SEC-3", "status": "ACTIVE" },
+    "BIND-009": { "id": "MEANING_IMMUTABILITY", "inheritedFrom": "SEC-3", "status": "ACTIVE" },
+    "BIND-010": { "id": "HISTORICAL_INTENT_ALIGNMENT", "inheritedFrom": "SEC-3", "status": "ACTIVE" },
+    "BIND-011": { "id": "UNKNOWN_INTENT_MUST_NOT_ADMIT", "inheritedFrom": "SEC-4", "status": "ACTIVE" },
+    "BIND-012": { "id": "EPISTEMIC_UNCERTAINTY_ESCALATION", "inheritedFrom": "SEC-4", "status": "ACTIVE" },
+
+    "BIND-013": {
+      "id": "NO_AUTO_LEARNING_ADMISSION",
+      "name": "No Automatic Learning Admission Binding",
+      "statement": "No pattern learned from unknown intents may ever automatically cause admission. Learning informs rejection decisions only.",
+      "invariant": {
+        "name": "ZERO_LEARNED_ADMISSION",
+        "description": "The count of admissions caused by patterns learned from UKP-1 must be exactly zero",
+        "severity": "S4",
+        "enforcement": "SYSTEM_HALT_ON_VIOLATION"
+      },
+      "constraints": [
+        {
+          "id": "LC-001",
+          "name": "Rejection Only",
+          "description": "Learned patterns may only add to rejection criteria, never admission criteria",
+          "enforcement": "BLOCKING"
+        },
+        {
+          "id": "LC-002",
+          "name": "No Automatic Promotion",
+          "description": "No learned pattern may be automatically promoted to ENFORCING",
+          "enforcement": "BLOCKING"
+        },
+        {
+          "id": "LC-003",
+          "name": "Human Ratification Required",
+          "description": "Any promotion of learned pattern requires explicit human or oracle ratification",
+          "enforcement": "BLOCKING"
+        }
+      ],
+      "pipeline": {
+        "reference": "pipelines/UKP-1_UNKNOWN_KNOWLEDGE_PIPELINE.json",
+        "mode": "NON_ADMISSIVE"
+      },
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "addedIn": "SEC-5"
+    },
+
+    "BIND-014": {
+      "id": "UNKNOWN_MAY_ONLY_EVOLVE_VIA_SHADOW",
+      "name": "Shadow-Only Evolution Binding",
+      "statement": "All knowledge derived from unknown intents must operate exclusively in shadow mode until explicitly ratified",
+      "evolution_path": {
+        "step_1": {
+          "name": "Collection",
+          "mode": "OFFLINE_ONLY",
+          "description": "Unknown intents collected but not processed in real-time"
+        },
+        "step_2": {
+          "name": "Clustering",
+          "mode": "OFFLINE_ONLY",
+          "campaign": "ICL-1",
+          "description": "Cluster similar unknown intents to identify patterns"
+        },
+        "step_3": {
+          "name": "Analysis",
+          "mode": "SHADOW_ONLY",
+          "description": "Analyze clusters for provisional classification"
+        },
+        "step_4": {
+          "name": "Shadow Classification",
+          "mode": "SHADOW_ONLY",
+          "duration": "minimum_1_campaign",
+          "description": "Apply provisional classification in shadow mode only"
+        },
+        "step_5": {
+          "name": "Ratification",
+          "requires": ["human_approval OR oracle_consensus", "recertification_passed"],
+          "description": "Explicit ratification before any promotion"
+        },
+        "step_6": {
+          "name": "Promotion",
+          "mode": "TO_ANCHOR_CORPUS",
+          "requires": "full_recertification_campaign",
+          "description": "Add to SA-001 (hostile) or discard"
+        }
+      },
+      "prohibited_evolution": [
+        "DIRECT_TO_ENFORCING",
+        "AUTOMATIC_PROMOTION",
+        "REAL_TIME_CLASSIFICATION",
+        "ADMISSION_FROM_LEARNED_PATTERN"
+      ],
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "addedIn": "SEC-5"
+    },
+
+    "BIND-015": {
+      "id": "CLUSTERED_KNOWLEDGE_REQUIRES_RECERTIFICATION",
+      "name": "Clustered Knowledge Recertification Binding",
+      "statement": "Any clustered pattern from ICL must pass full recertification before consideration for anchor corpus addition",
+      "requirements": [
+        {
+          "id": "CKR-001",
+          "name": "Minimum Cluster Size",
+          "value": 5,
+          "description": "Pattern must have at least 5 independent examples",
+          "rationale": "Prevents single-sample poisoning attacks"
+        },
+        {
+          "id": "CKR-002",
+          "name": "Risk Assessment",
+          "description": "Pattern must have documented risk_pressure_score",
+          "campaign": "ICL-1"
+        },
+        {
+          "id": "CKR-003",
+          "name": "Shadow Period",
+          "duration": "minimum_1_campaign",
+          "description": "Pattern must be observed in shadow mode before promotion"
+        },
+        {
+          "id": "CKR-004",
+          "name": "Anchor Alignment Check",
+          "description": "Pattern must not conflict with existing SA-001, SA-002 anchors",
+          "gate": "SEMANTIC_ANCHOR_GATE"
+        },
+        {
+          "id": "CKR-005",
+          "name": "Full Recertification",
+          "campaign": "Required",
+          "minVolume": 10000,
+          "mustPass": ["all_invariants", "meta_invariants", "anchor_alignment", "unknown_detection"]
+        },
+        {
+          "id": "CKR-006",
+          "name": "Human or Oracle Ratification",
+          "requires": "explicit_approval",
+          "options": ["human_review", "oracle_2_of_3_consensus"]
+        }
+      ],
+      "on_failure": {
+        "action": "REJECT_PATTERN",
+        "retain_for_analysis": true,
+        "cooldown_period": "7_days"
+      },
+      "enforcement": "BLOCKING",
+      "exception": "NONE",
+      "addedIn": "SEC-5"
+    }
+  },
+
+  "pipelines": {
+    "UKP-1": {
+      "id": "UKP-1",
+      "name": "Unknown Knowledge Pipeline",
+      "reference": "pipelines/UKP-1_UNKNOWN_KNOWLEDGE_PIPELINE.json",
+      "input": "UID-1.UNKNOWN",
+      "output": ["PROVISIONAL_INTENT", "NEW_CAPABILITY", "NEW_INVARIANT", "REJECT_AS_HOSTILE"],
+      "modes": ["OFFLINE_ONLY", "NON_ADMISSIVE"],
+      "status": "ACTIVE"
+    }
+  },
+
+  "principles": {
+    "PRIN-001": { "name": "Determinism", "inheritedFrom": "SEC-1" },
+    "PRIN-002": { "name": "Transparency", "inheritedFrom": "SEC-1" },
+    "PRIN-003": { "name": "Immutability", "inheritedFrom": "SEC-1" },
+    "PRIN-004": { "name": "Fail-Safe", "inheritedFrom": "SEC-1" },
+    "PRIN-005": { "name": "Goodhart Resistance", "inheritedFrom": "SEC-2" },
+    "PRIN-006": { "name": "Redundant Verification", "inheritedFrom": "SEC-2" },
+    "PRIN-007": { "name": "Semantic Stability", "inheritedFrom": "SEC-3" },
+    "PRIN-008": { "name": "Historical Fidelity", "inheritedFrom": "SEC-3" },
+    "PRIN-009": { "name": "Epistemic Humility", "inheritedFrom": "SEC-4" },
+    "PRIN-010": { "name": "Coverage Awareness", "inheritedFrom": "SEC-4" },
+    "PRIN-011": {
+      "name": "Safe Learning",
+      "statement": "Knowledge evolution must never compromise safety guarantees",
+      "constraints": ["non_admissive_learning", "shadow_only_evolution", "ratification_required"],
+      "addedIn": "SEC-5"
+    },
+    "PRIN-012": {
+      "name": "Conservative Evolution",
+      "statement": "System knowledge may grow but safety boundaries may only tighten, never loosen",
+      "constraints": ["rejection_expansion_only", "no_admission_relaxation", "monotonic_safety"],
+      "addedIn": "SEC-5"
+    }
+  },
+
+  "pipeline_sequence": {
+    "canonical_order": ["HCA-1", "PIL-1", "UID-1", "HIC-1"],
+    "learning_pipeline": ["UKP-1 (OFFLINE_ONLY)"],
+    "note": "UKP-1 operates offline and never affects live traffic decisions"
+  },
+
+  "governance": {
+    "decisionAuthority": {
+      "certification": "CAMPAIGN_VALIDATION",
+      "promotion": "GRADUATION_CRITERIA",
+      "freeze": "TOPOLOGY_INVARIANCE_VERIFICATION",
+      "oracleDisagreement": "SHADOW_REVIEW_BOARD",
+      "anchorDeviation": "IMMEDIATE_ROLLBACK",
+      "unknownIntent": "ESCALATE_AND_REJECT",
+      "learnedPattern": "SHADOW_ONLY_UNTIL_RATIFIED",
+      "exception": "NOT_PERMITTED"
+    },
+    "auditTrail": {
+      "required": true,
+      "retention": "PERMANENT",
+      "immutable": true,
+      "learningLogs": "REQUIRED"
+    }
+  },
+
+  "artifacts": {
+    "invariants": "invariants/GLOBAL_SAFETY_INVARIANTS.json",
+    "metaInvariants": "invariants/META_SAFETY_INVARIANTS.json",
+    "semanticAnchors": "anchors/SEMANTIC_ANCHORS.json",
+    "unknownKnowledgePipeline": "pipelines/UKP-1_UNKNOWN_KNOWLEDGE_PIPELINE.json",
+    "unknownIntentLayer": "layers/UID-1_UNKNOWN_INTENT_DETECTOR.json",
+    "topologyFreeze": "topology/PIPELINE_TOPOLOGY_FREEZE_V2.json",
+    "predecessorConstitution": "constitutions/SEC-4_SAFETY_EVOLUTION_CONSTITUTION.json"
+  },
+
+  "validation": {
+    "campaigns": [
+      {"id": "SSC-3", "status": "PASSED", "validates": ["SHADOW_BEFORE_ENFORCE"]},
+      {"id": "TIC-1", "status": "PASSED", "validates": ["ORDER_INVARIANCE"]},
+      {"id": "TDS-1", "status": "PASSED", "validates": ["TEMPORAL_INVARIANCE_REQUIRED"]},
+      {"id": "MAC-1", "status": "PASSED", "validates": ["META_INVARIANT_PRESERVATION"]},
+      {"id": "SDC-1", "status": "PASSED", "validates": ["SEMANTIC_ANCHOR_PRESERVATION"]},
+      {"id": "UIC-1", "status": "PASSED", "validates": ["UNKNOWN_INTENT_MUST_NOT_ADMIT"]},
+      {"id": "ACA-1", "status": "PASSED", "validates": ["EPISTEMIC_UNCERTAINTY_ESCALATION"]},
+      {"id": "ICL-1", "status": "PASSED", "validates": ["CLUSTERED_KNOWLEDGE_REQUIRES_RECERTIFICATION"]}
+    ]
+  },
+
+  "amendments": {
+    "allowed": false,
+    "note": "SEC-5 is frozen. New constitution required for changes.",
+    "frozen": true
+  },
+
+  "ratification": {
+    "ratifiedBy": "Safety Governance Framework",
+    "ratifiedAt": "2026-01-19T15:10:00.000Z",
+    "validFrom": "2026-01-19T15:10:00.000Z",
+    "validUntil": "PERMANENT",
+    "supersedes": "SEC-4",
+    "successorConstitution": null
+  },
+
+  "signatures": {
+    "constitutionHash": "sha256:a0719fdd6fca16dc4c642d2623054fde2d80ce3693a5a8fb62a671f7164a26f6"
+  }
+}

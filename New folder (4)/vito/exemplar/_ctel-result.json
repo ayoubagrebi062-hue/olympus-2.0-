@@ -1,0 +1,105 @@
+{
+  "$schema": "https://olympus.canonical/ctel-result/v2.1",
+  "buildId": "exemplar-2026-01-19-canonical",
+  "timestamp": "2026-01-19T10:05:22.789Z",
+
+  "constitutionalTests": {
+    "passed": true,
+    "articlesTested": [
+      "ARTICLE_1_DETERMINISM",
+      "ARTICLE_2_MONOTONICITY",
+      "ARTICLE_3_HOSTILE_RESISTANCE",
+      "ARTICLE_4_EVOLUTION_ENFORCEMENT",
+      "ARTICLE_5_AUDIT_TRAIL",
+      "ARTICLE_6_HARD_GATE_BLOCKING",
+      "ARTICLE_7_FORBIDDEN_PERMANENCE",
+      "ARTICLE_8_CRITICAL_MANDATORY",
+      "ARTICLE_9_NO_BYPASS",
+      "ARTICLE_10_TRUST_THRESHOLD",
+      "ARTICLE_11_GOVERNANCE_INTEGRITY",
+      "ARTICLE_12_EXTERNAL_VERIFIABILITY"
+    ],
+    "articlesViolated": [],
+    "violations": [],
+    "summary": "All 12 constitutional articles upheld. No violations detected."
+  },
+
+  "articleResults": {
+    "ARTICLE_1_DETERMINISM": {
+      "tested": true,
+      "passed": true,
+      "evidence": "Scoring algorithms use deterministic calculation only. No ML/AI/heuristics detected."
+    },
+    "ARTICLE_2_MONOTONICITY": {
+      "tested": true,
+      "passed": true,
+      "evidence": "W-ISS-D score 97% >= previous baseline. No unexplained regression."
+    },
+    "ARTICLE_3_HOSTILE_RESISTANCE": {
+      "tested": true,
+      "passed": true,
+      "evidence": "HITH executed with 15/15 hostile intents blocked. Leak rate: 0%."
+    },
+    "ARTICLE_4_EVOLUTION_ENFORCEMENT": {
+      "tested": true,
+      "passed": true,
+      "evidence": "All fate transitions follow allowed paths. No evolution violations."
+    },
+    "ARTICLE_5_AUDIT_TRAIL": {
+      "tested": true,
+      "passed": true,
+      "evidence": "Audit files present: _build-summary.json, _ctel-result.json, _decision-certificate-exemplar.json"
+    },
+    "ARTICLE_6_HARD_GATE_BLOCKING": {
+      "tested": true,
+      "passed": true,
+      "evidence": "All HARD gates passed. No failures to verify blocking behavior."
+    },
+    "ARTICLE_7_FORBIDDEN_PERMANENCE": {
+      "tested": true,
+      "passed": true,
+      "evidence": "No FORBIDDEN intents present. No rehabilitation attempts detected."
+    },
+    "ARTICLE_8_CRITICAL_MANDATORY": {
+      "tested": true,
+      "passed": true,
+      "evidence": "Critical intent I-001 included in governance. criticalMandatory flag respected."
+    },
+    "ARTICLE_9_NO_BYPASS": {
+      "tested": true,
+      "passed": true,
+      "evidence": "No bypass patterns detected: SKIP_*, DISABLE_*, BYPASS_*, FORCE_SHIP, NO_VERIFY"
+    },
+    "ARTICLE_10_TRUST_THRESHOLD": {
+      "tested": true,
+      "passed": true,
+      "evidence": "No external anchors below 30% trust. Lowest trust: 78%."
+    },
+    "ARTICLE_11_GOVERNANCE_INTEGRITY": {
+      "tested": true,
+      "passed": true,
+      "evidence": "AGH executed with 28/28 exploits blocked. No governance vulnerabilities."
+    },
+    "ARTICLE_12_EXTERNAL_VERIFIABILITY": {
+      "tested": true,
+      "passed": true,
+      "evidence": "Decision certificate generated with constitution hash and signature."
+    }
+  },
+
+  "override": {
+    "active": false,
+    "target": null,
+    "penalty": null,
+    "ssiAdjustment": null,
+    "auditTrailEntries": 0
+  },
+
+  "truthArtifact": {
+    "filename": "WHY_THIS_SHIPPED.md",
+    "path": "exemplar/WHY_THIS_SHIPPED.md"
+  },
+
+  "allowsShip": true,
+  "blockReason": null
+}

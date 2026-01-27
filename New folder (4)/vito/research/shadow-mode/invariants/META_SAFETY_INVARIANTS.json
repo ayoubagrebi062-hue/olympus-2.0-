@@ -1,0 +1,170 @@
+{
+  "declarationId": "MSI-001",
+  "name": "Meta-Safety Invariants",
+  "timestamp": "2026-01-19T11:00:00.000Z",
+  "scope": "safety_system",
+  "constitution": "SEC-1",
+  "enforcement": "BLOCKING",
+  "mutation": "FORBIDDEN",
+
+  "rationale": {
+    "purpose": "To prevent Goodhart's Law attacks where metrics are satisfied without genuine safety",
+    "problem": "Safety metrics can be gamed if they become the target rather than a proxy for actual safety",
+    "solution": "Meta-invariants constrain how invariants themselves can be satisfied and measured"
+  },
+
+  "metaInvariants": {
+    "MSI-001": {
+      "id": "NO_PROXY_SATISFACTION",
+      "name": "No Proxy Satisfaction",
+      "class": "META_SAFETY",
+      "severity": "S4",
+      "description": "Invariants must be satisfied directly through genuine safety properties, not via correlated metrics that can be gamed independently",
+      "formalDefinition": "∀ invariant I, ∀ metric M: satisfies(M, I) → ∃ causal_chain(M, safety_property(I))",
+      "examples": {
+        "violation": "Padding explanations to hit entropy threshold without adding information",
+        "compliance": "Entropy achieved through genuinely diverse detection rules"
+      },
+      "detection": {
+        "method": "causal_graph_analysis",
+        "signal": "metric_safety_correlation_coefficient",
+        "threshold": "correlation < 0.95 triggers review"
+      },
+      "enforcement": "BLOCKING",
+      "exception": "NONE"
+    },
+
+    "MSI-002": {
+      "id": "EXPLANATION_NON_RECURSIVE",
+      "name": "Explanation Non-Recursion",
+      "class": "META_TRANSPARENCY",
+      "severity": "S3",
+      "description": "Explanations for safety verdicts cannot reference or depend on other safety system outputs",
+      "formalDefinition": "∀ explanation E: references(E) ∩ safety_outputs = ∅",
+      "examples": {
+        "violation": "Explanation says 'rejected because PIL-1 said so' without underlying rule",
+        "compliance": "Explanation traces to specific pattern match or invariant violation"
+      },
+      "detection": {
+        "method": "explanation_dependency_graph",
+        "signal": "recursive_reference_count",
+        "threshold": "count > 0 triggers rejection"
+      },
+      "enforcement": "BLOCKING",
+      "exception": "NONE"
+    },
+
+    "MSI-003": {
+      "id": "METRIC_INDEPENDENCE",
+      "name": "Metric Independence",
+      "class": "META_INTEGRITY",
+      "severity": "S3",
+      "description": "No single metric may serve as both the trigger for an action and the justification for that action",
+      "formalDefinition": "∀ action A: trigger_metric(A) ≠ justification_metric(A)",
+      "examples": {
+        "violation": "Rejecting intent because dominance > 35%, citing dominance as hostile indicator",
+        "compliance": "Dominance triggers review; hostility determined by independent capability analysis"
+      },
+      "detection": {
+        "method": "decision_audit_trail",
+        "signal": "metric_role_overlap",
+        "threshold": "overlap > 0 triggers rejection"
+      },
+      "enforcement": "BLOCKING",
+      "exception": "NONE"
+    },
+
+    "MSI-004": {
+      "id": "INVARIANT_OBSERVABILITY",
+      "name": "Invariant Observability",
+      "class": "META_AUDITABILITY",
+      "severity": "S2",
+      "description": "Every invariant must have an independent audit signal that can be verified externally",
+      "formalDefinition": "∀ invariant I: ∃ oracle O: verifies(O, I) ∧ independent(O, safety_system)",
+      "examples": {
+        "violation": "Invariant verified only by the system that enforces it",
+        "compliance": "Multiple independent oracles cross-verify invariant satisfaction"
+      },
+      "detection": {
+        "method": "oracle_independence_check",
+        "signal": "independent_verification_count",
+        "threshold": "count < 2 triggers warning"
+      },
+      "enforcement": "WARNING_THEN_BLOCKING",
+      "exception": "NONE"
+    }
+  },
+
+  "compositionRules": {
+    "conjunction": "All meta-invariants must hold simultaneously",
+    "precedence": "MSI-001 > MSI-002 > MSI-003 > MSI-004",
+    "interaction": {
+      "MSI-001_MSI-003": "Proxy satisfaction often manifests as metric role overlap",
+      "MSI-002_MSI-004": "Non-recursive explanations enable independent observability"
+    },
+    "onViolation": {
+      "S4": "IMMEDIATE_ABORT",
+      "S3": "ABORT_AND_REVIEW",
+      "S2": "WARNING_AND_ESCALATE"
+    }
+  },
+
+  "verificationMethods": {
+    "MSI-001": {
+      "primary": "causal_intervention_test",
+      "description": "Perturb metric while holding safety property constant; invariant must not flip",
+      "implementation": "metric_adversarial_campaign"
+    },
+    "MSI-002": {
+      "primary": "explanation_graph_traversal",
+      "description": "Build dependency graph of explanation; verify no cycles through safety outputs",
+      "implementation": "explanation_audit_oracle"
+    },
+    "MSI-003": {
+      "primary": "decision_trace_analysis",
+      "description": "For each decision, verify trigger and justification metrics are distinct",
+      "implementation": "metric_independence_checker"
+    },
+    "MSI-004": {
+      "primary": "oracle_redundancy_test",
+      "description": "Verify each invariant has 2+ independent verification paths",
+      "implementation": "redundant_oracle_system"
+    }
+  },
+
+  "attacks": {
+    "prevented": [
+      {
+        "name": "Goodhart Attack",
+        "description": "Gaming metrics to appear safe without genuine safety",
+        "blockedBy": "MSI-001"
+      },
+      {
+        "name": "Explanation Laundering",
+        "description": "Hiding true reasons behind derived outputs",
+        "blockedBy": "MSI-002"
+      },
+      {
+        "name": "Circular Justification",
+        "description": "Using same data to trigger and justify decisions",
+        "blockedBy": "MSI-003"
+      },
+      {
+        "name": "Single Point of Verification Failure",
+        "description": "Compromising one verifier to bypass all checks",
+        "blockedBy": "MSI-004"
+      }
+    ]
+  },
+
+  "artifacts": {
+    "globalInvariants": "invariants/GLOBAL_SAFETY_INVARIANTS.json",
+    "constitution": "constitutions/SEC-1_SAFETY_EVOLUTION_CONSTITUTION.json"
+  },
+
+  "signOff": {
+    "declaredBy": "Meta-Safety Framework",
+    "declaredAt": "2026-01-19T11:00:00.000Z",
+    "immutable": true
+  }
+}

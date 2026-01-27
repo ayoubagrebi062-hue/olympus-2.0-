@@ -1,0 +1,76 @@
+{
+  "templates": [
+    {
+      "id": "welcome-email",
+      "type": "email",
+      "subject": "Welcome to ShopFlow!",
+      "html": "<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;padding:0;background:#f5f5f5}.container{max-width:600px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden}.header{background:#6366f1;color:#fff;padding:32px;text-align:center}.content{padding:32px}.btn{display:inline-block;background:#6366f1;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none}</style></head><body><div class='container'><div class='header'><h1>Welcome!</h1></div><div class='content'><p>Hi {{userName}},</p><p>Thanks for joining ShopFlow.</p><a href='{{ctaUrl}}' class='btn'>Get Started</a></div></div></body></html>",
+      "variables": [
+        "appName",
+        "userName",
+        "ctaUrl"
+      ]
+    },
+    {
+      "id": "newsletter-signup",
+      "type": "email",
+      "subject": "ShopFlow Newsletter",
+      "html": "<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;padding:0;background:#f5f5f5}.container{max-width:600px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden}.header{background:#6366f1;color:#fff;padding:32px;text-align:center}.content{padding:32px}.btn{display:inline-block;background:#6366f1;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none}</style></head><body><div class='container'><div class='header'><h1>ShopFlow Newsletter</h1></div><div class='content'><p>Hi {{userName}},</p><p>Thanks for signing up for our newsletter!</p><a href='{{ctaUrl}}' class='btn'>Get Exclusive Offers</a></div></div></body></html>",
+      "variables": [
+        "appName",
+        "userName",
+        "ctaUrl"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "src/components/Dashboard.js",
+      "content": "import React, { useState, useEffect } from 'react';\nimport { Line } from 'react-chartjs-2';\n\nconst Dashboard = () => {\n  const [data, setData] = useState({\n    labels: [\n      '2022-01-01',\n      '2022-01-08',\n      '2022-01-15',\n      '2022-01-22',\n      '2022-01-29',\n      '2022-02-05',\n      '2022-02-12',\n      '2022-02-19',\n      '2022-02-26',\n      '2022-03-05',\n      '2022-03-12',\n      '2022-03-19',\n      '2022-03-26',\n      '2022-04-02'\n    ],\n    datasets: [\n      {\n        label: 'Revenue',\n        data: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400],\n        backgroundColor: 'rgba(255, 99, 132, 0.2)',\n        borderColor: 'rgba(255, 99, 132, 1)',\n        borderWidth: 1\n      }\n    ]\n  });\n\n  return (\n    <div className='container mx-auto mt-4 gap-2 flex flex-col items-center justify-center'>\n      <h1 className='text-3xl font-bold'>Revenue Analytics</h1>\n      <Line data={data} />\n    </div>\n  );\n};\n\nexport default Dashboard;"
+    },
+    {
+      "path": "src/components/Products.js",
+      "content": "import React, { useState, useEffect } from 'react';\n\nconst Products = () => {\n  const [products, setProducts] = useState([]);\n\n  useEffect(() => {\n    // fetch products from API\n    setProducts([\n      { id: 1, name: 'Product 1' },\n      { id: 2, name: 'Product 2' },\n      { id: 3, name: 'Product 3' }\n    ]);\n  }, []);\n\n  const handleDeleteAllProducts = () => {\n    setProducts([]);\n  };\n\n  return (\n    <div className='container mx-auto mt-4 gap-2 flex flex-col items-center justify-center'>\n      <h1 className='text-3xl font-bold'>Products</h1>\n      <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' onClick={handleDeleteAllProducts}>Delete All Products</button>\n      {products.map((product) => (\n        <div key={product.id}>{product.name}</div>\n      ))}\n    </div>\n  );\n};\n\nexport default Products;"
+    },
+    {
+      "path": "src/components/Settings.js",
+      "content": "import React, { useState, useEffect } from 'react';\n\nconst Settings = () => {\n  const [settings, setSettings] = useState({\n    toggle1: false,\n    toggle2: false\n  });\n\n  useEffect(() => {\n    // load settings from local storage\n    const storedSettings = localStorage.getItem('settings');\n    if (storedSettings) {\n      setSettings(JSON.parse(storedSettings));\n    }\n  }, []);\n\n  useEffect(() => {\n    // save settings to local storage\n    localStorage.setItem('settings', JSON.stringify(settings));\n  }, [settings]);\n\n  const handleToggleChange = (event) => {\n    setSettings({ ...settings, [event.target.name]: event.target.checked });\n  };\n\n  return (\n    <div className='container mx-auto mt-4 gap-2 flex flex-col items-center justify-center'>\n      <h1 className='text-3xl font-bold'>Settings</h1>\n      <div>\n        <label>\n          Toggle 1\n          <input type='checkbox' name='toggle1' checked={settings.toggle1} onChange={handleToggleChange} />\n        </label>\n      </div>\n      <div>\n        <label>\n          Toggle 2\n          <input type='checkbox' name='toggle2' checked={settings.toggle2} onChange={handleToggleChange} />\n        </label>\n      </div>\n    </div>\n  );\n};\n\nexport default Settings;"
+    },
+    {
+      "path": "src/components/Footer.js",
+      "content": "import React, { useState } from 'react';\nimport toast from 'react-toastify';\nimport { sendEmail } from './email.service';\n\nconst Footer = () => {\n  const [email, setEmail] = useState('');\n\n  const handleNewsletterSignup = async () => {\n    if (process.env.RESEND_API_KEY) {\n      try {\n        await sendEmail(email, 'newsletter-signup', { userName: 'User', ctaUrl: 'https://example.com' });\n        toast.success('Welcome email sent!');\n      } catch (error) {\n        toast.error('Error sending email');\n      }\n    } else {\n      toast.info(`Demo mode: Would send welcome email to ${email}`);\n    }\n  };\n\n  return (\n    <div className='container mx-auto mt-4 gap-2 flex flex-col items-center justify-center'>\n      <h1 className='text-3xl font-bold'>Newsletter Signup</h1>\n      <input type='email' value={email} onChange={(event) => setEmail(event.target.value)} placeholder='Enter your email' />\n      <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleNewsletterSignup}>Signup</button>\n    </div>\n  );\n};\n\nexport default Footer;"
+    },
+    {
+      "path": "src/lib/email.service.ts",
+      "content": "import { Resend } from 'resend';\n\nconst resend = new Resend(process.env.RESEND_API_KEY);\n\nexport async function sendEmail(to: string, templateId: string, variables: Record<string, string>) {\n  const template = await getTemplate(templateId);\n  const html = interpolate(template.html, variables);\n  return resend.emails.send({ from: 'noreply@example.com', to, subject: interpolate(template.subject, variables), html });\n}\n\nfunction getTemplate(templateId: string) {\n  // load template from database or file system\n  // for example:\n  return {\n    html: '<!DOCTYPE html><html><body>{{message}}</body></html>',\n    subject: 'Hello {{name}}!'\n  };\n}\n\nfunction interpolate(template: string, variables: Record<string, string>) {\n  return template.replace(/{{(.*?)}}/g, (match, variable) => variables[variable.trim()]);\n}"
+    }
+  ],
+  "channels": [
+    "email",
+    "in-app",
+    "push"
+  ],
+  "preferences_schema": {
+    "marketing": {
+      "default": false,
+      "channels": [
+        "email"
+      ]
+    },
+    "updates": {
+      "default": true,
+      "channels": [
+        "email",
+        "in-app"
+      ]
+    },
+    "security": {
+      "default": true,
+      "channels": [
+        "email",
+        "in-app",
+        "push"
+      ]
+    }
+  }
+}

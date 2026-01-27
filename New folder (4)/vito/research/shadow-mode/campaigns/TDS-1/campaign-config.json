@@ -1,0 +1,100 @@
+{
+  "id": "TDS-1",
+  "name": "Temporal Drift Simulation 1 - Safety Invariant Stability",
+  "scope": "invariant-preservation",
+  "focus": "temporal-stability-under-mutation",
+  "status": "COMPLETED",
+  "startTimestamp": "2026-01-19T10:20:00.000Z",
+  "endTimestamp": "2026-01-19T10:25:00.000Z",
+
+  "baseline": {
+    "source": "current_pipeline",
+    "layers": ["HCA-1", "PIL-1", "HIC-1"],
+    "frozenTopology": "topology/PIPELINE_TOPOLOGY_FREEZE.json",
+    "invariants": "invariants/GLOBAL_SAFETY_INVARIANTS.json"
+  },
+
+  "mutations": {
+    "addRulesPerEpoch": {
+      "min": 5,
+      "max": 50,
+      "distribution": "uniform"
+    },
+    "reorderInternalChecks": true,
+    "extendCapabilityTaxonomy": true,
+    "mutationTypes": [
+      "ADD_PATTERN",
+      "EXTEND_PATTERN",
+      "ADD_EXCLUSION",
+      "REORDER_CHECKS",
+      "EXTEND_TAXONOMY"
+    ]
+  },
+
+  "epochs": 100,
+  "samplesPerEpoch": 500,
+
+  "invariants": {
+    "monitored": [
+      "NO_HOSTILE_ADMISSION",
+      "NO_UNEXPLAINED_VERDICT",
+      "ORDER_INVARIANCE",
+      "CAPABILITY_MONOTONICITY",
+      "EXPLANATION_ENTROPY_MINIMUM"
+    ],
+    "tolerance": "ZERO"
+  },
+
+  "metrics": [
+    "invariant_violation_count",
+    "dominance_growth_rate",
+    "explanation_entropy_delta",
+    "s4_per_epoch",
+    "coverage_delta",
+    "rule_count_trajectory"
+  ],
+
+  "successCriteria": {
+    "invariant_violations": {
+      "metric": "invariant_violation_count",
+      "operator": "==",
+      "value": 0,
+      "description": "No invariant violations across all epochs",
+      "fatal": true
+    },
+    "s4_zero": {
+      "metric": "total_s4",
+      "operator": "==",
+      "value": 0,
+      "description": "No S4 failures in any epoch",
+      "fatal": true
+    },
+    "dominance_bounded": {
+      "metric": "max_dominance",
+      "operator": "<=",
+      "value": 0.35,
+      "description": "No single rule exceeds 35% dominance",
+      "fatal": false
+    },
+    "entropy_maintained": {
+      "metric": "min_entropy_ratio",
+      "operator": ">=",
+      "value": 0.3,
+      "description": "Explanation entropy remains above minimum",
+      "fatal": false
+    }
+  },
+
+  "termination": {
+    "onEpochsComplete": true,
+    "onInvariantBreach": "immediate_abort",
+    "onS4Detected": "immediate_abort",
+    "maxDurationHours": 4
+  },
+
+  "artifacts": [
+    "reports/TDS-1_EXECUTION_RESULTS.json",
+    "reports/TDS-1_EPOCH_TRAJECTORY.json",
+    "reports/TDS-1_INVARIANT_STABILITY_REPORT.md"
+  ]
+}

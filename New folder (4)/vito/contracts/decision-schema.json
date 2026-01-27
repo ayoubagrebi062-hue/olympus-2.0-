@@ -1,0 +1,321 @@
+{
+  "version": "1.0.0",
+  "effectiveDate": "2026-01-18",
+  "description": "Decision identity contract - declarative schema for linking actions, reasoning, and outcomes",
+  "appendOnly": true,
+
+  "decisionIdentity": {
+    "id": "UUID v4 format",
+    "timestamp": "ISO-8601",
+    "agent": "agent identifier",
+    "context": "execution context identifier",
+    "session": "session identifier (optional)",
+    "trace": "trace identifier for correlation (optional)"
+  },
+
+  "decisionClass": {
+    "type": "enum",
+    "values": ["A", "B", "C", "UNKNOWN"],
+    "description": "Decision classification per deliberation-protocol.md",
+    "A": "Informational - read-only, minimal risk, reversible",
+    "B": "Operational - may write, bounded consequences, authority required",
+    "C": "Critical - irreversible or high-impact, ethical oversight mandatory, human accountability mandatory"
+  },
+
+  "deliberationMode": {
+    "type": "enum",
+    "values": ["analytical", "evaluative", "ethical", "precautionary", "unknown"],
+    "description": "Primary deliberation mode applied",
+    "analytical": "Decompose and analyze complex problems",
+    "evaluative": "Assess options against criteria",
+    "ethical": "Evaluate moral principles and stakeholder impact",
+    "precautionary": "Apply precautionary principle in uncertain situations"
+  },
+
+  "decisionContext": {
+    "request": "original request or trigger",
+    "intent": "stated intent of the decision",
+    "priority": "urgency level (optional)",
+    "constraints": "known constraints or boundaries",
+    "stakeholders": ["list of identified stakeholders", "humans first"]
+  },
+
+  "evidence": {
+    "level": {
+      "type": "enum",
+      "values": ["L1", "L2", "L3", "L4"],
+      "description": "Evidence confidence level",
+      "L1": "Established (≥90% certainty)",
+      "L2": "Probable (≥70% certainty)",
+      "L3": "Possible (≥50% certainty)",
+      "L4": "Speculative (<50% certainty)"
+    },
+    "sources": [
+      {
+        "type": "direct | inferred | precedent | expert",
+        "description": "source description",
+        "reliability": "high | medium | low",
+        "freshness": "current | recent | dated",
+        "citation": "reference or identifier (optional)"
+      }
+    ],
+    "gaps": ["list of identified evidence gaps"],
+    "contradictions": ["list of contradictory evidence points"]
+  },
+
+  "reasoningArtifacts": {
+    "decisionBrief": {
+      "present": true,
+      "summary": "concise summary of decision context"
+    },
+    "reasoningChain": {
+      "present": true,
+      "steps": [
+        {
+          "step": 1,
+          "description": "step description",
+          "evidence": "supporting evidence",
+          "confidence": "L1 | L2 | L3 | L4",
+          "uncertainties": ["any uncertainties in this step"]
+        }
+      ],
+      "conclusion": "final conclusion",
+      "overallConfidence": "percentage",
+      "keyAssumptions": ["list of assumptions made"]
+    },
+    "evidenceSummary": {
+      "present": true,
+      "evidencePresented": ["list of evidence points"],
+      "contradictionsIdentified": ["list of contradictions"],
+      "gapsIdentified": ["list of gaps"],
+      "overallEvidenceLevel": "L1 | L2 | L3 | L4"
+    },
+    "ethicalAssessment": {
+      "present": false,
+      "principlesEvaluated": {
+        "autonomy": {
+          "rating": 1,
+          "explanation": "rationale for rating"
+        },
+        "nonMaleficence": {
+          "rating": 5,
+          "explanation": "rationale for rating"
+        },
+        "beneficence": {
+          "rating": 4,
+          "explanation": "rationale for rating"
+        },
+        "justice": {
+          "rating": 5,
+          "explanation": "rationale for rating"
+        },
+        "transparency": {
+          "rating": 5,
+          "explanation": "rationale for rating"
+        },
+        "accountability": {
+          "rating": 5,
+          "explanation": "rationale for rating"
+        }
+      },
+      "stakeholderAnalysis": [
+        {
+          "stakeholder": "name or group",
+          "role": "primary | secondary | tertiary",
+          "impact": "positive | negative | neutral",
+          "magnitude": "high | medium | low",
+          "reversibility": "reversible | irreversible | partially reversible",
+          "duration": "temporary | long-term | permanent",
+          "fairnessAssessment": "fair | unfair | neutral"
+        }
+      ],
+      "ethicalConflicts": ["list of any conflicts between principles"],
+      "conflictResolution": "how conflicts were resolved",
+      "alternativeConsidered": "less harmful alternative description",
+      "alternativeRejection": "why alternative was not chosen",
+      "ethicalVerdict": "approve | modify | reject",
+      "ethicalJustification": "rationale for verdict"
+    },
+    "actionRecommendation": {
+      "present": true,
+      "recommendedAction": "description of recommended action",
+      "decisionClass": "A | B | C",
+      "requiredMarkers": ["AUTHORITY_CHECK", "ETHICAL_OVERSIGHT", "HUMAN_OVERRIDE_REQUIRED"],
+      "confidenceLevel": "L1 | L2 | L3 | L4",
+      "riskLevel": "low | medium | high",
+      "reversibility": "fully | partially | irreversible",
+      "preConditions": [
+        {
+          "condition": "condition description",
+          "met": true
+        }
+      ],
+      "expectedOutcome": "what will happen if action is taken",
+      "unintendedConsequences": ["potential side effects"],
+      "ifNotApproved": {
+        "reason": "why action is not recommended",
+        "alternative": "suggested alternative action",
+        "required": "what is needed to proceed"
+      }
+    }
+  },
+
+  "uncertainty": {
+    "declared": false,
+    "type": "evidence | consequence | authority | ethical | system | multiple",
+    "certaintyLevel": "L1 | L2 | L3 | L4",
+    "evidenceAvailable": "summary of evidence available",
+    "gapsIdentified": ["list of identified gaps"],
+    "resolutionMethod": "gatherEvidence | applyPrecaution | escalate | defer",
+    "resolved": false,
+    "resolution": "description of how uncertainty was resolved (if resolved)"
+  },
+
+  "escalation": {
+    "escalated": false,
+    "reason": "reason for escalation (if escalated)",
+    "escalationContext": {
+      "trigger": "what triggered the escalation",
+      "decisionClass": "A | B | C",
+      "blockReason": "why action was blocked (if applicable)",
+      "overrideRequirement": "human approval needed",
+      "accountableParty": "name or ID of accountable human (if known)",
+      "ethicalImplications": "description of ethical dimensions"
+    },
+    "recommendedAction": "approve | modify | reject",
+    "humanDecision": {
+      "decision": "approve | modify | reject",
+      "decidedBy": "name or ID of human who made decision",
+      "decidedAt": "ISO-8601",
+      "rationale": "human's rationale for decision"
+    }
+  },
+
+  "authority": {
+    "source": "where authority comes from",
+    "type": "delegated | direct | emergency | override",
+    "authorityId": "authority identifier (if applicable)",
+    "verified": true,
+    "scope": "scope of authority",
+    "expiration": "authority expiration date (if applicable)"
+  },
+
+  "ethicalOversight": {
+    "applied": false,
+    "reviewDate": "ISO-8601",
+    "reviewedBy": "human or system that performed review",
+    "ethicsViolationsDetected": 0,
+    "vetoes": [
+      {
+        "reason": "why action was vetoed",
+        "overridden": false,
+        "overrideApprovedBy": "name or ID (if overridden)",
+        "overrideRationale": "rationale for override (if overridden)"
+      }
+    ]
+  },
+
+  "humanAccountability": {
+    "required": false,
+    "accountableParty": "name or unique identifier of human accountable",
+    "explicitApproval": true,
+    "approvalDate": "ISO-8601",
+    "accountabilityMarkers": ["HUMAN_ACCOUNTABILITY", "HUMAN_OVERRIDE_REQUIRED"],
+    "justification": "justification for human taking accountability"
+  },
+
+  "governance": {
+    "tier": "tier1 | tier2 | tier3",
+    "tierCompliance": true,
+    "markersPresent": [
+      "AUTHORITY_CHECK",
+      "ETHICAL_OVERSIGHT",
+      "HUMAN_ACCOUNTABILITY",
+      "HUMAN_OVERRIDE_REQUIRED"
+    ],
+    "governanceViolations": [
+      {
+        "type": "tier_violation | ethical_veto | missing_marker",
+        "description": "description of violation",
+        "severity": "info | warning | error"
+      }
+    ]
+  },
+
+  "action": {
+    "taken": false,
+    "actionType": "create | read | update | delete | enforce | block | reject | escalate",
+    "target": "what the action targets (file, database, system, etc.)",
+    "parameters": {},
+    "executedAt": "ISO-8601",
+    "executionDuration": "milliseconds (optional)",
+    "success": true
+  },
+
+  "outcome": {
+    "result": "success | failure | partial | blocked | pending",
+    "resultDescription": "description of outcome",
+    "actualImpact": "description of actual impact",
+    "unintendedConsequences": ["any unintended consequences that occurred"],
+    "reversible": true,
+    "reversalMethod": "how to reverse the action (if reversible)",
+    "reversed": false,
+    "reversalDate": "ISO-8601 (if reversed)",
+    "reversalRationale": "why the action was reversed (if reversed)"
+  },
+
+  "auditTrail": {
+    "createdAt": "ISO-8601",
+    "createdBy": "agent or system that created the record",
+    "updatedAt": "ISO-8601",
+    "updatedBy": "agent or system that last updated the record",
+    "version": "record version number",
+    "checksum": "integrity checksum (optional)"
+  },
+
+  "correlations": {
+    "relatedDecisions": ["list of related decision IDs"],
+    "parentDecisions": ["list of parent decision IDs"],
+    "childDecisions": ["list of child decision IDs"],
+    "traces": ["list of trace identifiers for correlation"],
+    "sessions": ["list of session identifiers for correlation"]
+  },
+
+  "learning": {
+    "category": "normal | anomaly | improvement | failure",
+    "lessons": ["list of lessons learned"],
+    "patterns": ["patterns observed"],
+    "recommendations": ["recommendations for future decisions"],
+    "feedback": "feedback from review (if reviewed)"
+  },
+
+  "appendOnly": true,
+  "immutableFields": [
+    "decisionIdentity.id",
+    "decisionIdentity.timestamp",
+    "decisionIdentity.agent",
+    "decisionClass",
+    "decisionContext",
+    "auditTrail.createdAt"
+  ],
+  "mutableFields": [
+    "escalation.humanDecision",
+    "action",
+    "outcome",
+    "auditTrail.updatedAt",
+    "auditTrail.updatedBy",
+    "auditTrail.version",
+    "learning"
+  ],
+
+  "history": [
+    {
+      "version": "1.0.0",
+      "effectiveDate": "2026-01-18",
+      "changeLog": "Initial decision schema established. Supports all decision classes, evidence levels, reasoning artifacts, uncertainty handling, escalation, ethical oversight, human accountability, governance, action execution, outcome tracking, and audit trail."
+    }
+  ],
+
+  "lastModified": "2026-01-18",
+  "maintainedBy": "Governance Team"
+}

@@ -1,0 +1,94 @@
+{
+  "timestamp": "2026-01-19T08:58:08.982Z",
+  "campaignId": "SSC-3",
+  "invariantMatrix": {
+    "PIL-α1": {
+      "triggered": 0,
+      "truePositive": 0,
+      "falsePositive": 0
+    },
+    "PIL-α2": {
+      "triggered": 1115,
+      "truePositive": 1115,
+      "falsePositive": 0
+    },
+    "PIL-α3": {
+      "triggered": 0,
+      "truePositive": 0,
+      "falsePositive": 0
+    },
+    "PIL-α4": {
+      "triggered": 914,
+      "truePositive": 914,
+      "falsePositive": 0
+    },
+    "PIL-β1": {
+      "triggered": 1628,
+      "truePositive": 1628,
+      "falsePositive": 0
+    },
+    "PIL-β2": {
+      "triggered": 915,
+      "truePositive": 915,
+      "falsePositive": 0
+    },
+    "PIL-β3": {
+      "triggered": 914,
+      "truePositive": 914,
+      "falsePositive": 0
+    },
+    "PIL-τ1": {
+      "triggered": 914,
+      "truePositive": 914,
+      "falsePositive": 0
+    },
+    "PIL-τ2": {
+      "triggered": 0,
+      "truePositive": 0,
+      "falsePositive": 0
+    },
+    "PIL-τ3": {
+      "triggered": 0,
+      "truePositive": 0,
+      "falsePositive": 0
+    }
+  },
+  "capabilityMatrix": {
+    "CAP-001": {
+      "triggered": 915,
+      "truePositive": 915,
+      "falsePositive": 0
+    },
+    "CAP-002": {
+      "triggered": 1115,
+      "truePositive": 1115,
+      "falsePositive": 0
+    },
+    "CAP-003": {
+      "triggered": 914,
+      "truePositive": 914,
+      "falsePositive": 0
+    },
+    "CAP-004": {
+      "triggered": 914,
+      "truePositive": 914,
+      "falsePositive": 0
+    },
+    "CAP-005": {
+      "triggered": 914,
+      "truePositive": 914,
+      "falsePositive": 0
+    },
+    "CAP-006": {
+      "triggered": 714,
+      "truePositive": 714,
+      "falsePositive": 0
+    },
+    "CAP-007": {
+      "triggered": 914,
+      "truePositive": 914,
+      "falsePositive": 0
+    }
+  },
+  "totalProcessed": 20000
+}

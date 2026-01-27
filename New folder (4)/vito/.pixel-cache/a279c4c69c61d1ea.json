@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Input.tsx",
+      "content": "import React, { useState } from 'react';\n\ninterface InputProps {\n  type?: 'text';\n  placeholder?: string;\n  onChange: (value: string) => void;\n  error?: boolean;\n}\n\nconst Input: React.FC<InputProps> = ({ type = 'text', placeholder, onChange, error = false }) => {\n  const [value, setValue] = useState('');\n\n  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {\n    setValue(e.target.value);\n    onChange(e.target.value);\n  };\n\n  return (\n    <input\n      type={type}\n      placeholder={placeholder}\n      value={value}\n      onChange={handleChange}\n      className={`border rounded p-2 ${error ? 'border-red-500' : 'border-gray-300'} focus:border-blue-600`}\n      aria-invalid={error}\n    />\n  );\n};\n\nexport default Input;"
+    }
+  ],
+  "timestamp": 1768783754932,
+  "promptVersion": "v3.0.0"
+}

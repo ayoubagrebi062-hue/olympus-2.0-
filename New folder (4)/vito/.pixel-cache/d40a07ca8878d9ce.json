@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Avatar.tsx",
+      "content": "// Avatar.tsx\nimport * as React from 'react';\n\nexport interface AvatarProps {\n  src?: string;\n  alt?: string;\n  fallback?: React.ReactNode;\n  initials?: string;\n  size?: 'sm' | 'md' | 'lg';\n}\n\nconst Avatar: React.FC<AvatarProps> = ({ src, alt, fallback, initials, size = 'md' }) => {\n  const sizeClasses = {\n    sm: 'h-8 w-8',\n    md: 'h-10 w-10',\n    lg: 'h-12 w-12',\n  }[size];\n\n  return (\n    <div className={`relative rounded-full overflow-hidden ${sizeClasses}`}>  \n      {src ? <img src={src} alt={alt} className='object-cover' /> : <div className='flex items-center justify-center bg-gray-200'>{initials}</div>}\n    </div>\n  );\n};\n\nexport { Avatar };"
+    }
+  ],
+  "timestamp": 1769473232107,
+  "promptVersion": "v3.0.0"
+}

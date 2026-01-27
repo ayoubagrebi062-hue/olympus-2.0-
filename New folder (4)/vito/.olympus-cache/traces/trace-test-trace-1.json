@@ -1,0 +1,13 @@
+[
+  {
+    "traceId": "test-trace-1",
+    "spanId": "5781d9fc7c66b564",
+    "operationName": "agent:oracle",
+    "startTime": 1769428222333,
+    "status": "SUCCESS",
+    "metadata": {},
+    "children": [],
+    "endTime": 1769428222390,
+    "duration": 57
+  }
+]

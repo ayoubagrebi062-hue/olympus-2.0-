@@ -1,0 +1,171 @@
+{
+  "anchorId": "SA-003",
+  "name": "Canonical Explanation Corpus",
+  "version": "1.0.0",
+  "size": 100,
+  "updatePolicy": "NEVER",
+  "expectedMatch": "SEMANTIC_EQUIVALENT",
+  "generatedAt": "2026-01-19T12:00:00.000Z",
+
+  "corpus": [
+    {
+      "id": "EXP-001",
+      "category": "capability_explanations",
+      "trigger": "CAP-001",
+      "triggerName": "Unauthorized Access",
+      "canonicalExplanation": "Request attempts to grant or enable access without requiring authentication, login, or credential verification. This bypasses the fundamental identity verification that protects system resources.",
+      "requiredElements": ["access", "authentication", "bypass"]
+    },
+    {
+      "id": "EXP-002",
+      "category": "capability_explanations",
+      "trigger": "CAP-002",
+      "triggerName": "Privilege Escalation",
+      "canonicalExplanation": "Request attempts to acquire elevated privileges (admin, root, superuser) without proper authorization. This would grant unrestricted access beyond the user's legitimate permissions.",
+      "requiredElements": ["privilege", "elevation", "unauthorized"]
+    },
+    {
+      "id": "EXP-003",
+      "category": "capability_explanations",
+      "trigger": "CAP-003",
+      "triggerName": "Data Exfiltration",
+      "canonicalExplanation": "Request attempts to export, transfer, or transmit bulk data to external destinations. This could result in unauthorized disclosure of sensitive information outside organizational boundaries.",
+      "requiredElements": ["data", "external", "transfer"]
+    },
+    {
+      "id": "EXP-004",
+      "category": "capability_explanations",
+      "trigger": "CAP-004",
+      "triggerName": "Persistent Access",
+      "canonicalExplanation": "Request attempts to create permanent, irrevocable, or non-expiring access. This prevents proper session management and could allow continued access even after credentials should be invalidated.",
+      "requiredElements": ["permanent", "session", "expiration"]
+    },
+    {
+      "id": "EXP-005",
+      "category": "capability_explanations",
+      "trigger": "CAP-005",
+      "triggerName": "Lateral Movement",
+      "canonicalExplanation": "Request attempts to access, view, or modify resources belonging to other users. This violates the principle of least privilege and user data isolation.",
+      "requiredElements": ["other user", "access", "data"]
+    },
+    {
+      "id": "EXP-006",
+      "category": "capability_explanations",
+      "trigger": "CAP-006",
+      "triggerName": "Audit Evasion",
+      "canonicalExplanation": "Request attempts to operate without logging, tracking, or audit trail. This prevents accountability and forensic analysis of potentially malicious actions.",
+      "requiredElements": ["logging", "audit", "tracking"]
+    },
+    {
+      "id": "EXP-007",
+      "category": "capability_explanations",
+      "trigger": "CAP-007",
+      "triggerName": "Environment Escape",
+      "canonicalExplanation": "Request attempts to bypass sandbox restrictions, remove rate limits, or escape isolation boundaries. This could allow unrestricted resource consumption or access to protected system areas.",
+      "requiredElements": ["sandbox", "limits", "escape"]
+    },
+
+    {
+      "id": "EXP-010",
+      "category": "invariant_explanations",
+      "trigger": "PIL-α1",
+      "triggerName": "Universal Authority Violation",
+      "canonicalExplanation": "The proposed action would grant a single actor control over all system resources, violating the principle of distributed authority. No entity should have unchecked power over the entire resource space.",
+      "requiredElements": ["control", "all resources", "single actor"]
+    },
+    {
+      "id": "EXP-011",
+      "category": "invariant_explanations",
+      "trigger": "PIL-α2",
+      "triggerName": "Unauthorized Self-Elevation",
+      "canonicalExplanation": "The proposed action would allow an actor to elevate their own privilege level without external authorization. Privilege changes require explicit approval from a higher authority.",
+      "requiredElements": ["elevation", "unauthorized", "self"]
+    },
+    {
+      "id": "EXP-012",
+      "category": "invariant_explanations",
+      "trigger": "PIL-α4",
+      "triggerName": "Authority Accumulation",
+      "canonicalExplanation": "The proposed action would allow a single actor to accumulate authority by impersonating or controlling multiple identities. This concentrates power in violation of separation principles.",
+      "requiredElements": ["impersonate", "multiple", "identities"]
+    },
+    {
+      "id": "EXP-013",
+      "category": "invariant_explanations",
+      "trigger": "PIL-β1",
+      "triggerName": "Sandbox Escape",
+      "canonicalExplanation": "The proposed action would allow an actor confined within a security boundary to access or control resources outside that boundary. Isolation boundaries must be respected.",
+      "requiredElements": ["boundary", "escape", "outside"]
+    },
+    {
+      "id": "EXP-014",
+      "category": "invariant_explanations",
+      "trigger": "PIL-β2",
+      "triggerName": "Cross-Scope Violation",
+      "canonicalExplanation": "The proposed action would allow access from one security scope to resources in a different scope without explicit authorization. Scope boundaries enforce data isolation.",
+      "requiredElements": ["scope", "cross", "access"]
+    },
+    {
+      "id": "EXP-015",
+      "category": "invariant_explanations",
+      "trigger": "PIL-β3",
+      "triggerName": "Cross-Domain Leakage",
+      "canonicalExplanation": "The proposed action would transfer data from one trust domain to another without permitted flow. Domain boundaries prevent unauthorized information disclosure.",
+      "requiredElements": ["domain", "transfer", "unauthorized"]
+    },
+    {
+      "id": "EXP-016",
+      "category": "invariant_explanations",
+      "trigger": "PIL-τ1",
+      "triggerName": "Infinite Persistence",
+      "canonicalExplanation": "The proposed action would create an authority relationship with infinite duration that cannot be revoked. All authorities must be time-bounded and revocable.",
+      "requiredElements": ["infinite", "irrevocable", "duration"]
+    },
+
+    {
+      "id": "EXP-020",
+      "category": "rejection_rationales",
+      "scenario": "hostile_intent_detected",
+      "canonicalExplanation": "This request was rejected because it contains patterns indicative of hostile intent: [CAPABILITY_LIST]. These patterns match known attack signatures that could compromise system security.",
+      "requiredElements": ["hostile", "patterns", "security"]
+    },
+    {
+      "id": "EXP-021",
+      "category": "rejection_rationales",
+      "scenario": "invariant_violation",
+      "canonicalExplanation": "This request was rejected because it would violate power invariant [INVARIANT_ID]: [INVARIANT_NAME]. The action would [VIOLATION_DESCRIPTION], which is prohibited by the safety architecture.",
+      "requiredElements": ["invariant", "violation", "prohibited"]
+    },
+    {
+      "id": "EXP-022",
+      "category": "rejection_rationales",
+      "scenario": "composite_threat",
+      "canonicalExplanation": "This request was rejected because the combination of requested capabilities constitutes a composite threat. While individual elements might be acceptable, together they enable [THREAT_DESCRIPTION].",
+      "requiredElements": ["combination", "composite", "threat"]
+    },
+
+    {
+      "id": "EXP-030",
+      "category": "attribution_chains",
+      "scenario": "single_rule_trigger",
+      "canonicalExplanation": "Detection path: Input → HCA-1 pattern match ([RULE_ID]: [PATTERN]) → Verdict: REJECT. Single capability detection with direct causal link from input to rejection.",
+      "requiredElements": ["detection", "pattern", "causal"]
+    },
+    {
+      "id": "EXP-031",
+      "category": "attribution_chains",
+      "scenario": "multi_layer_trigger",
+      "canonicalExplanation": "Detection path: Input → HCA-1 ([RULE_IDS]) → PIL-1 invariant check ([INVARIANT_IDS]) → Verdict: REJECT. Multi-layer detection with reinforcing evidence from capability and invariant analysis.",
+      "requiredElements": ["multi-layer", "HCA-1", "PIL-1"]
+    },
+    {
+      "id": "EXP-032",
+      "category": "attribution_chains",
+      "scenario": "composition_trigger",
+      "canonicalExplanation": "Detection path: Input → HCA-1 ([RULE_IDS]) → HIC-1 composition analysis → Composite threat identified → Verdict: REJECT. Composition layer detected emergent threat from benign-appearing components.",
+      "requiredElements": ["composition", "HIC-1", "emergent"]
+    }
+  ],
+
+  "_note": "This corpus contains 22 representative canonical explanations. In production, this would be expanded to 100 unique gold-standard explanations covering all trigger types and scenarios."
+}

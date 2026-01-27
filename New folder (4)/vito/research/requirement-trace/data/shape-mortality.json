@@ -1,0 +1,183 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-01-19T13:31:52.757Z",
+  "shapes": {
+    "FILTER_CAPABILITY": {
+      "shape_id": "FILTER_CAPABILITY",
+      "shape_kind": "CAPABILITY",
+      "criticality": "INTERACTIVE",
+      "first_observed": "2026-01-19T12:30:00.476Z",
+      "last_updated": "2026-01-19T13:31:52.757Z",
+      "total_runs": 8,
+      "overall_survival_rate": 0,
+      "mortality_status": "SYSTEMICALLY_BROKEN",
+      "per_handoff": {
+        "H1": {
+          "handoff_id": "H1",
+          "total_passes": 8,
+          "total_deaths": 0,
+          "survival_rate": 1,
+          "last_death_timestamp": null,
+          "consecutive_deaths": 0,
+          "consecutive_survivals": 8
+        },
+        "H2": {
+          "handoff_id": "H2",
+          "total_passes": 8,
+          "total_deaths": 0,
+          "survival_rate": 1,
+          "last_death_timestamp": null,
+          "consecutive_deaths": 0,
+          "consecutive_survivals": 8
+        },
+        "H3": {
+          "handoff_id": "H3",
+          "total_passes": 8,
+          "total_deaths": 0,
+          "survival_rate": 1,
+          "last_death_timestamp": null,
+          "consecutive_deaths": 0,
+          "consecutive_survivals": 8
+        },
+        "H4": {
+          "handoff_id": "H4",
+          "total_passes": 0,
+          "total_deaths": 8,
+          "survival_rate": 0,
+          "last_death_timestamp": "2026-01-19T13:31:52.757Z",
+          "consecutive_deaths": 8,
+          "consecutive_survivals": 0
+        },
+        "H5": {
+          "handoff_id": "H5",
+          "total_passes": 8,
+          "total_deaths": 0,
+          "survival_rate": 1,
+          "last_death_timestamp": null,
+          "consecutive_deaths": 0,
+          "consecutive_survivals": 8
+        }
+      },
+      "trend": "STABLE",
+      "trend_window_runs": 1
+    },
+    "PAGINATION_CAPABILITY": {
+      "shape_id": "PAGINATION_CAPABILITY",
+      "shape_kind": "CAPABILITY",
+      "criticality": "INTERACTIVE",
+      "first_observed": "2026-01-19T12:30:00.476Z",
+      "last_updated": "2026-01-19T13:31:52.757Z",
+      "total_runs": 8,
+      "overall_survival_rate": 0,
+      "mortality_status": "SYSTEMICALLY_BROKEN",
+      "per_handoff": {
+        "H1": {
+          "handoff_id": "H1",
+          "total_passes": 8,
+          "total_deaths": 0,
+          "survival_rate": 1,
+          "last_death_timestamp": null,
+          "consecutive_deaths": 0,
+          "consecutive_survivals": 8
+        },
+        "H2": {
+          "handoff_id": "H2",
+          "total_passes": 8,
+          "total_deaths": 0,
+          "survival_rate": 1,
+          "last_death_timestamp": null,
+          "consecutive_deaths": 0,
+          "consecutive_survivals": 8
+        },
+        "H3": {
+          "handoff_id": "H3",
+          "total_passes": 8,
+          "total_deaths": 0,
+          "survival_rate": 1,
+          "last_death_timestamp": null,
+          "consecutive_deaths": 0,
+          "consecutive_survivals": 8
+        },
+        "H4": {
+          "handoff_id": "H4",
+          "total_passes": 0,
+          "total_deaths": 8,
+          "survival_rate": 0,
+          "last_death_timestamp": "2026-01-19T13:31:52.757Z",
+          "consecutive_deaths": 8,
+          "consecutive_survivals": 0
+        },
+        "H5": {
+          "handoff_id": "H5",
+          "total_passes": 8,
+          "total_deaths": 0,
+          "survival_rate": 1,
+          "last_death_timestamp": null,
+          "consecutive_deaths": 0,
+          "consecutive_survivals": 8
+        }
+      },
+      "trend": "STABLE",
+      "trend_window_runs": 1
+    },
+    "STATIC_DISPLAY_CAPABILITY": {
+      "shape_id": "STATIC_DISPLAY_CAPABILITY",
+      "shape_kind": "INVARIANT",
+      "criticality": "FOUNDATIONAL",
+      "first_observed": "2026-01-19T12:30:00.476Z",
+      "last_updated": "2026-01-19T13:31:52.757Z",
+      "total_runs": 8,
+      "overall_survival_rate": 0,
+      "mortality_status": "SYSTEMICALLY_BROKEN",
+      "per_handoff": {
+        "H1": {
+          "handoff_id": "H1",
+          "total_passes": 8,
+          "total_deaths": 0,
+          "survival_rate": 1,
+          "last_death_timestamp": null,
+          "consecutive_deaths": 0,
+          "consecutive_survivals": 8
+        },
+        "H2": {
+          "handoff_id": "H2",
+          "total_passes": 8,
+          "total_deaths": 0,
+          "survival_rate": 1,
+          "last_death_timestamp": null,
+          "consecutive_deaths": 0,
+          "consecutive_survivals": 8
+        },
+        "H3": {
+          "handoff_id": "H3",
+          "total_passes": 0,
+          "total_deaths": 8,
+          "survival_rate": 0,
+          "last_death_timestamp": "2026-01-19T13:31:52.757Z",
+          "consecutive_deaths": 8,
+          "consecutive_survivals": 0
+        },
+        "H4": {
+          "handoff_id": "H4",
+          "total_passes": 8,
+          "total_deaths": 0,
+          "survival_rate": 1,
+          "last_death_timestamp": null,
+          "consecutive_deaths": 0,
+          "consecutive_survivals": 8
+        },
+        "H5": {
+          "handoff_id": "H5",
+          "total_passes": 8,
+          "total_deaths": 0,
+          "survival_rate": 1,
+          "last_death_timestamp": null,
+          "consecutive_deaths": 0,
+          "consecutive_survivals": 8
+        }
+      },
+      "trend": "STABLE",
+      "trend_window_runs": 1
+    }
+  }
+}

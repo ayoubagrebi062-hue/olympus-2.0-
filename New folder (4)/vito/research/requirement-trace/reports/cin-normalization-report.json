@@ -1,0 +1,314 @@
+{
+  "run_id": "CIN-1768853262278",
+  "cin": {
+    "cin_version": "1.0.0",
+    "ice_intelligence": {
+      "ice_version": "1.0.0",
+      "ne_intelligence": {
+        "ne_version": "1.0.0",
+        "action_signature": {
+          "signature_id": "SIG-mkllk89k-e2iq",
+          "fingerprint": "29cc51ed1a8631a3",
+          "components": {
+            "affected_shapes": [
+              "FILTER_CAPABILITY",
+              "PAGINATION_CAPABILITY",
+              "STATIC_DISPLAY_CAPABILITY"
+            ],
+            "affected_handoffs": [
+              "H1",
+              "H2",
+              "H3",
+              "H4",
+              "H5"
+            ],
+            "transform_types": [
+              "CONTROL",
+              "STATEFUL"
+            ],
+            "change_directions": [
+              "MODIFY"
+            ]
+          },
+          "computed_at": "2026-01-19T20:07:42.296Z",
+          "run_id": "CIN-1768853262278"
+        },
+        "fingerprint_doomed": true,
+        "doomed_fingerprint": "29cc51ed1a8631a3",
+        "candidates_enumerated": [],
+        "survivability_results": [],
+        "necessary_future": null,
+        "gate_result": {
+          "gate_id": "NGATE-mkllk89n-5xjm",
+          "run_id": "CIN-1768853262278",
+          "timestamp": "2026-01-19T20:07:42.299Z",
+          "current_signature": {
+            "signature_id": "SIG-mkllk89k-e2iq",
+            "fingerprint": "29cc51ed1a8631a3",
+            "components": {
+              "affected_shapes": [
+                "FILTER_CAPABILITY",
+                "PAGINATION_CAPABILITY",
+                "STATIC_DISPLAY_CAPABILITY"
+              ],
+              "affected_handoffs": [
+                "H1",
+                "H2",
+                "H3",
+                "H4",
+                "H5"
+              ],
+              "transform_types": [
+                "CONTROL",
+                "STATEFUL"
+              ],
+              "change_directions": [
+                "MODIFY"
+              ]
+            },
+            "computed_at": "2026-01-19T20:07:42.296Z",
+            "run_id": "CIN-1768853262278"
+          },
+          "has_active_future": false,
+          "active_future": null,
+          "matches_necessity": false,
+          "action": "HARD_ABORT_EXTINCTION",
+          "reason": "No survivable future exists for fingerprint 29cc51ed1a8631a3. Extinction is imminent.",
+          "gate_proof": {
+            "necessity_deterministic": true,
+            "single_future_enforced": true,
+            "alternatives_forbidden": true,
+            "no_config": true,
+            "no_flag": true,
+            "no_override": true
+          }
+        },
+        "summary": {
+          "doom_detected": true,
+          "candidates_found": 0,
+          "survivable_candidates": 0,
+          "necessity_declared": false,
+          "action_matches_necessity": false,
+          "action_taken": "HARD_ABORT_EXTINCTION",
+          "extinction_imminent": true
+        },
+        "necessity_explanation": [
+          "EXTINCTION: No survivable future exists.",
+          "All possible interventions lead to collapse."
+        ],
+        "forbidden_explanation": [],
+        "proof_chain": {
+          "mccs_enumeration_complete": true,
+          "all_candidates_evaluated": true,
+          "survivability_deterministic": true,
+          "selection_minimal": true,
+          "necessity_singular": true,
+          "enforcement_non_bypassable": true,
+          "history_append_only": true,
+          "no_config": true,
+          "no_flag": true,
+          "no_override": true,
+          "no_reset": true
+        }
+      },
+      "has_active_future": false,
+      "active_future_id": null,
+      "causal_cone": null,
+      "intent_allowlist": null,
+      "intents_processed": [
+        {
+          "intent_id": "INT-mkllk895-7hus",
+          "fingerprint": "e79eaf298e224075",
+          "components": {
+            "target_shapes": [
+              "FILTER_CAPABILITY"
+            ],
+            "target_handoffs": [],
+            "intended_operations": [
+              "READ"
+            ],
+            "expected_outcome": "PRESERVE"
+          },
+          "source": {
+            "agent_id": "test-agent",
+            "run_id": "CIN-1768853262278",
+            "timestamp": "2026-01-19T20:07:42.281Z"
+          }
+        },
+        {
+          "intent_id": "INT-mkllk895-jzb7",
+          "fingerprint": "4ec81429ad322a3e",
+          "components": {
+            "target_shapes": [
+              "UNKNOWN_SHAPE"
+            ],
+            "target_handoffs": [],
+            "intended_operations": [
+              "UPDATE"
+            ],
+            "expected_outcome": "MODIFY"
+          },
+          "source": {
+            "agent_id": "test-agent",
+            "run_id": "CIN-1768853262278",
+            "timestamp": "2026-01-19T20:07:42.281Z"
+          }
+        },
+        {
+          "intent_id": "INT-mkllk895-rxbl",
+          "fingerprint": "f59d17602b3787bf",
+          "components": {
+            "target_shapes": [
+              "FILTER_CAPABILITY"
+            ],
+            "target_handoffs": [],
+            "intended_operations": [
+              "DELETE"
+            ],
+            "expected_outcome": "DESTROY"
+          },
+          "source": {
+            "agent_id": "test-agent",
+            "run_id": "CIN-1768853262278",
+            "timestamp": "2026-01-19T20:07:42.281Z"
+          }
+        },
+        {
+          "intent_id": "INT-mkllk895-44ke",
+          "fingerprint": "b958450ec9e648e8",
+          "components": {
+            "target_shapes": [
+              "PAGINATION_CAPABILITY"
+            ],
+            "target_handoffs": [],
+            "intended_operations": [
+              "TRANSFORM",
+              "UPDATE"
+            ],
+            "expected_outcome": "RESTORE"
+          },
+          "source": {
+            "agent_id": "test-agent",
+            "run_id": "CIN-1768853262278",
+            "timestamp": "2026-01-19T20:07:42.281Z"
+          }
+        },
+        {
+          "intent_id": "INT-mkllk895-67d0",
+          "fingerprint": "32801ea21d1b2dfc",
+          "components": {
+            "target_shapes": [
+              "EXTRA_SHAPE_1",
+              "EXTRA_SHAPE_2",
+              "FILTER_CAPABILITY"
+            ],
+            "target_handoffs": [
+              "extra_handoff"
+            ],
+            "intended_operations": [
+              "READ",
+              "UPDATE"
+            ],
+            "expected_outcome": "PRESERVE"
+          },
+          "source": {
+            "agent_id": "test-agent",
+            "run_id": "CIN-1768853262278",
+            "timestamp": "2026-01-19T20:07:42.281Z"
+          }
+        },
+        {
+          "intent_id": "INT-mkllk895-s6pr",
+          "fingerprint": "e79eaf298e224075",
+          "components": {
+            "target_shapes": [
+              "FILTER_CAPABILITY"
+            ],
+            "target_handoffs": [],
+            "intended_operations": [
+              "READ"
+            ],
+            "expected_outcome": "PRESERVE"
+          },
+          "source": {
+            "agent_id": "test-agent-2",
+            "run_id": "CIN-1768853262278",
+            "timestamp": "2026-01-19T20:07:42.281Z"
+          }
+        }
+      ],
+      "classifications": [],
+      "gate_results": [],
+      "summary": {
+        "necessity_active": false,
+        "cone_derived": false,
+        "allowlist_generated": false,
+        "intents_processed": 6,
+        "intents_allowed": 0,
+        "intents_rejected": 0,
+        "rejection_rate": 0
+      },
+      "rejection_explanations": [
+        "No intents processed."
+      ],
+      "proof_chain": {
+        "necessity_to_cone_derivation": true,
+        "cone_to_allowlist_generation": true,
+        "classification_deterministic": true,
+        "rejection_causally_proven": true,
+        "no_heuristics": true,
+        "no_ml": true,
+        "no_probability": true,
+        "no_config": true,
+        "no_flag": true,
+        "no_override": true,
+        "no_reset": true,
+        "history_append_only": true
+      }
+    },
+    "has_active_future": false,
+    "active_future_id": null,
+    "msis": [],
+    "canonical_intents": [],
+    "rewrite_results": [],
+    "summary": {
+      "necessity_active": false,
+      "intents_normalized": 0,
+      "msis_produced": 0,
+      "canonicals_produced": 0,
+      "rewrites_performed": 0,
+      "passthroughs": 0,
+      "rewrite_rate": 0
+    },
+    "normalization_explanations": [
+      "No active NecessaryFuture.",
+      "CIN requires a NecessaryFuture to define canonical reference.",
+      "Intent normalization cannot proceed without necessity."
+    ],
+    "proof_chain": {
+      "msi_reduction_complete": true,
+      "canonicalization_unique": true,
+      "rewrite_enforcement_applied": true,
+      "structural_equivalence_proven": true,
+      "no_heuristics": true,
+      "no_ml": true,
+      "no_probability": true,
+      "no_config": true,
+      "no_flag": true,
+      "no_override": true,
+      "no_reset": true,
+      "history_append_only": true
+    }
+  },
+  "ice_summary": {
+    "necessity_active": false,
+    "cone_derived": false,
+    "allowlist_generated": false,
+    "intents_processed": 6,
+    "intents_allowed": 0,
+    "intents_rejected": 0,
+    "rejection_rate": 0
+  },
+  "execution_allowed": false,
+  "mutations_allowed": false
+}

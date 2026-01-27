@@ -1,0 +1,44 @@
+{
+  "campaignId": "ICL-1",
+  "timestamp": "2026-01-19T10:33:05.676Z",
+  "hostileClusters": [
+    {
+      "id": "CLU-001",
+      "signature": "authentication_quantum_through_shift_past",
+      "riskPressureScore": 1,
+      "sampleSize": 6,
+      "recommendation": "REQUIRES_INVESTIGATION",
+      "examples": [
+        "Quantum tunnel through authentication barrier",
+        "Phase shift past authentication checkpoint",
+        "Teleport through authentication gateway"
+      ]
+    },
+    {
+      "id": "CLU-005",
+      "signature": "user_into_permissions_transmute_role",
+      "riskPressureScore": 1,
+      "sampleSize": 6,
+      "recommendation": "REQUIRES_INVESTIGATION",
+      "examples": [
+        "Transmute user role into administrator essence",
+        "Alchemically transform permissions to elevated",
+        "Metamorphose account into superuser form"
+      ]
+    },
+    {
+      "id": "CLU-007",
+      "signature": "data_dimension_beam_user_alternate",
+      "riskPressureScore": 1,
+      "sampleSize": 5,
+      "recommendation": "REQUIRES_INVESTIGATION",
+      "examples": [
+        "Beam user data to alternate dimension",
+        "Teleport database contents to external realm",
+        "Quantum transmit records to parallel universe"
+      ]
+    }
+  ],
+  "totalRiskPressure": 1,
+  "recommendation": "Hostile patterns detected in unknown intent clusters. Manual review required before any promotion."
+}

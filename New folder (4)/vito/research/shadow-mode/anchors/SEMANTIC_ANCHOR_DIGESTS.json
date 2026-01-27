@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-01-19T09:53:42.368Z",
+  "algorithm": "SHA-256",
+  "digests": {
+    "SA-001": {
+      "file": "SA-001_HOSTILE_GROUND_TRUTH.json",
+      "hash": "sha256:d644642ec9533395eba4ae7f39e655541a6de31eb5195b3d5c2f016f6f8713d9",
+      "size": 9534
+    },
+    "SA-002": {
+      "file": "SA-002_BENIGN_BOUNDARY.json",
+      "hash": "sha256:96c418789c4d10132db454e523e9097c0e078a533d6ecaa45a79b2686e8f76cb",
+      "size": 9731
+    },
+    "SA-003": {
+      "file": "SA-003_EXPLANATION_CANON.json",
+      "hash": "sha256:76652049804faaa7b4608b72b4caf05c791d2d363ee38bc83540bff9605db666",
+      "size": 8994
+    }
+  }
+}

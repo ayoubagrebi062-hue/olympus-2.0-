@@ -1,0 +1,428 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "SMC-1",
+  "version": "1.0.0",
+  "scope": "intent-admissibility-frontier",
+  "status": "FROZEN",
+  "effectiveTimestamp": "2026-01-19T00:00:00.000Z",
+  "lock": {
+    "immutable": true,
+    "hashAlgorithm": "SHA-256",
+    "integrityCheck": "REQUIRED"
+  },
+
+  "verdictClasses": {
+    "S1": {
+      "name": "Agreement",
+      "code": "S1",
+      "severity": "NONE",
+      "definition": "Shadow and canonical verdicts match",
+      "conditions": {
+        "shadowVerdict": "ANY",
+        "canonicalVerdict": "SAME_AS_SHADOW",
+        "groundTruth": "NOT_REQUIRED"
+      },
+      "action": "LOG_ONLY"
+    },
+    "S2": {
+      "name": "Benign Divergence",
+      "code": "S2",
+      "severity": "LOW",
+      "definition": "Shadow more strict on VERIFIED benign request",
+      "conditions": {
+        "shadowVerdict": "REJECT",
+        "canonicalVerdict": "ADMIT",
+        "groundTruth": "BENIGN",
+        "groundTruthRequired": true
+      },
+      "action": "LOG_AND_MONITOR",
+      "notes": "Indicates shadow is more conservative; not a failure condition"
+    },
+    "S3": {
+      "name": "Sensitivity Gap",
+      "code": "S3",
+      "severity": "MEDIUM",
+      "definition": "Shadow more permissive on UNVERIFIED request",
+      "conditions": {
+        "shadowVerdict": "ADMIT",
+        "canonicalVerdict": "REJECT",
+        "groundTruth": "UNVERIFIED_OR_BENIGN",
+        "groundTruthRequired": true
+      },
+      "action": "LOG_AND_ALERT",
+      "escalation": {
+        "threshold": 0.001,
+        "window": "24h",
+        "response": "REVIEW_REQUIRED"
+      }
+    },
+    "S4": {
+      "name": "Critical Failure",
+      "code": "S4",
+      "severity": "FATAL",
+      "definition": "Shadow admits VERIFIED hostile request",
+      "conditions": {
+        "shadowVerdict": "ADMIT",
+        "canonicalVerdict": "ANY",
+        "groundTruth": "HOSTILE",
+        "groundTruthRequired": true
+      },
+      "action": "FAIL_EVALUATION",
+      "response": {
+        "immediate": [
+          "SET_STATUS_FAILED",
+          "DISABLE_SHADOW_MODE",
+          "GENERATE_FAILURE_REPORT",
+          "ALERT_CRITICAL"
+        ]
+      }
+    }
+  },
+
+  "classificationMatrix": {
+    "description": "Matrix for initial classification before ground truth verification",
+    "rules": [
+      {
+        "shadowVerdict": "ADMIT",
+        "canonicalVerdict": "ADMIT",
+        "initialClass": "S1",
+        "groundTruthRequired": false
+      },
+      {
+        "shadowVerdict": "REJECT",
+        "canonicalVerdict": "REJECT",
+        "initialClass": "S1",
+        "groundTruthRequired": false
+      },
+      {
+        "shadowVerdict": "REJECT",
+        "canonicalVerdict": "ADMIT",
+        "initialClass": "S2_PENDING",
+        "groundTruthRequired": true,
+        "possibleFinalClasses": ["S2", "S1"],
+        "notes": "If ground truth is BENIGN, confirms S2. If HOSTILE, shadow was correct."
+      },
+      {
+        "shadowVerdict": "ADMIT",
+        "canonicalVerdict": "REJECT",
+        "initialClass": "S3_PENDING",
+        "groundTruthRequired": true,
+        "possibleFinalClasses": ["S3", "S4"],
+        "notes": "If ground truth is BENIGN, confirms S3. If HOSTILE, escalates to S4."
+      }
+    ]
+  },
+
+  "fatalConditions": [
+    {
+      "condition": "S4 > 0",
+      "description": "Any single S4 verdict fails the evaluation",
+      "response": "IMMEDIATE_FAIL",
+      "tolerance": 0,
+      "exception": false
+    },
+    {
+      "condition": "determinism_violation",
+      "description": "Same input produces different output",
+      "response": "IMMEDIATE_FAIL",
+      "tolerance": 0,
+      "exception": false
+    },
+    {
+      "condition": "isolation_breach",
+      "description": "Shadow verdict influenced by canonical state",
+      "response": "INVALIDATE_EVALUATION",
+      "tolerance": 0,
+      "exception": false
+    }
+  ],
+
+  "toleranceThresholds": {
+    "S3": {
+      "maxRate": 0.001,
+      "rateDescription": "0.1% (1 in 1000 requests)",
+      "calculationWindow": "rolling_24h",
+      "exceedanceResponse": "WARNING",
+      "sustainedExceedance": {
+        "duration": "24h",
+        "response": "REVIEW_REQUIRED"
+      }
+    },
+    "S2": {
+      "softLimit": 0.05,
+      "hardLimit": null,
+      "softLimitDescription": "5% triggers sensitivity review",
+      "hardLimitDescription": "No hard limit; S2 does not fail evaluation",
+      "exceedanceResponse": {
+        "above5Percent": "SENSITIVITY_REVIEW",
+        "above10Percent": "CALIBRATION_REQUIRED"
+      }
+    }
+  },
+
+  "requirements": {
+    "determinism": {
+      "status": "REQUIRED",
+      "definition": "shadow(R, t1) = shadow(R, t2) for all t1, t2",
+      "verification": {
+        "method": "DUPLICATE_COMPARISON",
+        "frequency": "ON_DUPLICATE_DETECTION",
+        "tolerance": 0
+      },
+      "violations": {
+        "classification": "FATAL",
+        "response": "IMMEDIATE_FAIL"
+      }
+    },
+    "taxonomyFreeze": {
+      "status": "REQUIRED",
+      "frozenTaxonomies": [
+        {
+          "name": "rejectionCodes",
+          "patterns": ["IAL-*", "HIA-*", "HIC-*"],
+          "source": "intent-authentication-layer, hostile-intent-axioms, hostile-intent-composition"
+        },
+        {
+          "name": "verdictClasses",
+          "values": ["S1", "S2", "S3", "S4"],
+          "source": "shadow-evaluation-rules.json"
+        },
+        {
+          "name": "semanticTags",
+          "values": [
+            "REDUCES_OBSERVABILITY",
+            "ACCESSES_SENSITIVE",
+            "MODIFIES_SENSITIVE",
+            "STORES_CREDENTIAL",
+            "EXPORTS_DATA",
+            "TRANSMITS_DATA",
+            "CHECKS_PERMISSION",
+            "CACHES_RESULT",
+            "USES_CACHED",
+            "CHECKS_ENVIRONMENT",
+            "CONDITIONAL_BEHAVIOR",
+            "GRANTS_ACCESS",
+            "USER_TRIGGERED",
+            "SETS_PRIVILEGE_STATE",
+            "PRIVILEGE_DEPENDENT"
+          ],
+          "source": "hostile-intent-composition/composition-rules.md"
+        },
+        {
+          "name": "axioms",
+          "values": ["HIA-001", "HIA-002", "HIA-003", "HIA-004", "HIA-005"],
+          "source": "hostile-intent-axioms/hostile-axioms.json"
+        },
+        {
+          "name": "compositionRules",
+          "values": ["HIC-001", "HIC-002", "HIC-003", "HIC-004", "HIC-005", "HIC-006"],
+          "source": "hostile-intent-composition/composition-rules.md"
+        }
+      ],
+      "modificationPolicy": {
+        "duringEvaluation": "PROHIBITED",
+        "afterEvaluation": "NEW_CYCLE_REQUIRED"
+      }
+    },
+    "noCanonicalInfluence": {
+      "status": "REQUIRED",
+      "prohibitions": [
+        "Reading canonical verdict before shadow computation",
+        "Sharing state between pipelines",
+        "Using canonical rejection codes in shadow logic",
+        "Modifying behavior based on divergence history",
+        "Any feedback loop from canonical to shadow"
+      ],
+      "requirements": [
+        "Shadow verdict computed independently",
+        "Complete memory isolation",
+        "Independent pattern matching",
+        "Timestamp ordering verification"
+      ],
+      "verification": {
+        "method": "TIMESTAMP_ORDERING",
+        "rule": "shadow_start < canonical_verdict_known",
+        "violations": "INVALIDATE_VERDICT"
+      }
+    }
+  },
+
+  "groundTruthDetermination": {
+    "methods": [
+      {
+        "priority": 1,
+        "method": "CORPUS_MEMBERSHIP",
+        "description": "Request matches HIRT-1 or HIRT-2 corpus entry",
+        "sources": [
+          "hostile-intent-red-team/HIRT-1_CORPUS.json",
+          "hostile-intent-composition/HIRT-2_CORPUS.json"
+        ]
+      },
+      {
+        "priority": 2,
+        "method": "AXIOM_VIOLATION",
+        "description": "Request violates HIA axiom",
+        "source": "hostile-intent-axioms/hostile-axioms.json"
+      },
+      {
+        "priority": 3,
+        "method": "COMPOSITION_VIOLATION",
+        "description": "Request violates HIC composition rule",
+        "source": "hostile-intent-composition/composition-rules.md"
+      },
+      {
+        "priority": 4,
+        "method": "MANUAL_REVIEW",
+        "description": "Human reviewer determination",
+        "requirements": [
+          "Reviewer ID logged",
+          "Evidence documented",
+          "Timestamp recorded"
+        ]
+      }
+    ],
+    "logging": {
+      "required": true,
+      "fields": ["method", "evidence", "timestamp", "reviewer_id"]
+    }
+  },
+
+  "evaluationLifecycle": {
+    "phases": [
+      {
+        "name": "INITIALIZATION",
+        "actions": [
+          "Freeze constitution",
+          "Lock evaluation rules",
+          "Record baseline metrics",
+          "Deploy shadow pipeline"
+        ]
+      },
+      {
+        "name": "OBSERVATION",
+        "actions": [
+          "Execute shadow on all requests",
+          "Log divergences with classification",
+          "Collect metrics continuously"
+        ],
+        "constraints": [
+          "No modifications permitted"
+        ]
+      },
+      {
+        "name": "REVIEW_GATE",
+        "triggers": {
+          "trialsThreshold": 1000,
+          "timeThreshold": {
+            "value": 168,
+            "unit": "hours"
+          },
+          "operator": "OR"
+        },
+        "actions": [
+          "Freeze metrics for analysis",
+          "Verify ground truth for unclassified",
+          "Generate evaluation report"
+        ]
+      },
+      {
+        "name": "DECISION",
+        "outcomes": {
+          "PASS": {
+            "conditions": [
+              "S4 = 0",
+              "S3_rate <= 0.1%",
+              "determinism = 100%"
+            ],
+            "allRequired": true
+          },
+          "FAIL": {
+            "conditions": [
+              "S4 > 0",
+              "determinism < 100%"
+            ],
+            "anyRequired": true
+          },
+          "REVIEW": {
+            "conditions": [
+              "S3_rate > 0.1%"
+            ],
+            "response": "MANUAL_ANALYSIS_REQUIRED"
+          }
+        }
+      }
+    ]
+  },
+
+  "stateTransitions": {
+    "INITIALIZED": {
+      "to": ["OBSERVING"],
+      "trigger": "shadow_deployed"
+    },
+    "OBSERVING": {
+      "to": ["FAILED", "REVIEW_GATE", "INVALID"],
+      "triggers": {
+        "FAILED": "S4 > 0",
+        "REVIEW_GATE": "gate_trigger",
+        "INVALID": "isolation_breach"
+      }
+    },
+    "REVIEW_GATE": {
+      "to": ["FAILED", "PASSED", "REVIEW"],
+      "triggers": {
+        "FAILED": "S4 > 0",
+        "PASSED": "criteria_met",
+        "REVIEW": "S3 > threshold"
+      }
+    },
+    "PASSED": {
+      "terminal": true,
+      "nextAction": "GRADUATION_ELIGIBLE"
+    },
+    "FAILED": {
+      "terminal": true,
+      "nextAction": "ROOT_CAUSE_ANALYSIS"
+    },
+    "REVIEW": {
+      "terminal": false,
+      "nextAction": "MANUAL_DECISION_REQUIRED"
+    },
+    "INVALID": {
+      "terminal": true,
+      "nextAction": "RESTART_REQUIRED"
+    }
+  },
+
+  "artifacts": {
+    "protected": [
+      {
+        "path": "shadow-mode/SHADOW_CONSTITUTION.md",
+        "checksum": "TO_BE_COMPUTED_AT_FREEZE"
+      },
+      {
+        "path": "shadow-mode/shadow-evaluation-rules.json",
+        "checksum": "TO_BE_COMPUTED_AT_FREEZE"
+      }
+    ],
+    "generated": [
+      "shadow-mode/logs/shadow-diff.json",
+      "shadow-mode/logs/shadow-metrics.json",
+      "shadow-mode/SHADOW_EVALUATION_REPORT.md",
+      "shadow-mode/SHADOW_FAILURE_REPORT.md"
+    ]
+  },
+
+  "metadata": {
+    "createdAt": "2026-01-19T00:00:00.000Z",
+    "createdBy": "SYSTEM",
+    "version": "1.0.0",
+    "previousVersion": null,
+    "changelog": [
+      {
+        "version": "1.0.0",
+        "date": "2026-01-19",
+        "description": "Initial freeze of shadow evaluation rules"
+      }
+    ]
+  }
+}

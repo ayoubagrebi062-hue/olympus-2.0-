@@ -1,0 +1,446 @@
+{
+  "$schema": "https://vito.research/hostile-capability-analysis/v1.0",
+  "id": "HCA-1",
+  "version": "1.0.0",
+  "authority": "EXPERIMENTAL",
+  "description": "Capability taxonomy for detecting hostile intent via implied capability acquisition",
+  "smcCompatibility": "SMC-1",
+
+  "capabilities": [
+    {
+      "id": "CAP-001",
+      "name": "Unauthorized Access",
+      "description": "Intent grants access to resources without proper authentication or authorization",
+      "severity": "CRITICAL",
+      "category": "ACCESS_CONTROL",
+      "indicators": [
+        "access_without_auth",
+        "universal_access",
+        "permission_bypass",
+        "auth_optional"
+      ],
+      "patterns": [
+        {
+          "regex": "\\b(allow|grant|enable|provide)\\s+(access|entry)\\s+(without|regardless of|bypassing)\\s+(auth|login|token|session|credentials?)",
+          "weight": 1.0,
+          "description": "Direct access without authentication"
+        },
+        {
+          "regex": "\\b(any|all|every)\\s+(user|person|one)\\s+(can|may|is able to)\\s+(access|read|write|view|modify)",
+          "weight": 0.9,
+          "description": "Universal access grant"
+        },
+        {
+          "regex": "\\bno\\s+(auth|authentication|login|credential|session)\\s+(required|needed|necessary)",
+          "weight": 1.0,
+          "description": "Authentication explicitly not required"
+        },
+        {
+          "regex": "\\b(works?|functions?|operates?)\\s+(without|regardless of)\\s+(auth|authentication|login)",
+          "weight": 0.9,
+          "description": "Operation without authentication"
+        },
+        {
+          "regex": "\\b(access|read|write|view)\\s+.{0,30}\\s+(regardless|irrespective)\\s+of\\s+(permission|role|privilege)",
+          "weight": 1.0,
+          "description": "Access regardless of permissions"
+        },
+        {
+          "regex": "\\b(public|open|unrestricted)\\s+(access|endpoint|api)\\s+(to|for)\\s+(all|any|everyone)",
+          "weight": 0.8,
+          "description": "Public unrestricted access"
+        }
+      ],
+      "exclusions": [
+        {
+          "regex": "\\bpublic\\s+(content|page|resource|asset|static)",
+          "reason": "Legitimately public content"
+        },
+        {
+          "regex": "\\b(marketing|landing|home)\\s+page",
+          "reason": "Public-facing pages"
+        }
+      ]
+    },
+    {
+      "id": "CAP-002",
+      "name": "Privilege Acquisition",
+      "description": "Intent enables gaining elevated privileges without proper authorization flow",
+      "severity": "CRITICAL",
+      "category": "PRIVILEGE_ESCALATION",
+      "indicators": [
+        "self_granted_admin",
+        "unrestricted_operations",
+        "role_self_assignment",
+        "privilege_escalation"
+      ],
+      "patterns": [
+        {
+          "regex": "\\b(user|anyone|person)\\s+(can|may)\\s+(grant|assign|give)\\s+.{0,20}\\s+(admin|administrator|root|superuser|elevated)\\s+(to|for)\\s+(self|themselves|anyone)",
+          "weight": 1.0,
+          "description": "Self or arbitrary admin grant"
+        },
+        {
+          "regex": "\\bperform\\s+(any|all|every)\\s+(operation|action|task)",
+          "weight": 0.9,
+          "description": "Unrestricted operation capability"
+        },
+        {
+          "regex": "\\b(unrestricted|unlimited|full|complete)\\s+(access|permissions?|privileges?|control)",
+          "weight": 0.9,
+          "description": "Unrestricted access"
+        },
+        {
+          "regex": "\\b(act|operate|function)\\s+(as|like)\\s+(admin|administrator|root|superuser)",
+          "weight": 1.0,
+          "description": "Act as privileged user"
+        },
+        {
+          "regex": "\\ball\\s+(permissions?|privileges?|rights?)\\s+(granted|given|assigned|enabled)",
+          "weight": 0.9,
+          "description": "All privileges granted"
+        },
+        {
+          "regex": "\\bno\\s+(permission|role|access)\\s+(restrictions?|limits?|constraints?|checks?)",
+          "weight": 1.0,
+          "description": "No permission restrictions"
+        },
+        {
+          "regex": "\\b(become|change to|switch to|elevate to)\\s+(admin|administrator|root|superuser)",
+          "weight": 1.0,
+          "description": "Privilege elevation"
+        }
+      ],
+      "exclusions": [
+        {
+          "regex": "\\b(if|when)\\s+(user\\s+)?(is|has)\\s+(admin|administrator)",
+          "reason": "Conditional on existing admin status"
+        },
+        {
+          "regex": "\\badmin\\s+(user|panel|dashboard|interface)",
+          "reason": "Admin UI reference"
+        }
+      ]
+    },
+    {
+      "id": "CAP-003",
+      "name": "Data Exfiltration",
+      "description": "Intent enables extracting large amounts of data to external destinations",
+      "severity": "CRITICAL",
+      "category": "DATA_SECURITY",
+      "indicators": [
+        "bulk_export",
+        "external_transmission",
+        "complete_data_access",
+        "unlimited_download"
+      ],
+      "patterns": [
+        {
+          "regex": "\\b(send|transmit|post|push|forward)\\s+(all|entire|complete|full)\\s+.{0,30}\\s+(to|at)\\s+(external|third.?party|webhook|endpoint|remote|outside)",
+          "weight": 1.0,
+          "description": "Send all data externally"
+        },
+        {
+          "regex": "\\b(export|download|dump|extract|backup)\\s+(all|entire|complete|full|whole)\\s+(database|records?|data|table|collection)",
+          "weight": 0.9,
+          "description": "Export all data"
+        },
+        {
+          "regex": "\\b(copy|clone|replicate|duplicate)\\s+(all|entire|everything|complete)\\s+.{0,20}\\s+(to|into)\\s+(external|remote|outside)",
+          "weight": 1.0,
+          "description": "Copy everything externally"
+        },
+        {
+          "regex": "\\bunlimited\\s+(download|export|extraction|access)\\s+(to|of|for)\\s+(data|records?|information)",
+          "weight": 0.8,
+          "description": "Unlimited data access"
+        },
+        {
+          "regex": "\\b(stream|pipe|relay)\\s+.{0,20}\\s+(to|into)\\s+(external|third.?party|remote)",
+          "weight": 0.8,
+          "description": "Stream data externally"
+        }
+      ],
+      "exclusions": [
+        {
+          "regex": "\\b(export|download)\\s+(my|own|user'?s own|current user)",
+          "reason": "Own data export"
+        },
+        {
+          "regex": "\\bbackup\\s+to\\s+(local|same|internal|our)",
+          "reason": "Internal backup"
+        },
+        {
+          "regex": "\\b(analytics|telemetry|metrics)\\s+(to|for)\\s+(our|internal)",
+          "reason": "Internal analytics"
+        }
+      ]
+    },
+    {
+      "id": "CAP-004",
+      "name": "Persistent Access",
+      "description": "Intent enables maintaining access that survives session termination or credential changes",
+      "severity": "HIGH",
+      "category": "ACCESS_PERSISTENCE",
+      "indicators": [
+        "permanent_session",
+        "backdoor_creation",
+        "immortal_token",
+        "revocation_resistant"
+      ],
+      "patterns": [
+        {
+          "regex": "\\b(session|token|access|credential)\\s+(never|doesn't|does not|won't)\\s+(expire|timeout|end|terminate)",
+          "weight": 1.0,
+          "description": "Non-expiring session/token"
+        },
+        {
+          "regex": "\\bpermanent\\s+(access|session|token|login|authentication)",
+          "weight": 1.0,
+          "description": "Permanent access"
+        },
+        {
+          "regex": "\\b(create|add|install|establish)\\s+.{0,20}\\s*(backdoor|back.?door|alternate|hidden|secret)\\s+(access|entry|login|path)",
+          "weight": 1.0,
+          "description": "Backdoor creation"
+        },
+        {
+          "regex": "\\b(access|session|token)\\s+(survives?|persists?|remains?)\\s+(after|through|despite)\\s+(logout|expiry|revocation|password\\s+change)",
+          "weight": 1.0,
+          "description": "Access survives revocation"
+        },
+        {
+          "regex": "\\b(store|save|hide|cache)\\s+.{0,20}\\s*(secret|hidden)\\s+(key|credential|token|password)",
+          "weight": 0.9,
+          "description": "Hidden credential storage"
+        },
+        {
+          "regex": "\\b(infinite|forever|indefinite)\\s+(session|token|access)",
+          "weight": 1.0,
+          "description": "Infinite session"
+        }
+      ],
+      "exclusions": [
+        {
+          "regex": "\\bremember\\s+me\\s+(option|checkbox|feature)",
+          "reason": "Standard remember me feature"
+        },
+        {
+          "regex": "\\brefresh\\s+token",
+          "reason": "Standard token refresh"
+        }
+      ]
+    },
+    {
+      "id": "CAP-005",
+      "name": "Lateral Movement",
+      "description": "Intent enables accessing resources belonging to other users",
+      "severity": "HIGH",
+      "category": "ACCESS_SCOPE",
+      "indicators": [
+        "cross_user_access",
+        "user_impersonation",
+        "account_switching",
+        "other_user_data"
+      ],
+      "patterns": [
+        {
+          "regex": "\\b(access|read|view|modify|delete)\\s+(other|another|any|different)\\s+(user|person|account)'?s?\\s+(data|information|records?|profile|account)",
+          "weight": 1.0,
+          "description": "Access other user's data"
+        },
+        {
+          "regex": "\\b(act|operate|perform|execute)\\s+(as|on behalf of|for)\\s+(other|another|any|different)\\s+(user|person|account)",
+          "weight": 1.0,
+          "description": "Act as another user"
+        },
+        {
+          "regex": "\\b(impersonate|masquerade|pretend)\\s+(as)?\\s+(any|other|another|different)\\s+(user|person|account)",
+          "weight": 1.0,
+          "description": "Impersonate other user"
+        },
+        {
+          "regex": "\\bview\\s+(all|any|every)\\s+(user|person|account)'?s?\\s+(data|profile|information)",
+          "weight": 0.9,
+          "description": "View any user's data"
+        },
+        {
+          "regex": "\\b(switch|change)\\s+(to|into)\\s+(any|other|another)\\s+(user|account)",
+          "weight": 1.0,
+          "description": "Switch to other account"
+        },
+        {
+          "regex": "\\b(access|view|read)\\s+.{0,20}\\s+(across|between|among)\\s+(all\\s+)?(users?|accounts?)",
+          "weight": 0.8,
+          "description": "Cross-user access"
+        }
+      ],
+      "exclusions": [
+        {
+          "regex": "\\badmin\\s+(can|may)\\s+(view|access|manage)\\s+(user|account)",
+          "reason": "Admin user management"
+        },
+        {
+          "regex": "\\bsupport\\s+(staff|team|agent)\\s+(can|may)",
+          "reason": "Support access"
+        },
+        {
+          "regex": "\\b(public|shared)\\s+(profile|post|content)",
+          "reason": "Public shared content"
+        }
+      ]
+    },
+    {
+      "id": "CAP-006",
+      "name": "Audit Blindness",
+      "description": "Intent enables operating without creating audit records",
+      "severity": "HIGH",
+      "category": "OBSERVABILITY",
+      "indicators": [
+        "silent_operation",
+        "no_logging",
+        "audit_deletion",
+        "untracked_action"
+      ],
+      "patterns": [
+        {
+          "regex": "\\b(operate|execute|perform|run)\\s+(silently|quietly|invisibly|stealthily|undetected)",
+          "weight": 1.0,
+          "description": "Silent operation"
+        },
+        {
+          "regex": "\\bno\\s+(log|logging|audit|tracking|trace|record)\\s+(for|of|when)",
+          "weight": 1.0,
+          "description": "No logging for action"
+        },
+        {
+          "regex": "\\b(action|operation|activity)\\s+(not|never|won't be)\\s+(logged|recorded|tracked|audited)",
+          "weight": 1.0,
+          "description": "Unlogged action"
+        },
+        {
+          "regex": "\\b(skip|disable|bypass|omit)\\s+(logging|audit|tracking|recording)\\s+(for|when|during)",
+          "weight": 1.0,
+          "description": "Skip logging"
+        },
+        {
+          "regex": "\\b(remove|delete|clear|purge)\\s+(audit|log)\\s+(entries|records?|trail)",
+          "weight": 1.0,
+          "description": "Delete audit records"
+        },
+        {
+          "regex": "\\boff.?the.?record",
+          "weight": 0.9,
+          "description": "Off the record operation"
+        }
+      ],
+      "exclusions": [
+        {
+          "regex": "\\bquiet\\s+(mode|output)\\s+(for|during)\\s+(test|debug|development)",
+          "reason": "Test/debug quiet mode"
+        },
+        {
+          "regex": "\\breduce\\s+(log|logging)\\s+(noise|verbosity|volume)",
+          "reason": "Log noise reduction"
+        }
+      ]
+    },
+    {
+      "id": "CAP-007",
+      "name": "Environment Escape",
+      "description": "Intent enables escaping sandbox, rate limits, or other environmental constraints",
+      "severity": "CRITICAL",
+      "category": "CONSTRAINT_BYPASS",
+      "indicators": [
+        "rate_limit_bypass",
+        "sandbox_escape",
+        "quota_removal",
+        "unlimited_resources"
+      ],
+      "patterns": [
+        {
+          "regex": "\\bno\\s+(rate|request|api)\\s+(limit|limiting|cap|restriction)",
+          "weight": 1.0,
+          "description": "No rate limit"
+        },
+        {
+          "regex": "\\b(unlimited|infinite|unrestricted)\\s+(requests?|calls?|api\\s+calls?|access)",
+          "weight": 1.0,
+          "description": "Unlimited requests"
+        },
+        {
+          "regex": "\\b(bypass|escape|break out of|circumvent)\\s+(sandbox|container|jail|isolation)",
+          "weight": 1.0,
+          "description": "Sandbox escape"
+        },
+        {
+          "regex": "\\b(ignore|remove|disable|bypass)\\s+(quota|limit|cap|restriction|constraint)",
+          "weight": 1.0,
+          "description": "Remove quota/limit"
+        },
+        {
+          "regex": "\\b(escape|break|circumvent)\\s+(restriction|constraint|limitation)",
+          "weight": 0.9,
+          "description": "Escape restriction"
+        },
+        {
+          "regex": "\\b(no|without)\\s+(throttl|rate.?limit|quota)",
+          "weight": 1.0,
+          "description": "Without throttling"
+        }
+      ],
+      "exclusions": [
+        {
+          "regex": "\\b(premium|paid|enterprise)\\s+(tier|plan|subscription)\\s+(has|gets|includes)\\s+(higher|increased)\\s+limit",
+          "reason": "Legitimate tier limits"
+        },
+        {
+          "regex": "\\binternal\\s+(api|service)\\s+(has|with)\\s+(no|higher)\\s+limit",
+          "reason": "Internal service limits"
+        }
+      ]
+    }
+  ],
+
+  "scopeModifiers": {
+    "self": {
+      "patterns": ["\\b(my|own|current user|self)\\b"],
+      "multiplier": 0.5,
+      "description": "Capability affects only the user themselves"
+    },
+    "others": {
+      "patterns": ["\\b(other|another|different)\\s+(user|person|account)"],
+      "multiplier": 2.0,
+      "description": "Capability affects other specific users"
+    },
+    "any": {
+      "patterns": ["\\b(any|all|every|everyone)\\b"],
+      "multiplier": 3.0,
+      "description": "Capability affects any/all users"
+    }
+  },
+
+  "thresholds": {
+    "CRITICAL": {
+      "maxCount": 0,
+      "description": "Any CRITICAL capability triggers rejection"
+    },
+    "HIGH": {
+      "maxCount": 1,
+      "description": "At most 1 HIGH capability allowed"
+    },
+    "MEDIUM": {
+      "maxCount": 4,
+      "description": "At most 4 MEDIUM capabilities allowed"
+    }
+  },
+
+  "metadata": {
+    "createdAt": "2026-01-19T00:00:00.000Z",
+    "smcId": "SMC-1",
+    "constraints": {
+      "deterministic": true,
+      "noML": true
+    }
+  }
+}

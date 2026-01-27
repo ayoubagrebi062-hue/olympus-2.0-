@@ -1,0 +1,110 @@
+{
+  "freezeId": "TOPOLOGY-FREEZE-002",
+  "timestamp": "2026-01-19T14:00:00.000Z",
+  "scope": "safety-layers",
+  "constitution": "SEC-4",
+  "supersedes": "TOPOLOGY-FREEZE-001",
+
+  "amendment": {
+    "reason": "Insert UID-1 Unknown Intent Detector between PIL-1 and HIC-1",
+    "governance": "Constitutional amendment SEC-3 → SEC-4",
+    "verification": "UIC-1 campaign required before enforcement"
+  },
+
+  "canonicalPipeline": {
+    "id": "PIPELINE_A_V2",
+    "name": "Canonical Order with Unknown Intent Detection",
+    "order": ["HCA-1", "PIL-1", "UID-1", "HIC-1"],
+    "description": "Hostile Capability Analysis → Power Invariant Layer → Unknown Intent Detector → Hostile Intent Composition",
+    "verified": false,
+    "pendingVerification": "UIC-1"
+  },
+
+  "frozenLayers": [
+    {
+      "layerId": "HCA-1",
+      "name": "Hostile Capability Analysis",
+      "position": 1,
+      "mode": "ENFORCING",
+      "rules": ["CAP-001", "CAP-002", "CAP-003", "CAP-004", "CAP-005", "CAP-006", "CAP-007"],
+      "frozen": true
+    },
+    {
+      "layerId": "PIL-1",
+      "name": "Power Invariant Layer",
+      "position": 2,
+      "mode": "ENFORCING",
+      "invariants": ["PIL-α1", "PIL-α2", "PIL-α3", "PIL-α4", "PIL-β1", "PIL-β2", "PIL-β3", "PIL-τ1", "PIL-τ2", "PIL-τ3"],
+      "frozen": true
+    },
+    {
+      "layerId": "UID-1",
+      "name": "Unknown Intent Detector",
+      "position": 2.5,
+      "mode": "ENFORCING",
+      "decision_space": ["KNOWN_SAFE", "KNOWN_HOSTILE", "UNKNOWN"],
+      "policy": "UNKNOWN → ESCALATE, default REJECT",
+      "frozen": false,
+      "pendingCertification": true,
+      "addedIn": "SEC-4"
+    },
+    {
+      "layerId": "HIC-1",
+      "name": "Hostile Intent Composition",
+      "position": 3,
+      "mode": "OBSERVATIONAL",
+      "rules": ["HIC-001", "HIC-002", "HIC-003", "HIC-004", "HIC-005", "HIC-006"],
+      "frozen": true
+    }
+  ],
+
+  "layerFlow": {
+    "diagram": "HCA-1 → PIL-1 → UID-1 → HIC-1",
+    "description": [
+      "1. HCA-1: Detect hostile capabilities (CAP-001 through CAP-007)",
+      "2. PIL-1: Check power invariants (prevent authority concentration)",
+      "3. UID-1: Classify as KNOWN_SAFE, KNOWN_HOSTILE, or UNKNOWN",
+      "4. HIC-1: Analyze composite hostile intent patterns"
+    ],
+    "verdictFlow": {
+      "HCA-1_REJECT": "→ FINAL_REJECT",
+      "PIL-1_REJECT": "→ FINAL_REJECT",
+      "UID-1_KNOWN_HOSTILE": "→ FINAL_REJECT",
+      "UID-1_UNKNOWN": "→ ESCALATE (default REJECT)",
+      "UID-1_KNOWN_SAFE": "→ continue to HIC-1",
+      "HIC-1_REJECT": "→ FINAL_REJECT",
+      "HIC-1_PASS": "→ FINAL_ADMIT"
+    }
+  },
+
+  "constraints": {
+    "orderChangeProhibited": true,
+    "layerInsertionProhibited": true,
+    "layerRemovalProhibited": true,
+    "modificationRequires": "NEW_CAMPAIGN + REGRESSION_VERIFICATION + CONSTITUTIONAL_AMENDMENT",
+    "note": "UID-1 insertion approved via SEC-3 → SEC-4 amendment"
+  },
+
+  "enforcement": {
+    "rule": "order-invariant-required",
+    "enforcedAt": "2026-01-19T14:00:00.000Z",
+    "enforcedBy": "SEC-4 Constitutional Amendment",
+    "violations": {
+      "onOrderChange": "REJECT_DEPLOYMENT",
+      "onLayerMutation": "REQUIRE_RECERTIFICATION"
+    }
+  },
+
+  "artifacts": {
+    "tic1Results": "campaigns/TIC-1/reports/TIC-1_EXECUTION_RESULTS.json",
+    "uic1Results": "campaigns/UIC-1/reports/UIC-1_EXECUTION_RESULTS.json",
+    "uid1Layer": "layers/UID-1_UNKNOWN_INTENT_DETECTOR.json"
+  },
+
+  "signOff": {
+    "frozenBy": "SEC-4 Constitutional Amendment",
+    "constitutionCompliant": true,
+    "immutable": false,
+    "pendingVerification": "UIC-1"
+  }
+}

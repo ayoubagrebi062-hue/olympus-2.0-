@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-01-18T14:10:54.442Z",
+  "governancePhase": "OBSERVATION_ONLY",
+  "summary": {
+    "totalAcknowledgments": 0,
+    "acknowledgedCount": 0,
+    "unacknowledgedCount": 0,
+    "oldestAcknowledgmentAgeDays": 0,
+    "fossilRiskCount": 0,
+    "staleRiskCount": 0,
+    "agingRiskCount": 0,
+    "freshRiskCount": 0,
+    "driftedRiskCount": 0,
+    "ownershipRisks": 0,
+    "highestRiskWithStaleness": {
+      "riskLevel": "low",
+      "staleness": "fresh"
+    }
+  },
+  "acknowledgments": []
+}

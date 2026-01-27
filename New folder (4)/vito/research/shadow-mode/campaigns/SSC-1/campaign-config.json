@@ -1,0 +1,77 @@
+{
+  "id": "SSC-1",
+  "name": "Shadow Stress Campaign 1",
+  "scope": "shadow-mode",
+  "status": "INITIALIZED",
+  "startTimestamp": null,
+  "endTimestamp": null,
+
+  "inputSources": {
+    "production-mirror": {
+      "description": "Simulated production traffic patterns",
+      "weight": 0.60,
+      "targetCount": 6000,
+      "characteristics": {
+        "benignRate": 0.95,
+        "hostileRate": 0.05,
+        "compositionRate": 0.15
+      }
+    },
+    "synthetic-adversarial": {
+      "description": "Crafted adversarial patterns targeting known vulnerabilities",
+      "weight": 0.25,
+      "targetCount": 2500,
+      "characteristics": {
+        "benignRate": 0.20,
+        "hostileRate": 0.80,
+        "compositionRate": 0.60
+      }
+    },
+    "canonical-rejects": {
+      "description": "Cases from HIRT-1 and HIRT-2 corpora known to be rejected",
+      "weight": 0.15,
+      "targetCount": 1500,
+      "characteristics": {
+        "benignRate": 0.00,
+        "hostileRate": 1.00,
+        "compositionRate": 0.50
+      }
+    }
+  },
+
+  "volume": {
+    "targetIntents": 10000,
+    "batchSize": 100,
+    "parallelism": 1
+  },
+
+  "constraints": {
+    "smcLocked": true,
+    "smcId": "SMC-1",
+    "val1Required": true,
+    "val1Id": "VAL-1",
+    "noLogicChanges": true,
+    "checksumVerification": true
+  },
+
+  "metrics": [
+    "verdict_distribution",
+    "causalLayer_frequency",
+    "firstDivergence_histogram",
+    "rule_trigger_rank",
+    "replayHash_collisions"
+  ],
+
+  "termination": {
+    "onVolumeReached": true,
+    "onS4Detected": "immediate_abort",
+    "maxDurationHours": 24,
+    "checkpointInterval": 1000
+  },
+
+  "artifacts": [
+    "reports/SSC-1_SUMMARY.md",
+    "reports/SSC-1_ATTRIBUTION_HEATMAP.json",
+    "reports/SSC-1_GRADUATION_READINESS.md"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Card.tsx",
+      "content": "import React, { useState } from 'react';\nimport PropTypes from 'prop-types';\n\ninterface CardProps {\n  title: string;\n  content: string;\n  variant?: 'default' | 'highlighted';\n  onClick?: () => void;\n}\n\nconst Card: React.FC<CardProps> = ({ title, content, variant = 'default', onClick }) => {\n  const [isHovered, setIsHovered] = useState(false);\n\n  const handleMouseEnter = () => setIsHovered(true);\n  const handleMouseLeave = () => setIsHovered(false);\n\n  return (\n    <div\n      className={`p-4 rounded-lg shadow-lg transition-all duration-300 ${\n        variant === 'highlighted' ? 'bg-yellow-300' : 'bg-white'\n      } ${isHovered ? 'transform scale-105' : ''}`}\n      onMouseEnter={handleMouseEnter}\n      onMouseLeave={handleMouseLeave}\n      onClick={onClick}\n      role=\"button\"\n      tabIndex={0}\n      onKeyPress={(e) => e.key === 'Enter' && onClick && onClick()}\n      aria-label={title}\n    >\n      <h2 className=\"text-lg font-semibold mb-2\">{title}</h2>\n      <p>{content}</p>\n    </div>\n  );\n};\n\nCard.propTypes = {\n  title: PropTypes.string.isRequired,\n  content: PropTypes.string.isRequired,\n  variant: PropTypes.oneOf(['default', 'highlighted']),\n  onClick: PropTypes.func,\n};\n\nexport default Card;\n"
+    }
+  ],
+  "timestamp": 1768780168698,
+  "promptVersion": "v3.0.0"
+}

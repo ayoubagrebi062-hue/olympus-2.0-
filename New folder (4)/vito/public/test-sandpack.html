@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sandpack Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #1a1a2e; color: white; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    pre { background: #0f0f1a; padding: 15px; border-radius: 8px; overflow-x: auto; font-size: 12px; }
+    .success { color: #4ade80; }
+    .error { color: #f87171; }
+    .info { color: #60a5fa; }
+    iframe { border: 2px solid #3b82f6; border-radius: 8px; }
+    button { background: #3b82f6; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; margin: 5px; }
+    button:hover { background: #2563eb; }
+    input { padding: 10px; border-radius: 6px; border: 1px solid #444; background: #1f1f3a; color: white; width: 400px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-3xl font-bold mb-6">🧪 OLYMPUS Sandpack Test</h1>
+
+    <div class="mb-6">
+      <label class="block mb-2">Build ID:</label>
+      <input type="text" id="buildId" placeholder="Enter build ID..." value="c4bd03c5-fa25-4974-9731-a3154a5fa1ad">
+      <button onclick="loadBuild()">Load Build</button>
+      <button onclick="loadLatest()">Load Latest</button>
+    </div>
+
+    <div id="status" class="mb-6">
+      <h2 class="text-xl font-semibold mb-2">Status</h2>
+      <pre id="statusLog">Click "Load Build" to start...</pre>
+    </div>
+
+    <div id="files" class="mb-6" style="display:none;">
+      <h2 class="text-xl font-semibold mb-2">Files Loaded</h2>
+      <pre id="filesLog"></pre>
+    </div>
+
+    <div id="preview" class="mb-6" style="display:none;">
+      <h2 class="text-xl font-semibold mb-2">Preview (iframe)</h2>
+      <div id="previewContainer"></div>
+    </div>
+
+    <div id="rawCode" class="mb-6" style="display:none;">
+      <h2 class="text-xl font-semibold mb-2">Generated App.tsx</h2>
+      <pre id="appCode"></pre>
+    </div>
+  </div>
+
+  <script>
+    function log(msg, type = 'info') {
+      const el = document.getElementById('statusLog');
+      const time = new Date().toLocaleTimeString();
+      el.innerHTML += `<span class="${type}">[${time}] ${msg}</span>\n`;
+      el.scrollTop = el.scrollHeight;
+    }
+
+    async function loadLatest() {
+      log('Fetching latest builds...', 'info');
+      try {
+        const resp = await fetch('/api/builds?pageSize=1');
+        const data = await resp.json();
+        if (data.data && data.data.length > 0) {
+          const latestId = data.data[0].id;
+          document.getElementById('buildId').value = latestId;
+          log(`Found latest build: ${latestId.slice(0, 8)}`, 'success');
+          loadBuild();
+        } else {
+          log('No builds found', 'error');
+        }
+      } catch (e) {
+        log('Error fetching builds: ' + e.message, 'error');
+      }
+    }
+
+    async function loadBuild() {
+      const buildId = document.getElementById('buildId').value.trim();
+      if (!buildId) {
+        log('Please enter a build ID', 'error');
+        return;
+      }
+
+      log(`Loading build ${buildId.slice(0, 8)}...`, 'info');
+
+      try {
+        // Fetch artifacts
+        const resp = await fetch(`/api/ai/builds/${buildId}/artifacts`);
+        log(`API response status: ${resp.status}`, resp.ok ? 'success' : 'error');
+
+        const data = await resp.json();
+        log(`Response structure: ${JSON.stringify(Object.keys(data))}`, 'info');
+
+        const artifacts = data.data?.artifacts || [];
+        log(`Artifacts count: ${artifacts.length}`, artifacts.length > 0 ? 'success' : 'error');
+
+        if (artifacts.length === 0) {
+          log('No artifacts found!', 'error');
+          return;
+        }
+
+        // Show files
+        document.getElementById('files').style.display = 'block';
+        document.getElementById('filesLog').innerHTML = artifacts.map(a =>
+          `<span class="success">${a.path}</span>: ${a.content?.length || 0} chars (type: ${a.type})`
+        ).join('\n');
+
+        // Convert to preview files
+        const files = {};
+        for (const a of artifacts) {
+          if (a.type === 'code' && a.path && a.content) {
+            files[a.path] = a.content;
+          }
+        }
+
+        log(`Preview files: ${Object.keys(files).join(', ')}`, 'success');
+
+        // Show App.tsx
+        if (files['/App.tsx']) {
+          document.getElementById('rawCode').style.display = 'block';
+          document.getElementById('appCode').textContent = files['/App.tsx'];
+        }
+
+        // Create Sandpack-compatible HTML
+        createPreview(files);
+
+      } catch (e) {
+        log('Error: ' + e.message, 'error');
+        console.error(e);
+      }
+    }
+
+    function createPreview(files) {
+      log('Creating preview...', 'info');
+      document.getElementById('preview').style.display = 'block';
+
+      // Create a blob URL with all the code embedded
+      const appCode = files['/App.tsx'] || 'export default function App() { return <div>No App.tsx found</div>; }';
+
+      const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body { margin: 0; font-family: system-ui, sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useCallback, useMemo, useRef } = React;
+
+    ${appCode.replace('export default ', 'const App = ')}
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>`;
+
+      const blob = new Blob([html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+
+      document.getElementById('previewContainer').innerHTML = `
+        <iframe src="${url}" width="100%" height="500" sandbox="allow-scripts allow-same-origin"></iframe>
+      `;
+
+      log('Preview created! Check iframe above.', 'success');
+    }
+  </script>
+</body>
+</html>

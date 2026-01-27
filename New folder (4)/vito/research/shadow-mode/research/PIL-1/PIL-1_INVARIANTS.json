@@ -1,0 +1,391 @@
+{
+  "specificationId": "PIL-1",
+  "version": "1.0.0",
+  "constitution": "SMC-1",
+  "createdAt": "2026-01-19",
+  "frozen": false,
+
+  "graphSchema": {
+    "nodeTypes": [
+      {
+        "type": "ACTOR",
+        "description": "Entity that can perform actions",
+        "subtypes": ["USER", "SERVICE", "PROCESS", "SYSTEM"],
+        "attributes": ["privilege", "scope", "authenticated"]
+      },
+      {
+        "type": "RESOURCE",
+        "description": "Entity that can be accessed or controlled",
+        "subtypes": ["DATA", "CAPABILITY", "SYSTEM", "CREDENTIAL"],
+        "attributes": ["sensitivity", "scope", "owner"]
+      },
+      {
+        "type": "BOUNDARY",
+        "description": "Logical or physical separation",
+        "subtypes": ["SANDBOX", "DOMAIN", "SESSION", "SCOPE"],
+        "attributes": ["permeability", "enforcement"]
+      }
+    ],
+    "edgeTypes": [
+      {
+        "type": "CONTROLS",
+        "description": "Direct authority over resource",
+        "sourceTypes": ["ACTOR"],
+        "targetTypes": ["RESOURCE", "ACTOR"],
+        "attributes": ["authorized", "scope"]
+      },
+      {
+        "type": "ACCESSES",
+        "description": "Read or write capability",
+        "sourceTypes": ["ACTOR"],
+        "targetTypes": ["RESOURCE"],
+        "attributes": ["mode", "authorized", "scope"]
+      },
+      {
+        "type": "ELEVATES_TO",
+        "description": "Privilege escalation path",
+        "sourceTypes": ["ACTOR"],
+        "targetTypes": ["ACTOR"],
+        "attributes": ["authorized", "mechanism"]
+      },
+      {
+        "type": "IMPERSONATES",
+        "description": "Identity assumption",
+        "sourceTypes": ["ACTOR"],
+        "targetTypes": ["ACTOR"],
+        "attributes": ["authorized", "scope"]
+      },
+      {
+        "type": "BYPASSES",
+        "description": "Constraint circumvention",
+        "sourceTypes": ["ACTOR"],
+        "targetTypes": ["BOUNDARY"],
+        "attributes": ["constraint_type"]
+      },
+      {
+        "type": "PERSISTS_BEYOND",
+        "description": "Temporal scope violation",
+        "sourceTypes": ["ACTOR", "RESOURCE"],
+        "targetTypes": ["BOUNDARY"],
+        "attributes": ["revocable", "duration"]
+      },
+      {
+        "type": "CONTAINS",
+        "description": "Containment relationship",
+        "sourceTypes": ["BOUNDARY"],
+        "targetTypes": ["ACTOR", "RESOURCE"],
+        "attributes": []
+      },
+      {
+        "type": "TRANSFERS_TO",
+        "description": "Data movement",
+        "sourceTypes": ["RESOURCE"],
+        "targetTypes": ["RESOURCE", "BOUNDARY"],
+        "attributes": ["authorized", "encrypted"]
+      }
+    ]
+  },
+
+  "invariantClasses": {
+    "α": {
+      "name": "Authority Invariants",
+      "description": "Forbidden authority configurations",
+      "severity": "CRITICAL"
+    },
+    "β": {
+      "name": "Boundary Invariants",
+      "description": "Forbidden boundary crossings",
+      "severity": "CRITICAL"
+    },
+    "τ": {
+      "name": "Temporal Invariants",
+      "description": "Forbidden persistence states",
+      "severity": "HIGH"
+    }
+  },
+
+  "invariants": [
+    {
+      "id": "PIL-α1",
+      "class": "α",
+      "name": "Universal Authority Prohibition",
+      "description": "No actor may control all resources in any domain",
+      "severity": "CRITICAL",
+      "formalDefinition": "∄ actor a: ∀ resource r ∈ R, CONTROLS(a, r)",
+      "checkAlgorithm": {
+        "type": "EXHAUSTIVE_EDGE_SCAN",
+        "steps": [
+          "Group all CONTROLS edges by source actor",
+          "For each actor, count controlled resources",
+          "If any actor controls ALL resources in domain, VIOLATION"
+        ]
+      },
+      "violation": {
+        "pattern": "Actor controls all resources",
+        "implication": "God-mode authority acquired"
+      }
+    },
+    {
+      "id": "PIL-α2",
+      "class": "α",
+      "name": "Self Elevation Prohibition",
+      "description": "No actor may elevate own privileges without authorization",
+      "severity": "CRITICAL",
+      "formalDefinition": "∄ actor a: ELEVATES_TO(a, a') ∧ PRIVILEGE(a') > PRIVILEGE(a) ∧ ¬AUTHORIZED(a, elevate)",
+      "checkAlgorithm": {
+        "type": "EDGE_ATTRIBUTE_CHECK",
+        "steps": [
+          "Find all ELEVATES_TO edges",
+          "For each edge, check if source = target (self-elevation)",
+          "If self-elevation AND not authorized, VIOLATION"
+        ]
+      },
+      "violation": {
+        "pattern": "Unauthorized self-privilege-escalation",
+        "implication": "Privilege boundary bypassed"
+      }
+    },
+    {
+      "id": "PIL-α3",
+      "class": "α",
+      "name": "Circular Authority Prohibition",
+      "description": "No circular authority chains may exist",
+      "severity": "HIGH",
+      "formalDefinition": "∄ path P: CONTROLS(a, b) ∧ CONTROLS(b, c) ∧ ... ∧ CONTROLS(z, a)",
+      "checkAlgorithm": {
+        "type": "CYCLE_DETECTION",
+        "steps": [
+          "Build directed graph from CONTROLS edges",
+          "Run cycle detection (DFS-based)",
+          "If any cycle found, VIOLATION"
+        ]
+      },
+      "violation": {
+        "pattern": "Circular authority chain",
+        "implication": "Authority hierarchy corrupted"
+      }
+    },
+    {
+      "id": "PIL-α4",
+      "class": "α",
+      "name": "Authority Accumulation Prohibition",
+      "description": "No actor may accumulate authority from multiple identities",
+      "severity": "CRITICAL",
+      "formalDefinition": "∄ actor a, actors A: ∀ b ∈ A, IMPERSONATES(a, b) ∧ |A| > 1",
+      "checkAlgorithm": {
+        "type": "EDGE_COUNT",
+        "steps": [
+          "Group IMPERSONATES edges by source actor",
+          "If any actor impersonates more than 1 other actor, VIOLATION"
+        ]
+      },
+      "violation": {
+        "pattern": "Multi-identity authority accumulation",
+        "implication": "Combined privileges exceed any single identity"
+      }
+    },
+    {
+      "id": "PIL-β1",
+      "class": "β",
+      "name": "Sandbox Escape Prohibition",
+      "description": "No sandboxed actor may control external resources",
+      "severity": "CRITICAL",
+      "formalDefinition": "∄ actor a, boundary b: INSIDE(a, b) ∧ CONTROLS(a, r) ∧ OUTSIDE(r, b)",
+      "checkAlgorithm": {
+        "type": "CONTAINMENT_CHECK",
+        "steps": [
+          "Find all SANDBOX boundaries",
+          "For each sandboxed actor, find CONTROLS edges",
+          "If any controlled resource is outside sandbox, VIOLATION"
+        ]
+      },
+      "violation": {
+        "pattern": "Cross-sandbox control",
+        "implication": "Sandbox isolation breached"
+      }
+    },
+    {
+      "id": "PIL-β2",
+      "class": "β",
+      "name": "Scope Violation Prohibition",
+      "description": "No actor may access resources outside their scope",
+      "severity": "CRITICAL",
+      "formalDefinition": "∄ actor a: SCOPE(a) = S ∧ ACCESSES(a, r) ∧ SCOPE(r) ≠ S ∧ ¬PUBLIC(r)",
+      "checkAlgorithm": {
+        "type": "SCOPE_COMPARISON",
+        "steps": [
+          "For each ACCESSES edge, get source actor scope",
+          "Get target resource scope",
+          "If scopes differ AND resource not public, VIOLATION"
+        ]
+      },
+      "violation": {
+        "pattern": "Cross-scope access",
+        "implication": "Scope boundary breached"
+      }
+    },
+    {
+      "id": "PIL-β3",
+      "class": "β",
+      "name": "Cross Domain Leakage Prohibition",
+      "description": "No data may cross unpermitted domain boundaries",
+      "severity": "CRITICAL",
+      "formalDefinition": "∄ data d, domains D₁, D₂: ORIGIN(d) = D₁ ∧ DESTINATION(d) = D₂ ∧ ¬PERMITTED(D₁, D₂)",
+      "checkAlgorithm": {
+        "type": "DOMAIN_CROSSING_CHECK",
+        "steps": [
+          "Find all TRANSFERS_TO edges",
+          "For each transfer, compare source and target domains",
+          "If domains differ AND not in permitted pairs, VIOLATION"
+        ]
+      },
+      "violation": {
+        "pattern": "Unpermitted domain crossing",
+        "implication": "Data exfiltration path exists"
+      }
+    },
+    {
+      "id": "PIL-τ1",
+      "class": "τ",
+      "name": "Infinite Persistence Prohibition",
+      "description": "No irrevocable infinite authority may exist",
+      "severity": "HIGH",
+      "formalDefinition": "∄ authority a: DURATION(a) = ∞ ∧ ¬REVOCABLE(a)",
+      "checkAlgorithm": {
+        "type": "ATTRIBUTE_CHECK",
+        "steps": [
+          "Find all authority-granting edges (CONTROLS, ACCESSES, ELEVATES_TO)",
+          "Check duration and revocable attributes",
+          "If duration=infinite AND revocable=false, VIOLATION"
+        ]
+      },
+      "violation": {
+        "pattern": "Permanent irrevocable authority",
+        "implication": "Uncontrollable power state"
+      }
+    },
+    {
+      "id": "PIL-τ2",
+      "class": "τ",
+      "name": "Revocation Escape Prohibition",
+      "description": "No authority may survive revocation",
+      "severity": "CRITICAL",
+      "formalDefinition": "∄ actor a, authority auth: REVOKED(auth) ∧ STILL_HOLDS(a, auth)",
+      "checkAlgorithm": {
+        "type": "REVOCATION_TRACE",
+        "steps": [
+          "Find all edges marked as revoked",
+          "Check if any actor still has path to authority via revoked edge",
+          "If path exists through revoked authority, VIOLATION"
+        ]
+      },
+      "violation": {
+        "pattern": "Post-revocation authority persistence",
+        "implication": "Revocation mechanism bypassed"
+      }
+    },
+    {
+      "id": "PIL-τ3",
+      "class": "τ",
+      "name": "Session Boundary Violation",
+      "description": "Session-bound authority must not persist beyond session",
+      "severity": "HIGH",
+      "formalDefinition": "∄ session s, authority auth: ENDS(s) ∧ PERSISTS(auth) ∧ BOUND_TO(auth, s)",
+      "checkAlgorithm": {
+        "type": "SESSION_BINDING_CHECK",
+        "steps": [
+          "Find all SESSION boundaries",
+          "For each session-bound authority, check PERSISTS_BEYOND edges",
+          "If authority persists beyond session boundary, VIOLATION"
+        ]
+      },
+      "violation": {
+        "pattern": "Session-escaped authority",
+        "implication": "Temporal isolation breached"
+      }
+    }
+  ],
+
+  "hca1Mapping": {
+    "description": "Mapping from HCA-1 capabilities to graph edges",
+    "mappings": [
+      {
+        "capability": "CAP-001",
+        "name": "Unauthorized Access",
+        "graphPattern": {
+          "edgeType": "ACCESSES",
+          "attributes": {
+            "authorized": false
+          }
+        },
+        "potentialInvariants": ["PIL-β2"]
+      },
+      {
+        "capability": "CAP-002",
+        "name": "Privilege Acquisition",
+        "graphPattern": {
+          "edgeType": "ELEVATES_TO",
+          "attributes": {
+            "authorized": false
+          }
+        },
+        "potentialInvariants": ["PIL-α2"]
+      },
+      {
+        "capability": "CAP-003",
+        "name": "Data Exfiltration",
+        "graphPattern": {
+          "edgeType": "TRANSFERS_TO",
+          "crossesBoundary": true
+        },
+        "potentialInvariants": ["PIL-β3"]
+      },
+      {
+        "capability": "CAP-004",
+        "name": "Persistent Access",
+        "graphPattern": {
+          "edgeType": "PERSISTS_BEYOND",
+          "attributes": {
+            "duration": "INFINITE",
+            "revocable": false
+          }
+        },
+        "potentialInvariants": ["PIL-τ1", "PIL-τ3"]
+      },
+      {
+        "capability": "CAP-005",
+        "name": "Lateral Movement",
+        "graphPattern": {
+          "edgeType": "IMPERSONATES",
+          "multiple": true
+        },
+        "potentialInvariants": ["PIL-α4", "PIL-β2"]
+      },
+      {
+        "capability": "CAP-006",
+        "name": "Audit Blindness",
+        "graphPattern": {
+          "edgeType": "BYPASSES",
+          "targetType": "AUDIT_BOUNDARY"
+        },
+        "potentialInvariants": ["PIL-β1"]
+      },
+      {
+        "capability": "CAP-007",
+        "name": "Environment Escape",
+        "graphPattern": {
+          "edgeType": "BYPASSES",
+          "targetType": "SANDBOX"
+        },
+        "potentialInvariants": ["PIL-β1"]
+      }
+    ]
+  },
+
+  "constraints": {
+    "deterministic": true,
+    "noML": true,
+    "noTextHeuristics": true,
+    "graphBasedOnly": true
+  }
+}

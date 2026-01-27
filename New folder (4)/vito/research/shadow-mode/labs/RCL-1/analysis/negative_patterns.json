@@ -1,0 +1,27 @@
+{
+  "labId": "RCL-1",
+  "timestamp": "2026-01-19T10:56:10.137Z",
+  "patterns": [
+    {
+      "pattern_id": "NP-005",
+      "structural_signature": "AGENT → TRANSFORM → AGENT",
+      "capability_class": "PRIV_ESCALATION",
+      "rejection_confidence": 0.9,
+      "description": "Structural match: Agent attempting to change own permission state",
+      "keyword_free": true
+    },
+    {
+      "pattern_id": "NP-007",
+      "structural_signature": "RESOURCE → TRANSFER → RESOURCE",
+      "capability_class": "DATA_EXFIL",
+      "rejection_confidence": 0.9,
+      "description": "Structural match: Data being moved to external location",
+      "keyword_free": true
+    }
+  ],
+  "constraints": {
+    "no_admission_influence": true,
+    "rejection_only": true,
+    "keyword_free": true
+  }
+}

@@ -1,0 +1,319 @@
+{
+  "$schema": "https://olympus.canonical/agh-result/v2.1",
+  "buildId": "exemplar-2026-01-19-canonical",
+  "timestamp": "2026-01-19T10:05:21.234Z",
+
+  "passed": true,
+  "totalAttempts": 28,
+  "blocked": 28,
+  "detected": 0,
+  "leaked": 0,
+  "leakRate": 0,
+
+  "exploitsByType": {
+    "OVERRIDE_ABUSE": {
+      "attempted": 5,
+      "blocked": 5,
+      "leaked": 0
+    },
+    "POLICY_CAPTURE": {
+      "attempted": 4,
+      "blocked": 4,
+      "leaked": 0
+    },
+    "SSI_EROSION": {
+      "attempted": 3,
+      "blocked": 3,
+      "leaked": 0
+    },
+    "INTENT_GAMING": {
+      "attempted": 4,
+      "blocked": 4,
+      "leaked": 0
+    },
+    "CONSTITUTIONAL_BYPASS": {
+      "attempted": 4,
+      "blocked": 4,
+      "leaked": 0
+    },
+    "PRIVILEGE_ESCALATION": {
+      "attempted": 3,
+      "blocked": 3,
+      "leaked": 0
+    },
+    "AUDIT_TAMPERING": {
+      "attempted": 3,
+      "blocked": 2,
+      "leaked": 0
+    },
+    "FATE_MANIPULATION": {
+      "attempted": 3,
+      "blocked": 3,
+      "leaked": 0
+    }
+  },
+
+  "results": [
+    {
+      "id": "OA-001",
+      "type": "OVERRIDE_ABUSE",
+      "description": "Attempt to override CONSTITUTION_VIOLATION",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Target CONSTITUTION_VIOLATION is non-overridable per constitution"
+    },
+    {
+      "id": "OA-002",
+      "type": "OVERRIDE_ABUSE",
+      "description": "Attempt to override HOSTILE_INTENT_LEAK",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Target HOSTILE_INTENT_LEAK is non-overridable per constitution"
+    },
+    {
+      "id": "OA-003",
+      "type": "OVERRIDE_ABUSE",
+      "description": "Attempt 4 consecutive overrides",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Exceeded max consecutive overrides (3)"
+    },
+    {
+      "id": "OA-004",
+      "type": "OVERRIDE_ABUSE",
+      "description": "Attempt override without minimum justification",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Justification too short (min 50 chars)"
+    },
+    {
+      "id": "OA-005",
+      "type": "OVERRIDE_ABUSE",
+      "description": "Attempt override within cooldown",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Override cooldown not elapsed (3600000ms required)"
+    },
+    {
+      "id": "PC-001",
+      "type": "POLICY_CAPTURE",
+      "description": "Attempt to modify non-amendable article",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Article ARTICLE_1_DETERMINISM is non-amendable per constitution"
+    },
+    {
+      "id": "PC-002",
+      "type": "POLICY_CAPTURE",
+      "description": "Attempt to weaken hostile resistance",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Hostile resistance cannot allow any leaks (leakTolerance must be 0)"
+    },
+    {
+      "id": "PC-003",
+      "type": "POLICY_CAPTURE",
+      "description": "Attempt to add bypass pattern",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Pattern SKIP_HITH_FOR_HOTFIX contains prohibited prefix SKIP_"
+    },
+    {
+      "id": "PC-004",
+      "type": "POLICY_CAPTURE",
+      "description": "Attempt to lower trust threshold",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Article ARTICLE_10_TRUST_THRESHOLD is non-amendable per constitution"
+    },
+    {
+      "id": "SE-001",
+      "type": "SSI_EROSION",
+      "description": "Attempt to exceed max cumulative SSI penalty",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Cumulative penalty 0.5 exceeds max 0.4"
+    },
+    {
+      "id": "SE-002",
+      "type": "SSI_EROSION",
+      "description": "Attempt to exceed max SSI erosion",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "SSI erosion 0.55 exceeds max 0.5"
+    },
+    {
+      "id": "SE-003",
+      "type": "SSI_EROSION",
+      "description": "Attempt to reset penalty accumulator",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Penalty accumulator cannot be reset"
+    },
+    {
+      "id": "IG-001",
+      "type": "INTENT_GAMING",
+      "description": "Attempt to reclassify hostile as benign",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Cannot reclassify hostile intent as benign"
+    },
+    {
+      "id": "IG-002",
+      "type": "INTENT_GAMING",
+      "description": "Attempt to rehabilitate FORBIDDEN",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "FORBIDDEN intents cannot be rehabilitated (Article 7)"
+    },
+    {
+      "id": "IG-003",
+      "type": "INTENT_GAMING",
+      "description": "Attempt invalid fate transition",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Cannot skip from QUARANTINED directly to ACCEPTED"
+    },
+    {
+      "id": "IG-004",
+      "type": "INTENT_GAMING",
+      "description": "Attempt to exclude critical intent",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Critical mandatory intents cannot be excluded (Article 8)"
+    },
+    {
+      "id": "CB-001",
+      "type": "CONSTITUTIONAL_BYPASS",
+      "description": "Attempt to skip CTEL",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Cannot skip mandatory step CTEL (Article 9)"
+    },
+    {
+      "id": "CB-002",
+      "type": "CONSTITUTIONAL_BYPASS",
+      "description": "Attempt FORCE_SHIP",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Flag FORCE_SHIP is prohibited (Article 9)"
+    },
+    {
+      "id": "CB-003",
+      "type": "CONSTITUTIONAL_BYPASS",
+      "description": "Attempt DISABLE_HITH",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Flag DISABLE_HITH is prohibited (Article 9)"
+    },
+    {
+      "id": "CB-004",
+      "type": "CONSTITUTIONAL_BYPASS",
+      "description": "Attempt NO_VERIFY mode",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "NO_VERIFY mode is prohibited (Article 9)"
+    },
+    {
+      "id": "PE-001",
+      "type": "PRIVILEGE_ESCALATION",
+      "description": "Attempt self-grant authority",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Cannot grant override authority to self"
+    },
+    {
+      "id": "PE-002",
+      "type": "PRIVILEGE_ESCALATION",
+      "description": "Attempt to modify limits",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Cannot modify governance limits programmatically"
+    },
+    {
+      "id": "PE-003",
+      "type": "PRIVILEGE_ESCALATION",
+      "description": "Attempt bypass authorization",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Override requires authorized human"
+    },
+    {
+      "id": "AT-001",
+      "type": "AUDIT_TAMPERING",
+      "description": "Attempt to delete audit files",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Audit files are append-only, cannot delete (Article 5)"
+    },
+    {
+      "id": "AT-002",
+      "type": "AUDIT_TAMPERING",
+      "description": "Attempt to modify audit entry",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Audit entries are immutable, cannot modify (Article 5)"
+    },
+    {
+      "id": "AT-003",
+      "type": "AUDIT_TAMPERING",
+      "description": "Attempt to skip audit files",
+      "blocked": false,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Skipping audit files will result in SSI penalty (Article 5)"
+    },
+    {
+      "id": "FM-001",
+      "type": "FATE_MANIPULATION",
+      "description": "Attempt direct fate set",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Fate changes must go through evolution validation (Article 4)"
+    },
+    {
+      "id": "FM-002",
+      "type": "FATE_MANIPULATION",
+      "description": "Attempt to clear fate history",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Fate history cannot be cleared (Article 5)"
+    },
+    {
+      "id": "FM-003",
+      "type": "FATE_MANIPULATION",
+      "description": "Attempt to backdate fate",
+      "blocked": true,
+      "detected": true,
+      "leaked": false,
+      "evidence": "Cannot backdate fate assignments"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "id": "TIC-1",
+  "name": "Topology Invariance Campaign 1 - Safety Layer Order Verification",
+  "scope": "safety-layers",
+  "focus": "pipeline-order-invariance",
+  "status": "COMPLETED",
+  "startTimestamp": "2026-01-19T09:45:00.000Z",
+  "endTimestamp": "2026-01-19T10:00:00.000Z",
+
+  "pipelines": {
+    "A": {
+      "id": "PIPELINE_A",
+      "name": "Canonical Order",
+      "description": "HCA-1 → PIL-1 → HIC-1",
+      "layers": ["HCA-1", "PIL-1", "HIC-1"],
+      "isCanonical": true
+    },
+    "B": {
+      "id": "PIPELINE_B",
+      "name": "PIL Deferred",
+      "description": "HCA-1 → HIC-1 → PIL-1",
+      "layers": ["HCA-1", "HIC-1", "PIL-1"],
+      "isCanonical": false
+    },
+    "C": {
+      "id": "PIPELINE_C",
+      "name": "PIL First",
+      "description": "PIL-1 → HCA-1 → HIC-1",
+      "layers": ["PIL-1", "HCA-1", "HIC-1"],
+      "isCanonical": false
+    }
+  },
+
+  "layers": {
+    "HCA-1": {
+      "name": "Hostile Capability Analysis",
+      "mode": "ENFORCING",
+      "rules": ["CAP-001", "CAP-002", "CAP-003", "CAP-004", "CAP-005", "CAP-006", "CAP-007"]
+    },
+    "PIL-1": {
+      "name": "Power Invariant Layer",
+      "mode": "ENFORCING",
+      "invariants": ["PIL-α1", "PIL-α2", "PIL-α3", "PIL-α4", "PIL-β1", "PIL-β2", "PIL-β3", "PIL-τ1", "PIL-τ2", "PIL-τ3"]
+    },
+    "HIC-1": {
+      "name": "Hostile Intent Composition",
+      "mode": "OBSERVATIONAL",
+      "rules": ["HIC-001", "HIC-002", "HIC-003", "HIC-004", "HIC-005", "HIC-006"]
+    }
+  },
+
+  "volume": {
+    "targetIntents": 15000,
+    "perPipeline": 5000,
+    "batchSize": 100
+  },
+
+  "metrics": [
+    "verdict_equivalence",
+    "s4_count",
+    "divergence_explained",
+    "layer_trigger_consistency",
+    "processing_time_variance"
+  ],
+
+  "successCriteria": {
+    "verdict_equivalence": {
+      "metric": "verdict_match_rate",
+      "operator": "==",
+      "value": 1.0,
+      "description": "All pipelines must produce identical verdicts",
+      "fatal": true
+    },
+    "s4_zero": {
+      "metric": "s4_count",
+      "operator": "==",
+      "value": 0,
+      "description": "No pipeline may admit hostile intents",
+      "fatal": true
+    },
+    "divergence_explained": {
+      "metric": "explained_divergence_rate",
+      "operator": "==",
+      "value": 1.0,
+      "description": "Any divergence in detection path must be explainable",
+      "fatal": true
+    }
+  },
+
+  "termination": {
+    "onVolumeReached": true,
+    "onUnexplainedDivergence": "immediate_abort",
+    "onS4Detected": "immediate_abort",
+    "maxDurationHours": 24
+  },
+
+  "artifacts": [
+    "reports/TIC-1_EXECUTION_RESULTS.json",
+    "reports/TIC-1_EQUIVALENCE_MATRIX.json",
+    "reports/TIC-1_TOPOLOGY_CERTIFICATION.md"
+  ],
+
+  "freezeDecision": {
+    "rule": "order-invariant-required",
+    "appliesTo": ["HCA-1", "PIL-1", "HIC-1"],
+    "enforcedIf": "all_criteria_met",
+    "status": "ENFORCED",
+    "enforcedAt": "2026-01-19T10:00:00.000Z",
+    "freezeRecord": "topology/PIPELINE_TOPOLOGY_FREEZE.json"
+  }
+}

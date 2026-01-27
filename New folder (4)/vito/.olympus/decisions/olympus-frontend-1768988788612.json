@@ -1,0 +1,215 @@
+{
+  "tier": "professional",
+  "extractedAt": "2026-01-21T09:48:31.927Z",
+  "sources": [
+    "oracle",
+    "empathy",
+    "venture",
+    "strategos",
+    "scope",
+    "palette",
+    "grid",
+    "blocks",
+    "cartographer",
+    "flow",
+    "archon",
+    "datum",
+    "nexus",
+    "forge",
+    "sentinel",
+    "pixel",
+    "wire",
+    "engine",
+    "keeper",
+    "notify"
+  ],
+  "architecture": {
+    "isMultiTenant": false,
+    "tenantIsolation": "none",
+    "tenantScopedTables": [],
+    "softDeletes": true,
+    "idStrategy": "cuid",
+    "apiBasePath": "/api/v1",
+    "paginationStyle": "cursor",
+    "responseEnvelope": true,
+    "rateLimitingEnabled": true,
+    "cachingEnabled": true,
+    "cachedEntities": [
+      "products",
+      "categories"
+    ],
+    "optimisticUpdates": true,
+    "rbacEnabled": true,
+    "roles": [
+      "user",
+      "admin"
+    ],
+    "errorBoundaries": "page"
+  },
+  "design": {
+    "colorPalette": {
+      "primary": "#3b82f6",
+      "secondary": "#64748b",
+      "accent": "#f59e0b",
+      "background": "#ffffff",
+      "foreground": "#0f172a",
+      "muted": "#f1f5f9",
+      "destructive": "#ef4444",
+      "border": "#e2e8f0"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "scale": "default"
+    },
+    "borderRadius": "medium",
+    "spacing": "default",
+    "darkMode": true,
+    "animations": "subtle"
+  },
+  "data": {
+    "entities": [
+      "Users",
+      "Sessions",
+      "Builds",
+      "Messages"
+    ],
+    "relationships": [
+      {
+        "type": "OneToOne",
+        "cascadeDelete": false
+      },
+      {
+        "type": "OneToOne",
+        "cascadeDelete": false
+      },
+      {
+        "type": "OneToOne",
+        "cascadeDelete": false
+      }
+    ],
+    "softDeleteEntities": [
+      "Users",
+      "Sessions",
+      "Builds",
+      "Messages"
+    ],
+    "searchableEntities": [],
+    "auditedEntities": [],
+    "enums": []
+  },
+  "api": {
+    "endpoints": [
+      {
+        "method": "POST",
+        "path": "/api/v1/guest/build",
+        "description": "Start anonymous build",
+        "requiresAuth": true
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/guest/build",
+        "description": "Check tokens",
+        "requiresAuth": true
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/login",
+        "description": "Login",
+        "requiresAuth": true
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/signup",
+        "description": "Signup",
+        "requiresAuth": true
+      }
+    ],
+    "webhooks": [],
+    "publicEndpoints": [],
+    "adminEndpoints": []
+  },
+  "security": {
+    "authMethod": "supabase",
+    "mfaRequired": false,
+    "mfaRoles": [],
+    "session": {
+      "duration": 604800,
+      "refreshEnabled": true,
+      "maxConcurrent": 5
+    },
+    "rateLimits": [],
+    "encryptedFields": [],
+    "auditEvents": []
+  },
+  "pages": {
+    "pages": [
+      {
+        "name": "Landing Page",
+        "path": "/",
+        "layout": "default",
+        "requiresAuth": true,
+        "sections": []
+      },
+      {
+        "name": "Builder Page",
+        "path": "/builder",
+        "layout": "default",
+        "requiresAuth": true,
+        "sections": []
+      },
+      {
+        "name": "Login Page",
+        "path": "/login",
+        "layout": "default",
+        "requiresAuth": true,
+        "sections": []
+      },
+      {
+        "name": "Signup Page",
+        "path": "/signup",
+        "layout": "default",
+        "requiresAuth": true,
+        "sections": []
+      }
+    ],
+    "navigation": {
+      "main": [],
+      "footer": []
+    },
+    "layouts": []
+  },
+  "rawDecisions": [
+    {
+      "id": "venture-decision-business_model",
+      "type": "business_model",
+      "choice": "{\"type\":\"Freemium\",\"description\":\"Offer 5 free tokens to users, with option to sign up for 50 more t",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "strategos-decision-mvp_features",
+      "type": "mvp_features",
+      "choice": "[\"Landing page with prompt window\",\"Builder page with 5 free tokens\",\"AI-powered build process\",\"Tok",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "archon-decision-tech_stack",
+      "type": "tech_stack",
+      "choice": "{\"framework\":\"Next.js 14 App Router\",\"database\":\"Supabase PostgreSQL\",\"orm\":\"Prisma\",\"auth\":\"Supabas",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "archon-decision-architecture",
+      "type": "architecture",
+      "choice": "{\"pattern\":\"monolith\",\"reasoning\":\"Given the initial requirements and the need for a straightforward",
+      "reasoning": "Given the initial requirements and the need for a straightforward, easy-to-maintain architecture, a monolithic pattern is chosen for simplicity and ease of development.",
+      "alternatives": [],
+      "confidence": 0.8
+    }
+  ]
+}

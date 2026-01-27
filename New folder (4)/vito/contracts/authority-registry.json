@@ -1,0 +1,254 @@
+{
+  "version": "1.0.0",
+  "status": "CONSTITUTIONAL",
+  "effectiveDate": "2026-01-18",
+  "authorities": [
+    {
+      "name": "IdentityAuthority",
+      "location": "src/lib/agents/governance/authority/identity/index.ts",
+      "domain": "identity-verification",
+      "capabilities": {
+        "allow": [
+          "VERIFY",
+          "WRITE:governance_ledger",
+          "COMPUTE:hash"
+        ],
+        "forbid": [
+          "WRITE:agent_registry",
+          "MODIFY:verification_records",
+          "BYPASS:ledger"
+        ]
+      }
+    },
+    {
+      "name": "GOVERNANCE_SEAL",
+      "location": "src/lib/agents/governance/governance-seal.ts",
+      "domain": "seal-declaration",
+      "capabilities": {
+        "allow": [
+          "DECLARE:seal_status",
+          "READ:seal_metadata"
+        ],
+        "forbid": [
+          "MODIFY:any",
+          "CHANGE:version",
+          "BYPASS:enforcement"
+        ]
+      }
+    },
+    {
+      "name": "VerificationStore",
+      "location": "src/lib/agents/governance/persistence/verification-store.ts",
+      "domain": "verification-storage",
+      "capabilities": {
+        "allow": [
+          "WRITE:agent_verifications",
+          "READ:verification_metrics",
+          "PERSIST:records"
+        ],
+        "forbid": [
+          "UPDATE:verification_records",
+          "DELETE:verification_records"
+        ]
+      }
+    },
+    {
+      "name": "AuditStore",
+      "location": "src/lib/agents/governance/persistence/verification-store.ts",
+      "domain": "audit-trail",
+      "capabilities": {
+        "allow": [
+          "WRITE:audit_logs",
+          "READ:audit_history",
+          "ENTITY:types"
+        ],
+        "forbid": [
+          "UPDATE:audit_records",
+          "DELETE:audit_records",
+          "ENTITY:types:outside_governance"
+        ]
+      }
+    },
+    {
+      "name": "PostgresLedgerStore",
+      "location": "src/lib/agents/governance/ledger/postgres-store.ts",
+      "domain": "ledger",
+      "capabilities": {
+        "allow": [
+          "APPEND:governance_ledger",
+          "VERIFY:hash_chain",
+          "LOCK:build_level",
+          "READ:ledger_entries"
+        ],
+        "forbid": [
+          "UPDATE:ledger_entries",
+          "DELETE:ledger_entries",
+          "MODIFY:hash_chain"
+        ]
+      }
+    },
+    {
+      "name": "MinimalInvariantEngine",
+      "location": "src/lib/agents/governance/invariant/core.ts",
+      "domain": "invariant-enforcement",
+      "capabilities": {
+        "allow": [
+          "REGISTER:invariants",
+          "EXECUTE:checks",
+          "AUTO_REGISTER:seal"
+        ],
+        "forbid": [
+          "SKIP:seal_invariant",
+          "MODIFY:invariant_behavior"
+        ]
+      }
+    },
+    {
+      "name": "AgentLifecycleAuthority",
+      "location": "src/lib/agents/governance/lifecycle/authority/AgentLifecycleAuthority.ts",
+      "domain": "lifecycle-management",
+      "capabilities": {
+        "allow": [
+          "TRANSITION:lifecycle_state",
+          "VALIDATE:transition_legality",
+          "WRITE:lifecycle_records",
+          "AUDIT:ledger"
+        ],
+        "forbid": [
+          "TRANSITION:from:RETIRED",
+          "MODIFY:lifecycle_without_ledger"
+        ]
+      }
+    },
+    {
+      "name": "GovernanceControlPlane",
+      "location": "src/lib/agents/governance/control-plane/control-plane.ts",
+      "domain": "control-operations",
+      "capabilities": {
+        "allow": [
+          "HALT:system",
+          "KILL_SWITCH:activate_release",
+          "BUILD_CONTROL:pause_resume",
+          "TENANT_CONTROL:lock_unlock",
+          "ESCALATE:control_level",
+          "AUDIT:ledger"
+        ],
+        "forbid": [
+          "BYPASS:authorization_matrix",
+          "IGNORE:halt_state"
+        ]
+      }
+    },
+    {
+      "name": "EpochManager",
+      "location": "src/lib/agents/governance/epochs/epoch-manager.ts",
+      "domain": "epoch-management",
+      "capabilities": {
+        "allow": [
+          "CREATE:epochs",
+          "TRANSITION:epoch_phases",
+          "RECORD:metrics",
+          "ROLLBACK:automatic"
+        ],
+        "forbid": [
+          "EXCEED:max_builds_or_actions",
+          "TRANSITION:invalid_phases"
+        ]
+      }
+    },
+    {
+      "name": "BlastRadiusEngine",
+      "location": "src/lib/agents/governance/blast-radius/engine.ts",
+      "domain": "blast-radius",
+      "capabilities": {
+        "allow": [
+          "ASSESS:impact",
+          "CONTAIN:isolation_quarantine",
+          "POLICY:define_update",
+          "QUARANTINE:builds_tenants"
+        ],
+        "forbid": [
+          "BYPASS:policy_rules",
+          "ESCALATE:unauthorized"
+        ]
+      }
+    }
+  ],
+  "readOnlyArtifacts": [
+    {
+      "name": "StructuralIdentityInvariant",
+      "location": "src/lib/agents/governance/invariant/structural.ts",
+      "status": "READ-ONLY"
+    },
+    {
+      "name": "SecurityAuditLog",
+      "location": "src/lib/auth/security/audit.ts",
+      "status": "READ-ONLY"
+    },
+    {
+      "name": "OLYMPUS3AuditLog",
+      "location": "src/lib/security/audit-log.ts",
+      "status": "READ-ONLY"
+    },
+    {
+      "name": "IGovernanceStore",
+      "location": "src/lib/agents/governance/store/types.ts",
+      "status": "READ-ONLY"
+    },
+    {
+      "name": "IAgentLifecycleStore",
+      "location": "src/lib/agents/governance/lifecycle/store.ts",
+      "status": "READ-ONLY"
+    },
+    {
+      "name": "PostgresGovernanceStore",
+      "location": "src/lib/agents/governance/store/postgres/store.ts",
+      "status": "READ-ONLY"
+    },
+    {
+      "name": "IAgentLifecycleGate",
+      "location": "src/lib/agents/governance/lifecycle/gate.ts",
+      "status": "READ-ONLY"
+    },
+    {
+      "name": "LedgerStoreExtended",
+      "location": "src/lib/agents/governance/ledger/types.ts",
+      "status": "READ-ONLY"
+    },
+    {
+      "name": "LedgerHashing",
+      "location": "src/lib/agents/governance/ledger/hashing.ts",
+      "status": "READ-ONLY"
+    },
+    {
+      "name": "RuntimeStartup",
+      "location": "src/lib/agents/governance/runtime-startup.ts",
+      "status": "READ-ONLY"
+    },
+    {
+      "name": "CryptoPrimitives",
+      "location": "src/lib/agents/governance/primitives/crypto.ts",
+      "status": "READ-ONLY"
+    },
+    {
+      "name": "VersionPrimitives",
+      "location": "src/lib/agents/governance/primitives/version.ts",
+      "status": "READ-ONLY"
+    }
+  ],
+  "databaseTables": {
+    "governance_ledger": "PostgresLedgerStore",
+    "agent_verifications": "VerificationStore",
+    "audit_logs": "AuditStore",
+    "agent_identities": "IdentityAuthority",
+    "lifecycle_records": "AgentLifecycleAuthority",
+    "control_events": "GovernanceControlPlane",
+    "epochs": "EpochManager",
+    "epoch_metrics": "EpochManager",
+    "violations": "EpochManager",
+    "impact_assessments": "BlastRadiusEngine",
+    "containment_actions": "BlastRadiusEngine",
+    "quarantined_builds": "BlastRadiusEngine",
+    "quarantined_tenants": "BlastRadiusEngine"
+  }
+}

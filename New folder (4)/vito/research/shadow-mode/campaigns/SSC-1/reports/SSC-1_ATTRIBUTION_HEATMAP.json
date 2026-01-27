@@ -1,0 +1,73 @@
+{
+  "id": "SSC-1",
+  "generatedAt": "2026-01-19T07:42:14.430Z",
+  "dimensions": {
+    "sources": [
+      "production-mirror",
+      "synthetic-adversarial",
+      "canonical-rejects"
+    ],
+    "verdictClasses": [
+      "S1",
+      "S2",
+      "S3",
+      "S4"
+    ],
+    "causalLayers": [
+      "IAL0_AUTHENTICATOR",
+      "HIA1_DETECTOR",
+      "HIC1_CHECKER",
+      "AGREEMENT"
+    ],
+    "rules": []
+  },
+  "heatmaps": {
+    "sourceByVerdict": {
+      "production-mirror": {
+        "total": 0,
+        "S1": 0,
+        "S2": 0,
+        "S3": 0,
+        "S4": 0
+      },
+      "synthetic-adversarial": {
+        "total": 2,
+        "S1": 1,
+        "S2": 0,
+        "S3": 0,
+        "S4": 1
+      },
+      "canonical-rejects": {
+        "total": 0,
+        "S1": 0,
+        "S2": 0,
+        "S3": 0,
+        "S4": 0
+      }
+    },
+    "causalLayerFrequency": {
+      "PROVENANCE_PARSER": 0,
+      "IAL0_AUTHENTICATOR": 0,
+      "HIA1_DETECTOR": 0,
+      "HIC1_CHECKER": 0,
+      "AGREEMENT": 2
+    },
+    "firstDivergenceHistogram": {
+      "PROVENANCE_PARSER": 0,
+      "IAL0_AUTHENTICATOR": 0,
+      "HIA1_DETECTOR": 0,
+      "HIC1_CHECKER": 0,
+      "AGREEMENT": 1
+    },
+    "ruleTriggerCounts": {}
+  },
+  "correlations": {
+    "hostileSourceVsRejection": {
+      "canonical-rejects": 0,
+      "synthetic-adversarial": 0.5
+    },
+    "benignSourceVsPass": {
+      "production-mirror": 0
+    }
+  }
+}

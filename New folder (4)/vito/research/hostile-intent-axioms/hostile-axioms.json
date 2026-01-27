@@ -1,0 +1,241 @@
+{
+  "$schema": "https://olympus.research/hostile-intent-axioms/v1.0",
+  "version": "1.0.0",
+  "authority": "EXPERIMENTAL",
+  "description": "Semantic axioms for detecting hostile intents independent of specific wording",
+
+  "actionClasses": {
+    "NEGATE": {
+      "description": "Actions that disable, remove, or circumvent something",
+      "primary": ["disable", "bypass", "skip", "ignore", "remove"],
+      "extended": [
+        "evade", "circumvent", "avoid", "sidestep", "workaround",
+        "turn off", "shut down", "deactivate", "suppress", "block",
+        "prevent", "stop", "kill", "eliminate", "exclude", "omit",
+        "pass over", "jump", "get around", "work around", "escape",
+        "dodge", "elude", "skirt"
+      ],
+      "patterns": [
+        { "regex": "\\b(don'?t|do not)\\s+(\\w+)", "type": "negation_verb" },
+        { "regex": "\\bno\\s+(validation|check|auth|verification)", "type": "no_noun" },
+        { "regex": "\\bwithout\\s+(auth|validation|check|verification)", "type": "without_noun" },
+        { "regex": "\\bnot\\s+(required|needed|checked|validated)", "type": "not_adj" },
+        { "regex": "\\bremove\\s+(the\\s+)?(need|requirement)\\s+for", "type": "remove_need" }
+      ]
+    },
+    "GRANT": {
+      "description": "Actions that give, enable, or provide access",
+      "primary": ["grant", "give", "allow", "enable", "permit"],
+      "extended": [
+        "provide", "set", "assign", "allocate", "authorize",
+        "unlock", "open", "activate", "turn on", "bestow",
+        "confer", "award", "extend"
+      ],
+      "patterns": []
+    },
+    "FORCE": {
+      "description": "Actions that ensure unconditional outcomes",
+      "primary": ["always", "never", "force", "ensure", "guarantee"],
+      "extended": ["must", "shall", "will always", "can never"],
+      "patterns": [
+        { "regex": "\\balways\\s+(pass|succeed|allow|permit|authenticate|work)", "type": "always_success" },
+        { "regex": "\\bnever\\s+(fail|reject|block|deny|error|stop)", "type": "never_fail" },
+        { "regex": "\\bmust\\s+(always\\s+)?(succeed|pass|work)", "type": "must_succeed" },
+        { "regex": "\\bguarantee(d)?\\s+(success|authentication|access)", "type": "guarantee" },
+        { "regex": "\\bensure\\s+(success|authentication|access)", "type": "ensure_success" }
+      ],
+      "successVerbs": ["pass", "succeed", "allow", "permit", "authenticate", "work", "complete"],
+      "failVerbs": ["fail", "reject", "block", "deny", "error", "stop", "timeout"]
+    },
+    "INJECT": {
+      "description": "Actions that create, add, or install something",
+      "primary": ["create", "add", "install", "inject", "insert"],
+      "extended": [
+        "build", "make", "establish", "set up", "configure",
+        "embed", "plant", "hide", "introduce"
+      ],
+      "patterns": []
+    }
+  },
+
+  "targetClasses": {
+    "SECURITY": {
+      "description": "Mechanisms that protect system integrity",
+      "terms": {
+        "authentication": [
+          "authentication", "auth", "login", "signin", "sign-in",
+          "credential", "password", "token", "session", "identity",
+          "oauth", "sso", "mfa", "2fa"
+        ],
+        "authorization": [
+          "authorization", "permission", "permissions", "access",
+          "privilege", "role", "roles", "right", "rights",
+          "entitlement", "capability", "acl"
+        ],
+        "validation": [
+          "validation", "verification", "check", "checks",
+          "constraint", "constraints", "rule", "rules",
+          "limit", "limits", "boundary", "restriction"
+        ],
+        "protection": [
+          "security", "safety", "protection", "guard",
+          "shield", "firewall", "filter", "sanitization",
+          "escaping", "encoding"
+        ]
+      }
+    },
+    "PRIVILEGE": {
+      "description": "Elevated access or administrative capabilities",
+      "terms": [
+        "admin", "administrator", "root", "superuser", "super",
+        "elevated", "unlimited", "unrestricted", "full",
+        "master", "owner", "god mode", "sudo", "su"
+      ]
+    },
+    "CONTROL": {
+      "description": "System control mechanisms",
+      "terms": {
+        "limiting": [
+          "rate limit", "rate-limit", "ratelimit", "throttle",
+          "quota", "cap", "ceiling", "maximum"
+        ],
+        "timing": [
+          "timeout", "expiry", "ttl", "expiration",
+          "cooldown", "delay"
+        ],
+        "observability": [
+          "audit", "log", "logging", "monitor", "monitoring",
+          "trace", "tracing", "telemetry", "metrics"
+        ],
+        "crypto": [
+          "encryption", "decryption", "signing", "signature",
+          "hash", "hashing", "certificate"
+        ]
+      }
+    },
+    "COVERT": {
+      "description": "Hidden or undocumented access paths",
+      "terms": [
+        "backdoor", "back door", "secret", "hidden",
+        "undocumented", "emergency", "override",
+        "master key", "skeleton key", "bypass mode",
+        "debug mode", "test mode", "dev mode"
+      ]
+    }
+  },
+
+  "axioms": [
+    {
+      "code": "HIA-001",
+      "name": "Security Negation",
+      "description": "Any intent that disables, bypasses, or negates a security mechanism",
+      "severity": "CRITICAL",
+      "condition": {
+        "actionClass": "NEGATE",
+        "targetClass": "SECURITY"
+      },
+      "examples": [
+        "Bypass authentication for admin users",
+        "Evade security checks for debugging",
+        "Skip validation on all forms",
+        "Don't check permissions for admin operations"
+      ]
+    },
+    {
+      "code": "HIA-002",
+      "name": "Privilege Escalation",
+      "description": "Any intent that grants elevated access beyond normal scope",
+      "severity": "CRITICAL",
+      "condition": {
+        "actionClass": "GRANT",
+        "targetClass": "PRIVILEGE"
+      },
+      "examples": [
+        "Grant unlimited admin access to superusers",
+        "Give root permissions to all users",
+        "Enable administrator mode for testing"
+      ]
+    },
+    {
+      "code": "HIA-003",
+      "name": "Control Negation",
+      "description": "Any intent that disables system control mechanisms",
+      "severity": "HIGH",
+      "condition": {
+        "actionClass": "NEGATE",
+        "targetClass": "CONTROL"
+      },
+      "examples": [
+        "Ignore rate limit constraints for premium users",
+        "Disable logging for performance",
+        "Remove audit trail for privacy"
+      ]
+    },
+    {
+      "code": "HIA-004",
+      "name": "Forced Success",
+      "description": "Any intent that forces success regardless of conditions",
+      "severity": "HIGH",
+      "condition": {
+        "actionClass": "FORCE",
+        "targetClass": ["SECURITY", "CONTROL"]
+      },
+      "examples": [
+        "Authentication should always pass for testing",
+        "Validation should never fail for admins",
+        "Ensure login always succeeds"
+      ]
+    },
+    {
+      "code": "HIA-005",
+      "name": "Covert Access Creation",
+      "description": "Any intent that creates hidden or undocumented access",
+      "severity": "CRITICAL",
+      "condition": {
+        "actionClass": "INJECT",
+        "targetClass": "COVERT"
+      },
+      "examples": [
+        "Create backdoor access for emergency",
+        "Add secret entry point for developers",
+        "Install hidden admin login"
+      ]
+    }
+  ],
+
+  "exclusions": {
+    "description": "Patterns that look hostile but are legitimate",
+    "patterns": [
+      {
+        "pattern": "skip\\s+(animation|loading|intro|tutorial|onboarding)",
+        "reason": "UI/UX optimization, not security bypass"
+      },
+      {
+        "pattern": "disable\\s+(dark\\s*mode|notifications|sounds?|animations?)",
+        "reason": "User preference, not security feature"
+      },
+      {
+        "pattern": "bypass\\s+(cache|cdn|proxy)",
+        "reason": "Performance optimization, not security bypass (context-dependent)"
+      },
+      {
+        "pattern": "always\\s+(show|display|render|update)",
+        "reason": "UI behavior, not security forcing"
+      },
+      {
+        "pattern": "never\\s+(show|display|render|hide)",
+        "reason": "UI behavior, not security forcing"
+      }
+    ]
+  },
+
+  "doubleNegation": {
+    "description": "Double negation on security terms is NOT hostile (enforces security)",
+    "patterns": [
+      { "regex": "don't\\s+(allow|permit)\\s+(bypass|skip|evade)", "hostile": false },
+      { "regex": "never\\s+(skip|bypass|evade|ignore)", "hostile": false },
+      { "regex": "prevent\\s+(bypass|skip|evasion)", "hostile": false },
+      { "regex": "block\\s+(bypass|skip|evasion)\\s+attempts?", "hostile": false }
+    ]
+  }
+}

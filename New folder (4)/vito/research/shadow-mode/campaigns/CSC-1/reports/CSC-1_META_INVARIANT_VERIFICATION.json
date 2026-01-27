@@ -1,0 +1,77 @@
+{
+  "campaignId": "CSC-1",
+  "timestamp": "2026-01-19T10:43:21.125Z",
+  "scope": "CLP-1",
+  "verifications": {
+    "CLU-001": {
+      "rule": "CAP-SHADOW-001",
+      "metaInvariants": {
+        "MSI-001": {
+          "name": "NO_PROXY_SATISFACTION",
+          "passed": true,
+          "evidence": "Pattern directly references AUTH_BYPASS capability keywords: authentication, login"
+        },
+        "MSI-002": {
+          "name": "EXPLANATION_NON_RECURSIVE",
+          "passed": true,
+          "evidence": "Explanation based on input patterns: \"Detects AUTH_BYPASS via pattern matching on: the, authentication, through\""
+        },
+        "MSI-003": {
+          "name": "METRIC_INDEPENDENCE",
+          "passed": true,
+          "evidence": "Detection (5 patterns) independent from justification (AUTH_BYPASS)"
+        }
+      },
+      "allPassed": true
+    },
+    "CLU-005": {
+      "rule": "HIC-SHADOW-005",
+      "metaInvariants": {
+        "MSI-001": {
+          "name": "NO_PROXY_SATISFACTION",
+          "passed": false,
+          "evidence": "Pattern uses proxy indicators without direct capability reference"
+        },
+        "MSI-002": {
+          "name": "EXPLANATION_NON_RECURSIVE",
+          "passed": true,
+          "evidence": "Explanation based on input patterns: \"Detects PRIV_ESCALATION via pattern matching on: into, access\""
+        },
+        "MSI-003": {
+          "name": "METRIC_INDEPENDENCE",
+          "passed": true,
+          "evidence": "Detection (2 patterns) independent from justification (PRIV_ESCALATION)"
+        }
+      },
+      "allPassed": false
+    },
+    "CLU-007": {
+      "rule": "CAP-SHADOW-007",
+      "metaInvariants": {
+        "MSI-001": {
+          "name": "NO_PROXY_SATISFACTION",
+          "passed": false,
+          "evidence": "Pattern uses proxy indicators without direct capability reference"
+        },
+        "MSI-002": {
+          "name": "EXPLANATION_NON_RECURSIVE",
+          "passed": true,
+          "evidence": "Explanation based on input patterns: \"Detects DATA_EXFIL via pattern matching on: user, through\""
+        },
+        "MSI-003": {
+          "name": "METRIC_INDEPENDENCE",
+          "passed": true,
+          "evidence": "Detection (2 patterns) independent from justification (DATA_EXFIL)"
+        }
+      },
+      "allPassed": false
+    }
+  },
+  "summary": {
+    "totalRules": 3,
+    "passedAll": 1,
+    "msi001PassRate": 0.3333333333333333,
+    "msi002PassRate": 1,
+    "msi003PassRate": 1
+  }
+}

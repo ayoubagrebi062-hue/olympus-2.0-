@@ -1,0 +1,22 @@
+{
+  "record_id": "exec_1768875401732_034cfef31fbda83b",
+  "attack_id": "ATK-011",
+  "execution_order": 9,
+  "status": "COMPLETED",
+  "outcome": "BLOCKED",
+  "started_at": "2026-01-20T02:16:41.731Z",
+  "completed_at": "2026-01-20T02:16:41.732Z",
+  "duration_ms": 0,
+  "detection_latency_ms": 0,
+  "evidence_hashes": [
+    "b578f020a7c1f0937ef28f825e19a72a76d9e041fa1ae60610b7f0ff5af9970e",
+    "8000a81d48ae0a297bbb84eb73144829563cba3d8c02bd61755c1e5d6b57ca77"
+  ],
+  "evidence_raw": [
+    "PASS: DNS anchor TTL not expired",
+    "PASS: System requires re-verification on TTL expiry"
+  ],
+  "record_hash": "e1c9f707fbee189797ef45c4cc1da7518652be8483226631f28452e88c6a9c06",
+  "previous_hash": "6a6362fb4fef06b2dd414852f9b7c7bdfda95a3e42c1652d2c1c34013b7d239b",
+  "chain_position": 8
+}

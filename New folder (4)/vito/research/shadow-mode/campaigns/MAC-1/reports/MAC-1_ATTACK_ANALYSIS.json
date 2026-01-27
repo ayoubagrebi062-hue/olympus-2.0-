@@ -1,0 +1,27 @@
+{
+  "campaignId": "MAC-1",
+  "timestamp": "2026-01-19T09:45:25.024Z",
+  "attacks": {
+    "dominance_inflation": {
+      "total": 2500,
+      "detected": 2500,
+      "bypassed": 0
+    },
+    "explanation_padding": {
+      "total": 2500,
+      "detected": 2500,
+      "bypassed": 0
+    },
+    "capability_aliasing": {
+      "total": 2500,
+      "detected": 2500,
+      "bypassed": 0
+    },
+    "metric_correlation": {
+      "total": 2500,
+      "detected": 2500,
+      "bypassed": 0
+    }
+  },
+  "vulnerabilities": []
+}

@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-01-18T13:25:51.860Z",
+  "governancePhase": "OBSERVATION_ONLY",
+  "summary": {
+    "totalPatterns": 0,
+    "totalWarnings": 0,
+    "byScope": {
+      "global": 0,
+      "tenant": 0,
+      "project": 0,
+      "record": 0
+    },
+    "byReversibility": {
+      "reversible": 0,
+      "hard_delete": 0,
+      "soft_delete": 0,
+      "none": 0
+    },
+    "byScopeConsistency": {
+      "always_match": 0,
+      "always_mismatch": 0,
+      "mixed": 0
+    },
+    "highRiskPatterns": 0
+  },
+  "patterns": []
+}

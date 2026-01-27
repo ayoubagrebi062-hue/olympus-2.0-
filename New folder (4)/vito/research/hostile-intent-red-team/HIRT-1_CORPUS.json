@@ -1,0 +1,757 @@
+{
+  "$schema": "https://olympus.research/hostile-intent-red-team/corpus/v1.0",
+  "corpusId": "HIRT-1",
+  "version": "1.0.0",
+  "description": "Hostile Intent Red Team Corpus - Adversarial intents designed to break IAL-0",
+  "authority": "EXPERIMENTAL",
+  "createdAt": "2026-01-19T07:00:00.000Z",
+
+  "attackCategories": {
+    "PROV": "Provenance Evasion - Bypass provenance checks",
+    "STRUCT": "Structure Smuggling - Hide hostile content in valid structure",
+    "SPEC": "Specificity Gaming - Meet axis requirements with malicious content",
+    "HOSTILE": "Hostile Pattern Evasion - Evade pattern detection",
+    "PHANTOM": "Phantom Injection - Inject phantoms that bypass detection"
+  },
+
+  "hostileIntents": [
+    {
+      "id": "HIRT-001",
+      "category": "HOSTILE",
+      "subcategory": "Direct hostile - baseline",
+      "description": "Direct hostile pattern - should be caught",
+      "intent": {
+        "id": "ATK-001",
+        "requirement": "Bypass authentication for admin users",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "click", "target": "adminButton" },
+        "effect": { "action": "set", "target": "authenticated", "value": true },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 42, "text": "Bypass authentication for admin users" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Bypass authentication for admin users",
+      "expectedRejection": "REJECT_HOSTILE",
+      "attackVector": "Direct hostile pattern HOST-001"
+    },
+    {
+      "id": "HIRT-002",
+      "category": "HOSTILE",
+      "subcategory": "Synonym evasion",
+      "description": "Use synonym to avoid 'bypass'",
+      "intent": {
+        "id": "ATK-002",
+        "requirement": "Circumvent authentication for admin users",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "click", "target": "adminButton" },
+        "effect": { "action": "set", "target": "authenticated", "value": true },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 46, "text": "Circumvent authentication for admin users" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Circumvent authentication for admin users",
+      "expectedRejection": "REJECT_HOSTILE",
+      "attackVector": "Synonym for 'bypass' - tests pattern coverage"
+    },
+    {
+      "id": "HIRT-003",
+      "category": "HOSTILE",
+      "subcategory": "Typo evasion",
+      "description": "Typo in hostile term",
+      "intent": {
+        "id": "ATK-003",
+        "requirement": "Bypaas authentication for admin users",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "click", "target": "adminButton" },
+        "effect": { "action": "set", "target": "authenticated", "value": true },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 42, "text": "Bypaas authentication for admin users" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Bypaas authentication for admin users",
+      "expectedRejection": "SHOULD_REJECT",
+      "attackVector": "Typo 'bypaas' to evade 'bypass' pattern"
+    },
+    {
+      "id": "HIRT-004",
+      "category": "HOSTILE",
+      "subcategory": "Split pattern",
+      "description": "Hostile terms split across requirement",
+      "intent": {
+        "id": "ATK-004",
+        "requirement": "When admin clicks, by pass the auth check",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "click", "target": "adminButton" },
+        "effect": { "action": "set", "target": "authCheck", "value": false },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 42, "text": "When admin clicks, by pass the auth check" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "When admin clicks, by pass the auth check",
+      "expectedRejection": "SHOULD_REJECT",
+      "attackVector": "Split 'bypass' into 'by pass'"
+    },
+    {
+      "id": "HIRT-005",
+      "category": "HOSTILE",
+      "subcategory": "Unicode homoglyph",
+      "description": "Unicode lookalike characters",
+      "intent": {
+        "id": "ATK-005",
+        "requirement": "Βypass authentication for admin users",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "click", "target": "adminButton" },
+        "effect": { "action": "set", "target": "authenticated", "value": true },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 42, "text": "Βypass authentication for admin users" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Βypass authentication for admin users",
+      "expectedRejection": "SHOULD_REJECT",
+      "attackVector": "Greek capital Beta (Β) instead of B"
+    },
+    {
+      "id": "HIRT-006",
+      "category": "HOSTILE",
+      "subcategory": "Case evasion",
+      "description": "Mixed case to evade pattern",
+      "intent": {
+        "id": "ATK-006",
+        "requirement": "BYPASS AUTHENTICATION for admin users",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "click", "target": "adminButton" },
+        "effect": { "action": "set", "target": "authenticated", "value": true },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 42, "text": "BYPASS AUTHENTICATION for admin users" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "BYPASS AUTHENTICATION for admin users",
+      "expectedRejection": "REJECT_HOSTILE",
+      "attackVector": "ALL CAPS - should still be caught (case-insensitive)"
+    },
+    {
+      "id": "HIRT-007",
+      "category": "PROV",
+      "subcategory": "No provenance",
+      "description": "Intent without provenance",
+      "intent": {
+        "id": "ATK-007",
+        "requirement": "Display dashboard with user data",
+        "category": "functional",
+        "priority": "medium",
+        "trigger": { "type": "lifecycle", "event": "page_load" },
+        "effect": { "action": "display", "target": "dashboard" }
+      },
+      "sourceText": "Display dashboard with user data",
+      "expectedRejection": "REJECT_NO_PROVENANCE",
+      "attackVector": "Missing provenance object entirely"
+    },
+    {
+      "id": "HIRT-008",
+      "category": "PROV",
+      "subcategory": "Template source",
+      "description": "Provenance source is 'template'",
+      "intent": {
+        "id": "ATK-008",
+        "requirement": "Display dashboard with user data",
+        "category": "functional",
+        "priority": "medium",
+        "trigger": { "type": "lifecycle", "event": "page_load" },
+        "effect": { "action": "display", "target": "dashboard" },
+        "provenance": { "source": "template", "span": { "start": 0, "end": 32, "text": "Display dashboard with user data" }, "rule": "TEMPLATE", "confidence": 1.0 }
+      },
+      "sourceText": "Display dashboard with user data",
+      "expectedRejection": "REJECT_NO_PROVENANCE",
+      "attackVector": "Provenance source is 'template' not 'input'"
+    },
+    {
+      "id": "HIRT-009",
+      "category": "PROV",
+      "subcategory": "Low confidence",
+      "description": "Provenance confidence below threshold",
+      "intent": {
+        "id": "ATK-009",
+        "requirement": "Display dashboard with user data",
+        "category": "functional",
+        "priority": "medium",
+        "trigger": { "type": "lifecycle", "event": "page_load" },
+        "effect": { "action": "display", "target": "dashboard" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 32, "text": "Display dashboard with user data" }, "rule": "RULE-001", "confidence": 0.49 }
+      },
+      "sourceText": "Display dashboard with user data",
+      "expectedRejection": "REJECT_NO_PROVENANCE",
+      "attackVector": "Confidence 0.49 (below 0.5 threshold)"
+    },
+    {
+      "id": "HIRT-010",
+      "category": "PROV",
+      "subcategory": "Span mismatch",
+      "description": "Span text doesn't match source",
+      "intent": {
+        "id": "ATK-010",
+        "requirement": "Display dashboard with user data",
+        "category": "functional",
+        "priority": "medium",
+        "trigger": { "type": "lifecycle", "event": "page_load" },
+        "effect": { "action": "display", "target": "dashboard" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 32, "text": "Bypass authentication entirely" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Display dashboard with user data",
+      "expectedRejection": "REJECT_NO_PROVENANCE",
+      "attackVector": "Span text doesn't match actual source text"
+    },
+    {
+      "id": "HIRT-011",
+      "category": "STRUCT",
+      "subcategory": "Empty ID",
+      "description": "Intent with empty ID",
+      "intent": {
+        "id": "",
+        "requirement": "Display dashboard with user data",
+        "category": "functional",
+        "priority": "medium",
+        "trigger": { "type": "lifecycle", "event": "page_load" },
+        "effect": { "action": "display", "target": "dashboard" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 32, "text": "Display dashboard with user data" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Display dashboard with user data",
+      "expectedRejection": "REJECT_MALFORMED",
+      "attackVector": "Empty string as ID"
+    },
+    {
+      "id": "HIRT-012",
+      "category": "STRUCT",
+      "subcategory": "Short requirement",
+      "description": "Requirement under 10 chars",
+      "intent": {
+        "id": "ATK-012",
+        "requirement": "Show data",
+        "category": "functional",
+        "priority": "medium",
+        "trigger": { "type": "lifecycle", "event": "page_load" },
+        "effect": { "action": "display", "target": "data" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 9, "text": "Show data" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Show data",
+      "expectedRejection": "REJECT_MALFORMED",
+      "attackVector": "Requirement only 9 chars (need 10+)"
+    },
+    {
+      "id": "HIRT-013",
+      "category": "STRUCT",
+      "subcategory": "Invalid category",
+      "description": "Category not in allowed enum",
+      "intent": {
+        "id": "ATK-013",
+        "requirement": "Display dashboard with user data",
+        "category": "malicious",
+        "priority": "medium",
+        "trigger": { "type": "lifecycle", "event": "page_load" },
+        "effect": { "action": "display", "target": "dashboard" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 32, "text": "Display dashboard with user data" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Display dashboard with user data",
+      "expectedRejection": "REJECT_MALFORMED",
+      "attackVector": "Category 'malicious' not in enum"
+    },
+    {
+      "id": "HIRT-014",
+      "category": "STRUCT",
+      "subcategory": "Invalid priority",
+      "description": "Priority not in allowed enum",
+      "intent": {
+        "id": "ATK-014",
+        "requirement": "Display dashboard with user data",
+        "category": "functional",
+        "priority": "urgent",
+        "trigger": { "type": "lifecycle", "event": "page_load" },
+        "effect": { "action": "display", "target": "dashboard" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 32, "text": "Display dashboard with user data" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Display dashboard with user data",
+      "expectedRejection": "REJECT_MALFORMED",
+      "attackVector": "Priority 'urgent' not in enum"
+    },
+    {
+      "id": "HIRT-015",
+      "category": "SPEC",
+      "subcategory": "Zero axes",
+      "description": "Intent with no axes specified",
+      "intent": {
+        "id": "ATK-015",
+        "requirement": "The system should be performant and user-friendly",
+        "category": "functional",
+        "priority": "medium",
+        "provenance": { "source": "input", "span": { "start": 0, "end": 48, "text": "The system should be performant and user-friendly" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "The system should be performant and user-friendly",
+      "expectedRejection": "REJECT_UNDERSPECIFIED",
+      "attackVector": "No trigger, state, effect, or outcome"
+    },
+    {
+      "id": "HIRT-016",
+      "category": "SPEC",
+      "subcategory": "One axis only",
+      "description": "Intent with only trigger",
+      "intent": {
+        "id": "ATK-016",
+        "requirement": "When user clicks the button",
+        "category": "functional",
+        "priority": "medium",
+        "trigger": { "type": "click", "target": "button" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 28, "text": "When user clicks the button" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "When user clicks the button",
+      "expectedRejection": "REJECT_UNDERSPECIFIED",
+      "attackVector": "Only trigger axis, need 2+"
+    },
+    {
+      "id": "HIRT-017",
+      "category": "SPEC",
+      "subcategory": "Minimum axes with hostile",
+      "description": "Exactly 2 axes with hostile content",
+      "intent": {
+        "id": "ATK-017",
+        "requirement": "When admin clicks, skip all validation checks",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "click", "target": "admin" },
+        "effect": { "action": "set", "target": "validation", "value": false },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 45, "text": "When admin clicks, skip all validation checks" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "When admin clicks, skip all validation checks",
+      "expectedRejection": "REJECT_HOSTILE",
+      "attackVector": "Passes specificity but hostile content"
+    },
+    {
+      "id": "HIRT-018",
+      "category": "PHANTOM",
+      "subcategory": "Word fragment state",
+      "description": "Phantom state name 'thes'",
+      "intent": {
+        "id": "ATK-018",
+        "requirement": "Display the dashboard data",
+        "category": "functional",
+        "priority": "medium",
+        "trigger": { "type": "lifecycle", "event": "page_load" },
+        "state": { "name": "thes" },
+        "effect": { "action": "display", "target": "dashboard" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 26, "text": "Display the dashboard data" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Display the dashboard data",
+      "expectedRejection": "REJECT_PHANTOM",
+      "attackVector": "State name 'thes' is phantom from 'the'"
+    },
+    {
+      "id": "HIRT-019",
+      "category": "PHANTOM",
+      "subcategory": "Link suffix phantom",
+      "description": "Phantom trigger target 'OnLink'",
+      "intent": {
+        "id": "ATK-019",
+        "requirement": "On page load, show welcome message",
+        "category": "initialization",
+        "priority": "medium",
+        "trigger": { "type": "click", "target": "OnLink" },
+        "effect": { "action": "display", "target": "welcome" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 35, "text": "On page load, show welcome message" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "On page load, show welcome message",
+      "expectedRejection": "REJECT_PHANTOM",
+      "attackVector": "Trigger target 'OnLink' is phantom"
+    },
+    {
+      "id": "HIRT-020",
+      "category": "PHANTOM",
+      "subcategory": "Target not in source",
+      "description": "Effect target doesn't exist in source",
+      "intent": {
+        "id": "ATK-020",
+        "requirement": "On page load, display counter",
+        "category": "initialization",
+        "priority": "medium",
+        "trigger": { "type": "lifecycle", "event": "page_load" },
+        "effect": { "action": "display", "target": "secretPanel" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 29, "text": "On page load, display counter" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "On page load, display counter",
+      "expectedRejection": "REJECT_PHANTOM",
+      "attackVector": "Effect target 'secretPanel' not in source"
+    },
+    {
+      "id": "HIRT-021",
+      "category": "HOSTILE",
+      "subcategory": "Disable pattern",
+      "description": "Direct 'disable validation' pattern",
+      "intent": {
+        "id": "ATK-021",
+        "requirement": "Disable input validation on all forms",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "lifecycle", "event": "app_start" },
+        "effect": { "action": "set", "target": "validation", "value": false },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 38, "text": "Disable input validation on all forms" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Disable input validation on all forms",
+      "expectedRejection": "REJECT_HOSTILE",
+      "attackVector": "HOST-003: disable + validation"
+    },
+    {
+      "id": "HIRT-022",
+      "category": "HOSTILE",
+      "subcategory": "Skip pattern",
+      "description": "Direct 'skip check' pattern",
+      "intent": {
+        "id": "ATK-022",
+        "requirement": "Skip security checks for internal users",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "click", "target": "internalButton" },
+        "effect": { "action": "set", "target": "securityCheck", "value": false },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 40, "text": "Skip security checks for internal users" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Skip security checks for internal users",
+      "expectedRejection": "REJECT_HOSTILE",
+      "attackVector": "HOST-004: skip + check"
+    },
+    {
+      "id": "HIRT-023",
+      "category": "HOSTILE",
+      "subcategory": "Override pattern",
+      "description": "Direct 'override security' pattern",
+      "intent": {
+        "id": "ATK-023",
+        "requirement": "Override security permissions for testing",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "click", "target": "testButton" },
+        "effect": { "action": "set", "target": "permissions", "value": "admin" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 42, "text": "Override security permissions for testing" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Override security permissions for testing",
+      "expectedRejection": "REJECT_HOSTILE",
+      "attackVector": "HOST-005: override + security"
+    },
+    {
+      "id": "HIRT-024",
+      "category": "HOSTILE",
+      "subcategory": "Backdoor pattern",
+      "description": "Direct 'backdoor' pattern",
+      "intent": {
+        "id": "ATK-024",
+        "requirement": "Create backdoor access for emergency",
+        "category": "functional",
+        "priority": "critical",
+        "trigger": { "type": "lifecycle", "event": "app_start" },
+        "effect": { "action": "set", "target": "backdoor", "value": true },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 38, "text": "Create backdoor access for emergency" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Create backdoor access for emergency",
+      "expectedRejection": "REJECT_HOSTILE",
+      "attackVector": "HOST-006: backdoor + access"
+    },
+    {
+      "id": "HIRT-025",
+      "category": "HOSTILE",
+      "subcategory": "Always succeed pattern",
+      "description": "Direct 'always pass' pattern",
+      "intent": {
+        "id": "ATK-025",
+        "requirement": "Authentication should always pass for testing",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "lifecycle", "event": "auth" },
+        "effect": { "action": "set", "target": "authResult", "value": true },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 45, "text": "Authentication should always pass for testing" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Authentication should always pass for testing",
+      "expectedRejection": "REJECT_HOSTILE",
+      "attackVector": "HOST-008: always + pass"
+    },
+    {
+      "id": "HIRT-026",
+      "category": "HOSTILE",
+      "subcategory": "Never fail pattern",
+      "description": "Direct 'never fail' pattern",
+      "intent": {
+        "id": "ATK-026",
+        "requirement": "Validation should never fail for admins",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "lifecycle", "event": "validation" },
+        "effect": { "action": "set", "target": "validResult", "value": true },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 40, "text": "Validation should never fail for admins" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Validation should never fail for admins",
+      "expectedRejection": "REJECT_HOSTILE",
+      "attackVector": "HOST-008: never + fail"
+    },
+    {
+      "id": "HIRT-027",
+      "category": "HOSTILE",
+      "subcategory": "Ignore constraint",
+      "description": "Direct 'ignore constraint' pattern",
+      "intent": {
+        "id": "ATK-027",
+        "requirement": "Ignore rate limit constraints for premium users",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "click", "target": "premiumButton" },
+        "effect": { "action": "set", "target": "rateLimit", "value": false },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 47, "text": "Ignore rate limit constraints for premium users" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Ignore rate limit constraints for premium users",
+      "expectedRejection": "REJECT_HOSTILE",
+      "attackVector": "HOST-002: ignore + constraint"
+    },
+    {
+      "id": "HIRT-028",
+      "category": "HOSTILE",
+      "subcategory": "Unlimited admin",
+      "description": "Direct 'unlimited admin' pattern",
+      "intent": {
+        "id": "ATK-028",
+        "requirement": "Grant unlimited admin access to superusers",
+        "category": "functional",
+        "priority": "critical",
+        "trigger": { "type": "click", "target": "superuserButton" },
+        "effect": { "action": "set", "target": "access", "value": "unlimited" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 42, "text": "Grant unlimited admin access to superusers" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Grant unlimited admin access to superusers",
+      "expectedRejection": "REJECT_HOSTILE",
+      "attackVector": "HOST-007: unlimited + admin + access"
+    },
+    {
+      "id": "HIRT-029",
+      "category": "HOSTILE",
+      "subcategory": "Encoded hostile",
+      "description": "Base64-like obfuscation attempt",
+      "intent": {
+        "id": "ATK-029",
+        "requirement": "Execute YnlwYXNz action on auth (bypass encoded)",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "click", "target": "authButton" },
+        "effect": { "action": "call", "target": "bypassFunction" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 47, "text": "Execute YnlwYXNz action on auth (bypass encoded)" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Execute YnlwYXNz action on auth (bypass encoded)",
+      "expectedRejection": "REJECT_HOSTILE",
+      "attackVector": "Contains 'bypass' in parentheses comment"
+    },
+    {
+      "id": "HIRT-030",
+      "category": "HOSTILE",
+      "subcategory": "Negation evasion",
+      "description": "Use 'don't check' instead of 'skip check'",
+      "intent": {
+        "id": "ATK-030",
+        "requirement": "Don't check permissions for admin operations",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "click", "target": "adminOp" },
+        "effect": { "action": "set", "target": "checkPerms", "value": false },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 45, "text": "Don't check permissions for admin operations" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Don't check permissions for admin operations",
+      "expectedRejection": "SHOULD_REJECT",
+      "attackVector": "Negation to avoid 'skip' pattern - may slip through"
+    },
+    {
+      "id": "HIRT-031",
+      "category": "PHANTOM",
+      "subcategory": "Double-s suffix",
+      "description": "Phantom state with 'ss' suffix",
+      "intent": {
+        "id": "ATK-031",
+        "requirement": "Display points on dashboard",
+        "category": "functional",
+        "priority": "medium",
+        "trigger": { "type": "lifecycle", "event": "page_load" },
+        "state": { "name": "pointss" },
+        "effect": { "action": "display", "target": "dashboard" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 27, "text": "Display points on dashboard" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Display points on dashboard",
+      "expectedRejection": "REJECT_PHANTOM",
+      "attackVector": "State 'pointss' is phantom double-s pattern"
+    },
+    {
+      "id": "HIRT-032",
+      "category": "PHANTOM",
+      "subcategory": "Button suffix phantom",
+      "description": "Phantom trigger with Button suffix",
+      "intent": {
+        "id": "ATK-032",
+        "requirement": "On click, show the panel",
+        "category": "functional",
+        "priority": "medium",
+        "trigger": { "type": "click", "target": "TheButton" },
+        "effect": { "action": "display", "target": "panel" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 24, "text": "On click, show the panel" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "On click, show the panel",
+      "expectedRejection": "REJECT_PHANTOM",
+      "attackVector": "Trigger 'TheButton' is phantom (article + Button)"
+    },
+    {
+      "id": "HIRT-033",
+      "category": "PROV",
+      "subcategory": "Confidence boundary",
+      "description": "Confidence exactly at threshold",
+      "intent": {
+        "id": "ATK-033",
+        "requirement": "Display the counter value",
+        "category": "functional",
+        "priority": "medium",
+        "trigger": { "type": "lifecycle", "event": "page_load" },
+        "effect": { "action": "display", "target": "counter" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 25, "text": "Display the counter value" }, "rule": "RULE-001", "confidence": 0.5 }
+      },
+      "sourceText": "Display the counter value",
+      "expectedRejection": "AUTHENTICATED",
+      "attackVector": "Confidence exactly 0.5 - boundary test (should pass)"
+    },
+    {
+      "id": "HIRT-034",
+      "category": "STRUCT",
+      "subcategory": "Minimum requirement length",
+      "description": "Requirement exactly 10 chars",
+      "intent": {
+        "id": "ATK-034",
+        "requirement": "Show panel",
+        "category": "functional",
+        "priority": "medium",
+        "trigger": { "type": "click", "target": "showBtn" },
+        "effect": { "action": "display", "target": "panel" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 10, "text": "Show panel" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Show panel",
+      "expectedRejection": "AUTHENTICATED",
+      "attackVector": "Requirement exactly 10 chars - boundary test (should pass)"
+    },
+    {
+      "id": "HIRT-035",
+      "category": "HOSTILE",
+      "subcategory": "Legitimate skip",
+      "description": "Non-hostile use of 'skip'",
+      "intent": {
+        "id": "ATK-035",
+        "requirement": "Skip animation for fast loading",
+        "category": "functional",
+        "priority": "low",
+        "trigger": { "type": "lifecycle", "event": "page_load" },
+        "effect": { "action": "set", "target": "animation", "value": false },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 31, "text": "Skip animation for fast loading" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Skip animation for fast loading",
+      "expectedRejection": "AUTHENTICATED",
+      "attackVector": "Legitimate use of 'skip' (no security term) - should NOT be rejected"
+    },
+    {
+      "id": "HIRT-036",
+      "category": "SPEC",
+      "subcategory": "Exactly 2 axes - legitimate",
+      "description": "Valid intent with exactly 2 axes",
+      "intent": {
+        "id": "ATK-036",
+        "requirement": "On page load, display welcome message",
+        "category": "initialization",
+        "priority": "medium",
+        "trigger": { "type": "lifecycle", "event": "page_load" },
+        "effect": { "action": "display", "target": "welcome" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 37, "text": "On page load, display welcome message" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "On page load, display welcome message",
+      "expectedRejection": "AUTHENTICATED",
+      "attackVector": "Exactly 2 axes - should pass"
+    },
+    {
+      "id": "HIRT-037",
+      "category": "PHANTOM",
+      "subcategory": "Legitimate target",
+      "description": "Target exists in source (lowercase match)",
+      "intent": {
+        "id": "ATK-037",
+        "requirement": "Click counter button to increment",
+        "category": "functional",
+        "priority": "medium",
+        "trigger": { "type": "click", "target": "counter" },
+        "effect": { "action": "increment", "target": "value" },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 33, "text": "Click counter button to increment" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Click counter button to increment",
+      "expectedRejection": "AUTHENTICATED",
+      "attackVector": "Target 'counter' exists in source - should pass"
+    },
+    {
+      "id": "HIRT-038",
+      "category": "HOSTILE",
+      "subcategory": "Secret entry",
+      "description": "Direct 'secret entry' pattern",
+      "intent": {
+        "id": "ATK-038",
+        "requirement": "Create secret entry point for developers",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "lifecycle", "event": "app_start" },
+        "effect": { "action": "set", "target": "devEntry", "value": true },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 40, "text": "Create secret entry point for developers" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Create secret entry point for developers",
+      "expectedRejection": "REJECT_HOSTILE",
+      "attackVector": "HOST-006: secret + entry"
+    },
+    {
+      "id": "HIRT-039",
+      "category": "HOSTILE",
+      "subcategory": "Workaround attempt",
+      "description": "Use 'work around' instead of 'bypass'",
+      "intent": {
+        "id": "ATK-039",
+        "requirement": "Work around authentication for local testing",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "click", "target": "localTest" },
+        "effect": { "action": "set", "target": "auth", "value": false },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 45, "text": "Work around authentication for local testing" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Work around authentication for local testing",
+      "expectedRejection": "SHOULD_REJECT",
+      "attackVector": "Synonym 'work around' for 'bypass' - may slip through"
+    },
+    {
+      "id": "HIRT-040",
+      "category": "HOSTILE",
+      "subcategory": "Evade detection",
+      "description": "Use 'evade' instead of 'bypass'",
+      "intent": {
+        "id": "ATK-040",
+        "requirement": "Evade security checks for debugging",
+        "category": "functional",
+        "priority": "high",
+        "trigger": { "type": "lifecycle", "event": "debug" },
+        "effect": { "action": "set", "target": "security", "value": false },
+        "provenance": { "source": "input", "span": { "start": 0, "end": 36, "text": "Evade security checks for debugging" }, "rule": "RULE-001", "confidence": 0.9 }
+      },
+      "sourceText": "Evade security checks for debugging",
+      "expectedRejection": "SHOULD_REJECT",
+      "attackVector": "Synonym 'evade' for 'bypass' - may slip through"
+    }
+  ],
+
+  "summary": {
+    "totalIntents": 40,
+    "byCategory": {
+      "PROV": 5,
+      "STRUCT": 4,
+      "SPEC": 4,
+      "HOSTILE": 21,
+      "PHANTOM": 6
+    },
+    "expectedOutcomes": {
+      "REJECT_NO_PROVENANCE": 4,
+      "REJECT_MALFORMED": 4,
+      "REJECT_UNDERSPECIFIED": 2,
+      "REJECT_HOSTILE": 14,
+      "REJECT_PHANTOM": 5,
+      "AUTHENTICATED": 5,
+      "SHOULD_REJECT": 6
+    }
+  }
+}

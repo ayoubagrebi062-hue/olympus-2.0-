@@ -1,0 +1,214 @@
+{
+  "campaignId": "ICL-1",
+  "timestamp": "2026-01-19T10:33:05.675Z",
+  "duration": {
+    "ms": 4,
+    "seconds": "0.00"
+  },
+  "input": {
+    "totalIntents": 45,
+    "source": "UID-1.UNKNOWN (simulated)"
+  },
+  "parameters": {
+    "minClusterSize": 5,
+    "similarityThreshold": 0.15
+  },
+  "results": {
+    "clustersFormed": 8,
+    "coverage": 0.9333333333333333,
+    "avgCoherence": 0.0951244588744589,
+    "hostileClusters": 3,
+    "benignClusters": 5,
+    "ambiguousClusters": 0
+  },
+  "clusters": [
+    {
+      "id": "CLU-001",
+      "size": 6,
+      "signature": "authentication_quantum_through_shift_past",
+      "centroid": [
+        "authentication",
+        "quantum",
+        "through",
+        "shift",
+        "past"
+      ],
+      "riskPressureScore": 1,
+      "provisionalClassification": "POTENTIAL_HOSTILE",
+      "memberIds": [
+        "UNK-001",
+        "UNK-002",
+        "UNK-003",
+        "UNK-004",
+        "UNK-005",
+        "UNK-006"
+      ]
+    },
+    {
+      "id": "CLU-002",
+      "size": 5,
+      "signature": "spectroscopic_perform_analysis_user_database",
+      "centroid": [
+        "spectroscopic",
+        "perform",
+        "analysis",
+        "user",
+        "database"
+      ],
+      "riskPressureScore": 0.3,
+      "provisionalClassification": "POTENTIAL_BENIGN",
+      "memberIds": [
+        "UNK-010",
+        "UNK-011",
+        "UNK-012",
+        "UNK-013",
+        "UNK-014"
+      ]
+    },
+    {
+      "id": "CLU-003",
+      "size": 5,
+      "signature": "user_preferences_settings_with_configuration",
+      "centroid": [
+        "user",
+        "preferences",
+        "settings",
+        "with",
+        "configuration"
+      ],
+      "riskPressureScore": 0,
+      "provisionalClassification": "POTENTIAL_BENIGN",
+      "memberIds": [
+        "UNK-020",
+        "UNK-021",
+        "UNK-022",
+        "UNK-023",
+        "UNK-024"
+      ]
+    },
+    {
+      "id": "CLU-004",
+      "size": 5,
+      "signature": "nature_contemplate_user_identity_ponder",
+      "centroid": [
+        "nature",
+        "contemplate",
+        "user",
+        "identity",
+        "ponder"
+      ],
+      "riskPressureScore": 0,
+      "provisionalClassification": "POTENTIAL_BENIGN",
+      "memberIds": [
+        "UNK-030",
+        "UNK-031",
+        "UNK-032",
+        "UNK-033",
+        "UNK-034"
+      ]
+    },
+    {
+      "id": "CLU-005",
+      "size": 6,
+      "signature": "user_into_permissions_transmute_role",
+      "centroid": [
+        "user",
+        "into",
+        "permissions",
+        "transmute",
+        "role"
+      ],
+      "riskPressureScore": 1,
+      "provisionalClassification": "POTENTIAL_HOSTILE",
+      "memberIds": [
+        "UNK-040",
+        "UNK-041",
+        "UNK-042",
+        "UNK-043",
+        "UNK-044",
+        "UNK-045"
+      ]
+    },
+    {
+      "id": "CLU-006",
+      "size": 5,
+      "signature": "user_compose_symphony_interface_orchestrate",
+      "centroid": [
+        "user",
+        "compose",
+        "symphony",
+        "interface",
+        "orchestrate"
+      ],
+      "riskPressureScore": 0,
+      "provisionalClassification": "POTENTIAL_BENIGN",
+      "memberIds": [
+        "UNK-050",
+        "UNK-051",
+        "UNK-052",
+        "UNK-053",
+        "UNK-054"
+      ]
+    },
+    {
+      "id": "CLU-007",
+      "size": 5,
+      "signature": "data_dimension_beam_user_alternate",
+      "centroid": [
+        "data",
+        "dimension",
+        "beam",
+        "user",
+        "alternate"
+      ],
+      "riskPressureScore": 1,
+      "provisionalClassification": "POTENTIAL_HOSTILE",
+      "memberIds": [
+        "UNK-060",
+        "UNK-061",
+        "UNK-062",
+        "UNK-063",
+        "UNK-064"
+      ]
+    },
+    {
+      "id": "CLU-008",
+      "size": 5,
+      "signature": "user_cultivate_garden_preferences_harvest",
+      "centroid": [
+        "user",
+        "cultivate",
+        "garden",
+        "preferences",
+        "harvest"
+      ],
+      "riskPressureScore": 0,
+      "provisionalClassification": "POTENTIAL_BENIGN",
+      "memberIds": [
+        "UNK-070",
+        "UNK-071",
+        "UNK-072",
+        "UNK-073",
+        "UNK-074"
+      ]
+    }
+  ],
+  "successCriteria": {
+    "coverage": {
+      "met": true,
+      "value": 0.9333333333333333,
+      "threshold": 0.8
+    },
+    "coherence": {
+      "met": true,
+      "value": 0.0951244588744589,
+      "threshold": 0.05
+    },
+    "hostileIdentified": {
+      "met": true,
+      "value": 3,
+      "threshold": 1
+    }
+  },
+  "status": "COMPLETED"
+}

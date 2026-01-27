@@ -1,0 +1,1155 @@
+/**
+ * OLYMPUS 2.1 - Prompt Templates Knowledge Base
+ *
+ * Provides standardized code templates for common UI patterns.
+ * Used by PIXEL, WIRE, and other frontend agents to generate consistent code.
+ *
+ * Templates follow OLYMPUS best practices:
+ * - TypeScript strict mode
+ * - Tailwind CSS + shadcn/ui
+ * - Dark mode support (semantic tokens)
+ * - Mobile-first responsive design
+ * - Accessibility compliant
+ * - Framer Motion animations
+ */
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// LANDING PAGE TEMPLATE
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export const landingPageTemplate = `
+'use client';
+
+import { motion } from 'framer-motion';
+import { ArrowRight, Check, Star } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 }
+};
+
+const stagger = {
+  animate: { transition: { staggerChildren: 0.1 } }
+};
+
+export default function LandingPage() {
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8 lg:py-32">
+        <div className="mx-auto max-w-7xl">
+          <motion.div
+            className="text-center"
+            initial="initial"
+            animate="animate"
+            variants={stagger}
+          >
+            <motion.h1
+              className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl"
+              variants={fadeInUp}
+            >
+              Your Headline Here
+            </motion.h1>
+            <motion.p
+              className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground"
+              variants={fadeInUp}
+            >
+              Your subheadline describing the value proposition.
+            </motion.p>
+            <motion.div
+              className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+              variants={fadeInUp}
+            >
+              <Button size="lg" asChild>
+                <Link href="/signup">
+                  Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/demo">View Demo</Link>
+              </Button>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Features</h2>
+            <p className="mt-4 text-muted-foreground">Everything you need to succeed</p>
+          </div>
+          <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <Card className="h-full">
+                  <CardHeader>
+                    <CardTitle>Feature {i}</CardTitle>
+                    <CardDescription>Feature description here</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2">
+                      {[1, 2, 3].map((j) => (
+                        <li key={j} className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Check className="h-4 w-4 text-primary" />
+                          Benefit {j}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="bg-muted/50 px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Pricing</h2>
+            <p className="mt-4 text-muted-foreground">Simple, transparent pricing</p>
+          </div>
+          <div className="mt-16 grid gap-8 lg:grid-cols-3">
+            {['Starter', 'Pro', 'Enterprise'].map((plan, i) => (
+              <Card key={plan} className={i === 1 ? 'border-primary shadow-lg' : ''}>
+                <CardHeader>
+                  <CardTitle>{plan}</CardTitle>
+                  <CardDescription>
+                    <span className="text-3xl font-bold text-foreground">
+                      \${[9, 29, 99][i]}
+                    </span>
+                    /month
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="w-full" variant={i === 1 ? 'default' : 'outline'}>
+                    Get Started
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl font-bold text-foreground sm:text-4xl">Ready to get started?</h2>
+          <p className="mt-4 text-muted-foreground">Join thousands of satisfied customers today.</p>
+          <Button size="lg" className="mt-8" asChild>
+            <Link href="/signup">Start Free Trial</Link>
+          </Button>
+        </div>
+      </section>
+    </div>
+  );
+}
+`;
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// DASHBOARD TEMPLATE
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export const dashboardTemplate = `
+'use client';
+
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import {
+  BarChart3,
+  Users,
+  DollarSign,
+  TrendingUp,
+  MoreHorizontal,
+  Plus,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
+interface StatCardProps {
+  title: string;
+  value: string;
+  change: string;
+  changeType: 'positive' | 'negative';
+  icon: React.ReactNode;
+}
+
+function StatCard({ title, value, change, changeType, icon }: StatCardProps) {
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
+        <div className="text-muted-foreground">{icon}</div>
+      </CardHeader>
+      <CardContent>
+        <div className="text-2xl font-bold">{value}</div>
+        <p className={\`text-xs \${changeType === 'positive' ? 'text-green-600' : 'text-red-600'}\`}>
+          {change} from last month
+        </p>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default function DashboardPage() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const stats: StatCardProps[] = [
+    {
+      title: 'Total Revenue',
+      value: '$45,231.89',
+      change: '+20.1%',
+      changeType: 'positive',
+      icon: <DollarSign className="h-4 w-4" />,
+    },
+    {
+      title: 'Users',
+      value: '2,350',
+      change: '+180',
+      changeType: 'positive',
+      icon: <Users className="h-4 w-4" />,
+    },
+    {
+      title: 'Active Now',
+      value: '573',
+      change: '+12%',
+      changeType: 'positive',
+      icon: <TrendingUp className="h-4 w-4" />,
+    },
+    {
+      title: 'Conversion',
+      value: '3.2%',
+      change: '-0.4%',
+      changeType: 'negative',
+      icon: <BarChart3 className="h-4 w-4" />,
+    },
+  ];
+
+  return (
+    <div className="flex-1 space-y-6 p-4 md:p-8">
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <p className="text-muted-foreground">Welcome back! Here's what's happening.</p>
+        </div>
+        <Button>
+          <Plus className="mr-2 h-4 w-4" />
+          New Item
+        </Button>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((stat, i) => (
+          <motion.div
+            key={stat.title}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+          >
+            <StatCard {...stat} />
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Content Area */}
+      <div className="grid gap-4 lg:grid-cols-7">
+        {/* Main Chart */}
+        <Card className="lg:col-span-4">
+          <CardHeader>
+            <CardTitle>Overview</CardTitle>
+            <CardDescription>Monthly performance metrics</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[300px] flex items-center justify-center text-muted-foreground">
+              Chart placeholder - use Recharts
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Recent Activity */}
+        <Card className="lg:col-span-3">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Recent Activity</CardTitle>
+              <CardDescription>Latest updates</CardDescription>
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>View all</DropdownMenuItem>
+                <DropdownMenuItem>Mark as read</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="flex items-center gap-4">
+                  <div className="h-9 w-9 rounded-full bg-muted" />
+                  <div className="flex-1 space-y-1">
+                    <p className="text-sm font-medium">Activity {i}</p>
+                    <p className="text-xs text-muted-foreground">2 hours ago</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
+`;
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// AUTHENTICATION TEMPLATE
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export const authenticationTemplate = `
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+
+const loginSchema = z.object({
+  email: z.string().email('Please enter a valid email'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Replace with your auth logic
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const result = await response.json();
+        throw new Error(result.error?.message || 'Login failed');
+      }
+
+      router.push('/dashboard');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen items-center justify-center px-4 py-12">
+      <motion.div
+        className="w-full max-w-md"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Card>
+          <CardHeader className="space-y-1 text-center">
+            <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
+            <CardDescription>Enter your credentials to sign in</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              {error && (
+                <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+                  {error}
+                </div>
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="name@example.com"
+                  autoComplete="email"
+                  disabled={isLoading}
+                  {...register('email')}
+                />
+                {errors.email && (
+                  <p className="text-sm text-destructive">{errors.email.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    autoComplete="current-password"
+                    disabled={isLoading}
+                    {...register('password')}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4 text-muted-foreground" />
+                    ) : (
+                      <Eye className="h-4 w-4 text-muted-foreground" />
+                    )}
+                  </Button>
+                </div>
+                {errors.password && (
+                  <p className="text-sm text-destructive">{errors.password.message}</p>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between">
+                <Link
+                  href="/forgot-password"
+                  className="text-sm text-primary hover:underline"
+                >
+                  Forgot password?
+                </Link>
+              </div>
+
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  'Sign in'
+                )}
+              </Button>
+            </form>
+
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <Button variant="outline" disabled={isLoading}>
+                Google
+              </Button>
+              <Button variant="outline" disabled={isLoading}>
+                GitHub
+              </Button>
+            </div>
+          </CardContent>
+          <CardFooter className="justify-center">
+            <p className="text-sm text-muted-foreground">
+              Don't have an account?{' '}
+              <Link href="/signup" className="text-primary hover:underline">
+                Sign up
+              </Link>
+            </p>
+          </CardFooter>
+        </Card>
+      </motion.div>
+    </div>
+  );
+}
+`;
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CRUD TABLE TEMPLATE
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export const crudTemplate = `
+'use client';
+
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Plus,
+  Search,
+  MoreHorizontal,
+  Pencil,
+  Trash2,
+  Loader2,
+  AlertCircle,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+
+interface Item {
+  id: string;
+  name: string;
+  email: string;
+  status: 'active' | 'inactive';
+  createdAt: string;
+}
+
+export default function CRUDPage() {
+  const [items, setItems] = useState<Item[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [search, setSearch] = useState('');
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Fetch items
+  useEffect(() => {
+    async function fetchItems() {
+      try {
+        setIsLoading(true);
+        const response = await fetch('/api/items');
+        if (!response.ok) throw new Error('Failed to fetch items');
+        const data = await response.json();
+        setItems(data.data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load items');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchItems();
+  }, []);
+
+  // Filter items by search
+  const filteredItems = items.filter(
+    (item) =>
+      item.name.toLowerCase().includes(search.toLowerCase()) ||
+      item.email.toLowerCase().includes(search.toLowerCase())
+  );
+
+  // Delete handler
+  const handleDelete = async () => {
+    if (!selectedItem) return;
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(\`/api/items/\${selectedItem.id}\`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) throw new Error('Failed to delete item');
+      setItems(items.filter((i) => i.id !== selectedItem.id));
+      setIsDeleteOpen(false);
+      setSelectedItem(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="flex h-96 items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="flex h-96 flex-col items-center justify-center gap-4">
+        <AlertCircle className="h-12 w-12 text-destructive" />
+        <p className="text-muted-foreground">{error}</p>
+        <Button onClick={() => window.location.reload()}>Try Again</Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6 p-4 md:p-8">
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Items</h1>
+          <p className="text-muted-foreground">Manage your items here</p>
+        </div>
+        <Button onClick={() => setIsCreateOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" />
+          Add Item
+        </Button>
+      </div>
+
+      {/* Search */}
+      <div className="relative max-w-sm">
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          placeholder="Search items..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="pl-10"
+        />
+      </div>
+
+      {/* Table */}
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Created</TableHead>
+              <TableHead className="w-[50px]" />
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <AnimatePresence>
+              {filteredItems.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="h-24 text-center">
+                    No items found.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                filteredItems.map((item) => (
+                  <motion.tr
+                    key={item.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="border-b"
+                  >
+                    <TableCell className="font-medium">{item.name}</TableCell>
+                    <TableCell>{item.email}</TableCell>
+                    <TableCell>
+                      <span
+                        className={\`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium \${
+                          item.status === 'active'
+                            ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                            : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400'
+                        }\`}
+                      >
+                        {item.status}
+                      </span>
+                    </TableCell>
+                    <TableCell>{new Date(item.createdAt).toLocaleDateString()}</TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <Pencil className="mr-2 h-4 w-4" />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className="text-destructive"
+                            onClick={() => {
+                              setSelectedItem(item);
+                              setIsDeleteOpen(true);
+                            }}
+                          >
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </motion.tr>
+                ))
+              )}
+            </AnimatePresence>
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* Delete Confirmation */}
+      <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete "{selectedItem?.name}". This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isSubmitting}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDelete}
+              disabled={isSubmitting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                'Delete'
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
+  );
+}
+`;
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// E-COMMERCE TEMPLATE
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export const ecommerceTemplate = `
+'use client';
+
+import { useState } from 'react';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  ShoppingCart,
+  Heart,
+  Star,
+  Minus,
+  Plus,
+  Check,
+  Loader2,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  originalPrice?: number;
+  images: string[];
+  rating: number;
+  reviews: number;
+  description: string;
+  sizes: string[];
+  colors: { name: string; hex: string }[];
+  inStock: boolean;
+}
+
+interface ProductPageProps {
+  product: Product;
+}
+
+export default function ProductPage({ product }: ProductPageProps) {
+  const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedSize, setSelectedSize] = useState<string>('');
+  const [selectedColor, setSelectedColor] = useState<string>('');
+  const [quantity, setQuantity] = useState(1);
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [addedToCart, setAddedToCart] = useState(false);
+
+  const handleAddToCart = async () => {
+    if (!selectedSize || !selectedColor) return;
+
+    setIsAddingToCart(true);
+    try {
+      await fetch('/api/cart', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          productId: product.id,
+          quantity,
+          size: selectedSize,
+          color: selectedColor,
+        }),
+      });
+      setAddedToCart(true);
+      setTimeout(() => setAddedToCart(false), 2000);
+    } catch (err) {
+      console.error('Failed to add to cart:', err);
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
+
+  const discount = product.originalPrice
+    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    : 0;
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="grid gap-8 lg:grid-cols-2">
+        {/* Image Gallery */}
+        <div className="space-y-4">
+          <motion.div
+            className="relative aspect-square overflow-hidden rounded-lg bg-muted"
+            key={selectedImage}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Image
+              src={product.images[selectedImage]}
+              alt={product.name}
+              fill
+              className="object-cover"
+              priority
+            />
+            {discount > 0 && (
+              <span className="absolute left-4 top-4 rounded-full bg-destructive px-3 py-1 text-sm font-medium text-destructive-foreground">
+                -{discount}%
+              </span>
+            )}
+          </motion.div>
+          <div className="flex gap-4 overflow-x-auto pb-2">
+            {product.images.map((image, i) => (
+              <button
+                key={i}
+                onClick={() => setSelectedImage(i)}
+                className={\`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-md \${
+                  selectedImage === i ? 'ring-2 ring-primary' : ''
+                }\`}
+              >
+                <Image src={image} alt="" fill className="object-cover" />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Product Info */}
+        <div className="space-y-6">
+          <div>
+            <h1 className="text-3xl font-bold">{product.name}</h1>
+            <div className="mt-2 flex items-center gap-4">
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className={\`h-4 w-4 \${
+                      i < Math.floor(product.rating)
+                        ? 'fill-yellow-400 text-yellow-400'
+                        : 'text-muted-foreground'
+                    }\`}
+                  />
+                ))}
+                <span className="ml-2 text-sm text-muted-foreground">
+                  ({product.reviews} reviews)
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-baseline gap-4">
+            <span className="text-3xl font-bold">\${product.price.toFixed(2)}</span>
+            {product.originalPrice && (
+              <span className="text-lg text-muted-foreground line-through">
+                \${product.originalPrice.toFixed(2)}
+              </span>
+            )}
+          </div>
+
+          <p className="text-muted-foreground">{product.description}</p>
+
+          {/* Color Selection */}
+          <div className="space-y-3">
+            <label className="text-sm font-medium">Color</label>
+            <div className="flex gap-3">
+              {product.colors.map((color) => (
+                <button
+                  key={color.name}
+                  onClick={() => setSelectedColor(color.name)}
+                  className={\`h-10 w-10 rounded-full border-2 \${
+                    selectedColor === color.name ? 'border-primary' : 'border-transparent'
+                  }\`}
+                  style={{ backgroundColor: color.hex }}
+                  title={color.name}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Size Selection */}
+          <div className="space-y-3">
+            <label className="text-sm font-medium">Size</label>
+            <Select value={selectedSize} onValueChange={setSelectedSize}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select size" />
+              </SelectTrigger>
+              <SelectContent>
+                {product.sizes.map((size) => (
+                  <SelectItem key={size} value={size}>
+                    {size}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Quantity */}
+          <div className="space-y-3">
+            <label className="text-sm font-medium">Quantity</label>
+            <div className="flex items-center gap-3">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                disabled={quantity <= 1}
+              >
+                <Minus className="h-4 w-4" />
+              </Button>
+              <span className="w-12 text-center font-medium">{quantity}</span>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setQuantity(quantity + 1)}
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-4">
+            <Button
+              className="flex-1"
+              size="lg"
+              onClick={handleAddToCart}
+              disabled={!product.inStock || !selectedSize || !selectedColor || isAddingToCart}
+            >
+              <AnimatePresence mode="wait">
+                {isAddingToCart ? (
+                  <motion.span
+                    key="loading"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center"
+                  >
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Adding...
+                  </motion.span>
+                ) : addedToCart ? (
+                  <motion.span
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center"
+                  >
+                    <Check className="mr-2 h-4 w-4" />
+                    Added!
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="default"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center"
+                  >
+                    <ShoppingCart className="mr-2 h-4 w-4" />
+                    Add to Cart
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={() => setIsWishlisted(!isWishlisted)}
+            >
+              <Heart
+                className={\`h-5 w-5 \${isWishlisted ? 'fill-red-500 text-red-500' : ''}\`}
+              />
+            </Button>
+          </div>
+
+          {!product.inStock && (
+            <p className="text-sm text-destructive">Currently out of stock</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+`;
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TEMPLATE REGISTRY
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export const PROMPT_TEMPLATES = {
+  landingPage: {
+    name: 'Landing Page',
+    description: 'Hero section, features, pricing, and CTA',
+    template: landingPageTemplate,
+    components: ['Hero', 'Features', 'Pricing', 'CTA'],
+    tags: ['marketing', 'conversion', 'homepage'],
+  },
+  dashboard: {
+    name: 'Dashboard',
+    description: 'Stats cards, charts, and activity feed',
+    template: dashboardTemplate,
+    components: ['StatCard', 'Chart', 'ActivityFeed'],
+    tags: ['admin', 'analytics', 'metrics'],
+  },
+  authentication: {
+    name: 'Authentication',
+    description: 'Login form with validation and OAuth',
+    template: authenticationTemplate,
+    components: ['LoginForm', 'SocialAuth'],
+    tags: ['auth', 'login', 'signup'],
+  },
+  crud: {
+    name: 'CRUD Table',
+    description: 'Data table with search, create, edit, delete',
+    template: crudTemplate,
+    components: ['DataTable', 'SearchBar', 'CreateModal', 'DeleteDialog'],
+    tags: ['data', 'table', 'management'],
+  },
+  ecommerce: {
+    name: 'E-commerce Product',
+    description: 'Product page with gallery, variants, and cart',
+    template: ecommerceTemplate,
+    components: ['ProductGallery', 'VariantSelector', 'AddToCart'],
+    tags: ['shop', 'product', 'cart'],
+  },
+} as const;
+
+export type TemplateKey = keyof typeof PROMPT_TEMPLATES;
+
+/**
+ * Get a specific template by key
+ */
+export function getTemplate(key: TemplateKey): string {
+  return PROMPT_TEMPLATES[key].template;
+}
+
+/**
+ * Get all available template keys
+ */
+export function getAvailableTemplates(): TemplateKey[] {
+  return Object.keys(PROMPT_TEMPLATES) as TemplateKey[];
+}
+
+/**
+ * Search templates by tag
+ */
+export function searchTemplatesByTag(tag: string): TemplateKey[] {
+  return (Object.entries(PROMPT_TEMPLATES) as [TemplateKey, typeof PROMPT_TEMPLATES[TemplateKey]][])
+    .filter(([_, template]) => template.tags.includes(tag))
+    .map(([key]) => key);
+}
+
+/**
+ * Build context for PIXEL agent from template
+ */
+export function buildTemplateContext(key: TemplateKey): string {
+  const template = PROMPT_TEMPLATES[key];
+  return \`
+## Template: \${template.name}
+
+### Description
+\${template.description}
+
+### Components to Generate
+\${template.components.map(c => \`- \${c}\`).join('\\n')}
+
+### Reference Code
+\\\`\\\`\\\`tsx
+\${template.template}
+\\\`\\\`\\\`
+
+**IMPORTANT:** Use this as a starting point. Customize for the specific business, adapt colors to the brand, and modify content to match requirements.
+\`;
+}

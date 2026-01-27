@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Input.tsx",
+      "content": "import React from 'react';\n\ninterface InputProps {\n  variant?: 'text' | 'textarea';\n  value: string;\n  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;\n  placeholder?: string;\n  required?: boolean;\n}\n\nconst Input: React.FC<InputProps> = ({ variant = 'text', value, onChange, placeholder, required = false }) => {\n  const baseStyles = 'border border-gray-300 rounded p-2 focus:outline-none focus:ring';\n  return (\n    variant === 'textarea' ? (\n      <textarea\n        className={baseStyles}\n        value={value}\n        onChange={onChange}\n        placeholder={placeholder}\n        required={required}\n      />\n    ) : (\n      <input\n        type=\"text\"\n        className={baseStyles}\n        value={value}\n        onChange={onChange}\n        placeholder={placeholder}\n        required={required}\n      />\n    )\n  );\n};\n\nexport default Input;"
+    }
+  ],
+  "timestamp": 1768782420099,
+  "promptVersion": "v3.0.0"
+}

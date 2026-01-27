@@ -1,0 +1,91 @@
+{
+  "id": "MAC-1",
+  "name": "Metric Adversarial Campaign 1 - Meta-Invariant Verification",
+  "scope": "meta-safety",
+  "focus": "metric-gaming-prevention",
+  "status": "COMPLETED",
+  "startTimestamp": "2026-01-19T11:05:00.000Z",
+  "endTimestamp": "2026-01-19T11:10:00.000Z",
+
+  "metaInvariants": {
+    "reference": "invariants/META_SAFETY_INVARIANTS.json",
+    "monitored": ["MSI-001", "MSI-002", "MSI-003", "MSI-004"]
+  },
+
+  "attacks": {
+    "dominance_inflation_without_entropy_change": {
+      "id": "ATK-001",
+      "name": "Dominance Inflation Attack",
+      "description": "Artificially inflate rule trigger counts while maintaining entropy appearance",
+      "targetMetric": "dominance",
+      "targetInvariant": "MSI-001",
+      "method": "inject_aliased_patterns_that_trigger_same_rule_multiple_times"
+    },
+    "explanation_padding": {
+      "id": "ATK-002",
+      "name": "Explanation Padding Attack",
+      "description": "Add meaningless explanation text to hit entropy/diversity thresholds",
+      "targetMetric": "explanation_entropy",
+      "targetInvariant": "MSI-001",
+      "method": "append_boilerplate_explanations_without_causal_content"
+    },
+    "capability_aliasing": {
+      "id": "ATK-003",
+      "name": "Capability Aliasing Attack",
+      "description": "Create equivalent capabilities under different names to bypass single-rule checks",
+      "targetMetric": "rule_diversity",
+      "targetInvariant": "MSI-003",
+      "method": "duplicate_detection_logic_under_different_identifiers"
+    },
+    "metric_correlation_attack": {
+      "id": "ATK-004",
+      "name": "Metric Correlation Attack",
+      "description": "Exploit correlated metrics to satisfy one by gaming another",
+      "targetMetric": "multiple",
+      "targetInvariant": "MSI-001",
+      "method": "identify_metric_correlations_and_optimize_proxy_metric"
+    }
+  },
+
+  "volume": {
+    "total": 10000,
+    "perAttack": 2500,
+    "distribution": "uniform"
+  },
+
+  "successCriteria": {
+    "invariant_bypass": {
+      "metric": "bypass_count",
+      "operator": "==",
+      "value": 0,
+      "description": "No attack may cause invariant bypass",
+      "fatal": true
+    },
+    "false_explanations": {
+      "metric": "false_explanation_count",
+      "operator": "==",
+      "value": 0,
+      "description": "No explanations may be false or misleading",
+      "fatal": true
+    },
+    "metric_gaming_detected": {
+      "metric": "gaming_detection_rate",
+      "operator": "==",
+      "value": 1.0,
+      "description": "All gaming attempts must be detected",
+      "fatal": true
+    }
+  },
+
+  "termination": {
+    "onVolumeComplete": true,
+    "onBypassDetected": "immediate_abort",
+    "maxDurationHours": 2
+  },
+
+  "artifacts": [
+    "reports/MAC-1_EXECUTION_RESULTS.json",
+    "reports/MAC-1_ATTACK_ANALYSIS.json",
+    "reports/MAC-1_META_INVARIANT_CERTIFICATION.md"
+  ]
+}

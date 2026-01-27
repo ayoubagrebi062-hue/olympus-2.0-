@@ -1,0 +1,228 @@
+{
+  "tier": "professional",
+  "extractedAt": "2026-01-21T09:59:18.684Z",
+  "sources": [
+    "oracle",
+    "empathy",
+    "venture",
+    "strategos",
+    "scope",
+    "palette",
+    "grid",
+    "blocks",
+    "cartographer",
+    "flow",
+    "archon",
+    "datum",
+    "nexus",
+    "forge",
+    "sentinel",
+    "pixel",
+    "wire",
+    "engine",
+    "keeper",
+    "notify"
+  ],
+  "architecture": {
+    "isMultiTenant": false,
+    "tenantIsolation": "none",
+    "tenantScopedTables": [],
+    "softDeletes": true,
+    "idStrategy": "cuid",
+    "apiBasePath": "/api/v1",
+    "paginationStyle": "cursor",
+    "responseEnvelope": true,
+    "rateLimitingEnabled": true,
+    "cachingEnabled": true,
+    "cachedEntities": [
+      "projects",
+      "users"
+    ],
+    "optimisticUpdates": true,
+    "rbacEnabled": true,
+    "roles": [
+      "user",
+      "admin"
+    ],
+    "errorBoundaries": "page"
+  },
+  "design": {
+    "colorPalette": {
+      "primary": "#3b82f6",
+      "secondary": "#64748b",
+      "accent": "#f59e0b",
+      "background": "#ffffff",
+      "foreground": "#0f172a",
+      "muted": "#f1f5f9",
+      "destructive": "#ef4444",
+      "border": "#e2e8f0"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "scale": "default"
+    },
+    "borderRadius": "medium",
+    "spacing": "default",
+    "darkMode": true,
+    "animations": "subtle"
+  },
+  "data": {
+    "entities": [
+      "User",
+      "Project",
+      "Token",
+      "Message"
+    ],
+    "relationships": [
+      {
+        "from": "User",
+        "to": "Project",
+        "type": "one-to-many",
+        "cascadeDelete": false
+      },
+      {
+        "from": "User",
+        "to": "Token",
+        "type": "one-to-many",
+        "cascadeDelete": false
+      },
+      {
+        "from": "Project",
+        "to": "Message",
+        "type": "one-to-many",
+        "cascadeDelete": false
+      }
+    ],
+    "softDeleteEntities": [
+      "User",
+      "Project"
+    ],
+    "searchableEntities": [],
+    "auditedEntities": [],
+    "enums": []
+  },
+  "api": {
+    "endpoints": [
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/login",
+        "description": "User login",
+        "requiresAuth": true
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/auth/signup",
+        "description": "User registration",
+        "requiresAuth": true
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/guest/build",
+        "description": "Start an anonymous build",
+        "requiresAuth": true
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/guest/build",
+        "description": "Check available tokens",
+        "requiresAuth": true
+      }
+    ],
+    "webhooks": [],
+    "publicEndpoints": [],
+    "adminEndpoints": []
+  },
+  "security": {
+    "authMethod": "supabase",
+    "mfaRequired": false,
+    "mfaRoles": [],
+    "session": {
+      "duration": 604800,
+      "refreshEnabled": true,
+      "maxConcurrent": 5
+    },
+    "rateLimits": [],
+    "encryptedFields": [],
+    "auditEvents": []
+  },
+  "pages": {
+    "pages": [
+      {
+        "name": "Landing Page",
+        "path": "/",
+        "layout": "default",
+        "requiresAuth": true,
+        "sections": []
+      },
+      {
+        "name": "Builder Page",
+        "path": "/builder",
+        "layout": "default",
+        "requiresAuth": true,
+        "sections": []
+      },
+      {
+        "name": "Login Page",
+        "path": "/login",
+        "layout": "default",
+        "requiresAuth": true,
+        "sections": []
+      },
+      {
+        "name": "Signup Page",
+        "path": "/signup",
+        "layout": "default",
+        "requiresAuth": true,
+        "sections": []
+      }
+    ],
+    "navigation": {
+      "main": [],
+      "footer": [
+        {
+          "name": "Contact",
+          "route": "/contact"
+        },
+        {
+          "name": "About",
+          "route": "/about"
+        }
+      ]
+    },
+    "layouts": []
+  },
+  "rawDecisions": [
+    {
+      "id": "venture-decision-business_model",
+      "type": "business_model",
+      "choice": "{\"type\":\"Freemium\",\"description\":\"Offer a basic version of the platform for free, with limitations o",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "strategos-decision-mvp_features",
+      "type": "mvp_features",
+      "choice": "[\"Landing page with prompt window\",\"Builder page with file explorer, editor, and AI chat\",\"Token sys",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "archon-decision-tech_stack",
+      "type": "tech_stack",
+      "choice": "{\"framework\":\"Next.js 14 App Router\",\"database\":\"Supabase PostgreSQL\",\"orm\":\"Prisma\",\"auth\":\"Supabas",
+      "reasoning": "",
+      "alternatives": [],
+      "confidence": 0.8
+    },
+    {
+      "id": "archon-decision-architecture",
+      "type": "architecture",
+      "choice": "{\"pattern\":\"monolith\",\"reasoning\":\"Given the project's initial scope and requirements, a monolithic ",
+      "reasoning": "Given the project's initial scope and requirements, a monolithic architecture is suitable for the OLYMPUS frontend. This approach allows for a more straightforward development process and easier maintenance. As the project grows, the architecture can be reassessed and potentially transitioned to a microservices pattern if needed.",
+      "alternatives": [],
+      "confidence": 0.8
+    }
+  ]
+}

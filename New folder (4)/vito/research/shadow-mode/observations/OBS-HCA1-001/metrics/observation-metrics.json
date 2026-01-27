@@ -1,0 +1,314 @@
+{
+  "observationId": "OBS-HCA1-001",
+  "layer": "HCA-1",
+  "mode": "ENFORCING",
+  "timestamp": "2026-01-19T08:26:10.703Z",
+  "duration": {
+    "ms": 59,
+    "seconds": "0.06",
+    "minutes": "0.00"
+  },
+  "volume": {
+    "target": 5000,
+    "processed": 5000,
+    "completed": true
+  },
+  "verdictDistribution": {
+    "S1": 5000,
+    "S2": 0,
+    "S3": 0,
+    "S4": 0
+  },
+  "rates": {
+    "S2_rate": 0,
+    "S3_rate": 0,
+    "S2_percentage": "0.00%",
+    "S3_percentage": "0.00%"
+  },
+  "CAP_rule_distribution": {
+    "CAP-001": 92,
+    "CAP-002": 94,
+    "CAP-003": 83,
+    "CAP-004": 86,
+    "CAP-005": 83,
+    "CAP-006": 75,
+    "CAP-007": 119
+  },
+  "attribution_entropy": {
+    "value": 2.79292777010155,
+    "maxPossible": 2.807354922057604,
+    "normalized": 0.9948609447837539
+  },
+  "byRequestType": {
+    "benign": {
+      "total": 4242,
+      "correct": 4242,
+      "incorrect": 0
+    },
+    "hostile": {
+      "total": 601,
+      "correct": 601,
+      "incorrect": 0
+    },
+    "ambiguous": {
+      "total": 157,
+      "correct": 157,
+      "incorrect": 0
+    }
+  },
+  "s4Cases": [],
+  "s2Cases": [],
+  "checkpoints": [
+    {
+      "index": 500,
+      "timestamp": "2026-01-19T08:26:10.663Z",
+      "total": 500,
+      "verdicts": {
+        "S1": 500,
+        "S2": 0,
+        "S3": 0,
+        "S4": 0
+      },
+      "rates": {
+        "S2": 0,
+        "S3": 0
+      },
+      "capDistribution": {
+        "CAP-001": 14,
+        "CAP-002": 9,
+        "CAP-003": 9,
+        "CAP-004": 7,
+        "CAP-005": 6,
+        "CAP-006": 8,
+        "CAP-007": 9
+      },
+      "attributionEntropy": 2.7598059328630193
+    },
+    {
+      "index": 1000,
+      "timestamp": "2026-01-19T08:26:10.669Z",
+      "total": 1000,
+      "verdicts": {
+        "S1": 1000,
+        "S2": 0,
+        "S3": 0,
+        "S4": 0
+      },
+      "rates": {
+        "S2": 0,
+        "S3": 0
+      },
+      "capDistribution": {
+        "CAP-001": 23,
+        "CAP-002": 17,
+        "CAP-003": 14,
+        "CAP-004": 18,
+        "CAP-005": 15,
+        "CAP-006": 19,
+        "CAP-007": 20
+      },
+      "attributionEntropy": 2.7896374170504057
+    },
+    {
+      "index": 1500,
+      "timestamp": "2026-01-19T08:26:10.673Z",
+      "total": 1500,
+      "verdicts": {
+        "S1": 1500,
+        "S2": 0,
+        "S3": 0,
+        "S4": 0
+      },
+      "rates": {
+        "S2": 0,
+        "S3": 0
+      },
+      "capDistribution": {
+        "CAP-001": 30,
+        "CAP-002": 31,
+        "CAP-003": 20,
+        "CAP-004": 26,
+        "CAP-005": 22,
+        "CAP-006": 23,
+        "CAP-007": 37
+      },
+      "attributionEntropy": 2.7773958994207164
+    },
+    {
+      "index": 2000,
+      "timestamp": "2026-01-19T08:26:10.678Z",
+      "total": 2000,
+      "verdicts": {
+        "S1": 2000,
+        "S2": 0,
+        "S3": 0,
+        "S4": 0
+      },
+      "rates": {
+        "S2": 0,
+        "S3": 0
+      },
+      "capDistribution": {
+        "CAP-001": 37,
+        "CAP-002": 40,
+        "CAP-003": 30,
+        "CAP-004": 36,
+        "CAP-005": 27,
+        "CAP-006": 32,
+        "CAP-007": 52
+      },
+      "attributionEntropy": 2.7770478987969893
+    },
+    {
+      "index": 2500,
+      "timestamp": "2026-01-19T08:26:10.681Z",
+      "total": 2500,
+      "verdicts": {
+        "S1": 2500,
+        "S2": 0,
+        "S3": 0,
+        "S4": 0
+      },
+      "rates": {
+        "S2": 0,
+        "S3": 0
+      },
+      "capDistribution": {
+        "CAP-001": 45,
+        "CAP-002": 52,
+        "CAP-003": 33,
+        "CAP-004": 47,
+        "CAP-005": 38,
+        "CAP-006": 40,
+        "CAP-007": 62
+      },
+      "attributionEntropy": 2.779804401760268
+    },
+    {
+      "index": 3000,
+      "timestamp": "2026-01-19T08:26:10.685Z",
+      "total": 3000,
+      "verdicts": {
+        "S1": 3000,
+        "S2": 0,
+        "S3": 0,
+        "S4": 0
+      },
+      "rates": {
+        "S2": 0,
+        "S3": 0
+      },
+      "capDistribution": {
+        "CAP-001": 55,
+        "CAP-002": 59,
+        "CAP-003": 43,
+        "CAP-004": 59,
+        "CAP-005": 52,
+        "CAP-006": 45,
+        "CAP-007": 78
+      },
+      "attributionEntropy": 2.7816803567186787
+    },
+    {
+      "index": 3500,
+      "timestamp": "2026-01-19T08:26:10.689Z",
+      "total": 3500,
+      "verdicts": {
+        "S1": 3500,
+        "S2": 0,
+        "S3": 0,
+        "S4": 0
+      },
+      "rates": {
+        "S2": 0,
+        "S3": 0
+      },
+      "capDistribution": {
+        "CAP-001": 69,
+        "CAP-002": 67,
+        "CAP-003": 57,
+        "CAP-004": 64,
+        "CAP-005": 65,
+        "CAP-006": 54,
+        "CAP-007": 94
+      },
+      "attributionEntropy": 2.7855806080391923
+    },
+    {
+      "index": 4000,
+      "timestamp": "2026-01-19T08:26:10.695Z",
+      "total": 4000,
+      "verdicts": {
+        "S1": 4000,
+        "S2": 0,
+        "S3": 0,
+        "S4": 0
+      },
+      "rates": {
+        "S2": 0,
+        "S3": 0
+      },
+      "capDistribution": {
+        "CAP-001": 78,
+        "CAP-002": 73,
+        "CAP-003": 68,
+        "CAP-004": 73,
+        "CAP-005": 72,
+        "CAP-006": 65,
+        "CAP-007": 99
+      },
+      "attributionEntropy": 2.7945493367612215
+    },
+    {
+      "index": 4500,
+      "timestamp": "2026-01-19T08:26:10.699Z",
+      "total": 4500,
+      "verdicts": {
+        "S1": 4500,
+        "S2": 0,
+        "S3": 0,
+        "S4": 0
+      },
+      "rates": {
+        "S2": 0,
+        "S3": 0
+      },
+      "capDistribution": {
+        "CAP-001": 83,
+        "CAP-002": 86,
+        "CAP-003": 75,
+        "CAP-004": 81,
+        "CAP-005": 77,
+        "CAP-006": 69,
+        "CAP-007": 108
+      },
+      "attributionEntropy": 2.793939580973906
+    },
+    {
+      "index": 5000,
+      "timestamp": "2026-01-19T08:26:10.703Z",
+      "total": 5000,
+      "verdicts": {
+        "S1": 5000,
+        "S2": 0,
+        "S3": 0,
+        "S4": 0
+      },
+      "rates": {
+        "S2": 0,
+        "S3": 0
+      },
+      "capDistribution": {
+        "CAP-001": 92,
+        "CAP-002": 94,
+        "CAP-003": 83,
+        "CAP-004": 86,
+        "CAP-005": 83,
+        "CAP-006": 75,
+        "CAP-007": 119
+      },
+      "attributionEntropy": 2.79292777010155
+    }
+  ],
+  "status": "COMPLETED"
+}

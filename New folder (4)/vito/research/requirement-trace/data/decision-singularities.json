@@ -1,0 +1,157 @@
+{
+  "version": "1.0.0",
+  "created_at": "2026-01-19T13:05:46.095Z",
+  "last_singularity_at": "2026-01-19T13:05:46.106Z",
+  "singularities": [
+    {
+      "singularity_id": "SING-mkl6hm62-ueu7kw",
+      "created_at": "2026-01-19T13:05:46.106Z",
+      "run_id": "RLL-1768827946094",
+      "trigger": {
+        "global_rsr_at_trigger": 0.3444444444444444,
+        "required_rsr": 1,
+        "rsr_deficit": 0.6555555555555557,
+        "violations_count": 3,
+        "mccs_computed": true
+      },
+      "lock_scope": "PROJECT",
+      "locked_shapes": [
+        "STATIC_DISPLAY_CAPABILITY",
+        "FILTER_CAPABILITY",
+        "PAGINATION_CAPABILITY"
+      ],
+      "locked_handoffs": [
+        "H3",
+        "H4"
+      ],
+      "allowed_realities": [
+        {
+          "reality_id": "REALITY-MCCS-mkl6hm61-ege6af",
+          "mccs_id": "MCCS-mkl6hm61-ege6af",
+          "intervention_count": 1,
+          "interventions": [
+            {
+              "intervention_id": "INT-STATIC_DISPLAY_CAPABILITY-H3-mkl6hm61",
+              "type": "INVARIANT_ENFORCEMENT",
+              "target_shape_id": "STATIC_DISPLAY_CAPABILITY",
+              "target_handoff_id": "H3"
+            }
+          ],
+          "projected_rsr": 2,
+          "compliance_restored": true,
+          "invariants_preserved": true
+        },
+        {
+          "reality_id": "REALITY-MCCS-mkl6hm61-gytz6u",
+          "mccs_id": "MCCS-mkl6hm61-gytz6u",
+          "intervention_count": 1,
+          "interventions": [
+            {
+              "intervention_id": "INT-FILTER_CAPABILITY-H4-mkl6hm61",
+              "type": "ATTRIBUTE_PRESERVATION",
+              "target_shape_id": "FILTER_CAPABILITY",
+              "target_handoff_id": "H4"
+            }
+          ],
+          "projected_rsr": 1,
+          "compliance_restored": true,
+          "invariants_preserved": true
+        },
+        {
+          "reality_id": "REALITY-MCCS-mkl6hm61-25gy66",
+          "mccs_id": "MCCS-mkl6hm61-25gy66",
+          "intervention_count": 1,
+          "interventions": [
+            {
+              "intervention_id": "INT-PAGINATION_CAPABILITY-H4-mkl6hm61",
+              "type": "ATTRIBUTE_PRESERVATION",
+              "target_shape_id": "PAGINATION_CAPABILITY",
+              "target_handoff_id": "H4"
+            }
+          ],
+          "projected_rsr": 1,
+          "compliance_restored": true,
+          "invariants_preserved": true
+        }
+      ],
+      "forbidden_fingerprints": [
+        {
+          "transform_hash": "9d5e4cade68cb6e9",
+          "original_run_id": "RLL-1768827946094",
+          "forbidden_at": "2026-01-19T13:05:46.106Z",
+          "reason": "CAUSED_LOSS",
+          "historical_shapes_lost": [
+            "FILTER_CAPABILITY"
+          ],
+          "historical_loss_class": "L1_PARTIAL_CAPTURE"
+        },
+        {
+          "transform_hash": "b4923d4d8624a8c7",
+          "original_run_id": "RLL-1768827946094",
+          "forbidden_at": "2026-01-19T13:05:46.106Z",
+          "reason": "CAUSED_LOSS",
+          "historical_shapes_lost": [
+            "PAGINATION_CAPABILITY"
+          ],
+          "historical_loss_class": "L1_PARTIAL_CAPTURE"
+        },
+        {
+          "transform_hash": "dd48b4bc2ec4b8da",
+          "original_run_id": "RLL-1768827946094",
+          "forbidden_at": "2026-01-19T13:05:46.106Z",
+          "reason": "CAUSED_INVARIANT_VIOLATION",
+          "historical_shapes_lost": [
+            "STATIC_DISPLAY_CAPABILITY"
+          ],
+          "historical_loss_class": "L1_PARTIAL_CAPTURE"
+        }
+      ],
+      "enforcement": {
+        "deviation_action": "HARD_ABORT",
+        "no_override": true,
+        "no_retry": true,
+        "no_config": true,
+        "no_flag": true
+      },
+      "proof": {
+        "mccs_proven": true,
+        "fingerprints_evidence_based": true,
+        "deterministic": true,
+        "immutable": true,
+        "append_only": true
+      }
+    }
+  ],
+  "index": {
+    "by_shape": {
+      "STATIC_DISPLAY_CAPABILITY": [
+        "SING-mkl6hm62-ueu7kw"
+      ],
+      "FILTER_CAPABILITY": [
+        "SING-mkl6hm62-ueu7kw"
+      ],
+      "PAGINATION_CAPABILITY": [
+        "SING-mkl6hm62-ueu7kw"
+      ]
+    },
+    "by_handoff": {
+      "H3": [
+        "SING-mkl6hm62-ueu7kw"
+      ],
+      "H4": [
+        "SING-mkl6hm62-ueu7kw"
+      ]
+    },
+    "by_fingerprint": {
+      "9d5e4cade68cb6e9": "SING-mkl6hm62-ueu7kw",
+      "b4923d4d8624a8c7": "SING-mkl6hm62-ueu7kw",
+      "dd48b4bc2ec4b8da": "SING-mkl6hm62-ueu7kw"
+    }
+  },
+  "stats": {
+    "total_singularities": 1,
+    "total_locked_shapes": 3,
+    "total_forbidden_fingerprints": 3,
+    "total_allowed_realities": 3
+  }
+}

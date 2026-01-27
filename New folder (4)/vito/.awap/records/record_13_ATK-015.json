@@ -1,0 +1,20 @@
+{
+  "record_id": "exec_1768875506126_2e20e961801254b3",
+  "attack_id": "ATK-015",
+  "execution_order": 13,
+  "status": "COMPLETED",
+  "outcome": "BLOCKED",
+  "started_at": "2026-01-20T02:18:26.125Z",
+  "completed_at": "2026-01-20T02:18:26.126Z",
+  "duration_ms": 0,
+  "detection_latency_ms": 0,
+  "evidence_hashes": [
+    "9ccef91f4d5cfa5c3e479379239e63fa1248e26ca7c3820ea91615ca0c3d8f72"
+  ],
+  "evidence_raw": [
+    "PASS: Double initialization blocked: FATAL: Archive root already initialized"
+  ],
+  "record_hash": "cb7b4be664dd1bef8248710a87fe6a5336ad57ffcb73201b79af4d37344fca50",
+  "previous_hash": "915e6df5c098d6c3c36c531487195298a211dab2dc59350393769fcb727682cc",
+  "chain_position": 12
+}

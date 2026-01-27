@@ -1,0 +1,1352 @@
+{
+  "metadata": {
+    "generated_at": "2026-01-19T12:44:56.732Z",
+    "runtime_version": "1.0.0",
+    "run_id": "OFEL-1768826696708",
+    "enforcement_mode": "RUNTIME_PRIMITIVE",
+    "oris_version": "1.0.0"
+  },
+  "rsr_analysis": {
+    "per_shape": [
+      {
+        "shape_id": "FILTER_CAPABILITY",
+        "criticality": "INTERACTIVE",
+        "rsr": 0.16666666666666666,
+        "required_rsr": 0.95,
+        "rsr_met": false,
+        "attributes_at_strategos": 1,
+        "attributes_at_target": 1,
+        "loss_classes_detected": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "tolerated_losses": [],
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "violation": {
+          "shape_id": "FILTER_CAPABILITY",
+          "criticality": "INTERACTIVE",
+          "actual_rsr": 0.16666666666666666,
+          "required_rsr": 0.95,
+          "deficit": 0.7833333333333333,
+          "untolerated_losses": [
+            "L1_PARTIAL_CAPTURE"
+          ],
+          "enforcement_action": "FORK_TTE"
+        }
+      },
+      {
+        "shape_id": "PAGINATION_CAPABILITY",
+        "criticality": "INTERACTIVE",
+        "rsr": 0.2,
+        "required_rsr": 0.95,
+        "rsr_met": false,
+        "attributes_at_strategos": 1,
+        "attributes_at_target": 1,
+        "loss_classes_detected": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "tolerated_losses": [],
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "violation": {
+          "shape_id": "PAGINATION_CAPABILITY",
+          "criticality": "INTERACTIVE",
+          "actual_rsr": 0.2,
+          "required_rsr": 0.95,
+          "deficit": 0.75,
+          "untolerated_losses": [
+            "L1_PARTIAL_CAPTURE"
+          ],
+          "enforcement_action": "FORK_TTE"
+        }
+      },
+      {
+        "shape_id": "STATIC_DISPLAY_CAPABILITY",
+        "criticality": "FOUNDATIONAL",
+        "rsr": 0.6666666666666666,
+        "required_rsr": 1,
+        "rsr_met": false,
+        "attributes_at_strategos": 1,
+        "attributes_at_target": 2,
+        "loss_classes_detected": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "tolerated_losses": [],
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "violation": {
+          "shape_id": "STATIC_DISPLAY_CAPABILITY",
+          "criticality": "FOUNDATIONAL",
+          "actual_rsr": 0.6666666666666666,
+          "required_rsr": 1,
+          "deficit": 0.33333333333333337,
+          "untolerated_losses": [
+            "L1_PARTIAL_CAPTURE"
+          ],
+          "enforcement_action": "BLOCK_ALL"
+        }
+      }
+    ],
+    "per_tier": [
+      {
+        "criticality": "FOUNDATIONAL",
+        "shapes": [
+          {
+            "shape_id": "STATIC_DISPLAY_CAPABILITY",
+            "criticality": "FOUNDATIONAL",
+            "rsr": 0.6666666666666666,
+            "required_rsr": 1,
+            "rsr_met": false,
+            "attributes_at_strategos": 1,
+            "attributes_at_target": 2,
+            "loss_classes_detected": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "tolerated_losses": [],
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "violation": {
+              "shape_id": "STATIC_DISPLAY_CAPABILITY",
+              "criticality": "FOUNDATIONAL",
+              "actual_rsr": 0.6666666666666666,
+              "required_rsr": 1,
+              "deficit": 0.33333333333333337,
+              "untolerated_losses": [
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "enforcement_action": "BLOCK_ALL"
+            }
+          }
+        ],
+        "aggregate_rsr": 0.6666666666666666,
+        "required_rsr": 1,
+        "tier_met": false,
+        "enforcement_action": "BLOCK_ALL",
+        "violations": [
+          {
+            "shape_id": "STATIC_DISPLAY_CAPABILITY",
+            "criticality": "FOUNDATIONAL",
+            "actual_rsr": 0.6666666666666666,
+            "required_rsr": 1,
+            "deficit": 0.33333333333333337,
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "enforcement_action": "BLOCK_ALL"
+          }
+        ]
+      },
+      {
+        "criticality": "INTERACTIVE",
+        "shapes": [
+          {
+            "shape_id": "FILTER_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "rsr": 0.16666666666666666,
+            "required_rsr": 0.95,
+            "rsr_met": false,
+            "attributes_at_strategos": 1,
+            "attributes_at_target": 1,
+            "loss_classes_detected": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "tolerated_losses": [],
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "violation": {
+              "shape_id": "FILTER_CAPABILITY",
+              "criticality": "INTERACTIVE",
+              "actual_rsr": 0.16666666666666666,
+              "required_rsr": 0.95,
+              "deficit": 0.7833333333333333,
+              "untolerated_losses": [
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "enforcement_action": "FORK_TTE"
+            }
+          },
+          {
+            "shape_id": "PAGINATION_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "rsr": 0.2,
+            "required_rsr": 0.95,
+            "rsr_met": false,
+            "attributes_at_strategos": 1,
+            "attributes_at_target": 1,
+            "loss_classes_detected": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "tolerated_losses": [],
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "violation": {
+              "shape_id": "PAGINATION_CAPABILITY",
+              "criticality": "INTERACTIVE",
+              "actual_rsr": 0.2,
+              "required_rsr": 0.95,
+              "deficit": 0.75,
+              "untolerated_losses": [
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "enforcement_action": "FORK_TTE"
+            }
+          }
+        ],
+        "aggregate_rsr": 0.16666666666666666,
+        "required_rsr": 0.95,
+        "tier_met": false,
+        "enforcement_action": "FORK_TTE",
+        "violations": [
+          {
+            "shape_id": "FILTER_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "actual_rsr": 0.16666666666666666,
+            "required_rsr": 0.95,
+            "deficit": 0.7833333333333333,
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "enforcement_action": "FORK_TTE"
+          },
+          {
+            "shape_id": "PAGINATION_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "actual_rsr": 0.2,
+            "required_rsr": 0.95,
+            "deficit": 0.75,
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "enforcement_action": "FORK_TTE"
+          }
+        ]
+      },
+      {
+        "criticality": "ENHANCEMENT",
+        "shapes": [],
+        "aggregate_rsr": 1,
+        "required_rsr": 0.8,
+        "tier_met": true,
+        "enforcement_action": "WARN_ONLY",
+        "violations": []
+      }
+    ],
+    "global_rsr": 0.3444444444444444
+  },
+  "enforcement": {
+    "timestamp": "2026-01-19T12:44:56.718Z",
+    "run_id": "OFEL-1768826696708",
+    "per_shape_rsr": [
+      {
+        "shape_id": "FILTER_CAPABILITY",
+        "criticality": "INTERACTIVE",
+        "rsr": 0.16666666666666666,
+        "required_rsr": 0.95,
+        "rsr_met": false,
+        "attributes_at_strategos": 1,
+        "attributes_at_target": 1,
+        "loss_classes_detected": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "tolerated_losses": [],
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "violation": {
+          "shape_id": "FILTER_CAPABILITY",
+          "criticality": "INTERACTIVE",
+          "actual_rsr": 0.16666666666666666,
+          "required_rsr": 0.95,
+          "deficit": 0.7833333333333333,
+          "untolerated_losses": [
+            "L1_PARTIAL_CAPTURE"
+          ],
+          "enforcement_action": "FORK_TTE"
+        }
+      },
+      {
+        "shape_id": "PAGINATION_CAPABILITY",
+        "criticality": "INTERACTIVE",
+        "rsr": 0.2,
+        "required_rsr": 0.95,
+        "rsr_met": false,
+        "attributes_at_strategos": 1,
+        "attributes_at_target": 1,
+        "loss_classes_detected": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "tolerated_losses": [],
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "violation": {
+          "shape_id": "PAGINATION_CAPABILITY",
+          "criticality": "INTERACTIVE",
+          "actual_rsr": 0.2,
+          "required_rsr": 0.95,
+          "deficit": 0.75,
+          "untolerated_losses": [
+            "L1_PARTIAL_CAPTURE"
+          ],
+          "enforcement_action": "FORK_TTE"
+        }
+      },
+      {
+        "shape_id": "STATIC_DISPLAY_CAPABILITY",
+        "criticality": "FOUNDATIONAL",
+        "rsr": 0.6666666666666666,
+        "required_rsr": 1,
+        "rsr_met": false,
+        "attributes_at_strategos": 1,
+        "attributes_at_target": 2,
+        "loss_classes_detected": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "tolerated_losses": [],
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "violation": {
+          "shape_id": "STATIC_DISPLAY_CAPABILITY",
+          "criticality": "FOUNDATIONAL",
+          "actual_rsr": 0.6666666666666666,
+          "required_rsr": 1,
+          "deficit": 0.33333333333333337,
+          "untolerated_losses": [
+            "L1_PARTIAL_CAPTURE"
+          ],
+          "enforcement_action": "BLOCK_ALL"
+        }
+      }
+    ],
+    "per_tier_results": [
+      {
+        "criticality": "FOUNDATIONAL",
+        "shapes": [
+          {
+            "shape_id": "STATIC_DISPLAY_CAPABILITY",
+            "criticality": "FOUNDATIONAL",
+            "rsr": 0.6666666666666666,
+            "required_rsr": 1,
+            "rsr_met": false,
+            "attributes_at_strategos": 1,
+            "attributes_at_target": 2,
+            "loss_classes_detected": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "tolerated_losses": [],
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "violation": {
+              "shape_id": "STATIC_DISPLAY_CAPABILITY",
+              "criticality": "FOUNDATIONAL",
+              "actual_rsr": 0.6666666666666666,
+              "required_rsr": 1,
+              "deficit": 0.33333333333333337,
+              "untolerated_losses": [
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "enforcement_action": "BLOCK_ALL"
+            }
+          }
+        ],
+        "aggregate_rsr": 0.6666666666666666,
+        "required_rsr": 1,
+        "tier_met": false,
+        "enforcement_action": "BLOCK_ALL",
+        "violations": [
+          {
+            "shape_id": "STATIC_DISPLAY_CAPABILITY",
+            "criticality": "FOUNDATIONAL",
+            "actual_rsr": 0.6666666666666666,
+            "required_rsr": 1,
+            "deficit": 0.33333333333333337,
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "enforcement_action": "BLOCK_ALL"
+          }
+        ]
+      },
+      {
+        "criticality": "INTERACTIVE",
+        "shapes": [
+          {
+            "shape_id": "FILTER_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "rsr": 0.16666666666666666,
+            "required_rsr": 0.95,
+            "rsr_met": false,
+            "attributes_at_strategos": 1,
+            "attributes_at_target": 1,
+            "loss_classes_detected": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "tolerated_losses": [],
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "violation": {
+              "shape_id": "FILTER_CAPABILITY",
+              "criticality": "INTERACTIVE",
+              "actual_rsr": 0.16666666666666666,
+              "required_rsr": 0.95,
+              "deficit": 0.7833333333333333,
+              "untolerated_losses": [
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "enforcement_action": "FORK_TTE"
+            }
+          },
+          {
+            "shape_id": "PAGINATION_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "rsr": 0.2,
+            "required_rsr": 0.95,
+            "rsr_met": false,
+            "attributes_at_strategos": 1,
+            "attributes_at_target": 1,
+            "loss_classes_detected": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "tolerated_losses": [],
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "violation": {
+              "shape_id": "PAGINATION_CAPABILITY",
+              "criticality": "INTERACTIVE",
+              "actual_rsr": 0.2,
+              "required_rsr": 0.95,
+              "deficit": 0.75,
+              "untolerated_losses": [
+                "L1_PARTIAL_CAPTURE"
+              ],
+              "enforcement_action": "FORK_TTE"
+            }
+          }
+        ],
+        "aggregate_rsr": 0.16666666666666666,
+        "required_rsr": 0.95,
+        "tier_met": false,
+        "enforcement_action": "FORK_TTE",
+        "violations": [
+          {
+            "shape_id": "FILTER_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "actual_rsr": 0.16666666666666666,
+            "required_rsr": 0.95,
+            "deficit": 0.7833333333333333,
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "enforcement_action": "FORK_TTE"
+          },
+          {
+            "shape_id": "PAGINATION_CAPABILITY",
+            "criticality": "INTERACTIVE",
+            "actual_rsr": 0.2,
+            "required_rsr": 0.95,
+            "deficit": 0.75,
+            "untolerated_losses": [
+              "L1_PARTIAL_CAPTURE"
+            ],
+            "enforcement_action": "FORK_TTE"
+          }
+        ]
+      },
+      {
+        "criticality": "ENHANCEMENT",
+        "shapes": [],
+        "aggregate_rsr": 1,
+        "required_rsr": 0.8,
+        "tier_met": true,
+        "enforcement_action": "WARN_ONLY",
+        "violations": []
+      }
+    ],
+    "overall_action": "BLOCK_ALL",
+    "canonical_allowed": false,
+    "tte_decision": {
+      "fork_required": false,
+      "reason": "FOUNDATIONAL RSR violation - execution completely blocked",
+      "canonical_blocked": true,
+      "shadow_allowed": false,
+      "remediation_possible": false,
+      "tracks_to_create": [],
+      "triggering_violations": [
+        {
+          "shape_id": "STATIC_DISPLAY_CAPABILITY",
+          "criticality": "FOUNDATIONAL",
+          "actual_rsr": 0.6666666666666666,
+          "required_rsr": 1,
+          "deficit": 0.33333333333333337,
+          "untolerated_losses": [
+            "L1_PARTIAL_CAPTURE"
+          ],
+          "enforcement_action": "BLOCK_ALL"
+        }
+      ]
+    },
+    "active_tracks": [],
+    "foundational_violations": [
+      {
+        "shape_id": "STATIC_DISPLAY_CAPABILITY",
+        "criticality": "FOUNDATIONAL",
+        "actual_rsr": 0.6666666666666666,
+        "required_rsr": 1,
+        "deficit": 0.33333333333333337,
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "enforcement_action": "BLOCK_ALL"
+      }
+    ],
+    "interactive_violations": [
+      {
+        "shape_id": "FILTER_CAPABILITY",
+        "criticality": "INTERACTIVE",
+        "actual_rsr": 0.16666666666666666,
+        "required_rsr": 0.95,
+        "deficit": 0.7833333333333333,
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "enforcement_action": "FORK_TTE"
+      },
+      {
+        "shape_id": "PAGINATION_CAPABILITY",
+        "criticality": "INTERACTIVE",
+        "actual_rsr": 0.2,
+        "required_rsr": 0.95,
+        "deficit": 0.75,
+        "untolerated_losses": [
+          "L1_PARTIAL_CAPTURE"
+        ],
+        "enforcement_action": "FORK_TTE"
+      }
+    ],
+    "enhancement_violations": [],
+    "proof": {
+      "laws_applied": {
+        "FOUNDATIONAL": {
+          "min_rsr": 1,
+          "tolerated_losses": [],
+          "violation_action": "BLOCK_ALL"
+        },
+        "INTERACTIVE": {
+          "min_rsr": 0.95,
+          "tolerated_losses": [
+            "L3_SPECIFICITY_LOSS"
+          ],
+          "violation_action": "FORK_TTE"
+        },
+        "ENHANCEMENT": {
+          "min_rsr": 0.8,
+          "tolerated_losses": [
+            "L3_SPECIFICITY_LOSS",
+            "L7_SCHEMA_MISMATCH"
+          ],
+          "violation_action": "WARN_ONLY"
+        }
+      },
+      "computation_method": "STRUCTURAL_ATTRIBUTE_RATIO",
+      "no_inference_used": true,
+      "no_softening_applied": true,
+      "no_override_possible": true,
+      "decision_deterministic": true
+    }
+  },
+  "tte_state": {
+    "fork_occurred": false,
+    "active_tracks": [],
+    "promotion_eligibility": []
+  },
+  "shape_classification": {
+    "shapes": [
+      {
+        "shape_id": "FILTER_CAPABILITY",
+        "shape_kind": "CAPABILITY",
+        "criticality": "INTERACTIVE",
+        "mortality_status": "SYSTEMICALLY_BROKEN",
+        "survival_rate": 0,
+        "trend": "STABLE"
+      },
+      {
+        "shape_id": "PAGINATION_CAPABILITY",
+        "shape_kind": "CAPABILITY",
+        "criticality": "INTERACTIVE",
+        "mortality_status": "SYSTEMICALLY_BROKEN",
+        "survival_rate": 0,
+        "trend": "STABLE"
+      },
+      {
+        "shape_id": "STATIC_DISPLAY_CAPABILITY",
+        "shape_kind": "INVARIANT",
+        "criticality": "FOUNDATIONAL",
+        "mortality_status": "SYSTEMICALLY_BROKEN",
+        "survival_rate": 0,
+        "trend": "STABLE"
+      }
+    ],
+    "invariant_count": 1,
+    "capability_count": 2,
+    "invariant_violations": [
+      {
+        "shape_id": "STATIC_DISPLAY_CAPABILITY",
+        "handoff_id": "H3",
+        "violation_type": "ATTRIBUTE_LOST",
+        "expected": "Zero loss at H3 (cartographer → blocks)",
+        "actual": "Loss detected: L1_PARTIAL_CAPTURE, attributes lost: [layout_type]",
+        "timestamp": "2026-01-19T12:44:56.716Z",
+        "fatal": true
+      },
+      {
+        "shape_id": "STATIC_DISPLAY_CAPABILITY",
+        "handoff_id": "H5",
+        "violation_type": "ATTRIBUTE_LOST",
+        "expected": "All 3 required attributes present at PIXEL",
+        "actual": "Missing 1 attributes: [layout_type]",
+        "timestamp": "2026-01-19T12:44:56.716Z",
+        "fatal": true
+      }
+    ]
+  },
+  "mortality_analysis": {
+    "healthy_count": 0,
+    "flaky_count": 0,
+    "degrading_count": 0,
+    "broken_count": 3,
+    "most_vulnerable_shapes": [
+      "FILTER_CAPABILITY",
+      "PAGINATION_CAPABILITY",
+      "STATIC_DISPLAY_CAPABILITY"
+    ],
+    "most_dangerous_handoffs": [
+      "H4",
+      "H3",
+      "H1"
+    ]
+  },
+  "repair_directives": [
+    {
+      "directive_id": "MRD-1768826696720-0b811706",
+      "generated_at": "2026-01-19T12:44:56.720Z",
+      "trigger": "BLOCK_ALL",
+      "target_shape_id": "STATIC_DISPLAY_CAPABILITY",
+      "target_shape_kind": "INVARIANT",
+      "target_criticality": "FOUNDATIONAL",
+      "loss_evidence": {
+        "shape_id": "STATIC_DISPLAY_CAPABILITY",
+        "handoff_id": "H3",
+        "source_agent": "cartographer",
+        "target_agent": "blocks",
+        "loss_class": "L1_PARTIAL_CAPTURE",
+        "attributes_before": [
+          "target_entity",
+          "display_fields",
+          "layout_type"
+        ],
+        "attributes_after": [
+          "target_entity",
+          "display_fields"
+        ],
+        "attributes_lost": [
+          "layout_type"
+        ],
+        "source_path": "pages[0].name",
+        "target_path": "components[0].name",
+        "structural_diff": {
+          "type": "OMISSION",
+          "description": "Some required attributes omitted"
+        }
+      },
+      "repair_type": "ENFORCE_INVARIANT",
+      "repair_description": "INVARIANT shape \"STATIC_DISPLAY_CAPABILITY\" must survive all handoffs. Violation at H3 (cartographer → blocks). This shape must NEVER be summarized and must preserve ALL attributes. Add to summarization bypass list.",
+      "repair_location": {
+        "agent": "blocks",
+        "suggested_path": "components[0].name"
+      },
+      "structural_change": {
+        "type": "MARK_INVARIANT",
+        "attribute": null,
+        "rationale": "Shape \"STATIC_DISPLAY_CAPABILITY\" is INVARIANT and must bypass all summarization. Add to INVARIANT_SHAPE_IDS in summarization bypass list."
+      },
+      "readonly": true,
+      "automatic_execution": false
+    },
+    {
+      "directive_id": "MRD-1768826696721-a4f53469",
+      "generated_at": "2026-01-19T12:44:56.721Z",
+      "trigger": "BLOCK_ALL",
+      "target_shape_id": "FILTER_CAPABILITY",
+      "target_shape_kind": "CAPABILITY",
+      "target_criticality": "INTERACTIVE",
+      "loss_evidence": {
+        "shape_id": "FILTER_CAPABILITY",
+        "handoff_id": "H4",
+        "source_agent": "blocks",
+        "target_agent": "wire",
+        "loss_class": "L1_PARTIAL_CAPTURE",
+        "attributes_before": [
+          "target_entity",
+          "filter_attribute",
+          "filter_values",
+          "event_handler"
+        ],
+        "attributes_after": [
+          "target_entity"
+        ],
+        "attributes_lost": [
+          "filter_attribute",
+          "filter_values",
+          "event_handler"
+        ],
+        "source_path": "components[0].name",
+        "target_path": "files[1].entity",
+        "structural_diff": {
+          "type": "OMISSION",
+          "description": "Some required attributes omitted"
+        }
+      },
+      "repair_type": "PREVENT_OMISSION",
+      "repair_description": "Prevent omission of shape \"FILTER_CAPABILITY\" attributes at handoff H4 (blocks → wire). Lost attributes: [filter_attribute, filter_values, event_handler]. Ensure agent \"wire\" explicitly preserves these structural attributes.",
+      "repair_location": {
+        "agent": "wire",
+        "suggested_path": "files[1].entity"
+      },
+      "structural_change": {
+        "type": "PRESERVE_ATTRIBUTE",
+        "attribute": "filter_attribute",
+        "rationale": "Add explicit handling for attribute \"filter_attribute\" in agent \"wire\" to prevent omission."
+      },
+      "readonly": true,
+      "automatic_execution": false
+    },
+    {
+      "directive_id": "MRD-1768826696721-5db8e1f2",
+      "generated_at": "2026-01-19T12:44:56.721Z",
+      "trigger": "BLOCK_ALL",
+      "target_shape_id": "PAGINATION_CAPABILITY",
+      "target_shape_kind": "CAPABILITY",
+      "target_criticality": "INTERACTIVE",
+      "loss_evidence": {
+        "shape_id": "PAGINATION_CAPABILITY",
+        "handoff_id": "H4",
+        "source_agent": "blocks",
+        "target_agent": "wire",
+        "loss_class": "L1_PARTIAL_CAPTURE",
+        "attributes_before": [
+          "target_entity",
+          "page_size",
+          "total_indicator"
+        ],
+        "attributes_after": [
+          "target_entity"
+        ],
+        "attributes_lost": [
+          "page_size",
+          "total_indicator"
+        ],
+        "source_path": "components[0].name",
+        "target_path": "files[1].entity",
+        "structural_diff": {
+          "type": "OMISSION",
+          "description": "Some required attributes omitted"
+        }
+      },
+      "repair_type": "PREVENT_OMISSION",
+      "repair_description": "Prevent omission of shape \"PAGINATION_CAPABILITY\" attributes at handoff H4 (blocks → wire). Lost attributes: [page_size, total_indicator]. Ensure agent \"wire\" explicitly preserves these structural attributes.",
+      "repair_location": {
+        "agent": "wire",
+        "suggested_path": "files[1].entity"
+      },
+      "structural_change": {
+        "type": "PRESERVE_ATTRIBUTE",
+        "attribute": "page_size",
+        "rationale": "Add explicit handling for attribute \"page_size\" in agent \"wire\" to prevent omission."
+      },
+      "readonly": true,
+      "automatic_execution": false
+    }
+  ],
+  "proof_chain": {
+    "laws_immutable": true,
+    "computation_deterministic": true,
+    "decision_non_bypassable": true,
+    "tracks_isolated": true,
+    "no_human_override": true,
+    "no_policy_config": true,
+    "no_runtime_flags": true
+  },
+  "forensics": {
+    "ofel_version": "1.0.0",
+    "causal_fingerprints": [
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H1-mkl5qu4z",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H1",
+        "timestamp": "2026-01-19T12:44:56.722Z",
+        "transform_hash": "d8f396331f544ffd",
+        "source_agent": "strategos",
+        "target_agent": "scope",
+        "input_shape_ids": [
+          "FILTER_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "FILTER_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 1,
+          "attributes_after": 1,
+          "attributes_lost": [],
+          "attributes_added": []
+        },
+        "deterministic": true,
+        "reproducible": true
+      },
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H2-mkl5qu4z",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H2",
+        "timestamp": "2026-01-19T12:44:56.723Z",
+        "transform_hash": "e2a7471510b61783",
+        "source_agent": "scope",
+        "target_agent": "cartographer",
+        "input_shape_ids": [
+          "FILTER_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "FILTER_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 1,
+          "attributes_after": 3,
+          "attributes_lost": [],
+          "attributes_added": [
+            "filter_attribute",
+            "filter_values"
+          ]
+        },
+        "deterministic": true,
+        "reproducible": true
+      },
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H3-mkl5qu4z",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H3",
+        "timestamp": "2026-01-19T12:44:56.723Z",
+        "transform_hash": "4bab396cc5414f7e",
+        "source_agent": "cartographer",
+        "target_agent": "blocks",
+        "input_shape_ids": [
+          "FILTER_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "FILTER_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 3,
+          "attributes_after": 4,
+          "attributes_lost": [],
+          "attributes_added": [
+            "event_handler"
+          ]
+        },
+        "deterministic": true,
+        "reproducible": true
+      },
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H4-mkl5qu4z",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H4",
+        "timestamp": "2026-01-19T12:44:56.723Z",
+        "transform_hash": "9d5e4cade68cb6e9",
+        "source_agent": "blocks",
+        "target_agent": "wire",
+        "input_shape_ids": [
+          "FILTER_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "FILTER_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [
+          "FILTER_CAPABILITY"
+        ],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 4,
+          "attributes_after": 1,
+          "attributes_lost": [
+            "event_handler",
+            "filter_attribute",
+            "filter_values"
+          ],
+          "attributes_added": []
+        },
+        "deterministic": true,
+        "reproducible": true
+      },
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H5-mkl5qu4z",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H5",
+        "timestamp": "2026-01-19T12:44:56.723Z",
+        "transform_hash": "1d133d005f306f7e",
+        "source_agent": "wire",
+        "target_agent": "pixel",
+        "input_shape_ids": [
+          "FILTER_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "FILTER_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 1,
+          "attributes_after": 1,
+          "attributes_lost": [],
+          "attributes_added": []
+        },
+        "deterministic": true,
+        "reproducible": true
+      },
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H1-mkl5qu4z",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H1",
+        "timestamp": "2026-01-19T12:44:56.723Z",
+        "transform_hash": "727c00bda8edf49c",
+        "source_agent": "strategos",
+        "target_agent": "scope",
+        "input_shape_ids": [
+          "PAGINATION_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "PAGINATION_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 1,
+          "attributes_after": 1,
+          "attributes_lost": [],
+          "attributes_added": []
+        },
+        "deterministic": true,
+        "reproducible": true
+      },
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H2-mkl5qu4z",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H2",
+        "timestamp": "2026-01-19T12:44:56.723Z",
+        "transform_hash": "40e52024d3f3115c",
+        "source_agent": "scope",
+        "target_agent": "cartographer",
+        "input_shape_ids": [
+          "PAGINATION_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "PAGINATION_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 1,
+          "attributes_after": 2,
+          "attributes_lost": [],
+          "attributes_added": [
+            "page_size"
+          ]
+        },
+        "deterministic": true,
+        "reproducible": true
+      },
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H3-mkl5qu4z",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H3",
+        "timestamp": "2026-01-19T12:44:56.723Z",
+        "transform_hash": "f281f025ff509057",
+        "source_agent": "cartographer",
+        "target_agent": "blocks",
+        "input_shape_ids": [
+          "PAGINATION_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "PAGINATION_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 2,
+          "attributes_after": 3,
+          "attributes_lost": [],
+          "attributes_added": [
+            "total_indicator"
+          ]
+        },
+        "deterministic": true,
+        "reproducible": true
+      },
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H4-mkl5qu4z",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H4",
+        "timestamp": "2026-01-19T12:44:56.723Z",
+        "transform_hash": "b4923d4d8624a8c7",
+        "source_agent": "blocks",
+        "target_agent": "wire",
+        "input_shape_ids": [
+          "PAGINATION_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "PAGINATION_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [
+          "PAGINATION_CAPABILITY"
+        ],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 3,
+          "attributes_after": 1,
+          "attributes_lost": [
+            "page_size",
+            "total_indicator"
+          ],
+          "attributes_added": []
+        },
+        "deterministic": true,
+        "reproducible": true
+      },
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H5-mkl5qu4z",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H5",
+        "timestamp": "2026-01-19T12:44:56.723Z",
+        "transform_hash": "2fdb2b12f07f2a83",
+        "source_agent": "wire",
+        "target_agent": "pixel",
+        "input_shape_ids": [
+          "PAGINATION_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "PAGINATION_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 1,
+          "attributes_after": 1,
+          "attributes_lost": [],
+          "attributes_added": []
+        },
+        "deterministic": true,
+        "reproducible": true
+      },
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H1-mkl5qu50",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H1",
+        "timestamp": "2026-01-19T12:44:56.723Z",
+        "transform_hash": "5622ceff7fb6b720",
+        "source_agent": "strategos",
+        "target_agent": "scope",
+        "input_shape_ids": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 1,
+          "attributes_after": 2,
+          "attributes_lost": [],
+          "attributes_added": [
+            "display_fields"
+          ]
+        },
+        "deterministic": true,
+        "reproducible": true
+      },
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H2-mkl5qu50",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H2",
+        "timestamp": "2026-01-19T12:44:56.724Z",
+        "transform_hash": "776e18f2d60d5f7c",
+        "source_agent": "scope",
+        "target_agent": "cartographer",
+        "input_shape_ids": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 2,
+          "attributes_after": 3,
+          "attributes_lost": [],
+          "attributes_added": [
+            "layout_type"
+          ]
+        },
+        "deterministic": true,
+        "reproducible": true
+      },
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H3-mkl5qu50",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H3",
+        "timestamp": "2026-01-19T12:44:56.724Z",
+        "transform_hash": "dd48b4bc2ec4b8da",
+        "source_agent": "cartographer",
+        "target_agent": "blocks",
+        "input_shape_ids": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 3,
+          "attributes_after": 2,
+          "attributes_lost": [
+            "layout_type"
+          ],
+          "attributes_added": []
+        },
+        "deterministic": true,
+        "reproducible": true
+      },
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H4-mkl5qu50",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H4",
+        "timestamp": "2026-01-19T12:44:56.724Z",
+        "transform_hash": "63b39291cfaf02b1",
+        "source_agent": "blocks",
+        "target_agent": "wire",
+        "input_shape_ids": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 2,
+          "attributes_after": 2,
+          "attributes_lost": [],
+          "attributes_added": []
+        },
+        "deterministic": true,
+        "reproducible": true
+      },
+      {
+        "fingerprint_id": "FP-OFEL-1768826696708-H5-mkl5qu50",
+        "run_id": "OFEL-1768826696708",
+        "handoff_id": "H5",
+        "timestamp": "2026-01-19T12:44:56.724Z",
+        "transform_hash": "95f3fe3732fcfa19",
+        "source_agent": "wire",
+        "target_agent": "pixel",
+        "input_shape_ids": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "output_shape_ids": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "shapes_lost": [],
+        "shapes_degraded": [],
+        "summarization_invoked": false,
+        "summarization_input_size": null,
+        "summarization_output_size": null,
+        "summarization_compression_ratio": null,
+        "invariant_shapes_present": [
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "invariant_bypass_requested": false,
+        "invariant_bypass_granted": false,
+        "attribute_delta": {
+          "attributes_before": 2,
+          "attributes_after": 2,
+          "attributes_lost": [],
+          "attributes_added": []
+        },
+        "deterministic": true,
+        "reproducible": true
+      }
+    ],
+    "counterfactual_results": [],
+    "inspection_levels": [
+      {
+        "shape_id": "FILTER_CAPABILITY",
+        "mortality_status": "SYSTEMICALLY_BROKEN",
+        "inspection_level": "MANDATORY_FORENSICS",
+        "requires_fingerprints": true,
+        "requires_counterfactual": true,
+        "trace_depth": "FULL"
+      },
+      {
+        "shape_id": "PAGINATION_CAPABILITY",
+        "mortality_status": "SYSTEMICALLY_BROKEN",
+        "inspection_level": "MANDATORY_FORENSICS",
+        "requires_fingerprints": true,
+        "requires_counterfactual": true,
+        "trace_depth": "FULL"
+      },
+      {
+        "shape_id": "STATIC_DISPLAY_CAPABILITY",
+        "mortality_status": "SYSTEMICALLY_BROKEN",
+        "inspection_level": "MANDATORY_FORENSICS",
+        "requires_fingerprints": true,
+        "requires_counterfactual": true,
+        "trace_depth": "FULL"
+      }
+    ],
+    "forensic_summary": {
+      "total_fingerprints": 15,
+      "counterfactuals_executed": 0,
+      "shapes_at_mandatory_forensics": 3,
+      "causal_factors_identified": 0,
+      "provable_causality_chains": 0
+    },
+    "forensic_proof": {
+      "fingerprints_deterministic": true,
+      "counterfactuals_read_only": true,
+      "no_execution_modification": true,
+      "causality_provable": false
+    }
+  }
+}

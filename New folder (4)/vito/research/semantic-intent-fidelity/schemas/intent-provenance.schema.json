@@ -1,0 +1,353 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://olympus.research/semantic-intent-fidelity/intent-provenance/v1.0",
+  "title": "Intent Provenance Schema",
+  "description": "Schema for tracking provenance of derived intents back to source text",
+
+  "definitions": {
+    "TextSpan": {
+      "type": "object",
+      "description": "A span of text in the source document",
+      "required": ["start", "end", "text"],
+      "properties": {
+        "start": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Start character index (inclusive)"
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "End character index (exclusive)"
+        },
+        "text": {
+          "type": "string",
+          "description": "The actual text content at this span"
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Line number (1-indexed)"
+        },
+        "column": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Column number (1-indexed)"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Provenance": {
+      "type": "object",
+      "description": "Provenance information linking derived data to source",
+      "required": ["source", "span", "rule"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["input", "derived", "default"],
+          "description": "Where this data came from"
+        },
+        "span": {
+          "$ref": "#/definitions/TextSpan",
+          "description": "The source text span this was derived from"
+        },
+        "rule": {
+          "type": "string",
+          "description": "The extraction rule that produced this derivation"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Rule-based confidence score (not ML)"
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value": { "type": "string" },
+              "confidence": { "type": "number" }
+            }
+          },
+          "description": "Alternative interpretations considered"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "TriggerProvenance": {
+      "type": "object",
+      "description": "Trigger with full provenance",
+      "required": ["type", "provenance"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["click", "input", "change", "submit", "lifecycle", "timer", "external"],
+          "description": "The type of trigger"
+        },
+        "event": {
+          "type": "string",
+          "description": "Specific event name (e.g., 'page_load', 'focus')"
+        },
+        "target": {
+          "type": "string",
+          "description": "UI element or component that triggers"
+        },
+        "targetProvenance": {
+          "$ref": "#/definitions/Provenance",
+          "description": "Provenance for the target identification"
+        },
+        "condition": {
+          "type": "string",
+          "description": "Optional condition for the trigger"
+        },
+        "provenance": {
+          "$ref": "#/definitions/Provenance",
+          "description": "Provenance for the entire trigger"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "StateProvenance": {
+      "type": "object",
+      "description": "State reference with full provenance",
+      "required": ["name", "provenance"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The state variable name"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["number", "string", "boolean", "array", "object", "unknown"],
+          "description": "Inferred type of the state"
+        },
+        "initialValue": {
+          "description": "Initial value if specified"
+        },
+        "initialValueProvenance": {
+          "$ref": "#/definitions/Provenance"
+        },
+        "provenance": {
+          "$ref": "#/definitions/Provenance",
+          "description": "Provenance for the state identification"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "EffectProvenance": {
+      "type": "object",
+      "description": "Effect/action with full provenance",
+      "required": ["action", "provenance"],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": ["set", "increment", "decrement", "toggle", "append", "remove", "clear", "display", "hide", "navigate", "call"],
+          "description": "The type of action"
+        },
+        "target": {
+          "type": "string",
+          "description": "What the action affects"
+        },
+        "targetProvenance": {
+          "$ref": "#/definitions/Provenance"
+        },
+        "value": {
+          "description": "The value involved in the action"
+        },
+        "valueProvenance": {
+          "$ref": "#/definitions/Provenance"
+        },
+        "provenance": {
+          "$ref": "#/definitions/Provenance",
+          "description": "Provenance for the entire effect"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "OutcomeProvenance": {
+      "type": "object",
+      "description": "Expected outcome with full provenance",
+      "required": ["description", "provenance"],
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Human-readable outcome description"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["display", "state_change", "navigation", "visibility", "validation"],
+          "description": "Type of observable outcome"
+        },
+        "verifiable": {
+          "type": "boolean",
+          "description": "Whether this outcome can be programmatically verified"
+        },
+        "verificationMethod": {
+          "type": "string",
+          "description": "How to verify this outcome"
+        },
+        "provenance": {
+          "$ref": "#/definitions/Provenance",
+          "description": "Provenance for the outcome"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "ProvenanceIntent": {
+      "type": "object",
+      "description": "A fully provenance-tracked intent",
+      "required": ["id", "requirement", "provenance"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Z]+-[0-9]+$",
+          "description": "Unique intent identifier"
+        },
+        "requirement": {
+          "type": "string",
+          "description": "The original requirement text"
+        },
+        "requirementProvenance": {
+          "$ref": "#/definitions/Provenance",
+          "description": "Provenance for the requirement text"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low"],
+          "default": "medium"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["functional", "constraint", "initialization", "navigation", "validation"]
+        },
+        "trigger": {
+          "$ref": "#/definitions/TriggerProvenance"
+        },
+        "state": {
+          "$ref": "#/definitions/StateProvenance"
+        },
+        "effect": {
+          "$ref": "#/definitions/EffectProvenance"
+        },
+        "outcome": {
+          "$ref": "#/definitions/OutcomeProvenance"
+        },
+        "provenance": {
+          "$ref": "#/definitions/Provenance",
+          "description": "Provenance for the entire intent"
+        },
+        "derivationChain": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "step": { "type": "integer" },
+              "rule": { "type": "string" },
+              "input": { "type": "string" },
+              "output": { "type": "string" }
+            }
+          },
+          "description": "Full chain of derivations from source to intent"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "type": "object",
+  "required": ["version", "sourceHash", "intents", "parserVersion"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version"
+    },
+    "parserVersion": {
+      "type": "string",
+      "description": "Version of the provenance parser used"
+    },
+    "sourceHash": {
+      "type": "string",
+      "description": "SHA-256 hash of the source input text"
+    },
+    "sourceText": {
+      "type": "string",
+      "description": "The original source text (for verification)"
+    },
+    "parsedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When parsing occurred"
+    },
+    "intents": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ProvenanceIntent"
+      },
+      "description": "Array of parsed intents with provenance"
+    },
+    "phantomCheck": {
+      "type": "object",
+      "required": ["passed", "phantomCount"],
+      "properties": {
+        "passed": {
+          "type": "boolean",
+          "description": "True if no phantom intents detected"
+        },
+        "phantomCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of phantom intents (should be 0)"
+        },
+        "phantoms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "element": { "type": "string" },
+              "reason": { "type": "string" }
+            }
+          },
+          "description": "List of detected phantoms (for debugging)"
+        }
+      },
+      "description": "Phantom intent detection results"
+    },
+    "coverage": {
+      "type": "object",
+      "properties": {
+        "sourceCharsCovered": {
+          "type": "integer",
+          "description": "Number of source characters used in derivations"
+        },
+        "sourceTotalChars": {
+          "type": "integer",
+          "description": "Total characters in source"
+        },
+        "coveragePercent": {
+          "type": "number",
+          "description": "Percentage of source text accounted for"
+        },
+        "uncoveredSpans": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TextSpan"
+          },
+          "description": "Source spans not used in any derivation"
+        }
+      },
+      "description": "Source text coverage statistics"
+    }
+  },
+  "additionalProperties": false
+}

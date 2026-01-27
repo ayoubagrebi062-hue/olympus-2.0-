@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-01-19T09:28:11.703Z",
+  "campaignId": "TIC-1",
+  "pipelines": [
+    "A",
+    "B",
+    "C"
+  ],
+  "equivalenceRate": 1,
+  "byPipeline": {
+    "A": {
+      "total": 15000,
+      "admit": 5000,
+      "reject": 10000,
+      "s4": 0
+    },
+    "B": {
+      "total": 15000,
+      "admit": 5000,
+      "reject": 10000,
+      "s4": 0
+    },
+    "C": {
+      "total": 15000,
+      "admit": 5000,
+      "reject": 10000,
+      "s4": 0
+    }
+  },
+  "divergenceCount": 0
+}

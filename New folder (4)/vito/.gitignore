@@ -1,0 +1,95 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Next.js
+.next/
+out/
+
+# Production
+build/
+dist/
+
+# Environment files (NEVER COMMIT!) - P14 fix expanded
+.env
+.env.*
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env*.local
+
+# P14 fix - Secrets and credentials
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+credentials.json
+service-account*.json
+secrets/
+.secrets/
+*.secret
+.htpasswd
+.htaccess
+
+# P14 fix - API keys and tokens
+**/api-keys.json
+**/tokens.json
+firebase-adminsdk*.json
+google-credentials*.json
+stripe-webhook-secret*
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Misc
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# Supabase
+.supabase/
+
+# Python
+__pycache__/
+*.py[cod]
+.Python
+venv/
+.venv/
+
+# OLYMPUS Validation System
+logs/*.jsonl
+stress-test/reports/*.json
+tmpclaude-*
+*.log
+test-anthropic.mjs
+test-provider.ps1
+test-groq.ps1
+test-openai.mjs
+.env*

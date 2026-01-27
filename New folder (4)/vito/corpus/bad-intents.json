@@ -1,0 +1,206 @@
+{
+  "$schema": "https://olympus.canonical/corpus/v1.0",
+  "type": "BAD_INTENTS",
+  "description": "Intents that MUST be blocked. These match hostile patterns in HITH.",
+  "expectedFate": "FORBIDDEN",
+  "version": "2.1-canonical",
+
+  "intents": [
+    {
+      "id": "bad-001",
+      "text": "The system should work perfectly and handle everything.",
+      "attackType": "SEMANTIC_VOID",
+      "expectedBlockingLayer": "ICG",
+      "hostileReason": "\"Everything\" and \"perfectly\" are undefined. No trigger, state, or outcome can be derived.",
+      "expectedSignals": {
+        "wissdScore": 15,
+        "irclStatus": "AMBIGUOUS",
+        "missingAxes": ["trigger", "state", "outcome"]
+      }
+    },
+    {
+      "id": "bad-002",
+      "text": "Users should have a good experience when using the app.",
+      "attackType": "SEMANTIC_VOID",
+      "expectedBlockingLayer": "ICG",
+      "hostileReason": "\"Good experience\" is subjective and unmeasurable. No concrete behavior specified.",
+      "expectedSignals": {
+        "wissdScore": 20,
+        "irclStatus": "AMBIGUOUS",
+        "missingAxes": ["trigger", "state", "outcome"]
+      }
+    },
+    {
+      "id": "bad-003",
+      "text": "When user saves, data syncs to the cloud and notifications are sent to all relevant parties.",
+      "attackType": "EXTERNAL_CLAIM",
+      "expectedBlockingLayer": "ERA",
+      "hostileReason": "Claims external outcomes (cloud, notifications) that cannot be verified without ERA. No API defined.",
+      "expectedSignals": {
+        "wissdScore": 45,
+        "eraPassed": false,
+        "missingAxes": ["external_anchor"]
+      }
+    },
+    {
+      "id": "bad-004",
+      "text": "The application integrates with all third-party services required for the business.",
+      "attackType": "UNBOUNDED_CLAIM",
+      "expectedBlockingLayer": "IRCL",
+      "hostileReason": "\"All third-party integrations\" is undefined. No specific APIs, no verification possible.",
+      "expectedSignals": {
+        "wissdScore": 25,
+        "irclStatus": "AMBIGUOUS",
+        "missingAxes": ["trigger", "outcome", "external_anchor"]
+      }
+    },
+    {
+      "id": "bad-005",
+      "text": "Display user profile (with ability to manage all account settings and preferences).",
+      "attackType": "SCOPE_CREEP",
+      "expectedBlockingLayer": "IRCL",
+      "hostileReason": "Parenthetical claims form exists but \"manage\" requires state mutation and persistence - not just display.",
+      "expectedSignals": {
+        "wissdScore": 55,
+        "irclStatus": "CONTRADICTORY",
+        "missingAxes": ["state"]
+      }
+    },
+    {
+      "id": "bad-006",
+      "text": "Users can log in to access their personalized dashboard.",
+      "attackType": "EXISTENCE_NOT_PROOF",
+      "expectedBlockingLayer": "BEHAVIORAL",
+      "hostileReason": "Existence of login page does not prove authentication works. No state, no session, no validation.",
+      "expectedSignals": {
+        "wissdScore": 50,
+        "behavioralPassed": false,
+        "missingAxes": ["state", "trigger"]
+      }
+    },
+    {
+      "id": "bad-007",
+      "text": "The API handles all CRUD operations for every entity in the system.",
+      "attackType": "UNBOUNDED_CLAIM",
+      "expectedBlockingLayer": "IRCL",
+      "hostileReason": "\"All\" and \"every entity\" without enumeration. Impossible to verify completeness.",
+      "expectedSignals": {
+        "wissdScore": 30,
+        "irclStatus": "AMBIGUOUS",
+        "missingAxes": ["enumeration", "trigger", "outcome"]
+      }
+    },
+    {
+      "id": "bad-008",
+      "text": "Form validation covers all edge cases.",
+      "attackType": "INFINITE_CLAIM",
+      "expectedBlockingLayer": "ICG",
+      "hostileReason": "\"All edge cases\" is infinite. No finite verification possible.",
+      "expectedSignals": {
+        "wissdScore": 20,
+        "irclStatus": "AMBIGUOUS",
+        "missingAxes": ["enumeration", "trigger", "outcome"]
+      }
+    },
+    {
+      "id": "bad-009",
+      "text": "The calculator correctly computes results for every possible input.",
+      "attackType": "INFINITE_CLAIM",
+      "expectedBlockingLayer": "ICG",
+      "hostileReason": "\"Every possible input\" is infinite. \"Correctly\" is undefined without specification.",
+      "expectedSignals": {
+        "wissdScore": 25,
+        "irclStatus": "AMBIGUOUS",
+        "missingAxes": ["enumeration", "outcome"]
+      }
+    },
+    {
+      "id": "bad-010",
+      "text": "Dashboard automatically refreshes with latest data.",
+      "attackType": "TEMPORAL_CLAIM",
+      "expectedBlockingLayer": "BEHAVIORAL",
+      "hostileReason": "Claims temporal behavior but no interval/timer mechanism specified. No state for tracking refresh.",
+      "expectedSignals": {
+        "wissdScore": 40,
+        "behavioralPassed": false,
+        "missingAxes": ["trigger", "state", "interval"]
+      }
+    },
+    {
+      "id": "bad-011",
+      "text": "Inactive sessions timeout after appropriate period.",
+      "attackType": "TEMPORAL_CLAIM",
+      "expectedBlockingLayer": "ICG",
+      "hostileReason": "Claims timeout behavior with no timer, no activity tracking, no session state defined.",
+      "expectedSignals": {
+        "wissdScore": 35,
+        "irclStatus": "AMBIGUOUS",
+        "missingAxes": ["trigger", "state", "duration"]
+      }
+    },
+    {
+      "id": "bad-012",
+      "text": "Stock prices update in real-time as market changes.",
+      "attackType": "EXTERNAL_CLAIM",
+      "expectedBlockingLayer": "ERA",
+      "hostileReason": "\"Real-time\" is undefined. No WebSocket, SSE, or push mechanism specified. No external verification.",
+      "expectedSignals": {
+        "wissdScore": 40,
+        "eraPassed": false,
+        "missingAxes": ["mechanism", "external_anchor"]
+      }
+    },
+    {
+      "id": "bad-013",
+      "text": "The AI understands user intent and fulfills all requests optimally.",
+      "attackType": "SEMANTIC_VOID",
+      "expectedBlockingLayer": "ICG",
+      "hostileReason": "Multiple undefined terms: \"understands\", \"fulfills\", \"all\", \"optimally\". Complete semantic void.",
+      "expectedSignals": {
+        "wissdScore": 10,
+        "irclStatus": "AMBIGUOUS",
+        "missingAxes": ["trigger", "state", "outcome", "definition"]
+      }
+    },
+    {
+      "id": "bad-014",
+      "text": "Premium users get faster performance and exclusive features.",
+      "attackType": "COMPARATIVE_CLAIM",
+      "expectedBlockingLayer": "ICG",
+      "hostileReason": "\"Faster\" is relative. \"Exclusive features\" undefined. No constraint on what makes premium different.",
+      "expectedSignals": {
+        "wissdScore": 35,
+        "irclStatus": "AMBIGUOUS",
+        "missingAxes": ["enumeration", "baseline", "outcome"]
+      }
+    },
+    {
+      "id": "bad-015",
+      "text": "The application is secure and compliant with all regulations.",
+      "attackType": "UNBOUNDED_CLAIM",
+      "expectedBlockingLayer": "IRCL",
+      "hostileReason": "\"Secure\" and \"all regulations\" are unbounded. No specific security measures or regulations named.",
+      "expectedSignals": {
+        "wissdScore": 25,
+        "irclStatus": "AMBIGUOUS",
+        "missingAxes": ["enumeration", "specification"]
+      }
+    }
+  ],
+
+  "metadata": {
+    "totalIntents": 15,
+    "expectedBlockRate": "100%",
+    "attackTypes": [
+      "SEMANTIC_VOID",
+      "EXTERNAL_CLAIM",
+      "UNBOUNDED_CLAIM",
+      "SCOPE_CREEP",
+      "EXISTENCE_NOT_PROOF",
+      "INFINITE_CLAIM",
+      "TEMPORAL_CLAIM",
+      "COMPARATIVE_CLAIM"
+    ],
+    "lastUpdated": "2026-01-19"
+  }
+}

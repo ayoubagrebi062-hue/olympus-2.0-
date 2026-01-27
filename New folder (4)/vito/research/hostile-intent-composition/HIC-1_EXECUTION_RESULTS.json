@@ -1,0 +1,166 @@
+{
+  "timestamp": "2026-01-19T07:03:26.623Z",
+  "summary": {
+    "total": 21,
+    "passed": 21,
+    "failed": 0,
+    "passRate": 100,
+    "falseNegatives": 0,
+    "falsePositives": 0
+  },
+  "byRule": {
+    "HIC-001": {
+      "expected": 3,
+      "detected": 3
+    },
+    "HIC-002": {
+      "expected": 2,
+      "detected": 2
+    },
+    "HIC-003": {
+      "expected": 2,
+      "detected": 2
+    },
+    "HIC-004": {
+      "expected": 2,
+      "detected": 2
+    },
+    "HIC-005": {
+      "expected": 1,
+      "detected": 1
+    },
+    "HIC-006": {
+      "expected": 2,
+      "detected": 2
+    }
+  },
+  "passed": [
+    {
+      "id": "HIRT2-001",
+      "category": "HOSTILE",
+      "rule": "HIC-001",
+      "detected": "HIC-001"
+    },
+    {
+      "id": "HIRT2-002",
+      "category": "HOSTILE",
+      "rule": "HIC-001",
+      "detected": "HIC-001"
+    },
+    {
+      "id": "HIRT2-003",
+      "category": "HOSTILE",
+      "rule": "HIC-002",
+      "detected": "HIC-002"
+    },
+    {
+      "id": "HIRT2-004",
+      "category": "HOSTILE",
+      "rule": "HIC-002",
+      "detected": "HIC-002"
+    },
+    {
+      "id": "HIRT2-005",
+      "category": "HOSTILE",
+      "rule": "HIC-003",
+      "detected": "HIC-003"
+    },
+    {
+      "id": "HIRT2-006",
+      "category": "HOSTILE",
+      "rule": "HIC-003",
+      "detected": "HIC-003"
+    },
+    {
+      "id": "HIRT2-007",
+      "category": "HOSTILE",
+      "rule": "HIC-004",
+      "detected": "HIC-004"
+    },
+    {
+      "id": "HIRT2-008",
+      "category": "HOSTILE",
+      "rule": "HIC-004",
+      "detected": "HIC-004"
+    },
+    {
+      "id": "HIRT2-009",
+      "category": "HOSTILE",
+      "rule": "HIC-005",
+      "detected": "HIC-005"
+    },
+    {
+      "id": "HIRT2-010",
+      "category": "HOSTILE",
+      "rule": "HIC-006",
+      "detected": "HIC-006"
+    },
+    {
+      "id": "HIRT2-011",
+      "category": "HOSTILE",
+      "rule": "HIC-006",
+      "detected": "HIC-006"
+    },
+    {
+      "id": "HIRT2-012",
+      "category": "HOSTILE",
+      "rule": "HIC-001",
+      "detected": "HIC-001"
+    },
+    {
+      "id": "HIRT2-020",
+      "category": "BENIGN",
+      "rule": null,
+      "detected": null
+    },
+    {
+      "id": "HIRT2-021",
+      "category": "BENIGN",
+      "rule": null,
+      "detected": null
+    },
+    {
+      "id": "HIRT2-022",
+      "category": "BENIGN",
+      "rule": null,
+      "detected": null
+    },
+    {
+      "id": "HIRT2-023",
+      "category": "BENIGN",
+      "rule": null,
+      "detected": null
+    },
+    {
+      "id": "HIRT2-024",
+      "category": "BENIGN",
+      "rule": null,
+      "detected": null
+    },
+    {
+      "id": "HIRT2-025",
+      "category": "BENIGN",
+      "rule": null,
+      "detected": null
+    },
+    {
+      "id": "HIRT2-026",
+      "category": "BENIGN",
+      "rule": null,
+      "detected": null
+    },
+    {
+      "id": "HIRT2-027",
+      "category": "BENIGN",
+      "rule": null,
+      "detected": null
+    },
+    {
+      "id": "HIRT2-028",
+      "category": "BENIGN",
+      "rule": null,
+      "detected": null
+    }
+  ],
+  "failed": []
+}

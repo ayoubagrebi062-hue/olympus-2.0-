@@ -1,0 +1,64 @@
+{
+  "observationId": "OBS-HCA1-001",
+  "name": "HCA-1 Post-Promotion Observation Window",
+  "layer": {
+    "id": "HCA-1",
+    "mode": "ENFORCING",
+    "version": "1.1.0"
+  },
+  "status": "COMPLETED",
+  "startTimestamp": "2026-01-19T08:26:10.646Z",
+  "endTimestamp": "2026-01-19T08:26:10.704Z",
+  "duration": {
+    "requests": 5000,
+    "maxTimeHours": 72,
+    "whicheverFirst": true
+  },
+  "termination": {
+    "onVolumeReached": true,
+    "onTimeExceeded": true,
+    "onS4Detected": "immediate_abort",
+    "checkpointInterval": 500
+  },
+  "metrics": {
+    "S2_rate": {
+      "description": "False positive rate (shadow more strict than expected)",
+      "threshold": 0.01,
+      "alertLevel": "WARNING"
+    },
+    "S3_rate": {
+      "description": "Gap rate (shadow missed expected detection)",
+      "threshold": 0.001,
+      "alertLevel": "CRITICAL"
+    },
+    "CAP_rule_distribution": {
+      "description": "Distribution of CAP-* rule triggers",
+      "expectedRules": [
+        "CAP-001",
+        "CAP-002",
+        "CAP-003",
+        "CAP-004",
+        "CAP-005",
+        "CAP-006",
+        "CAP-007"
+      ],
+      "trackPercentages": true
+    },
+    "attribution_entropy": {
+      "description": "Shannon entropy of rule attribution (higher = more diverse)",
+      "minimumEntropy": 1.5,
+      "maximumEntropy": 2.807
+    }
+  },
+  "constitution": "SMC-1",
+  "baseline": {
+    "campaign": "SSC-2",
+    "expectedPrecision": 1,
+    "expectedRecall": 1
+  },
+  "artifacts": [
+    "metrics/observation-metrics.json",
+    "metrics/checkpoint-*.json",
+    "reports/OBS-HCA1-001_SUMMARY.md"
+  ]
+}

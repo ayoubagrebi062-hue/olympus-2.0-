@@ -1,0 +1,456 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "shadow-metrics.schema.json",
+  "title": "Shadow Mode Metrics",
+  "description": "Schema for aggregated shadow mode performance metrics",
+  "type": "object",
+  "required": ["version", "mode", "target", "window", "metrics"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version"
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["PROVISIONAL", "CANDIDATE", "ACTIVE"],
+      "description": "Shadow mode authority level"
+    },
+    "target": {
+      "type": "string",
+      "description": "Target research track or system"
+    },
+    "window": {
+      "$ref": "#/$defs/MetricsWindow"
+    },
+    "metrics": {
+      "$ref": "#/$defs/AggregatedMetrics"
+    },
+    "successCriteria": {
+      "$ref": "#/$defs/SuccessCriteriaStatus"
+    },
+    "reviewGate": {
+      "$ref": "#/$defs/ReviewGateStatus"
+    }
+  },
+  "$defs": {
+    "MetricsWindow": {
+      "type": "object",
+      "required": ["startTimestamp", "endTimestamp"],
+      "properties": {
+        "startTimestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Window start time"
+        },
+        "endTimestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Window end time (current for rolling)"
+        },
+        "durationHours": {
+          "type": "number",
+          "description": "Duration of window in hours"
+        },
+        "isRolling": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether this is a rolling window"
+        }
+      }
+    },
+    "AggregatedMetrics": {
+      "type": "object",
+      "required": ["volume", "verdicts", "divergence", "performance", "quality"],
+      "properties": {
+        "volume": {
+          "$ref": "#/$defs/VolumeMetrics"
+        },
+        "verdicts": {
+          "$ref": "#/$defs/VerdictMetrics"
+        },
+        "divergence": {
+          "$ref": "#/$defs/DivergenceMetrics"
+        },
+        "performance": {
+          "$ref": "#/$defs/PerformanceMetrics"
+        },
+        "quality": {
+          "$ref": "#/$defs/QualityMetrics"
+        },
+        "componentBreakdown": {
+          "$ref": "#/$defs/ComponentMetrics"
+        }
+      }
+    },
+    "VolumeMetrics": {
+      "type": "object",
+      "properties": {
+        "totalRequests": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total requests processed"
+        },
+        "requestsPerHour": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Average requests per hour"
+        },
+        "peakRequestsPerMinute": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Peak request rate"
+        }
+      }
+    },
+    "VerdictMetrics": {
+      "type": "object",
+      "properties": {
+        "canonical": {
+          "$ref": "#/$defs/VerdictBreakdown"
+        },
+        "provisional": {
+          "$ref": "#/$defs/VerdictBreakdown"
+        }
+      }
+    },
+    "VerdictBreakdown": {
+      "type": "object",
+      "properties": {
+        "admitted": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rejected": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "admitRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "rejectRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "DivergenceMetrics": {
+      "type": "object",
+      "properties": {
+        "totalDivergences": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of divergent verdicts"
+        },
+        "divergenceRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Proportion of requests with divergent verdicts"
+        },
+        "byType": {
+          "type": "object",
+          "properties": {
+            "shadowMoreStrict": {
+              "type": "integer",
+              "description": "Shadow rejected, canonical admitted"
+            },
+            "shadowMorePermissive": {
+              "type": "integer",
+              "description": "Shadow admitted, canonical rejected"
+            },
+            "sameVerdictDifferentReason": {
+              "type": "integer",
+              "description": "Same verdict but different reasoning"
+            }
+          }
+        },
+        "byRejectionCode": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "description": "Divergence count by shadow rejection code"
+        },
+        "topDivergenceReasons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "percentage": {
+                "type": "number"
+              }
+            }
+          },
+          "maxItems": 10,
+          "description": "Most common divergence reasons"
+        }
+      }
+    },
+    "PerformanceMetrics": {
+      "type": "object",
+      "properties": {
+        "latency": {
+          "type": "object",
+          "properties": {
+            "canonical": {
+              "$ref": "#/$defs/LatencyStats"
+            },
+            "shadow": {
+              "$ref": "#/$defs/LatencyStats"
+            },
+            "overhead": {
+              "$ref": "#/$defs/LatencyStats"
+            }
+          }
+        },
+        "throughput": {
+          "type": "object",
+          "properties": {
+            "shadowSuccessRate": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Proportion of shadow executions that completed successfully"
+            },
+            "shadowTimeoutRate": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Proportion of shadow executions that timed out"
+            },
+            "shadowErrorRate": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Proportion of shadow executions that errored"
+            }
+          }
+        }
+      }
+    },
+    "LatencyStats": {
+      "type": "object",
+      "properties": {
+        "p50": {
+          "type": "number",
+          "description": "Median latency in ms"
+        },
+        "p90": {
+          "type": "number",
+          "description": "90th percentile latency in ms"
+        },
+        "p99": {
+          "type": "number",
+          "description": "99th percentile latency in ms"
+        },
+        "mean": {
+          "type": "number",
+          "description": "Mean latency in ms"
+        },
+        "max": {
+          "type": "number",
+          "description": "Maximum latency in ms"
+        }
+      }
+    },
+    "QualityMetrics": {
+      "type": "object",
+      "properties": {
+        "falsePositives": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of false positives (benign flagged as hostile)"
+            },
+            "rate": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "examples": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "Request ID of false positive example"
+              },
+              "maxItems": 10
+            }
+          }
+        },
+        "falseNegatives": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of false negatives (hostile passed as benign)"
+            },
+            "rate": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "examples": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 10
+            }
+          }
+        },
+        "determinism": {
+          "type": "object",
+          "properties": {
+            "testedPairs": {
+              "type": "integer",
+              "description": "Number of identical request pairs tested"
+            },
+            "consistentPairs": {
+              "type": "integer",
+              "description": "Number of pairs with identical verdicts"
+            },
+            "determinismRate": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Should be 1.0 for deterministic pipeline"
+            }
+          }
+        }
+      }
+    },
+    "ComponentMetrics": {
+      "type": "object",
+      "description": "Metrics broken down by pipeline component",
+      "properties": {
+        "provenanceParser": {
+          "$ref": "#/$defs/ComponentStats"
+        },
+        "ial0Authenticator": {
+          "$ref": "#/$defs/ComponentStats"
+        },
+        "hia1Detector": {
+          "$ref": "#/$defs/ComponentStats"
+        },
+        "hic1Checker": {
+          "$ref": "#/$defs/ComponentStats"
+        }
+      }
+    },
+    "ComponentStats": {
+      "type": "object",
+      "properties": {
+        "invocations": {
+          "type": "integer"
+        },
+        "rejections": {
+          "type": "integer"
+        },
+        "rejectionRate": {
+          "type": "number"
+        },
+        "avgLatencyMs": {
+          "type": "number"
+        },
+        "errorCount": {
+          "type": "integer"
+        }
+      }
+    },
+    "SuccessCriteriaStatus": {
+      "type": "object",
+      "properties": {
+        "zeroFalsePositives": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["PASSING", "FAILING", "UNKNOWN"]
+            },
+            "currentValue": {
+              "type": "integer"
+            },
+            "threshold": {
+              "type": "integer",
+              "const": 0
+            }
+          }
+        },
+        "zeroHostileMisses": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["PASSING", "FAILING", "UNKNOWN"]
+            },
+            "currentValue": {
+              "type": "integer"
+            },
+            "threshold": {
+              "type": "integer",
+              "const": 0
+            }
+          }
+        },
+        "determinismMaintained": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["PASSING", "FAILING", "UNKNOWN"]
+            },
+            "currentValue": {
+              "type": "number"
+            },
+            "threshold": {
+              "type": "number",
+              "const": 1.0
+            }
+          }
+        }
+      }
+    },
+    "ReviewGateStatus": {
+      "type": "object",
+      "properties": {
+        "trialsProcessed": {
+          "type": "integer",
+          "description": "Number of trials processed so far"
+        },
+        "trialsRequired": {
+          "type": "integer",
+          "description": "Number of trials required for review"
+        },
+        "timeElapsedHours": {
+          "type": "number",
+          "description": "Time elapsed since shadow mode enabled"
+        },
+        "timeRequiredHours": {
+          "type": "number",
+          "description": "Time required for review (e.g., 168 for 7 days)"
+        },
+        "gateTriggered": {
+          "type": "boolean",
+          "description": "Whether review gate condition is met"
+        },
+        "triggerReason": {
+          "type": ["string", "null"],
+          "enum": ["TRIALS_REACHED", "TIME_REACHED", "MANUAL", null]
+        }
+      }
+    }
+  }
+}

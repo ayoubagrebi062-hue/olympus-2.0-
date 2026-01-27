@@ -1,0 +1,139 @@
+{
+  "version": "1.0.0",
+  "created_at": "2026-01-19T13:15:28.518Z",
+  "last_record_at": "2026-01-19T13:15:40.521Z",
+  "records": [
+    {
+      "record_id": "ENTROPY-mkl6u3kh-bipg",
+      "run_id": "AEC-1768828528517",
+      "timestamp": "2026-01-19T13:15:28.529Z",
+      "entropy_score": {
+        "entropy": 0.7294444444444446,
+        "components": {
+          "rsr_trend_score": 0.6555555555555557,
+          "rsr_delta_per_run": 0,
+          "rsr_trend_window": 0,
+          "mortality_velocity_score": 1,
+          "deaths_per_run": 3,
+          "mortality_window": 1,
+          "singularity_density_score": 1,
+          "singularities_per_run": 1,
+          "singularity_window": 1,
+          "mccs_size_score": 0.25,
+          "average_mccs_size": 1,
+          "mccs_window": 1
+        },
+        "weights": {
+          "rsr_trend": 0.35,
+          "mortality_velocity": 0.25,
+          "singularity_density": 0.2,
+          "mccs_size": 0.2
+        },
+        "proof": {
+          "formula": "entropy = (0.35 * rsr_trend) + (0.25 * mortality_velocity) + (0.20 * singularity_density) + (0.20 * mccs_size)",
+          "deterministic": true,
+          "no_heuristics": true,
+          "no_ml": true,
+          "no_probability": true
+        }
+      },
+      "phase": "COLLAPSING",
+      "previous_phase": null,
+      "phase_worsened": false,
+      "enforcement_action": "READ_ONLY",
+      "context": {
+        "global_rsr": 0.3444444444444444,
+        "active_singularities": 1,
+        "mccs_computed": 3,
+        "shapes_dead": 3,
+        "shapes_total": 3
+      },
+      "immutable": true,
+      "append_only": true
+    },
+    {
+      "record_id": "ENTROPY-mkl6uctl-j4ux",
+      "run_id": "AEC-1768828540507",
+      "timestamp": "2026-01-19T13:15:40.521Z",
+      "entropy_score": {
+        "entropy": 0.3,
+        "components": {
+          "rsr_trend_score": 0,
+          "rsr_delta_per_run": 0,
+          "rsr_trend_window": 1,
+          "mortality_velocity_score": 1,
+          "deaths_per_run": 3,
+          "mortality_window": 2,
+          "singularity_density_score": 0,
+          "singularities_per_run": 0,
+          "singularity_window": 2,
+          "mccs_size_score": 0.25,
+          "average_mccs_size": 1,
+          "mccs_window": 2
+        },
+        "weights": {
+          "rsr_trend": 0.35,
+          "mortality_velocity": 0.25,
+          "singularity_density": 0.2,
+          "mccs_size": 0.2
+        },
+        "proof": {
+          "formula": "entropy = (0.35 * rsr_trend) + (0.25 * mortality_velocity) + (0.20 * singularity_density) + (0.20 * mccs_size)",
+          "deterministic": true,
+          "no_heuristics": true,
+          "no_ml": true,
+          "no_probability": true
+        }
+      },
+      "phase": "COLLAPSING",
+      "previous_phase": "COLLAPSING",
+      "phase_worsened": false,
+      "enforcement_action": "READ_ONLY",
+      "context": {
+        "global_rsr": 0.3444444444444444,
+        "active_singularities": 1,
+        "mccs_computed": 3,
+        "shapes_dead": 3,
+        "shapes_total": 3
+      },
+      "immutable": true,
+      "append_only": true
+    }
+  ],
+  "stats": {
+    "total_runs": 2,
+    "current_phase": "COLLAPSING",
+    "highest_entropy": 0.7294444444444446,
+    "lowest_entropy": 0.3,
+    "runs_in_stable": 0,
+    "runs_in_decaying": 0,
+    "runs_in_collapsing": 2,
+    "runs_in_dead": 0
+  },
+  "trend_data": {
+    "entropy_values": [
+      0.7294444444444446,
+      0.3
+    ],
+    "rsr_values": [
+      0.3444444444444444,
+      0.3444444444444444
+    ],
+    "mortality_values": [
+      3,
+      3
+    ],
+    "singularity_values": [
+      1,
+      1
+    ],
+    "mccs_values": [
+      3,
+      3
+    ],
+    "timestamps": [
+      "2026-01-19T13:15:28.529Z",
+      "2026-01-19T13:15:40.521Z"
+    ]
+  }
+}

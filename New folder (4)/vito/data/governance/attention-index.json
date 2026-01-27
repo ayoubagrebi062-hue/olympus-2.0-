@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-01-18T14:44:23.307Z",
+  "governancePhase": "OBSERVATION_ONLY",
+  "topRisks": [],
+  "summary": {
+    "highestAttentionScore": 0,
+    "fossilCriticalCount": 0,
+    "driftedHighRiskCount": 0,
+    "totalRisksTracked": 0
+  }
+}

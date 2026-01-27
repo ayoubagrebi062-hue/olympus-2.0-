@@ -1,0 +1,38 @@
+{
+  "tier": "ultimate",
+  "extractedAt": "2026-01-27T07:23:38.788Z",
+  "sources": [
+    "oracle"
+  ],
+  "architecture": {
+    "isMultiTenant": true,
+    "tenantIsolation": "row-level",
+    "tenantScopedTables": [],
+    "softDeletes": true,
+    "idStrategy": "cuid",
+    "apiBasePath": "/api/v1",
+    "paginationStyle": "cursor",
+    "responseEnvelope": true,
+    "rateLimitingEnabled": true,
+    "cachingEnabled": true,
+    "cachedEntities": [
+      "products",
+      "categories",
+      "settings"
+    ],
+    "optimisticUpdates": true,
+    "rbacEnabled": true,
+    "roles": [
+      "user",
+      "admin"
+    ],
+    "errorBoundaries": "page",
+    "authStrategy": "supabase"
+  },
+  "design": {},
+  "data": {},
+  "api": {},
+  "security": {},
+  "pages": {},
+  "rawDecisions": []
+}

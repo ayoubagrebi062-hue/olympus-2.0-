@@ -1,0 +1,63 @@
+[
+  {
+    "traceId": "olympus-dashboard-1769505859486",
+    "spanId": "e0b9deb118ef9e9f",
+    "operationName": "build:olympus-dashboard-1769505859486",
+    "startTime": 1769505859490,
+    "status": "FAILURE",
+    "metadata": {
+      "totalAgents": 32,
+      "tier": "GOLD",
+      "healthScore": 88
+    },
+    "children": [
+      {
+        "traceId": "olympus-dashboard-1769505859486",
+        "spanId": "b83379dd90f03cf3",
+        "parentSpanId": "e0b9deb118ef9e9f",
+        "operationName": "agent:oracle",
+        "agentId": "oracle",
+        "phase": "discovery",
+        "startTime": 1769505859496,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 12781
+        },
+        "children": [],
+        "endTime": 1769505872278,
+        "duration": 12782
+      },
+      {
+        "traceId": "olympus-dashboard-1769505859486",
+        "spanId": "b90f12ed42cf46df",
+        "parentSpanId": "e0b9deb118ef9e9f",
+        "operationName": "agent:empathy",
+        "agentId": "empathy",
+        "phase": "discovery",
+        "startTime": 1769505872278,
+        "status": "SUCCESS",
+        "metadata": {
+          "duration": 15491
+        },
+        "children": [],
+        "endTime": 1769505887770,
+        "duration": 15492
+      },
+      {
+        "traceId": "olympus-dashboard-1769505859486",
+        "spanId": "b86fad20b656bbb7",
+        "parentSpanId": "e0b9deb118ef9e9f",
+        "operationName": "agent:venture",
+        "agentId": "venture",
+        "phase": "discovery",
+        "startTime": 1769505887770,
+        "status": "IN_PROGRESS",
+        "metadata": {},
+        "children": []
+      }
+    ],
+    "endTime": 1769505887772,
+    "duration": 28282,
+    "error": "output.artifacts is not iterable"
+  }
+]

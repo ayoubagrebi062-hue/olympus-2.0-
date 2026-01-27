@@ -1,0 +1,89 @@
+{
+  "freezeId": "TOPOLOGY-FREEZE-001",
+  "timestamp": "2026-01-19T10:00:00.000Z",
+  "scope": "safety-layers",
+  "constitution": "SMC-1",
+
+  "validatedBy": {
+    "campaignId": "TIC-1",
+    "status": "PASSED",
+    "metrics": {
+      "volume": 15000,
+      "verdictEquivalence": "100.00%",
+      "s4Count": 0,
+      "divergenceExplained": "100%"
+    }
+  },
+
+  "canonicalPipeline": {
+    "id": "PIPELINE_A",
+    "name": "Canonical Order",
+    "order": ["HCA-1", "PIL-1", "HIC-1"],
+    "description": "Hostile Capability Analysis → Power Invariant Layer → Hostile Intent Composition",
+    "verified": true
+  },
+
+  "frozenLayers": [
+    {
+      "layerId": "HCA-1",
+      "name": "Hostile Capability Analysis",
+      "position": 1,
+      "mode": "ENFORCING",
+      "rules": ["CAP-001", "CAP-002", "CAP-003", "CAP-004", "CAP-005", "CAP-006", "CAP-007"],
+      "frozen": true
+    },
+    {
+      "layerId": "PIL-1",
+      "name": "Power Invariant Layer",
+      "position": 2,
+      "mode": "ENFORCING",
+      "invariants": ["PIL-α1", "PIL-α2", "PIL-α3", "PIL-α4", "PIL-β1", "PIL-β2", "PIL-β3", "PIL-τ1", "PIL-τ2", "PIL-τ3"],
+      "frozen": true
+    },
+    {
+      "layerId": "HIC-1",
+      "name": "Hostile Intent Composition",
+      "position": 3,
+      "mode": "OBSERVATIONAL",
+      "rules": ["HIC-001", "HIC-002", "HIC-003", "HIC-004", "HIC-005", "HIC-006"],
+      "frozen": true
+    }
+  ],
+
+  "invarianceVerification": {
+    "pipelinesTestedEquivalent": ["PIPELINE_A", "PIPELINE_B", "PIPELINE_C"],
+    "verdictEquivalenceAcrossAllOrders": true,
+    "orderIndependent": true,
+    "proof": "TIC-1 demonstrated that all three orderings produce identical verdicts for 15,000 test cases with 0 S4 failures"
+  },
+
+  "constraints": {
+    "orderChangeProhibited": true,
+    "layerInsertionProhibited": true,
+    "layerRemovalProhibited": true,
+    "modificationRequires": "NEW_CAMPAIGN + REGRESSION_VERIFICATION"
+  },
+
+  "enforcement": {
+    "rule": "order-invariant-required",
+    "enforcedAt": "2026-01-19T10:00:00.000Z",
+    "enforcedBy": "TIC-1 Campaign Validation",
+    "violations": {
+      "onOrderChange": "REJECT_DEPLOYMENT",
+      "onLayerMutation": "REQUIRE_RECERTIFICATION"
+    }
+  },
+
+  "artifacts": {
+    "tic1Results": "campaigns/TIC-1/reports/TIC-1_EXECUTION_RESULTS.json",
+    "tic1Equivalence": "campaigns/TIC-1/reports/TIC-1_EQUIVALENCE_MATRIX.json",
+    "tic1Certification": "campaigns/TIC-1/reports/TIC-1_TOPOLOGY_CERTIFICATION.md",
+    "pil1Promotion": "promotions/PIL-1_PROMOTION_RECORD.json"
+  },
+
+  "signOff": {
+    "frozenBy": "TIC-1 Campaign Validation",
+    "constitutionCompliant": true,
+    "immutable": true
+  }
+}

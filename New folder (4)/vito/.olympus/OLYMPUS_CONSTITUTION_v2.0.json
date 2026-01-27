@@ -1,0 +1,312 @@
+{
+  "$schema": "https://olympus.canonical/constitution/v2.0",
+  "version": "2.0",
+  "effectiveDate": "2026-01-19T00:00:00.000Z",
+  "status": "RATIFIED",
+  "authority": "CANONICAL",
+
+  "preamble": {
+    "purpose": "OLYMPUS exists to verify that software satisfies the intents that justify its existence",
+    "principle": "If the answer is no, OLYMPUS refuses to ship. There is no override. There is no bypass.",
+    "scope": "All builds processed by OLYMPUS 2.x are subject to this constitution"
+  },
+
+  "articles": {
+    "ARTICLE_1_DETERMINISM": {
+      "id": "ART-001",
+      "title": "Determinism",
+      "description": "Given the same input, OLYMPUS must produce the same output",
+      "guarantee": "No randomness, no ML inference, no heuristic sampling in scoring decisions",
+      "enforcementLevel": "ABSOLUTE",
+      "overridable": false,
+      "amendable": false,
+      "violations": {
+        "detection": "Hash comparison of outputs from identical inputs",
+        "consequence": "CONSTITUTION_VIOLATION",
+        "penalty": "BUILD_BLOCKED"
+      }
+    },
+
+    "ARTICLE_2_MONOTONICITY": {
+      "id": "ART-002",
+      "title": "Monotonicity",
+      "description": "W-ISS-D score must never regress without explicit cause",
+      "guarantee": "Regression only permitted with: new intent added, external reality change, or explicit human acknowledgment",
+      "enforcementLevel": "STRICT",
+      "overridable": false,
+      "amendable": false,
+      "violations": {
+        "detection": "Score comparison with previous build baseline",
+        "consequence": "CONSTITUTION_VIOLATION",
+        "penalty": "BUILD_BLOCKED"
+      },
+      "exceptions": {
+        "newIntent": "Regression allowed if new intent was added this build",
+        "externalChange": "Regression allowed if external reality anchor changed",
+        "acknowledgment": "Regression allowed with explicit human acknowledgment and SSI penalty"
+      }
+    },
+
+    "ARTICLE_3_HOSTILE_RESISTANCE": {
+      "id": "ART-003",
+      "title": "Hostile Resistance",
+      "description": "Every build must pass hostile intent testing",
+      "guarantee": "100% hostile intents must be blocked, 0% leaks permitted",
+      "enforcementLevel": "ABSOLUTE",
+      "overridable": false,
+      "amendable": false,
+      "violations": {
+        "detection": "HITH execution with known hostile patterns",
+        "consequence": "CONSTITUTION_VIOLATION",
+        "penalty": "BUILD_BLOCKED"
+      },
+      "requirements": {
+        "hithMandatory": true,
+        "leakTolerance": 0,
+        "minimumHostileCases": 10
+      }
+    },
+
+    "ARTICLE_4_EVOLUTION_ENFORCEMENT": {
+      "id": "ART-004",
+      "title": "Evolution Enforcement",
+      "description": "Intent fates follow strict transition rules",
+      "guarantee": "Fate transitions must comply with allowed evolution paths",
+      "enforcementLevel": "ABSOLUTE",
+      "overridable": false,
+      "amendable": false,
+      "violations": {
+        "detection": "Fate transition validation against allowed paths",
+        "consequence": "CONSTITUTION_VIOLATION",
+        "penalty": "BUILD_BLOCKED"
+      },
+      "rules": {
+        "ACCEPTED": ["ACCEPTED", "ACCEPTED_WITH_DEBT", "QUARANTINED"],
+        "ACCEPTED_WITH_DEBT": ["ACCEPTED", "ACCEPTED_WITH_DEBT", "QUARANTINED"],
+        "QUARANTINED": ["ACCEPTED", "ACCEPTED_WITH_DEBT", "QUARANTINED", "FORBIDDEN"],
+        "FORBIDDEN": ["FORBIDDEN"]
+      }
+    },
+
+    "ARTICLE_5_AUDIT_TRAIL": {
+      "id": "ART-005",
+      "title": "Audit Trail",
+      "description": "Every decision must be logged with reason and evidence",
+      "guarantee": "All decisions persisted to filesystem, reproducible from inputs",
+      "enforcementLevel": "STRICT",
+      "overridable": false,
+      "amendable": true,
+      "violations": {
+        "detection": "Audit file existence and completeness check",
+        "consequence": "GOVERNANCE_WARNING",
+        "penalty": "SSI_PENALTY_5_PERCENT"
+      },
+      "requirements": {
+        "minimumAuditFiles": ["_build-summary.json", "_ctel-result.json"],
+        "retentionPeriod": "PERMANENT"
+      }
+    },
+
+    "ARTICLE_6_HARD_GATE_BLOCKING": {
+      "id": "ART-006",
+      "title": "Hard Gate Blocking",
+      "description": "HARD gate failures must block shipping",
+      "guarantee": "No exceptions, no overrides that bypass gate failures",
+      "enforcementLevel": "ABSOLUTE",
+      "overridable": false,
+      "amendable": false,
+      "violations": {
+        "detection": "Gate result verification against ship decision",
+        "consequence": "CONSTITUTION_VIOLATION",
+        "penalty": "BUILD_BLOCKED"
+      },
+      "hardGates": [
+        "semantic", "behavioral", "causal", "icg", "era", "ircl",
+        "itgcl", "stability", "hith", "ial", "uvdl", "ige", "fate", "ctel"
+      ]
+    },
+
+    "ARTICLE_7_FORBIDDEN_PERMANENCE": {
+      "id": "ART-007",
+      "title": "Forbidden Permanence",
+      "description": "FORBIDDEN intents cannot be rehabilitated",
+      "guarantee": "Once FORBIDDEN, always FORBIDDEN - no recovery path exists",
+      "enforcementLevel": "ABSOLUTE",
+      "overridable": false,
+      "amendable": false,
+      "violations": {
+        "detection": "Fate history comparison showing FORBIDDEN recovery attempt",
+        "consequence": "CONSTITUTION_VIOLATION",
+        "penalty": "BUILD_BLOCKED"
+      }
+    },
+
+    "ARTICLE_8_CRITICAL_MANDATORY": {
+      "id": "ART-008",
+      "title": "Critical Mandatory",
+      "description": "Critical intents cannot be excluded by governance optimization",
+      "guarantee": "criticalMandatory flag must be true in all governance decisions",
+      "enforcementLevel": "STRICT",
+      "overridable": false,
+      "amendable": false,
+      "violations": {
+        "detection": "Governance decision inspection for critical intent exclusion",
+        "consequence": "CONSTITUTION_VIOLATION",
+        "penalty": "BUILD_BLOCKED"
+      }
+    },
+
+    "ARTICLE_9_NO_BYPASS": {
+      "id": "ART-009",
+      "title": "No Bypass",
+      "description": "Safety checks cannot be disabled via configuration",
+      "guarantee": "No config flags, env vars, or admin overrides that skip gates",
+      "enforcementLevel": "ABSOLUTE",
+      "overridable": false,
+      "amendable": false,
+      "violations": {
+        "detection": "Code and config analysis for bypass mechanisms",
+        "consequence": "ARCHITECTURE_BREACH",
+        "penalty": "BUILD_BLOCKED"
+      },
+      "prohibitedPatterns": [
+        "SKIP_*", "DISABLE_*", "BYPASS_*", "FORCE_SHIP", "NO_VERIFY"
+      ]
+    },
+
+    "ARTICLE_10_TRUST_THRESHOLD": {
+      "id": "ART-010",
+      "title": "Trust Threshold",
+      "description": "Low trust external anchors result in FORBIDDEN fate",
+      "guarantee": "Trust score below 30% triggers FORBIDDEN assignment",
+      "enforcementLevel": "STRICT",
+      "overridable": false,
+      "amendable": true,
+      "violations": {
+        "detection": "Trust score comparison against threshold",
+        "consequence": "CONSTITUTION_VIOLATION",
+        "penalty": "BUILD_BLOCKED"
+      },
+      "thresholds": {
+        "forbiddenBelow": 0.30,
+        "warningBelow": 0.50
+      }
+    },
+
+    "ARTICLE_11_GOVERNANCE_INTEGRITY": {
+      "id": "ART-011",
+      "title": "Governance Integrity",
+      "description": "Override system must resist abuse and capture",
+      "guarantee": "Overrides cannot weaken constitution, accumulate privilege, or erode stability",
+      "enforcementLevel": "ABSOLUTE",
+      "overridable": false,
+      "amendable": false,
+      "violations": {
+        "detection": "Adversarial governance harness testing",
+        "consequence": "GOVERNANCE_EXPLOIT",
+        "penalty": "BUILD_BLOCKED"
+      },
+      "protections": {
+        "maxConsecutiveOverrides": 3,
+        "maxSSIErosion": 0.50,
+        "overrideCooldownMs": 86400000,
+        "requiredJustificationLength": 50
+      }
+    },
+
+    "ARTICLE_12_EXTERNAL_VERIFIABILITY": {
+      "id": "ART-012",
+      "title": "External Verifiability",
+      "description": "All decisions must be externally verifiable",
+      "guarantee": "Decision certificates enable independent verification",
+      "enforcementLevel": "STRICT",
+      "overridable": false,
+      "amendable": true,
+      "requirements": {
+        "certificateRequired": true,
+        "constitutionHashIncluded": true,
+        "signatureRequired": true
+      }
+    }
+  },
+
+  "amendments": {
+    "process": {
+      "description": "Constitutional amendments require formal proposal and verification",
+      "requirements": [
+        "Amendment proposal with justification",
+        "Proof that existing guarantees are not weakened",
+        "Version bump to constitution",
+        "Full regression test suite pass",
+        "Hostile governance harness pass"
+      ],
+      "approvalRequired": true
+    },
+    "amendableArticles": ["ARTICLE_5_AUDIT_TRAIL", "ARTICLE_10_TRUST_THRESHOLD", "ARTICLE_12_EXTERNAL_VERIFIABILITY"],
+    "nonAmendableArticles": [
+      "ARTICLE_1_DETERMINISM",
+      "ARTICLE_2_MONOTONICITY",
+      "ARTICLE_3_HOSTILE_RESISTANCE",
+      "ARTICLE_4_EVOLUTION_ENFORCEMENT",
+      "ARTICLE_6_HARD_GATE_BLOCKING",
+      "ARTICLE_7_FORBIDDEN_PERMANENCE",
+      "ARTICLE_8_CRITICAL_MANDATORY",
+      "ARTICLE_9_NO_BYPASS",
+      "ARTICLE_11_GOVERNANCE_INTEGRITY"
+    ],
+    "history": []
+  },
+
+  "overridePolicy": {
+    "description": "Defines what can and cannot be overridden",
+    "overridableTargets": [
+      "HARD_GATE_FAILURE",
+      "MONOTONICITY_REGRESSION",
+      "STABILITY_WARNING",
+      "ADEQUACY_WARNING",
+      "UVD_WARNING"
+    ],
+    "nonOverridable": [
+      "CONSTITUTION_VIOLATION",
+      "HOSTILE_INTENT_LEAK",
+      "EVOLUTION_VIOLATION",
+      "FORBIDDEN_INTENT",
+      "ARCHITECTURE_BREACH",
+      "GOVERNANCE_EXPLOIT"
+    ],
+    "penalties": {
+      "HARD_GATE_FAILURE": 0.25,
+      "MONOTONICITY_REGRESSION": 0.15,
+      "STABILITY_WARNING": 0.10,
+      "ADEQUACY_WARNING": 0.08,
+      "UVD_WARNING": 0.08
+    },
+    "limits": {
+      "maxOverridesPerBuild": 2,
+      "maxCumulativeSSIPenalty": 0.40,
+      "cooldownBetweenOverridesMs": 3600000
+    }
+  },
+
+  "verification": {
+    "hashAlgorithm": "SHA-256",
+    "signatureAlgorithm": "HMAC-SHA256",
+    "certificateFormat": "JSON",
+    "minimumCertificateFields": [
+      "buildId",
+      "constitutionHash",
+      "verdict",
+      "timestamp",
+      "signature"
+    ]
+  },
+
+  "metadata": {
+    "createdAt": "2026-01-19T00:00:00.000Z",
+    "createdBy": "OLYMPUS_CANONICAL",
+    "lastModified": "2026-01-19T00:00:00.000Z",
+    "frozenAt": "2026-01-19T00:00:00.000Z",
+    "status": "FROZEN",
+    "hash": "calculated-at-runtime"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "version": "3.0.0",
+  "timestamp": "2026-01-22T04:56:37.022Z",
+  "metrics": {
+    "overallScore": 0.9,
+    "mutationScore": 1,
+    "chaosResilience": 1,
+    "violations": 10,
+    "anomalies": 13
+  },
+  "history": [
+    {
+      "timestamp": "2026-01-22T04:56:37.022Z",
+      "score": 0.9
+    }
+  ]
+}

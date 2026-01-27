@@ -1,0 +1,604 @@
+{
+  "mock_data": {
+    "users": [
+      {
+        "id": "user-1",
+        "name": "Sarah Johnson",
+        "email": "sarah@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-2",
+        "name": "Mike Chen",
+        "email": "mike@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-3",
+        "name": "Emma Wilson",
+        "email": "emma@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-4",
+        "name": "James Brown",
+        "email": "james@example.com",
+        "role": "admin"
+      },
+      {
+        "id": "user-5",
+        "name": "Lisa Davis",
+        "email": "lisa@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-6",
+        "name": "John Smith",
+        "email": "john@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-7",
+        "name": "Olivia Lee",
+        "email": "olivia@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-8",
+        "name": "William White",
+        "email": "william@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-9",
+        "name": "Ava Brown",
+        "email": "ava@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-10",
+        "name": "Jackson Davis",
+        "email": "jackson@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-11",
+        "name": "Ethan Hall",
+        "email": "ethan@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-12",
+        "name": "Sophia Martin",
+        "email": "sophia@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-13",
+        "name": "Mia Patel",
+        "email": "mia@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-14",
+        "name": "Noah Kim",
+        "email": "noah@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-15",
+        "name": "Isabella Taylor",
+        "email": "isabella@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-16",
+        "name": "Alexander Lewis",
+        "email": "alexander@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-17",
+        "name": "Emily Chen",
+        "email": "emily@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-18",
+        "name": "Benjamin Lee",
+        "email": "benjamin@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-19",
+        "name": "Madison Lee",
+        "email": "madison@example.com",
+        "role": "customer"
+      },
+      {
+        "id": "user-20",
+        "name": "Hannah White",
+        "email": "hannah@example.com",
+        "role": "customer"
+      }
+    ],
+    "products": [
+      {
+        "id": "prod-1",
+        "name": "Apple Watch",
+        "description": "A smartwatch from Apple",
+        "price": 249.99,
+        "image": [
+          "https://example.com/apple-watch-1.jpg",
+          "https://example.com/apple-watch-2.jpg"
+        ],
+        "thumbnail": "https://example.com/apple-watch-thumbnail.jpg",
+        "stock": 100,
+        "category": "Electronics"
+      },
+      {
+        "id": "prod-2",
+        "name": "Samsung TV",
+        "description": "A high-definition TV from Samsung",
+        "price": 899.99,
+        "image": [
+          "https://example.com/samsung-tv-1.jpg",
+          "https://example.com/samsung-tv-2.jpg"
+        ],
+        "thumbnail": "https://example.com/samsung-tv-thumbnail.jpg",
+        "stock": 50,
+        "category": "Electronics"
+      },
+      {
+        "id": "prod-3",
+        "name": "Nike Shoes",
+        "description": "A pair of running shoes from Nike",
+        "price": 79.99,
+        "image": [
+          "https://example.com/nike-shoes-1.jpg",
+          "https://example.com/nike-shoes-2.jpg"
+        ],
+        "thumbnail": "https://example.com/nike-shoes-thumbnail.jpg",
+        "stock": 200,
+        "category": "Fashion"
+      },
+      {
+        "id": "prod-4",
+        "name": "Canon Camera",
+        "description": "A digital camera from Canon",
+        "price": 499.99,
+        "image": [
+          "https://example.com/canon-camera-1.jpg",
+          "https://example.com/canon-camera-2.jpg"
+        ],
+        "thumbnail": "https://example.com/canon-camera-thumbnail.jpg",
+        "stock": 100,
+        "category": "Electronics"
+      },
+      {
+        "id": "prod-5",
+        "name": "PlayStation 5",
+        "description": "A gaming console from Sony",
+        "price": 499.99,
+        "image": [
+          "https://example.com/ps5-1.jpg",
+          "https://example.com/ps5-2.jpg"
+        ],
+        "thumbnail": "https://example.com/ps5-thumbnail.jpg",
+        "stock": 50,
+        "category": "Electronics"
+      },
+      {
+        "id": "prod-6",
+        "name": "Xbox Series X",
+        "description": "A gaming console from Microsoft",
+        "price": 499.99,
+        "image": [
+          "https://example.com/xbox-series-x-1.jpg",
+          "https://example.com/xbox-series-x-2.jpg"
+        ],
+        "thumbnail": "https://example.com/xbox-series-x-thumbnail.jpg",
+        "stock": 50,
+        "category": "Electronics"
+      },
+      {
+        "id": "prod-7",
+        "name": "Nintendo Switch",
+        "description": "A gaming console from Nintendo",
+        "price": 299.99,
+        "image": [
+          "https://example.com/nintendo-switch-1.jpg",
+          "https://example.com/nintendo-switch-2.jpg"
+        ],
+        "thumbnail": "https://example.com/nintendo-switch-thumbnail.jpg",
+        "stock": 100,
+        "category": "Electronics"
+      },
+      {
+        "id": "prod-8",
+        "name": "LG Refrigerator",
+        "description": "A refrigerator from LG",
+        "price": 999.99,
+        "image": [
+          "https://example.com/lg-refrigerator-1.jpg",
+          "https://example.com/lg-refrigerator-2.jpg"
+        ],
+        "thumbnail": "https://example.com/lg-refrigerator-thumbnail.jpg",
+        "stock": 50,
+        "category": "Home Appliances"
+      },
+      {
+        "id": "prod-9",
+        "name": "Whirlpool Washing Machine",
+        "description": "A washing machine from Whirlpool",
+        "price": 599.99,
+        "image": [
+          "https://example.com/whirlpool-washing-machine-1.jpg",
+          "https://example.com/whirlpool-washing-machine-2.jpg"
+        ],
+        "thumbnail": "https://example.com/whirlpool-washing-machine-thumbnail.jpg",
+        "stock": 50,
+        "category": "Home Appliances"
+      },
+      {
+        "id": "prod-10",
+        "name": "Dyson Vacuum Cleaner",
+        "description": "A vacuum cleaner from Dyson",
+        "price": 199.99,
+        "image": [
+          "https://example.com/dyson-vacuum-cleaner-1.jpg",
+          "https://example.com/dyson-vacuum-cleaner-2.jpg"
+        ],
+        "thumbnail": "https://example.com/dyson-vacuum-cleaner-thumbnail.jpg",
+        "stock": 100,
+        "category": "Home Appliances"
+      },
+      {
+        "id": "prod-11",
+        "name": "Sony Headphones",
+        "description": "A pair of headphones from Sony",
+        "price": 99.99,
+        "image": [
+          "https://example.com/sony-headphones-1.jpg",
+          "https://example.com/sony-headphones-2.jpg"
+        ],
+        "thumbnail": "https://example.com/sony-headphones-thumbnail.jpg",
+        "stock": 200,
+        "category": "Electronics"
+      },
+      {
+        "id": "prod-12",
+        "name": "Beats Speakers",
+        "description": "A pair of speakers from Beats",
+        "price": 149.99,
+        "image": [
+          "https://example.com/beats-speakers-1.jpg",
+          "https://example.com/beats-speakers-2.jpg"
+        ],
+        "thumbnail": "https://example.com/beats-speakers-thumbnail.jpg",
+        "stock": 100,
+        "category": "Electronics"
+      }
+    ],
+    "orders": [
+      {
+        "id": "order-1",
+        "user_id": "user-1",
+        "status": "pending",
+        "order_date": "2024-06-01"
+      },
+      {
+        "id": "order-2",
+        "user_id": "user-2",
+        "status": "processing",
+        "order_date": "2024-06-02"
+      },
+      {
+        "id": "order-3",
+        "user_id": "user-3",
+        "status": "shipped",
+        "order_date": "2024-06-03"
+      },
+      {
+        "id": "order-4",
+        "user_id": "user-4",
+        "status": "delivered",
+        "order_date": "2024-06-04"
+      },
+      {
+        "id": "order-5",
+        "user_id": "user-5",
+        "status": "cancelled",
+        "order_date": "2024-06-05"
+      },
+      {
+        "id": "order-6",
+        "user_id": "user-6",
+        "status": "pending",
+        "order_date": "2024-06-06"
+      },
+      {
+        "id": "order-7",
+        "user_id": "user-7",
+        "status": "processing",
+        "order_date": "2024-06-07"
+      },
+      {
+        "id": "order-8",
+        "user_id": "user-8",
+        "status": "shipped",
+        "order_date": "2024-06-08"
+      },
+      {
+        "id": "order-9",
+        "user_id": "user-9",
+        "status": "delivered",
+        "order_date": "2024-06-09"
+      },
+      {
+        "id": "order-10",
+        "user_id": "user-10",
+        "status": "cancelled",
+        "order_date": "2024-06-10"
+      }
+    ],
+    "reviews": [
+      {
+        "id": "review-1",
+        "product_id": "prod-1",
+        "user_id": "user-1",
+        "rating": 5,
+        "review_text": "Excellent product!"
+      },
+      {
+        "id": "review-2",
+        "product_id": "prod-2",
+        "user_id": "user-2",
+        "rating": 4,
+        "review_text": "Good product, but a bit expensive."
+      },
+      {
+        "id": "review-3",
+        "product_id": "prod-3",
+        "user_id": "user-3",
+        "rating": 3,
+        "review_text": "Average product, nothing special."
+      },
+      {
+        "id": "review-4",
+        "product_id": "prod-4",
+        "user_id": "user-4",
+        "rating": 5,
+        "review_text": "Excellent product, would highly recommend!"
+      },
+      {
+        "id": "review-5",
+        "product_id": "prod-5",
+        "user_id": "user-5",
+        "rating": 4,
+        "review_text": "Good product, but a bit difficult to use."
+      },
+      {
+        "id": "review-6",
+        "product_id": "prod-6",
+        "user_id": "user-6",
+        "rating": 3,
+        "review_text": "Average product, nothing special."
+      },
+      {
+        "id": "review-7",
+        "product_id": "prod-7",
+        "user_id": "user-7",
+        "rating": 5,
+        "review_text": "Excellent product, would highly recommend!"
+      },
+      {
+        "id": "review-8",
+        "product_id": "prod-8",
+        "user_id": "user-8",
+        "rating": 4,
+        "review_text": "Good product, but a bit expensive."
+      },
+      {
+        "id": "review-9",
+        "product_id": "prod-9",
+        "user_id": "user-9",
+        "rating": 3,
+        "review_text": "Average product, nothing special."
+      },
+      {
+        "id": "review-10",
+        "product_id": "prod-10",
+        "user_id": "user-10",
+        "rating": 5,
+        "review_text": "Excellent product, would highly recommend!"
+      },
+      {
+        "id": "review-11",
+        "product_id": "prod-11",
+        "user_id": "user-11",
+        "rating": 4,
+        "review_text": "Good product, but a bit difficult to use."
+      },
+      {
+        "id": "review-12",
+        "product_id": "prod-12",
+        "user_id": "user-12",
+        "rating": 3,
+        "review_text": "Average product, nothing special."
+      },
+      {
+        "id": "review-13",
+        "product_id": "prod-1",
+        "user_id": "user-13",
+        "rating": 5,
+        "review_text": "Excellent product!"
+      },
+      {
+        "id": "review-14",
+        "product_id": "prod-2",
+        "user_id": "user-14",
+        "rating": 4,
+        "review_text": "Good product, but a bit expensive."
+      },
+      {
+        "id": "review-15",
+        "product_id": "prod-3",
+        "user_id": "user-15",
+        "rating": 3,
+        "review_text": "Average product, nothing special."
+      },
+      {
+        "id": "review-16",
+        "product_id": "prod-4",
+        "user_id": "user-16",
+        "rating": 5,
+        "review_text": "Excellent product, would highly recommend!"
+      },
+      {
+        "id": "review-17",
+        "product_id": "prod-5",
+        "user_id": "user-17",
+        "rating": 4,
+        "review_text": "Good product, but a bit difficult to use."
+      },
+      {
+        "id": "review-18",
+        "product_id": "prod-6",
+        "user_id": "user-18",
+        "rating": 3,
+        "review_text": "Average product, nothing special."
+      },
+      {
+        "id": "review-19",
+        "product_id": "prod-7",
+        "user_id": "user-19",
+        "rating": 5,
+        "review_text": "Excellent product, would highly recommend!"
+      },
+      {
+        "id": "review-20",
+        "product_id": "prod-8",
+        "user_id": "user-20",
+        "rating": 4,
+        "review_text": "Good product, but a bit expensive."
+      }
+    ],
+    "analytics": {
+      "daily_revenue": [
+        {
+          "date": "2024-06-01",
+          "revenue": 1250,
+          "orders": 5
+        },
+        {
+          "date": "2024-06-02",
+          "revenue": 1890,
+          "orders": 7
+        },
+        {
+          "date": "2024-06-03",
+          "revenue": 1456,
+          "orders": 6
+        },
+        {
+          "date": "2024-06-04",
+          "revenue": 2100,
+          "orders": 8
+        },
+        {
+          "date": "2024-06-05",
+          "revenue": 1780,
+          "orders": 6
+        },
+        {
+          "date": "2024-06-06",
+          "revenue": 2340,
+          "orders": 9
+        },
+        {
+          "date": "2024-06-07",
+          "revenue": 1920,
+          "orders": 7
+        },
+        {
+          "date": "2024-06-08",
+          "revenue": 2650,
+          "orders": 10
+        },
+        {
+          "date": "2024-06-09",
+          "revenue": 2180,
+          "orders": 8
+        },
+        {
+          "date": "2024-06-10",
+          "revenue": 1560,
+          "orders": 6
+        },
+        {
+          "date": "2024-06-11",
+          "revenue": 2890,
+          "orders": 11
+        },
+        {
+          "date": "2024-06-12",
+          "revenue": 2450,
+          "orders": 9
+        },
+        {
+          "date": "2024-06-13",
+          "revenue": 3120,
+          "orders": 12
+        },
+        {
+          "date": "2024-06-14",
+          "revenue": 2780,
+          "orders": 10
+        }
+      ],
+      "dashboard_stats": {
+        "totalRevenue": 28365,
+        "totalOrders": 156,
+        "totalCustomers": 89,
+        "averageOrderValue": 181.83,
+        "revenueChange": 12.5,
+        "ordersChange": 8.3,
+        "customersChange": 15.2,
+        "aovChange": 3.8
+      },
+      "top_products": [
+        {
+          "id": "prod-1",
+          "name": "Apple Watch",
+          "sales": 45,
+          "revenue": 3599.55
+        },
+        {
+          "id": "prod-2",
+          "name": "Samsung TV",
+          "sales": 20,
+          "revenue": 1799.8
+        },
+        {
+          "id": "prod-3",
+          "name": "Nike Shoes",
+          "sales": 30,
+          "revenue": 2399.7
+        },
+        {
+          "id": "prod-4",
+          "name": "Canon Camera",
+          "sales": 25,
+          "revenue": 1999.75
+        },
+        {
+          "id": "prod-5",
+          "name": "PlayStation 5",
+          "sales": 40,
+          "revenue": 3999.6
+        }
+      ]
+    }
+  }
+}

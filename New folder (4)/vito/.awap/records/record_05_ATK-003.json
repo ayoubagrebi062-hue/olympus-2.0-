@@ -1,0 +1,24 @@
+{
+  "record_id": "exec_1768875365375_a6530b9bcb588e80",
+  "attack_id": "ATK-003",
+  "execution_order": 5,
+  "status": "COMPLETED",
+  "outcome": "DETECTED",
+  "started_at": "2026-01-20T02:16:05.374Z",
+  "completed_at": "2026-01-20T02:16:05.375Z",
+  "duration_ms": 0,
+  "detection_latency_ms": 0,
+  "evidence_hashes": [
+    "4a976a4c93cca30d4033ca498ee9c19d5d3055bc0d1bedc985656e28c01c8466",
+    "8501c3f9061d6de2e285c3d84ecd426678ba808667e321028904c4412571c924",
+    "6fa63b816c1bcbff00d72a6ec044c847d5a06b10f7cf176440bd76727e00723d"
+  ],
+  "evidence_raw": [
+    "PASS: Timestamp modification detected via hash mismatch",
+    "PASS: Original hash: 831b5522eec1e8a7...",
+    "PASS: Tampered hash: c24956eb720c3c1c..."
+  ],
+  "record_hash": "97a2d28e5fd28a08a0b0d4d9679f7c83dd92a0bd3bd64b4c30f1841b7e898ae0",
+  "previous_hash": "8861c3dc77949f45664dcca93b9bbdfebeb52176466b1cac9a0631660511b580",
+  "chain_position": 4
+}

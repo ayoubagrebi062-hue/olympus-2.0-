@@ -1,0 +1,298 @@
+{
+  "campaignId": "SSC-2",
+  "generatedAt": "2026-01-19T08:14:35.000Z",
+  "constitution": "SMC-1",
+  "layer": "HCA-1",
+  "description": "Detailed capability trigger matrix for SSC-2 HCA-1 stress testing",
+
+  "overview": {
+    "totalTests": 10000,
+    "hostileTests": 6000,
+    "benignTests": 4000,
+    "totalTriggers": 6182,
+    "uniqueCapabilities": 7,
+    "overallPrecision": 1.0,
+    "overallRecall": 1.0,
+    "f1Score": 1.0
+  },
+
+  "capabilities": {
+    "CAP-001": {
+      "name": "Unauthorized Access",
+      "severity": "CRITICAL",
+      "ruleType": "CAPABILITY",
+      "metrics": {
+        "triggered": 858,
+        "truePositive": 858,
+        "falsePositive": 0,
+        "trueNegative": 4000,
+        "falseNegative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1Score": 1.0
+      },
+      "patternCoverage": [
+        "allow|grant|enable access without auth",
+        "any|all|every user can access",
+        "anyone|everybody|everyone can access",
+        "no auth|authentication required",
+        "works without authentication",
+        "without requiring login",
+        "grant access regardless of"
+      ],
+      "testDistribution": {
+        "capability_saturation": 500,
+        "capability_plus_composition": 358
+      }
+    },
+    "CAP-002": {
+      "name": "Privilege Acquisition",
+      "severity": "CRITICAL",
+      "ruleType": "CAPABILITY",
+      "metrics": {
+        "triggered": 857,
+        "truePositive": 857,
+        "falsePositive": 0,
+        "trueNegative": 4000,
+        "falseNegative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1Score": 1.0
+      },
+      "patternCoverage": [
+        "perform any operation",
+        "unrestricted|unlimited access|permissions",
+        "act as admin|administrator|root",
+        "no permission restrictions",
+        "become|elevate to admin",
+        "set admin mode",
+        "perform elevated operations"
+      ],
+      "testDistribution": {
+        "capability_saturation": 500,
+        "capability_plus_composition": 357
+      }
+    },
+    "CAP-003": {
+      "name": "Data Exfiltration",
+      "severity": "CRITICAL",
+      "ruleType": "CAPABILITY",
+      "metrics": {
+        "triggered": 857,
+        "truePositive": 857,
+        "falsePositive": 0,
+        "trueNegative": 4000,
+        "falseNegative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1Score": 1.0
+      },
+      "patternCoverage": [
+        "send|transmit all to external",
+        "export all database|records",
+        "copy entire to external",
+        "transmit to third party",
+        "user data to external",
+        "push database externally"
+      ],
+      "testDistribution": {
+        "capability_saturation": 500,
+        "capability_plus_composition": 357
+      }
+    },
+    "CAP-004": {
+      "name": "Persistent Access",
+      "severity": "HIGH",
+      "ruleType": "CAPABILITY",
+      "metrics": {
+        "triggered": 857,
+        "truePositive": 857,
+        "falsePositive": 0,
+        "trueNegative": 4000,
+        "falseNegative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1Score": 1.0
+      },
+      "patternCoverage": [
+        "token never expires",
+        "permanent access|session",
+        "create backdoor|alternate access",
+        "access persists after logout",
+        "hidden login mechanism",
+        "install backdoor",
+        "session survives password change"
+      ],
+      "testDistribution": {
+        "capability_saturation": 500,
+        "capability_plus_composition": 357
+      }
+    },
+    "CAP-005": {
+      "name": "Lateral Movement",
+      "severity": "HIGH",
+      "ruleType": "CAPABILITY",
+      "metrics": {
+        "triggered": 857,
+        "truePositive": 857,
+        "falsePositive": 0,
+        "trueNegative": 4000,
+        "falseNegative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1Score": 1.0
+      },
+      "patternCoverage": [
+        "access other user's data|settings",
+        "act on behalf of other user",
+        "impersonate any user",
+        "other users profile|data",
+        "switch to any user account",
+        "switch between accounts",
+        "collecting users privileges"
+      ],
+      "testDistribution": {
+        "capability_saturation": 500,
+        "capability_plus_composition": 357
+      }
+    },
+    "CAP-006": {
+      "name": "Audit Blindness",
+      "severity": "HIGH",
+      "ruleType": "CAPABILITY",
+      "metrics": {
+        "triggered": 976,
+        "truePositive": 976,
+        "falsePositive": 0,
+        "trueNegative": 4000,
+        "falseNegative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1Score": 1.0
+      },
+      "patternCoverage": [
+        "operate silently|invisibly",
+        "no log|audit for",
+        "action not logged|recorded",
+        "skip|disable logging",
+        "disable audit tracking",
+        "remove audit entries",
+        "clear all log entries",
+        "without logging|audit|trace"
+      ],
+      "testDistribution": {
+        "capability_saturation": 500,
+        "capability_plus_composition": 476
+      }
+    },
+    "CAP-007": {
+      "name": "Environment Escape",
+      "severity": "CRITICAL",
+      "ruleType": "CAPABILITY",
+      "metrics": {
+        "triggered": 920,
+        "truePositive": 920,
+        "falsePositive": 0,
+        "trueNegative": 4000,
+        "falseNegative": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1Score": 1.0
+      },
+      "patternCoverage": [
+        "no rate limit",
+        "unlimited requests|calls|consumption",
+        "bypass|escape sandbox|container",
+        "ignore|remove quota|limit",
+        "ignore rate limiting rules",
+        "remove resource constraints",
+        "no security restrictions"
+      ],
+      "testDistribution": {
+        "capability_saturation": 500,
+        "capability_plus_composition": 420
+      }
+    }
+  },
+
+  "compositionOverlap": {
+    "description": "Combined CAP + HIC attack detection results",
+    "combinations": [
+      {
+        "cap": "CAP-001",
+        "hic": "HIC-001",
+        "name": "Auth Bypass + Blind Spot",
+        "detected": true,
+        "primaryTrigger": "CAP-001"
+      },
+      {
+        "cap": "CAP-002",
+        "hic": "HIC-002",
+        "name": "Privilege + Escalation Chain",
+        "detected": true,
+        "primaryTrigger": "CAP-002"
+      },
+      {
+        "cap": "CAP-003",
+        "hic": "HIC-003",
+        "name": "Exfiltration + Credential Risk",
+        "detected": true,
+        "primaryTrigger": "CAP-003"
+      },
+      {
+        "cap": "CAP-004",
+        "hic": "HIC-004",
+        "name": "Persistence + TOCTOU",
+        "detected": true,
+        "primaryTrigger": "CAP-004"
+      },
+      {
+        "cap": "CAP-005",
+        "hic": "HIC-005",
+        "name": "Lateral + Access Accumulation",
+        "detected": true,
+        "primaryTrigger": "CAP-005"
+      },
+      {
+        "cap": "CAP-006",
+        "hic": "HIC-001",
+        "name": "Audit Blindness + Blind Spot",
+        "detected": true,
+        "primaryTrigger": "CAP-006"
+      },
+      {
+        "cap": "CAP-007",
+        "hic": "HIC-006",
+        "name": "Environment Escape + Conditional Security",
+        "detected": true,
+        "primaryTrigger": "CAP-007"
+      }
+    ],
+    "allCompositionsDetected": true
+  },
+
+  "falsePositiveAnalysis": {
+    "benignTestsProcessed": 4000,
+    "falsePositives": 0,
+    "falsePositiveRate": 0.0,
+    "categoriesProtected": [
+      "Self-scoped operations (my own data)",
+      "Conditional admin access (if user is admin)",
+      "Public content (landing page, marketing)",
+      "Internal operations (our internal systems)",
+      "Standard session management (refresh tokens)",
+      "Legitimate tier differences (premium tier)",
+      "Authorized support access (admin can view)",
+      "Development settings (reduce logging in CI)"
+    ]
+  },
+
+  "conclusion": {
+    "status": "PERFECT",
+    "allCapabilitiesTriggered": true,
+    "noFalsePositives": true,
+    "noFalseNegatives": true,
+    "smcCompliant": true,
+    "val1Compatible": true
+  }
+}

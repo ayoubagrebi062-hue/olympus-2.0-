@@ -1,0 +1,140 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript"
+  ],
+  "rules": {
+    "no-alert": "error",
+    "no-console": ["error", {
+      "allow": ["warn", "error", "info"]
+    }],
+    "no-debugger": "error",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unused-vars": ["error", {
+      "argsIgnorePattern": "^_",
+      "varsIgnorePattern": "^_",
+      "caughtErrorsIgnorePattern": "^_"
+    }],
+    "@typescript-eslint/no-non-null-assertion": "warn",
+    "@typescript-eslint/no-empty-function": "warn",
+    "@typescript-eslint/no-empty-object-type": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/no-unescaped-entities": "off",
+    "react/display-name": "off",
+    "no-var": "error",
+    "prefer-const": "error",
+    "prefer-template": "warn",
+    "eqeqeq": ["error", "always", { "null": "ignore" }],
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-new-func": "error",
+    "@next/next/no-html-link-for-pages": "error",
+    "@next/next/no-img-element": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}", "**/tests/**/*.{ts,tsx}"],
+      "rules": {
+        "no-console": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-non-null-assertion": "off"
+      }
+    },
+    {
+      "files": ["*.config.{js,ts,mjs}", "scripts/**/*.{js,ts}"],
+      "rules": {
+        "@typescript-eslint/no-require-imports": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "no-console": "off"
+      }
+    },
+    {
+      "files": ["src/app/**/*.{ts,tsx}"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unused-vars": ["warn", {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_",
+          "caughtErrorsIgnorePattern": "^_"
+        }],
+        "no-console": "off",
+        "@typescript-eslint/no-non-null-assertion": "off"
+      }
+    },
+    {
+      "files": ["src/components/**/*.{ts,tsx}"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unused-vars": ["warn", {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_",
+          "caughtErrorsIgnorePattern": "^_"
+        }],
+        "no-console": "off",
+        "@typescript-eslint/no-empty-object-type": "off"
+      }
+    },
+    {
+      "files": ["src/app/api/**/*.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "no-console": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "prefer-template": "off"
+      }
+    },
+    {
+      "files": ["src/lib/**/*.{ts,tsx}"],
+      "rules": {
+        "no-console": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-require-imports": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-extra-non-null-assertion": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "prefer-const": "off",
+        "prefer-template": "off",
+        "@next/next/no-assign-module-variable": "off",
+        "react-hooks/exhaustive-deps": "off",
+        "import/no-anonymous-default-export": "off"
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "node_modules",
+    ".next",
+    "out",
+    "dist",
+    "build",
+    "coverage",
+    "src/_disabled/**",
+    "src/scripts/**",
+    "src/examples/**",
+    "src/lib/vision/**",
+    "src/instrumentation.ts",
+    "src/invariant-closure-engine.ts",
+    "src/invariant-compile-pass.ts",
+    "src/lib/quality/**",
+    "src/lib/queue/**",
+    "src/lib/realtime/**",
+    "src/lib/recovery/**",
+    "src/lib/reliability/**",
+    "src/lib/repository.ts",
+    "src/lib/routes/**",
+    "src/lib/security/**",
+    "src/lib/storage/**",
+    "src/lib/storage-module.ts",
+    "src/lib/store.ts",
+    "src/lib/team/**",
+    "src/lib/tokens/**",
+    "src/lib/tracing/**",
+    "src/lib/usage/**",
+    "src/lib/agents/orchestrator/**",
+    "src/lib/agents/conductor/**",
+    "src/app/api/conductor/**"
+  ]
+}

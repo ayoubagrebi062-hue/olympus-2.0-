@@ -1,0 +1,115 @@
+{
+  "labId": "RCL-1",
+  "timestamp": "2026-01-19T10:56:10.137Z",
+  "graphs": [
+    {
+      "clusterId": "CLU-005",
+      "graph": {
+        "nodes": [
+          "AGENT",
+          "PERMISSION"
+        ],
+        "edges": [
+          {
+            "source": "AGENT",
+            "action": "TRANSFORM",
+            "target": "AGENT"
+          },
+          {
+            "source": "PERMISSION",
+            "action": "TRANSFORM",
+            "target": "PERMISSION"
+          },
+          {
+            "source": "AGENT",
+            "action": "TRANSFORM",
+            "target": "AGENT"
+          },
+          {
+            "source": "AGENT",
+            "action": "TRANSFORM",
+            "target": "AGENT"
+          },
+          {
+            "source": "AGENT",
+            "action": "TRANSFORM",
+            "target": "AGENT"
+          },
+          {
+            "source": "AGENT",
+            "action": "TRANSFORM",
+            "target": "AGENT"
+          }
+        ]
+      }
+    },
+    {
+      "clusterId": "CLU-007",
+      "graph": {
+        "nodes": [
+          "AGENT",
+          "RESOURCE"
+        ],
+        "edges": [
+          {
+            "source": "AGENT",
+            "action": "TRANSFER",
+            "target": "AGENT"
+          },
+          {
+            "source": "RESOURCE",
+            "action": "TRANSFER",
+            "target": "RESOURCE"
+          },
+          {
+            "source": "AGENT",
+            "action": "TRANSFER",
+            "target": "AGENT"
+          },
+          {
+            "source": "RESOURCE",
+            "action": "TRANSFER",
+            "target": "RESOURCE"
+          },
+          {
+            "source": "RESOURCE",
+            "action": "TRANSFER",
+            "target": "RESOURCE"
+          }
+        ]
+      }
+    }
+  ],
+  "hostile_subgraphs": {
+    "PRIV_ESCALATION": {
+      "pattern": "AGENT → TRANSFORM → PERMISSION",
+      "description": "Agent attempting to change own permission state",
+      "indicators": {
+        "subject": "AGENT",
+        "verb_class": "TRANSFORM",
+        "object": "PERMISSION",
+        "direction": "upward"
+      }
+    },
+    "DATA_EXFIL": {
+      "pattern": "RESOURCE → TRANSFER → DESTINATION",
+      "description": "Data being moved to external location",
+      "indicators": {
+        "subject": "RESOURCE",
+        "verb_class": "TRANSFER",
+        "object": "DESTINATION",
+        "direction": "outward"
+      }
+    },
+    "AUTH_BYPASS": {
+      "pattern": "AGENT → BYPASS → SECURITY",
+      "description": "Agent attempting to circumvent security controls",
+      "indicators": {
+        "subject": "AGENT",
+        "verb_class": "BYPASS",
+        "object": "SECURITY",
+        "direction": "through"
+      }
+    }
+  }
+}

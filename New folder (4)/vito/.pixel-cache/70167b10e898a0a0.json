@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Button.tsx",
+      "content": "import React from 'react';\n\ninterface ButtonProps {\n  variant?: 'primary' | 'secondary' | 'success' | 'danger';\n  onClick: () => void;\n  disabled?: boolean;\n  children: React.ReactNode;\n}\n\nconst Button: React.FC<ButtonProps> = ({ variant = 'primary', onClick, disabled, children }) => {\n  const baseStyles = 'min-w-[80px] py-2 px-4 rounded';\n  const variantStyles = {\n    primary: 'bg-blue-500 text-white',\n    secondary: 'bg-gray-500 text-white',\n    success: 'bg-green-500 text-white',\n    danger: 'bg-red-500 text-white',\n  }[variant];\n  const disabledStyles = disabled ? 'opacity-50 cursor-not-allowed' : '';\n\n  return (\n    <button\n      className={`${baseStyles} ${variantStyles} ${disabledStyles}`}\n      onClick={disabled ? undefined : onClick}\n      disabled={disabled}\n      aria-disabled={disabled}\n    >\n      {children}\n    </button>\n  );\n};\n\nexport default Button;"
+    }
+  ],
+  "timestamp": 1768781939391,
+  "promptVersion": "v3.0.0"
+}

@@ -1,0 +1,89 @@
+{
+  "diagnostic": {
+    "name": "FilterCapability Propagation Trace",
+    "version": "1.0.0",
+    "created": "2026-01-19"
+  },
+
+  "target_shape": {
+    "name": "FilterCapabilityShape",
+    "description": "Structural shape representing a filter-by-status capability"
+  },
+
+  "agent_sequence": [
+    "strategos",
+    "scope",
+    "cartographer",
+    "blocks",
+    "wire",
+    "pixel"
+  ],
+
+  "handoffs": [
+    { "id": "H1", "source": "strategos", "target": "scope" },
+    { "id": "H2", "source": "scope", "target": "cartographer" },
+    { "id": "H3", "source": "cartographer", "target": "blocks" },
+    { "id": "H4", "source": "blocks", "target": "wire" },
+    { "id": "H5", "source": "wire", "target": "pixel" }
+  ],
+
+  "required_attributes_by_stage": {
+    "strategos": ["target_entity", "filter_attribute"],
+    "scope": ["target_entity", "filter_attribute", "filter_values"],
+    "cartographer": ["target_entity", "filter_attribute", "filter_values", "ui_control"],
+    "blocks": ["filter_attribute", "filter_values", "ui_control", "default_value"],
+    "wire": ["filter_attribute", "filter_values", "state_location", "ui_control"],
+    "pixel": ["filter_attribute", "filter_values", "ui_control", "event_handler"]
+  },
+
+  "schema_paths": {
+    "strategos": {
+      "features": "mvp_features",
+      "feature_name": "name",
+      "feature_description": "description",
+      "acceptance_criteria": "acceptance_criteria"
+    },
+    "scope": {
+      "in_scope": "in_scope",
+      "feature_name": "feature",
+      "acceptance_criteria": "acceptance_criteria"
+    },
+    "cartographer": {
+      "pages": "pages",
+      "sections": "sections",
+      "components": "components"
+    },
+    "blocks": {
+      "components": "components",
+      "variants": "variants",
+      "states": "states"
+    },
+    "wire": {
+      "files": "files",
+      "path": "path",
+      "content": "content"
+    },
+    "pixel": {
+      "files": "files",
+      "path": "path",
+      "content": "content"
+    }
+  },
+
+  "loss_classes": {
+    "L0": { "name": "TOTAL_OMISSION", "severity": "CRITICAL" },
+    "L1": { "name": "PARTIAL_CAPTURE", "severity": "HIGH" },
+    "L2": { "name": "SEMANTIC_DRIFT", "severity": "HIGH" },
+    "L3": { "name": "SPECIFICITY_LOSS", "severity": "MEDIUM" },
+    "L4": { "name": "CONTEXT_TRUNCATION", "severity": "HIGH" },
+    "L5": { "name": "DEPENDENCY_SKIP", "severity": "CRITICAL" },
+    "L6": { "name": "SUMMARY_COLLAPSE", "severity": "HIGH" },
+    "L7": { "name": "SCHEMA_MISMATCH", "severity": "MEDIUM" }
+  },
+
+  "data_sources": {
+    "agent_outputs_dir": "../../../src/lib/agents",
+    "build_outputs_pattern": "**/*.json",
+    "summarizer_path": "../../../src/lib/agents/context/summarizer.ts"
+  }
+}

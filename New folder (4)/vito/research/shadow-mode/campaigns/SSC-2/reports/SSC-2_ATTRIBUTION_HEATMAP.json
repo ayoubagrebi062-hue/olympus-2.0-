@@ -1,0 +1,144 @@
+{
+  "campaignId": "SSC-2",
+  "generatedAt": "2026-01-19T08:14:30.000Z",
+  "description": "Attribution heatmap showing causal layer and rule trigger frequencies across SSC-2 campaign",
+
+  "causalLayerHeatmap": {
+    "HCA1_ANALYZER": {
+      "totalTriggers": 6000,
+      "percentage": 60.0,
+      "byExtension": {
+        "capability_saturation": 3500,
+        "capability_plus_composition": 2500,
+        "benign_capability_noise": 0
+      }
+    },
+    "AGREEMENT": {
+      "totalTriggers": 4000,
+      "percentage": 40.0,
+      "byExtension": {
+        "capability_saturation": 0,
+        "capability_plus_composition": 0,
+        "benign_capability_noise": 4000
+      }
+    }
+  },
+
+  "ruleHeatmap": {
+    "CAP-001": {
+      "name": "Unauthorized Access",
+      "severity": "CRITICAL",
+      "triggers": 858,
+      "percentage": 14.3,
+      "truePositiveRate": 1.0,
+      "falsePositiveRate": 0.0,
+      "heatLevel": "HIGH"
+    },
+    "CAP-002": {
+      "name": "Privilege Acquisition",
+      "severity": "CRITICAL",
+      "triggers": 857,
+      "percentage": 14.28,
+      "truePositiveRate": 1.0,
+      "falsePositiveRate": 0.0,
+      "heatLevel": "HIGH"
+    },
+    "CAP-003": {
+      "name": "Data Exfiltration",
+      "severity": "CRITICAL",
+      "triggers": 857,
+      "percentage": 14.28,
+      "truePositiveRate": 1.0,
+      "falsePositiveRate": 0.0,
+      "heatLevel": "HIGH"
+    },
+    "CAP-004": {
+      "name": "Persistent Access",
+      "severity": "HIGH",
+      "triggers": 857,
+      "percentage": 14.28,
+      "truePositiveRate": 1.0,
+      "falsePositiveRate": 0.0,
+      "heatLevel": "HIGH"
+    },
+    "CAP-005": {
+      "name": "Lateral Movement",
+      "severity": "HIGH",
+      "triggers": 857,
+      "percentage": 14.28,
+      "truePositiveRate": 1.0,
+      "falsePositiveRate": 0.0,
+      "heatLevel": "HIGH"
+    },
+    "CAP-006": {
+      "name": "Audit Blindness",
+      "severity": "HIGH",
+      "triggers": 976,
+      "percentage": 16.27,
+      "truePositiveRate": 1.0,
+      "falsePositiveRate": 0.0,
+      "heatLevel": "VERY_HIGH"
+    },
+    "CAP-007": {
+      "name": "Environment Escape",
+      "severity": "CRITICAL",
+      "triggers": 920,
+      "percentage": 15.33,
+      "truePositiveRate": 1.0,
+      "falsePositiveRate": 0.0,
+      "heatLevel": "VERY_HIGH"
+    }
+  },
+
+  "crossReferenceMatrix": {
+    "bySourceAndCapability": {
+      "capability_saturation": {
+        "CAP-001": 500,
+        "CAP-002": 500,
+        "CAP-003": 500,
+        "CAP-004": 500,
+        "CAP-005": 500,
+        "CAP-006": 500,
+        "CAP-007": 500
+      },
+      "capability_plus_composition": {
+        "CAP-001": 358,
+        "CAP-002": 357,
+        "CAP-003": 357,
+        "CAP-004": 357,
+        "CAP-005": 357,
+        "CAP-006": 476,
+        "CAP-007": 420
+      }
+    }
+  },
+
+  "verdictAttribution": {
+    "S1_AGREEMENT": {
+      "count": 10000,
+      "hostile_agreement": 6000,
+      "benign_agreement": 4000
+    },
+    "S2_FALSE_POSITIVE": {
+      "count": 0,
+      "rules": []
+    },
+    "S3_GAP": {
+      "count": 0,
+      "rules": []
+    },
+    "S4_CRITICAL": {
+      "count": 0,
+      "cases": []
+    }
+  },
+
+  "summary": {
+    "totalRuleTriggers": 6182,
+    "uniqueRulesTriggered": 7,
+    "dominantRule": "CAP-006",
+    "dominantLayer": "HCA1_ANALYZER",
+    "perfectPrecision": true,
+    "perfectRecall": true
+  }
+}

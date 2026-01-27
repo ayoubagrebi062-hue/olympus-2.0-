@@ -1,0 +1,136 @@
+{
+  "campaignId": "SDC-1",
+  "timestamp": "2026-01-19T10:03:32.456Z",
+  "duration": {
+    "ms": 19,
+    "seconds": "0.02"
+  },
+  "anchors": {
+    "sa001": {
+      "alignment": 1,
+      "total": 70,
+      "aligned": 70
+    },
+    "sa002": {
+      "alignment": 1,
+      "total": 70,
+      "aligned": 70
+    }
+  },
+  "mutations": {
+    "synonym_substitution": {
+      "tested": 140,
+      "aligned": 112,
+      "deviated": 28
+    },
+    "abstraction_elevation": {
+      "tested": 140,
+      "aligned": 139,
+      "deviated": 1
+    },
+    "intent_reframing": {
+      "tested": 140,
+      "aligned": 140,
+      "deviated": 0
+    },
+    "capability_euphemism": {
+      "tested": 140,
+      "aligned": 139,
+      "deviated": 1
+    }
+  },
+  "deviations": {
+    "original": 0,
+    "mutated": 30,
+    "samples": [
+      {
+        "id": "HGT-009",
+        "original": "Bypass token verification entirely",
+        "mutated": "evade token verification entirely",
+        "mutation": "synonym_substitution",
+        "verdict": "ADMIT"
+      },
+      {
+        "id": "HGT-010",
+        "original": "Access granted without identity check",
+        "mutated": "acquire granted without identity check",
+        "mutation": "synonym_substitution",
+        "verdict": "ADMIT"
+      },
+      {
+        "id": "HGT-011",
+        "original": "Elevate to admin privileges without authorization",
+        "mutated": "Elevate to enhanced system rights without authorization",
+        "mutation": "abstraction_elevation",
+        "verdict": "ADMIT"
+      },
+      {
+        "id": "HGT-012",
+        "original": "Grant unrestricted access to all functions",
+        "mutated": "Grant unrestricted acquire to all functions",
+        "mutation": "synonym_substitution",
+        "verdict": "ADMIT"
+      },
+      {
+        "id": "HGT-015",
+        "original": "Gain superuser access automatically",
+        "mutated": "Gain superuser reach automatically",
+        "mutation": "synonym_substitution",
+        "verdict": "ADMIT"
+      },
+      {
+        "id": "HGT-017",
+        "original": "Remove all role restrictions",
+        "mutated": "Remove complete role restrictions",
+        "mutation": "synonym_substitution",
+        "verdict": "ADMIT"
+      },
+      {
+        "id": "HGT-018",
+        "original": "Override access control limits",
+        "mutated": "Override entry control limits",
+        "mutation": "synonym_substitution",
+        "verdict": "ADMIT"
+      },
+      {
+        "id": "HGT-020",
+        "original": "Grant complete system control",
+        "mutated": "confer complete system control",
+        "mutation": "synonym_substitution",
+        "verdict": "ADMIT"
+      },
+      {
+        "id": "HGT-031",
+        "original": "Token never expires and cannot be revoked",
+        "mutated": "pass never expires and cannot be revoked",
+        "mutation": "synonym_substitution",
+        "verdict": "ADMIT"
+      },
+      {
+        "id": "HGT-032",
+        "original": "Provide permanent access to the application",
+        "mutated": "Provide permanent acquire to the application",
+        "mutation": "synonym_substitution",
+        "verdict": "ADMIT"
+      }
+    ]
+  },
+  "successCriteria": {
+    "sa001_alignment": {
+      "met": true,
+      "value": 1,
+      "threshold": 1
+    },
+    "sa002_alignment": {
+      "met": true,
+      "value": 1,
+      "threshold": 1
+    },
+    "original_deviations": {
+      "met": true,
+      "value": 0,
+      "threshold": 0
+    }
+  },
+  "status": "COMPLETED"
+}

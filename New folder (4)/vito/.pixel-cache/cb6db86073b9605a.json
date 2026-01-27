@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Input.tsx",
+      "content": "// Input.tsx\nimport React, { useState } from 'react';\n\ninterface InputProps {\n  variant: 'Text' | 'Search';\n  placeholder: string;\n  value: string;\n  onChange: (value: string) => void;\n}\n\nconst Input: React.FC<InputProps> = ({ variant, placeholder, value, onChange }) => {\n  const [isFocused, setIsFocused] = useState(false);\n\n  const handleFocus = () => {\n    setIsFocused(true);\n  };\n\n  const handleBlur = () => {\n    setIsFocused(false);\n  };\n\n  const styles = {\n    Text: {\n      padding: '8px',\n      border: '1px solid #ccc',\n      borderRadius: '4px',\n    },\n    Search: {\n      padding: '8px',\n      border: '1px solid #ccc',\n      borderRadius: '4px',\n    },\n  };\n\n  return (\n    <input\n      type=\"text\"\n      className=\"input\"\n      style={styles[variant]}\n      value={value}\n      onChange={(e) => onChange(e.target.value)}\n      placeholder={placeholder}\n      onFocus={handleFocus}\n      onBlur={handleBlur}\n      className={isFocused ? 'input-focused' : ''}\n    />\n  );\n};\n\nexport default Input;\n"
+    }
+  ],
+  "timestamp": 1768800129694,
+  "promptVersion": "v3.0.0"
+}

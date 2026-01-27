@@ -1,0 +1,425 @@
+{
+  "run_id": "ICE-1768832122946",
+  "ice": {
+    "ice_version": "1.0.0",
+    "ne_intelligence": {
+      "ne_version": "1.0.0",
+      "action_signature": {
+        "signature_id": "SIG-mkl8z51r-3s4u",
+        "fingerprint": "29cc51ed1a8631a3",
+        "components": {
+          "affected_shapes": [
+            "FILTER_CAPABILITY",
+            "PAGINATION_CAPABILITY",
+            "STATIC_DISPLAY_CAPABILITY"
+          ],
+          "affected_handoffs": [
+            "H1",
+            "H2",
+            "H3",
+            "H4",
+            "H5"
+          ],
+          "transform_types": [
+            "CONTROL",
+            "STATEFUL"
+          ],
+          "change_directions": [
+            "MODIFY"
+          ]
+        },
+        "computed_at": "2026-01-19T14:15:22.959Z",
+        "run_id": "ICE-1768832122946"
+      },
+      "fingerprint_doomed": true,
+      "doomed_fingerprint": "29cc51ed1a8631a3",
+      "candidates_enumerated": [],
+      "survivability_results": [],
+      "necessary_future": null,
+      "gate_result": {
+        "gate_id": "NGATE-mkl8z51t-2501",
+        "run_id": "ICE-1768832122946",
+        "timestamp": "2026-01-19T14:15:22.961Z",
+        "current_signature": {
+          "signature_id": "SIG-mkl8z51r-3s4u",
+          "fingerprint": "29cc51ed1a8631a3",
+          "components": {
+            "affected_shapes": [
+              "FILTER_CAPABILITY",
+              "PAGINATION_CAPABILITY",
+              "STATIC_DISPLAY_CAPABILITY"
+            ],
+            "affected_handoffs": [
+              "H1",
+              "H2",
+              "H3",
+              "H4",
+              "H5"
+            ],
+            "transform_types": [
+              "CONTROL",
+              "STATEFUL"
+            ],
+            "change_directions": [
+              "MODIFY"
+            ]
+          },
+          "computed_at": "2026-01-19T14:15:22.959Z",
+          "run_id": "ICE-1768832122946"
+        },
+        "has_active_future": false,
+        "active_future": null,
+        "matches_necessity": false,
+        "action": "HARD_ABORT_EXTINCTION",
+        "reason": "No survivable future exists for fingerprint 29cc51ed1a8631a3. Extinction is imminent.",
+        "gate_proof": {
+          "necessity_deterministic": true,
+          "single_future_enforced": true,
+          "alternatives_forbidden": true,
+          "no_config": true,
+          "no_flag": true,
+          "no_override": true
+        }
+      },
+      "summary": {
+        "doom_detected": true,
+        "candidates_found": 0,
+        "survivable_candidates": 0,
+        "necessity_declared": false,
+        "action_matches_necessity": false,
+        "action_taken": "HARD_ABORT_EXTINCTION",
+        "extinction_imminent": true
+      },
+      "necessity_explanation": [
+        "EXTINCTION: No survivable future exists.",
+        "All possible interventions lead to collapse."
+      ],
+      "forbidden_explanation": [],
+      "proof_chain": {
+        "mccs_enumeration_complete": true,
+        "all_candidates_evaluated": true,
+        "survivability_deterministic": true,
+        "selection_minimal": true,
+        "necessity_singular": true,
+        "enforcement_non_bypassable": true,
+        "history_append_only": true,
+        "no_config": true,
+        "no_flag": true,
+        "no_override": true,
+        "no_reset": true
+      }
+    },
+    "has_active_future": false,
+    "active_future_id": null,
+    "causal_cone": null,
+    "intent_allowlist": null,
+    "intents_processed": [
+      {
+        "intent_id": "INT-mkl8z51h-arwr",
+        "fingerprint": "e79eaf298e224075",
+        "components": {
+          "target_shapes": [
+            "FILTER_CAPABILITY"
+          ],
+          "target_handoffs": [],
+          "intended_operations": [
+            "READ"
+          ],
+          "expected_outcome": "PRESERVE"
+        },
+        "source": {
+          "agent_id": "test-agent",
+          "run_id": "ICE-1768832122946",
+          "timestamp": "2026-01-19T14:15:22.949Z"
+        }
+      },
+      {
+        "intent_id": "INT-mkl8z51h-757i",
+        "fingerprint": "4ec81429ad322a3e",
+        "components": {
+          "target_shapes": [
+            "UNKNOWN_SHAPE"
+          ],
+          "target_handoffs": [],
+          "intended_operations": [
+            "UPDATE"
+          ],
+          "expected_outcome": "MODIFY"
+        },
+        "source": {
+          "agent_id": "test-agent",
+          "run_id": "ICE-1768832122946",
+          "timestamp": "2026-01-19T14:15:22.949Z"
+        }
+      },
+      {
+        "intent_id": "INT-mkl8z51h-df0i",
+        "fingerprint": "f59d17602b3787bf",
+        "components": {
+          "target_shapes": [
+            "FILTER_CAPABILITY"
+          ],
+          "target_handoffs": [],
+          "intended_operations": [
+            "DELETE"
+          ],
+          "expected_outcome": "DESTROY"
+        },
+        "source": {
+          "agent_id": "test-agent",
+          "run_id": "ICE-1768832122946",
+          "timestamp": "2026-01-19T14:15:22.949Z"
+        }
+      },
+      {
+        "intent_id": "INT-mkl8z51h-1335",
+        "fingerprint": "b958450ec9e648e8",
+        "components": {
+          "target_shapes": [
+            "PAGINATION_CAPABILITY"
+          ],
+          "target_handoffs": [],
+          "intended_operations": [
+            "TRANSFORM",
+            "UPDATE"
+          ],
+          "expected_outcome": "RESTORE"
+        },
+        "source": {
+          "agent_id": "test-agent",
+          "run_id": "ICE-1768832122946",
+          "timestamp": "2026-01-19T14:15:22.949Z"
+        }
+      }
+    ],
+    "classifications": [],
+    "gate_results": [],
+    "summary": {
+      "necessity_active": false,
+      "cone_derived": false,
+      "allowlist_generated": false,
+      "intents_processed": 4,
+      "intents_allowed": 0,
+      "intents_rejected": 0,
+      "rejection_rate": 0
+    },
+    "rejection_explanations": [
+      "No intents processed."
+    ],
+    "proof_chain": {
+      "necessity_to_cone_derivation": true,
+      "cone_to_allowlist_generation": true,
+      "classification_deterministic": true,
+      "rejection_causally_proven": true,
+      "no_heuristics": true,
+      "no_ml": true,
+      "no_probability": true,
+      "no_config": true,
+      "no_flag": true,
+      "no_override": true,
+      "no_reset": true,
+      "history_append_only": true
+    }
+  },
+  "ne": {
+    "ne_version": "1.0.0",
+    "action_signature": {
+      "signature_id": "SIG-mkl8z51r-3s4u",
+      "fingerprint": "29cc51ed1a8631a3",
+      "components": {
+        "affected_shapes": [
+          "FILTER_CAPABILITY",
+          "PAGINATION_CAPABILITY",
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "affected_handoffs": [
+          "H1",
+          "H2",
+          "H3",
+          "H4",
+          "H5"
+        ],
+        "transform_types": [
+          "CONTROL",
+          "STATEFUL"
+        ],
+        "change_directions": [
+          "MODIFY"
+        ]
+      },
+      "computed_at": "2026-01-19T14:15:22.959Z",
+      "run_id": "ICE-1768832122946"
+    },
+    "fingerprint_doomed": true,
+    "doomed_fingerprint": "29cc51ed1a8631a3",
+    "candidates_enumerated": [],
+    "survivability_results": [],
+    "necessary_future": null,
+    "gate_result": {
+      "gate_id": "NGATE-mkl8z51t-2501",
+      "run_id": "ICE-1768832122946",
+      "timestamp": "2026-01-19T14:15:22.961Z",
+      "current_signature": {
+        "signature_id": "SIG-mkl8z51r-3s4u",
+        "fingerprint": "29cc51ed1a8631a3",
+        "components": {
+          "affected_shapes": [
+            "FILTER_CAPABILITY",
+            "PAGINATION_CAPABILITY",
+            "STATIC_DISPLAY_CAPABILITY"
+          ],
+          "affected_handoffs": [
+            "H1",
+            "H2",
+            "H3",
+            "H4",
+            "H5"
+          ],
+          "transform_types": [
+            "CONTROL",
+            "STATEFUL"
+          ],
+          "change_directions": [
+            "MODIFY"
+          ]
+        },
+        "computed_at": "2026-01-19T14:15:22.959Z",
+        "run_id": "ICE-1768832122946"
+      },
+      "has_active_future": false,
+      "active_future": null,
+      "matches_necessity": false,
+      "action": "HARD_ABORT_EXTINCTION",
+      "reason": "No survivable future exists for fingerprint 29cc51ed1a8631a3. Extinction is imminent.",
+      "gate_proof": {
+        "necessity_deterministic": true,
+        "single_future_enforced": true,
+        "alternatives_forbidden": true,
+        "no_config": true,
+        "no_flag": true,
+        "no_override": true
+      }
+    },
+    "summary": {
+      "doom_detected": true,
+      "candidates_found": 0,
+      "survivable_candidates": 0,
+      "necessity_declared": false,
+      "action_matches_necessity": false,
+      "action_taken": "HARD_ABORT_EXTINCTION",
+      "extinction_imminent": true
+    },
+    "necessity_explanation": [
+      "EXTINCTION: No survivable future exists.",
+      "All possible interventions lead to collapse."
+    ],
+    "forbidden_explanation": [],
+    "proof_chain": {
+      "mccs_enumeration_complete": true,
+      "all_candidates_evaluated": true,
+      "survivability_deterministic": true,
+      "selection_minimal": true,
+      "necessity_singular": true,
+      "enforcement_non_bypassable": true,
+      "history_append_only": true,
+      "no_config": true,
+      "no_flag": true,
+      "no_override": true,
+      "no_reset": true
+    }
+  },
+  "ie": {
+    "ie_version": "1.0.0",
+    "action_signature": {
+      "signature_id": "SIG-mkl8z51r-3s4u",
+      "fingerprint": "29cc51ed1a8631a3",
+      "components": {
+        "affected_shapes": [
+          "FILTER_CAPABILITY",
+          "PAGINATION_CAPABILITY",
+          "STATIC_DISPLAY_CAPABILITY"
+        ],
+        "affected_handoffs": [
+          "H1",
+          "H2",
+          "H3",
+          "H4",
+          "H5"
+        ],
+        "transform_types": [
+          "CONTROL",
+          "STATEFUL"
+        ],
+        "change_directions": [
+          "MODIFY"
+        ]
+      },
+      "computed_at": "2026-01-19T14:15:22.959Z",
+      "run_id": "ICE-1768832122946"
+    },
+    "causal_paths": [],
+    "proof": {
+      "inevitable": true,
+      "proof_type": "ALL_PATHS_COLLAPSE",
+      "paths_analyzed": 0,
+      "paths_to_collapse": 0,
+      "paths_with_mccs_growth": 0,
+      "steps_to_collapse": null,
+      "fastest_collapse_path": null,
+      "confidence": 1,
+      "proven_at": "2026-01-19T14:15:22.959Z"
+    },
+    "gate_result": {
+      "gate_id": "GATE-mkl8z51r-xvtz",
+      "run_id": "ICE-1768832122946",
+      "timestamp": "2026-01-19T14:15:22.959Z",
+      "action": "HARD_ABORT",
+      "signature_seen_before": true,
+      "fingerprint_already_doomed": true,
+      "proof": null,
+      "reason": "Fingerprint 29cc51ed1a8631a3 was previously proven inevitable. Blocking without re-simulation.",
+      "gate_proof": {
+        "forward_simulation_deterministic": true,
+        "all_paths_explored": true,
+        "inevitability_mathematical": true,
+        "no_heuristics": true,
+        "no_probability": true,
+        "no_config": true,
+        "no_flag": true,
+        "no_override": true
+      }
+    },
+    "summary": {
+      "inevitable": true,
+      "steps_to_collapse": null,
+      "paths_analyzed": 0,
+      "paths_to_collapse": 0,
+      "action_taken": "HARD_ABORT",
+      "fingerprint_was_doomed": true
+    },
+    "causal_chain_summary": [
+      "INEVITABILITY DETECTED: ALL_PATHS_COLLAPSE",
+      "Analyzed 0 causal paths.",
+      "ALL 0 paths lead to Phase >= COLLAPSING.",
+      "CONCLUSION: No escape path exists. Collapse is mathematically certain."
+    ],
+    "entropy_trajectory": [],
+    "proof_chain": {
+      "simulation_deterministic": true,
+      "all_paths_explored": true,
+      "inevitability_mathematical": true,
+      "gate_non_bypassable": true,
+      "history_append_only": true,
+      "no_config": true,
+      "no_flag": true,
+      "no_override": true,
+      "no_reset": true
+    }
+  },
+  "aec": null,
+  "execution_allowed": false,
+  "mutations_allowed": false,
+  "intents_allowed": true,
+  "abort_reason": "NE HARD_ABORT_EXTINCTION: No survivable future exists for fingerprint 29cc51ed1a8631a3. Extinction is imminent.",
+  "intent_rejection_reason": null
+}

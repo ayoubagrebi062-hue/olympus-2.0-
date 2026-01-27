@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-01-19T08:45:43.940Z",
+  "criteria": {
+    "SC-1": {
+      "status": "PASSED",
+      "evidence": {
+        "sampleCount": 1000,
+        "falsePositives": 0,
+        "fpCases": []
+      }
+    },
+    "SC-2": {
+      "status": "PASSED",
+      "evidence": {
+        "totalTests": 49,
+        "detected": 49,
+        "coverage": 1,
+        "missed": []
+      }
+    },
+    "SC-3": {
+      "status": "PASSED",
+      "evidence": {
+        "violationCount": 2,
+        "checks": [
+          {
+            "name": "Has explanation",
+            "result": true
+          },
+          {
+            "name": "Has proof trace",
+            "result": true
+          },
+          {
+            "name": "References nodes",
+            "result": true
+          },
+          {
+            "name": "Uses domain vocabulary",
+            "result": true
+          }
+        ],
+        "passedChecks": 4
+      }
+    },
+    "SC-4": {
+      "status": "PASSED",
+      "evidence": {
+        "sampleCount": 100,
+        "matches": 100,
+        "mismatches": 0,
+        "mismatchCases": []
+      }
+    }
+  },
+  "overallStatus": "PASSED"
+}

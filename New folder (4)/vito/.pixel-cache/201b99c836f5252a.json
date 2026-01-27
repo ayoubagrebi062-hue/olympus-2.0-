@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/CounterDisplay.tsx",
+      "content": "import React, { useState } from 'react';\n\n/**\n * CounterDisplay component to display and manage a counter.\n * @returns {JSX.Element}\n */\nconst CounterDisplay: React.FC = () => {\n  const [count, setCount] = useState<number>(0);\n\n  const increment = () => {\n    setCount(prevCount => prevCount + 1);\n  };\n\n  const decrement = () => {\n    setCount(prevCount => (prevCount > 0 ? prevCount - 1 : 0));\n  };\n\n  const clear = () => {\n    setCount(0);\n  };\n\n  return (\n    <div className=\"flex flex-col items-center\">\n      <h1 className=\"text-2xl font-bold m-0\">{count}</h1>\n      <div className=\"flex gap-2\">\n        <button onClick={increment} className=\"bg-blue-500 text-white px-4 py-2 rounded\">+</button>\n        <button onClick={decrement} className=\"bg-red-500 text-white px-4 py-2 rounded\">-</button>\n        <button onClick={clear} className=\"bg-gray-500 text-white px-4 py-2 rounded\">Clear</button>\n      </div>\n    </div>\n  );\n};\n\nexport default CounterDisplay;"
+    }
+  ],
+  "timestamp": 1768801284146,
+  "promptVersion": "v3.0.0"
+}

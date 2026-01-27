@@ -1,0 +1,117 @@
+{
+  "version": "1.0.0",
+  "effectiveDate": "2026-01-18",
+  "description": "Governance baseline contract - declares expected normality ranges for observed signals",
+  "appendOnly": true,
+
+  "observationWindow": {
+    "duration": "30 days",
+    "minimumSignals": 5,
+    "notes": "Rolling window for baseline evaluation. Minimum signals required for statistical significance."
+  },
+
+  "baselines": {
+    "human_override": {
+      "expectedRange": {
+        "min": 0,
+        "max": 3
+      },
+      "notes": "Human overrides should be rare events (0-3 per window). Each override represents intentional bypass of governance controls.",
+      "context": "Higher counts may indicate either legitimate critical decisions or governance friction requiring attention."
+    },
+
+    "ethical_veto": {
+      "expectedRange": {
+        "min": 0,
+        "max": 5
+      },
+      "notes": "Ethical vetos indicate the ethical layer is functioning. Expected range of 0-5 per observation window.",
+      "context": "Zero vetos may indicate the ethical layer is not triggered. Consistently high vetos suggest system design issues."
+    },
+
+    "tier_violation": {
+      "expectedRange": {
+        "min": 0,
+        "max": 2
+      },
+      "notes": "Tier boundary violations should be minimal (0-2 per window). Violations indicate code structure misalignment with governance tiers.",
+      "context": "Zero violations in early deployment is unrealistic. Consistent violations require tier classification review."
+    },
+
+    "ambiguity_failure": {
+      "expectedRange": {
+        "min": 0,
+        "max": 4
+      },
+      "notes": "Ambiguity failures arise from mixed-tier code or unclassified files. Expected 0-4 per window.",
+      "context": "High ambiguity indicates architectural boundaries are not clear. This is a design signal, not a code defect."
+    },
+
+    "repeated_pattern": {
+      "expectedRange": {
+        "min": 0,
+        "max": 1
+      },
+      "notes": "Repeated patterns (≥3 occurrences) suggest systemic issues. Expected 0-1 unique pattern per window.",
+      "context": "Multiple repeated patterns indicate structural problems that should be addressed at the root cause level."
+    }
+  },
+
+  "aggregateExpectations": {
+    "totalSignalsPerWindow": {
+      "expectedRange": {
+        "min": 2,
+        "max": 15
+      },
+      "notes": "Total governance signals should remain within healthy operational bounds. Very low counts may indicate governance is not engaged; very high counts may indicate system friction."
+    },
+
+    "signalRatio": {
+      "enforcementSignals": {
+        "expectedPercentage": {
+          "min": 10,
+          "max": 40
+        },
+        "notes": "Tier violations + ethical vetos should be 10-40% of all signals. Higher ratios suggest governance is blocking too frequently."
+      },
+
+      "overrideSignals": {
+        "expectedPercentage": {
+          "min": 0,
+          "max": 20
+        },
+        "notes": "Human overrides should be 0-20% of all signals. Higher ratios indicate excessive bypass activity."
+      }
+    }
+  },
+
+  "context": {
+    "deploymentStage": "early-deployment",
+    "systemMaturity": "establishing",
+    "notes": "This baseline is calibrated for early-stage deployment where governance patterns are still emerging. Expect higher signal variance. Adjust ranges after 90 days of operational data."
+  },
+
+  "interpretationGuidelines": {
+    "withinRange": "Signals are within expected normality. No action required unless persistent trends emerge.",
+    "belowRange": "Signals below minimum may indicate governance is not being triggered (design review recommended).",
+    "aboveRange": "Signals above maximum indicate deviation from expected normality. Review context before action. Not all deviations are problems.",
+    "trendingUp": "Consistent increase across multiple windows may require governance design review.",
+    "trendingDown": "Consistent decrease may indicate governance improvements or reduced engagement (verify)."
+  },
+
+  "humanIntent": {
+    "purpose": "This contract provides a reference frame for interpreting governance signals. It does not block or enforce anything. Humans use this baseline to contextualize observed governance behavior and make informed decisions.",
+    "usage": "Compare governance-signals.json summary against these baselines. Deviations prompt review, not automatic action."
+  },
+
+  "history": [
+    {
+      "version": "1.0.0",
+      "effectiveDate": "2026-01-18",
+      "changeLog": "Initial baseline established. Conservative ranges set for early deployment stage."
+    }
+  ],
+
+  "lastModified": "2026-01-18",
+  "maintainedBy": "Governance Team"
+}

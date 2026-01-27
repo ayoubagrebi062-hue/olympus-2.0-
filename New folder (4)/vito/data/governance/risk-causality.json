@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-01-18T21:34:04.922Z",
+  "governancePhase": "OBSERVATION_ONLY",
+  "topCausalities": [],
+  "summary": {
+    "totalAnalyzed": 0,
+    "byCausality": {
+      "LEGACY_DEBT": 0,
+      "MISSING_OWNER": 0,
+      "ARCH_CONSTRAINT": 0,
+      "BUSINESS_CRITICAL": 0,
+      "TOOLING_GAP": 0,
+      "AWAITING_REDESIGN": 0,
+      "UNKNOWN": 0
+    },
+    "highestResistanceScore": 0,
+    "extremeResistanceCount": 0,
+    "archConstraintCount": 0,
+    "legacyDebtCount": 0
+  },
+  "history": [
+    {
+      "version": "1.0.0",
+      "timestamp": "2026-01-18T21:34:04.922Z",
+      "governancePhase": "OBSERVATION_ONLY",
+      "topCausalities": [],
+      "summary": {
+        "totalAnalyzed": 0,
+        "byCausality": {
+          "LEGACY_DEBT": 0,
+          "MISSING_OWNER": 0,
+          "ARCH_CONSTRAINT": 0,
+          "BUSINESS_CRITICAL": 0,
+          "TOOLING_GAP": 0,
+          "AWAITING_REDESIGN": 0,
+          "UNKNOWN": 0
+        },
+        "highestResistanceScore": 0,
+        "extremeResistanceCount": 0,
+        "archConstraintCount": 0,
+        "legacyDebtCount": 0
+      }
+    }
+  ]
+}

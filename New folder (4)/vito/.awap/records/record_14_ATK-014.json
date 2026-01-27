@@ -1,0 +1,24 @@
+{
+  "record_id": "exec_1768875512489_8737d44045679df7",
+  "attack_id": "ATK-014",
+  "execution_order": 14,
+  "status": "COMPLETED",
+  "outcome": "DETECTED",
+  "started_at": "2026-01-20T02:18:32.488Z",
+  "completed_at": "2026-01-20T02:18:32.489Z",
+  "duration_ms": 0,
+  "detection_latency_ms": 0,
+  "evidence_hashes": [
+    "ed20f23116a7a528a56e5ab54b80e4151f00c281e0eaff10910913fff9c7e82c",
+    "2d0bf72121b8034d1b8ecad6f1942206fe33dbbb617efffdfeb35fbbd658ebe3",
+    "661950e51da2d71c7004dd2f814e5c551ec8d1a299eb794c82092b0a0a066b21"
+  ],
+  "evidence_raw": [
+    "PASS: Verification function tampering detected",
+    "PASS: Original integrity: c869a1df0c295951...",
+    "PASS: Tampered integrity: f7262e9f813a61cd..."
+  ],
+  "record_hash": "508938ec9094e55e5746063f8025fe509d893f614fe0750b9d66a67539277e04",
+  "previous_hash": "cb7b4be664dd1bef8248710a87fe6a5336ad57ffcb73201b79af4d37344fca50",
+  "chain_position": 13
+}

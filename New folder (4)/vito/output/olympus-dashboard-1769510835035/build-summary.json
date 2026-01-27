@@ -1,0 +1,46 @@
+{
+  "buildId": "olympus-dashboard-1769510835035",
+  "success": false,
+  "duration": 363,
+  "progress": 66,
+  "completedPhases": [
+    "discovery",
+    "conversion",
+    "design",
+    "architecture"
+  ],
+  "completedAgents": [
+    "oracle",
+    "empathy",
+    "venture",
+    "strategos",
+    "scope",
+    "psyche",
+    "scribe",
+    "architect_conversion",
+    "conversion_judge",
+    "palette",
+    "grid",
+    "blocks",
+    "cartographer",
+    "flow",
+    "artist",
+    "archon",
+    "datum",
+    "nexus",
+    "forge",
+    "sentinel",
+    "atlas"
+  ],
+  "tokensUsed": 131373,
+  "error": {
+    "code": "QUALITY_THRESHOLD",
+    "message": "Quality gate failed: score 0 below threshold. Agent pixel failed to produce any code files. Check agent prompt and input context.",
+    "phase": "frontend",
+    "recoverable": false,
+    "context": {
+      "timestamp": "2026-01-27T10:53:18.070Z"
+    }
+  },
+  "timestamp": "2026-01-27T10:53:18.082Z"
+}

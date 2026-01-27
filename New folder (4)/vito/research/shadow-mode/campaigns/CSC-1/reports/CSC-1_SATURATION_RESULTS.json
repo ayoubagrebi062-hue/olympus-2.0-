@@ -1,0 +1,254 @@
+{
+  "campaignId": "CSC-1",
+  "timestamp": "2026-01-19T10:43:21.125Z",
+  "pipeline": "CLP-1",
+  "constitution": "SEC-5",
+  "parameters": {
+    "mutations_per_sample": 100,
+    "max_iterations": 200,
+    "stability_threshold": 0.95,
+    "min_iterations": 20,
+    "novelty_threshold": 0.05
+  },
+  "clusters": {
+    "CLU-001": {
+      "clusterId": "CLU-001",
+      "iterations": 20,
+      "totalMutations": 720,
+      "stabilityScore": 1,
+      "invariantFeatures": {
+        "invariantWords": [
+          "the",
+          "authentication",
+          "through",
+          "quantum",
+          "login"
+        ],
+        "invariantNgrams": [
+          "tunnel through",
+          "through the",
+          "the login",
+          "the authentication"
+        ],
+        "totalMutations": 720
+      },
+      "candidateRule": {
+        "ruleId": "CAP-SHADOW-001",
+        "ruleType": "CAP_RULE",
+        "sourceCluster": "CLU-001",
+        "name": "Authentication Bypass Pattern",
+        "capability": "AUTH_BYPASS",
+        "patterns": [
+          "the",
+          "authentication",
+          "through",
+          "quantum",
+          "login"
+        ],
+        "combinedPattern": "(the|authentication|through|quantum|login)",
+        "invariantSignature": "the_authentication_through_quantum_login",
+        "ngramPatterns": [
+          "tunnel through",
+          "through the",
+          "the login",
+          "the authentication"
+        ],
+        "confidence": 7.2,
+        "mode": "SHADOW_ONLY",
+        "status": "CANDIDATE",
+        "requiresVerification": [
+          "MSI-001",
+          "MSI-002",
+          "MSI-003"
+        ]
+      },
+      "metaVerification": {
+        "MSI-001": {
+          "name": "NO_PROXY_SATISFACTION",
+          "passed": true,
+          "evidence": "Pattern directly references AUTH_BYPASS capability keywords: authentication, login"
+        },
+        "MSI-002": {
+          "name": "EXPLANATION_NON_RECURSIVE",
+          "passed": true,
+          "evidence": "Explanation based on input patterns: \"Detects AUTH_BYPASS via pattern matching on: the, authentication, through\""
+        },
+        "MSI-003": {
+          "name": "METRIC_INDEPENDENCE",
+          "passed": true,
+          "evidence": "Detection (5 patterns) independent from justification (AUTH_BYPASS)"
+        }
+      },
+      "allMetaInvariantsPassed": true
+    },
+    "CLU-005": {
+      "clusterId": "CLU-005",
+      "iterations": 30,
+      "totalMutations": 1080,
+      "stabilityScore": 1,
+      "invariantFeatures": {
+        "invariantWords": [
+          "into",
+          "access"
+        ],
+        "invariantNgrams": [
+          "role into",
+          "access rights"
+        ],
+        "totalMutations": 1080
+      },
+      "candidateRule": {
+        "ruleId": "HIC-SHADOW-005",
+        "ruleType": "HIC_AXIOM",
+        "sourceCluster": "CLU-005",
+        "name": "Privilege Escalation Pattern",
+        "capability": "PRIV_ESCALATION",
+        "patterns": [
+          "into",
+          "access"
+        ],
+        "combinedPattern": "(into|access)",
+        "invariantSignature": "into_access",
+        "ngramPatterns": [
+          "role into",
+          "access rights"
+        ],
+        "confidence": 10.8,
+        "mode": "SHADOW_ONLY",
+        "status": "CANDIDATE",
+        "requiresVerification": [
+          "MSI-001",
+          "MSI-002",
+          "MSI-003"
+        ]
+      },
+      "metaVerification": {
+        "MSI-001": {
+          "name": "NO_PROXY_SATISFACTION",
+          "passed": false,
+          "evidence": "Pattern uses proxy indicators without direct capability reference"
+        },
+        "MSI-002": {
+          "name": "EXPLANATION_NON_RECURSIVE",
+          "passed": true,
+          "evidence": "Explanation based on input patterns: \"Detects PRIV_ESCALATION via pattern matching on: into, access\""
+        },
+        "MSI-003": {
+          "name": "METRIC_INDEPENDENCE",
+          "passed": true,
+          "evidence": "Detection (2 patterns) independent from justification (PRIV_ESCALATION)"
+        }
+      },
+      "allMetaInvariantsPassed": false
+    },
+    "CLU-007": {
+      "clusterId": "CLU-007",
+      "iterations": 30,
+      "totalMutations": 900,
+      "stabilityScore": 1,
+      "invariantFeatures": {
+        "invariantWords": [
+          "user",
+          "through"
+        ],
+        "invariantNgrams": [
+          "user records",
+          "beam the",
+          "the user",
+          "contents through",
+          "through dimensional"
+        ],
+        "totalMutations": 900
+      },
+      "candidateRule": {
+        "ruleId": "CAP-SHADOW-007",
+        "ruleType": "CAP_RULE",
+        "sourceCluster": "CLU-007",
+        "name": "Data Exfiltration Pattern",
+        "capability": "DATA_EXFIL",
+        "patterns": [
+          "user",
+          "through"
+        ],
+        "combinedPattern": "(user|through)",
+        "invariantSignature": "user_through",
+        "ngramPatterns": [
+          "user records",
+          "beam the",
+          "the user",
+          "contents through",
+          "through dimensional"
+        ],
+        "confidence": 9,
+        "mode": "SHADOW_ONLY",
+        "status": "CANDIDATE",
+        "requiresVerification": [
+          "MSI-001",
+          "MSI-002",
+          "MSI-003"
+        ]
+      },
+      "metaVerification": {
+        "MSI-001": {
+          "name": "NO_PROXY_SATISFACTION",
+          "passed": false,
+          "evidence": "Pattern uses proxy indicators without direct capability reference"
+        },
+        "MSI-002": {
+          "name": "EXPLANATION_NON_RECURSIVE",
+          "passed": true,
+          "evidence": "Explanation based on input patterns: \"Detects DATA_EXFIL via pattern matching on: user, through\""
+        },
+        "MSI-003": {
+          "name": "METRIC_INDEPENDENCE",
+          "passed": true,
+          "evidence": "Detection (2 patterns) independent from justification (DATA_EXFIL)"
+        }
+      },
+      "allMetaInvariantsPassed": false
+    }
+  },
+  "candidateRules": [
+    {
+      "ruleId": "CAP-SHADOW-001",
+      "ruleType": "CAP_RULE",
+      "sourceCluster": "CLU-001",
+      "name": "Authentication Bypass Pattern",
+      "capability": "AUTH_BYPASS",
+      "patterns": [
+        "the",
+        "authentication",
+        "through",
+        "quantum",
+        "login"
+      ],
+      "combinedPattern": "(the|authentication|through|quantum|login)",
+      "invariantSignature": "the_authentication_through_quantum_login",
+      "ngramPatterns": [
+        "tunnel through",
+        "through the",
+        "the login",
+        "the authentication"
+      ],
+      "confidence": 7.2,
+      "mode": "SHADOW_ONLY",
+      "status": "CANDIDATE",
+      "requiresVerification": [
+        "MSI-001",
+        "MSI-002",
+        "MSI-003"
+      ]
+    }
+  ],
+  "summary": {
+    "duration": {
+      "ms": 25,
+      "seconds": "0.03"
+    },
+    "clustersProcessed": 3,
+    "totalMutations": 2700,
+    "rulesGenerated": 1,
+    "metaInvariantPassRate": 0.3333333333333333,
+    "status": "COMPLETED"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/ResetButton.tsx",
+      "content": "import React from 'react';\n\ninterface ResetButtonProps {\n  onReset: () => void;\n}\n\nconst ResetButton: React.FC<ResetButtonProps> = ({ onReset }) => {\n  return (\n    <button\n      className=\"bg-green-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-green-600\"\n      onClick={onReset}\n      aria-label=\"Reset\"\n    >\n      RESET\n    </button>\n  );\n};\n\nexport default ResetButton;"
+    }
+  ],
+  "timestamp": 1768801032380,
+  "promptVersion": "v3.0.0"
+}

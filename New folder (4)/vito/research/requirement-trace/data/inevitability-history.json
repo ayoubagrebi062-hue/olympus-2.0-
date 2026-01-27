@@ -1,0 +1,442 @@
+{
+  "version": "1.0.0",
+  "created_at": "2026-01-19T13:31:52.744Z",
+  "last_record_at": "2026-01-19T20:07:42.296Z",
+  "records": [
+    {
+      "record_id": "IE-mkl7f70f-qtpq",
+      "run_id": "IE-1768829512744",
+      "timestamp": "2026-01-19T13:31:52.767Z",
+      "action_signature": {
+        "signature_id": "SIG-mkl7f704-83a4",
+        "fingerprint": "29cc51ed1a8631a3",
+        "components": {
+          "affected_shapes": [
+            "FILTER_CAPABILITY",
+            "PAGINATION_CAPABILITY",
+            "STATIC_DISPLAY_CAPABILITY"
+          ],
+          "affected_handoffs": [
+            "H1",
+            "H2",
+            "H3",
+            "H4",
+            "H5"
+          ],
+          "transform_types": [
+            "CONTROL",
+            "STATEFUL"
+          ],
+          "change_directions": [
+            "MODIFY"
+          ]
+        },
+        "computed_at": "2026-01-19T13:31:52.756Z",
+        "run_id": "IE-1768829512744"
+      },
+      "causal_paths": [
+        {
+          "path_id": "PATH-MCCS-mkl7f70b-257j05-mkl7f70c",
+          "origin_counterfactual": "MCCS-mkl7f70b-257j05",
+          "steps_simulated": 5,
+          "entropy_trajectory": [
+            0.5,
+            0.55,
+            0.6000000000000001,
+            0.65,
+            0.65,
+            0.65
+          ],
+          "phase_trajectory": [
+            "DECAYING",
+            "COLLAPSING",
+            "COLLAPSING",
+            "COLLAPSING",
+            "COLLAPSING",
+            "COLLAPSING"
+          ],
+          "mccs_trajectory": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "terminal_state": {
+            "phase": "COLLAPSING",
+            "entropy": 0.65,
+            "mccs_size": 6,
+            "step_reached": 5
+          },
+          "leads_to_collapse": true,
+          "mccs_grows_monotonically": true
+        },
+        {
+          "path_id": "PATH-MCCS-mkl7f70c-v961ng-mkl7f70d",
+          "origin_counterfactual": "MCCS-mkl7f70c-v961ng",
+          "steps_simulated": 5,
+          "entropy_trajectory": [
+            0.5,
+            0.55,
+            0.6000000000000001,
+            0.65,
+            0.65,
+            0.65
+          ],
+          "phase_trajectory": [
+            "DECAYING",
+            "COLLAPSING",
+            "COLLAPSING",
+            "COLLAPSING",
+            "COLLAPSING",
+            "COLLAPSING"
+          ],
+          "mccs_trajectory": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "terminal_state": {
+            "phase": "COLLAPSING",
+            "entropy": 0.65,
+            "mccs_size": 6,
+            "step_reached": 5
+          },
+          "leads_to_collapse": true,
+          "mccs_grows_monotonically": true
+        },
+        {
+          "path_id": "PATH-MCCS-mkl7f70c-1d0bjx-mkl7f70d",
+          "origin_counterfactual": "MCCS-mkl7f70c-1d0bjx",
+          "steps_simulated": 5,
+          "entropy_trajectory": [
+            0.5,
+            0.55,
+            0.6000000000000001,
+            0.65,
+            0.65,
+            0.65
+          ],
+          "phase_trajectory": [
+            "DECAYING",
+            "COLLAPSING",
+            "COLLAPSING",
+            "COLLAPSING",
+            "COLLAPSING",
+            "COLLAPSING"
+          ],
+          "mccs_trajectory": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "terminal_state": {
+            "phase": "COLLAPSING",
+            "entropy": 0.65,
+            "mccs_size": 6,
+            "step_reached": 5
+          },
+          "leads_to_collapse": true,
+          "mccs_grows_monotonically": true
+        },
+        {
+          "path_id": "PATH-NOACTION-mkl7f70d",
+          "origin_counterfactual": "NO_ACTION",
+          "steps_simulated": 5,
+          "entropy_trajectory": [
+            0.7294444444444446,
+            0.8469444444444444,
+            0.9144444444444444,
+            0.9319444444444445,
+            0.9494444444444443,
+            0.9669444444444444
+          ],
+          "phase_trajectory": [
+            "COLLAPSING",
+            "DEAD",
+            "DEAD",
+            "DEAD",
+            "DEAD",
+            "DEAD"
+          ],
+          "mccs_trajectory": [
+            1,
+            3,
+            5,
+            7,
+            9,
+            11
+          ],
+          "terminal_state": {
+            "phase": "DEAD",
+            "entropy": 0.9669444444444444,
+            "mccs_size": 11,
+            "step_reached": 5
+          },
+          "leads_to_collapse": true,
+          "mccs_grows_monotonically": true
+        }
+      ],
+      "proof": {
+        "inevitable": true,
+        "proof_type": "ALL_PATHS_COLLAPSE",
+        "paths_analyzed": 4,
+        "paths_to_collapse": 4,
+        "paths_with_mccs_growth": 4,
+        "steps_to_collapse": 0,
+        "fastest_collapse_path": "PATH-NOACTION-mkl7f70d",
+        "confidence": 1,
+        "proven_at": "2026-01-19T13:31:52.765Z"
+      },
+      "gate_result": "HARD_ABORT",
+      "context": {
+        "current_entropy": 0.3,
+        "current_phase": "COLLAPSING",
+        "current_mccs_size": 3,
+        "active_singularities": 1
+      },
+      "immutable": true,
+      "append_only": true
+    },
+    {
+      "record_id": "IE-mkl7fewq-a1yp",
+      "run_id": "IE-1768829522988",
+      "timestamp": "2026-01-19T13:32:03.002Z",
+      "action_signature": {
+        "signature_id": "SIG-mkl7fewp-7cm8",
+        "fingerprint": "29cc51ed1a8631a3",
+        "components": {
+          "affected_shapes": [
+            "FILTER_CAPABILITY",
+            "PAGINATION_CAPABILITY",
+            "STATIC_DISPLAY_CAPABILITY"
+          ],
+          "affected_handoffs": [
+            "H1",
+            "H2",
+            "H3",
+            "H4",
+            "H5"
+          ],
+          "transform_types": [
+            "CONTROL",
+            "STATEFUL"
+          ],
+          "change_directions": [
+            "MODIFY"
+          ]
+        },
+        "computed_at": "2026-01-19T13:32:03.001Z",
+        "run_id": "IE-1768829522988"
+      },
+      "causal_paths": [],
+      "proof": {
+        "inevitable": true,
+        "proof_type": "ALL_PATHS_COLLAPSE",
+        "paths_analyzed": 0,
+        "paths_to_collapse": 0,
+        "paths_with_mccs_growth": 0,
+        "steps_to_collapse": null,
+        "fastest_collapse_path": null,
+        "confidence": 1,
+        "proven_at": "2026-01-19T13:32:03.001Z"
+      },
+      "gate_result": "HARD_ABORT",
+      "context": {
+        "current_entropy": 0.3,
+        "current_phase": "COLLAPSING",
+        "current_mccs_size": 3,
+        "active_singularities": 1
+      },
+      "immutable": true,
+      "append_only": true
+    },
+    {
+      "record_id": "IE-mkl7uvw9-on74",
+      "run_id": "NE-1768830244843",
+      "timestamp": "2026-01-19T13:44:04.857Z",
+      "action_signature": {
+        "signature_id": "SIG-mkl7uvw8-xf9m",
+        "fingerprint": "29cc51ed1a8631a3",
+        "components": {
+          "affected_shapes": [
+            "FILTER_CAPABILITY",
+            "PAGINATION_CAPABILITY",
+            "STATIC_DISPLAY_CAPABILITY"
+          ],
+          "affected_handoffs": [
+            "H1",
+            "H2",
+            "H3",
+            "H4",
+            "H5"
+          ],
+          "transform_types": [
+            "CONTROL",
+            "STATEFUL"
+          ],
+          "change_directions": [
+            "MODIFY"
+          ]
+        },
+        "computed_at": "2026-01-19T13:44:04.856Z",
+        "run_id": "NE-1768830244843"
+      },
+      "causal_paths": [],
+      "proof": {
+        "inevitable": true,
+        "proof_type": "ALL_PATHS_COLLAPSE",
+        "paths_analyzed": 0,
+        "paths_to_collapse": 0,
+        "paths_with_mccs_growth": 0,
+        "steps_to_collapse": null,
+        "fastest_collapse_path": null,
+        "confidence": 1,
+        "proven_at": "2026-01-19T13:44:04.856Z"
+      },
+      "gate_result": "HARD_ABORT",
+      "context": {
+        "current_entropy": 0.3,
+        "current_phase": "COLLAPSING",
+        "current_mccs_size": 3,
+        "active_singularities": 1
+      },
+      "immutable": true,
+      "append_only": true
+    },
+    {
+      "record_id": "IE-mkl8z51s-b7u0",
+      "run_id": "ICE-1768832122946",
+      "timestamp": "2026-01-19T14:15:22.960Z",
+      "action_signature": {
+        "signature_id": "SIG-mkl8z51r-3s4u",
+        "fingerprint": "29cc51ed1a8631a3",
+        "components": {
+          "affected_shapes": [
+            "FILTER_CAPABILITY",
+            "PAGINATION_CAPABILITY",
+            "STATIC_DISPLAY_CAPABILITY"
+          ],
+          "affected_handoffs": [
+            "H1",
+            "H2",
+            "H3",
+            "H4",
+            "H5"
+          ],
+          "transform_types": [
+            "CONTROL",
+            "STATEFUL"
+          ],
+          "change_directions": [
+            "MODIFY"
+          ]
+        },
+        "computed_at": "2026-01-19T14:15:22.959Z",
+        "run_id": "ICE-1768832122946"
+      },
+      "causal_paths": [],
+      "proof": {
+        "inevitable": true,
+        "proof_type": "ALL_PATHS_COLLAPSE",
+        "paths_analyzed": 0,
+        "paths_to_collapse": 0,
+        "paths_with_mccs_growth": 0,
+        "steps_to_collapse": null,
+        "fastest_collapse_path": null,
+        "confidence": 1,
+        "proven_at": "2026-01-19T14:15:22.959Z"
+      },
+      "gate_result": "HARD_ABORT",
+      "context": {
+        "current_entropy": 0.3,
+        "current_phase": "COLLAPSING",
+        "current_mccs_size": 3,
+        "active_singularities": 1
+      },
+      "immutable": true,
+      "append_only": true
+    },
+    {
+      "record_id": "IE-mkllk89l-768j",
+      "run_id": "CIN-1768853262278",
+      "timestamp": "2026-01-19T20:07:42.297Z",
+      "action_signature": {
+        "signature_id": "SIG-mkllk89k-e2iq",
+        "fingerprint": "29cc51ed1a8631a3",
+        "components": {
+          "affected_shapes": [
+            "FILTER_CAPABILITY",
+            "PAGINATION_CAPABILITY",
+            "STATIC_DISPLAY_CAPABILITY"
+          ],
+          "affected_handoffs": [
+            "H1",
+            "H2",
+            "H3",
+            "H4",
+            "H5"
+          ],
+          "transform_types": [
+            "CONTROL",
+            "STATEFUL"
+          ],
+          "change_directions": [
+            "MODIFY"
+          ]
+        },
+        "computed_at": "2026-01-19T20:07:42.296Z",
+        "run_id": "CIN-1768853262278"
+      },
+      "causal_paths": [],
+      "proof": {
+        "inevitable": true,
+        "proof_type": "ALL_PATHS_COLLAPSE",
+        "paths_analyzed": 0,
+        "paths_to_collapse": 0,
+        "paths_with_mccs_growth": 0,
+        "steps_to_collapse": null,
+        "fastest_collapse_path": null,
+        "confidence": 1,
+        "proven_at": "2026-01-19T20:07:42.296Z"
+      },
+      "gate_result": "HARD_ABORT",
+      "context": {
+        "current_entropy": 0.3,
+        "current_phase": "COLLAPSING",
+        "current_mccs_size": 3,
+        "active_singularities": 1
+      },
+      "immutable": true,
+      "append_only": true
+    }
+  ],
+  "stats": {
+    "total_analyses": 5,
+    "total_aborts": 5,
+    "total_allows": 0,
+    "earliest_collapse_detected": 0,
+    "average_steps_to_collapse": 0
+  },
+  "signature_registry": {
+    "fingerprint_history": {
+      "29cc51ed1a8631a3": [
+        "SIG-mkl7f704-83a4",
+        "SIG-mkl7fewp-7cm8",
+        "SIG-mkl7uvw8-xf9m",
+        "SIG-mkl8z51r-3s4u",
+        "SIG-mkllk89k-e2iq"
+      ]
+    },
+    "doomed_fingerprints": [
+      "29cc51ed1a8631a3"
+    ]
+  }
+}

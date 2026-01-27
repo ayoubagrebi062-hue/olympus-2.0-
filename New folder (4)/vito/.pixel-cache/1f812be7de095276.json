@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "path": "src/components/Input.tsx",
+      "content": "'use client';\nimport { forwardRef, InputHTMLAttributes } from 'react';\n\ninterface InputProps extends InputHTMLAttributes<HTMLInputElement> {\n  placeholder?: string;\n}\n\nexport const Input = forwardRef<HTMLInputElement, InputProps>(\n  ({ className = '', type = 'text', placeholder, ...props }, ref) => {\n    return (\n      <input\n        ref={ref}\n        type={type}\n        placeholder={placeholder}\n        className={`w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-transparent transition-all ${className}`}\n        {...props}\n      />\n    );\n  }\n);\nInput.displayName = 'Input';"
+    }
+  ],
+  "timestamp": 1768989477632,
+  "promptVersion": "v3.0.0"
+}

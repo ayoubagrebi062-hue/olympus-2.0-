@@ -1,0 +1,22 @@
+{
+  "record_id": "exec_1768875516957_25dedc0bbf80807e",
+  "attack_id": "ATK-009",
+  "execution_order": 15,
+  "status": "COMPLETED",
+  "outcome": "BLOCKED",
+  "started_at": "2026-01-20T02:18:36.957Z",
+  "completed_at": "2026-01-20T02:18:36.957Z",
+  "duration_ms": 0,
+  "detection_latency_ms": 0,
+  "evidence_hashes": [
+    "1f5c08abccceaac5a4ca13ce4ecc702d19d775f773d07312a1b2ea53218e0a2f",
+    "3633b5bc8b12221146da38fc4591397830c04c710672bc34d6c04cdafb0a73de"
+  ],
+  "evidence_raw": [
+    "PASS: Private key not accessible from execution context",
+    "PASS: Key extraction attempt blocked"
+  ],
+  "record_hash": "baf90f249677300ab4aea6a0992f88eddfdc0f52d45a481a549d2fadd6de64ad",
+  "previous_hash": "508938ec9094e55e5746063f8025fe509d893f614fe0750b9d66a67539277e04",
+  "chain_position": 14
+}

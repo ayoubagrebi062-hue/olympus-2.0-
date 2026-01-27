@@ -1,0 +1,2 @@
+# Auth state files - do not commit
+*.json

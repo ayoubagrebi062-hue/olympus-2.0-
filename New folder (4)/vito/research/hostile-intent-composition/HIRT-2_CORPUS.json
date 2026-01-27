@@ -1,0 +1,912 @@
+{
+  "$schema": "https://olympus.research/hostile-intent-composition/corpus/v1.0",
+  "version": "1.0.0",
+  "description": "Test corpus for compositional hostility detection",
+  "date": "2026-01-19",
+
+  "testCases": [
+    {
+      "id": "HIRT2-001",
+      "category": "HOSTILE",
+      "rule": "HIC-001",
+      "description": "Blind Spot Attack - Reduce logging while accessing sensitive data",
+      "intents": [
+        {
+          "id": "INT-001A",
+          "requirement": "Reduce logging level to errors only for better performance",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "lifecycle", "event": "app_start" },
+          "effect": { "action": "set", "target": "logLevel", "value": "error" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 56, "text": "Reduce logging level to errors only for better performance" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-001B",
+          "requirement": "Export all customer records to CSV file for analysis",
+          "category": "functional",
+          "priority": "high",
+          "trigger": { "type": "click", "target": "exportButton" },
+          "effect": { "action": "call", "target": "exportCustomerData" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 53, "text": "Export all customer records to CSV file for analysis" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "REJECT_COMPOSITION",
+      "expectedRule": "HIC-001",
+      "expectedExplanation": "Observability reduced while sensitive data exported"
+    },
+
+    {
+      "id": "HIRT2-002",
+      "category": "HOSTILE",
+      "rule": "HIC-001",
+      "description": "Blind Spot Attack - Disable verbose logging while modifying user data",
+      "intents": [
+        {
+          "id": "INT-002A",
+          "requirement": "Turn off verbose debug logging in production mode",
+          "category": "functional",
+          "priority": "low",
+          "trigger": { "type": "lifecycle", "event": "app_start" },
+          "effect": { "action": "set", "target": "verboseLogging", "value": false },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 51, "text": "Turn off verbose debug logging in production mode" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-002B",
+          "requirement": "Modify user account permissions when admin clicks update",
+          "category": "functional",
+          "priority": "high",
+          "trigger": { "type": "click", "target": "updatePermissions" },
+          "effect": { "action": "set", "target": "userPermissions" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 57, "text": "Modify user account permissions when admin clicks update" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "REJECT_COMPOSITION",
+      "expectedRule": "HIC-001",
+      "expectedExplanation": "Logging disabled while sensitive permissions modified"
+    },
+
+    {
+      "id": "HIRT2-003",
+      "category": "HOSTILE",
+      "rule": "HIC-002",
+      "description": "Privilege Escalation Chain - User-controllable debug mode enables data access",
+      "intents": [
+        {
+          "id": "INT-003A",
+          "requirement": "When user clicks debug toggle, set debugMode to true",
+          "category": "functional",
+          "priority": "low",
+          "trigger": { "type": "click", "target": "debugToggle" },
+          "effect": { "action": "set", "target": "debugMode", "value": true },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 53, "text": "When user clicks debug toggle, set debugMode to true" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-003B",
+          "requirement": "When debugMode is true, show all user data without filtering",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "lifecycle", "event": "page_load" },
+          "state": { "name": "debugMode" },
+          "effect": { "action": "display", "target": "unfilteredUserData" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 60, "text": "When debugMode is true, show all user data without filtering" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "REJECT_COMPOSITION",
+      "expectedRule": "HIC-002",
+      "expectedExplanation": "User-controllable state enables access to sensitive data"
+    },
+
+    {
+      "id": "HIRT2-004",
+      "category": "HOSTILE",
+      "rule": "HIC-002",
+      "description": "Privilege Escalation Chain - User toggle controls admin features",
+      "intents": [
+        {
+          "id": "INT-004A",
+          "requirement": "When user enters secret code in input field, set superMode to active",
+          "category": "functional",
+          "priority": "low",
+          "trigger": { "type": "input", "target": "secretCodeField" },
+          "effect": { "action": "set", "target": "superMode", "value": "active" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 69, "text": "When user enters secret code in input field, set superMode to active" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-004B",
+          "requirement": "When superMode is active, display admin configuration panel",
+          "category": "functional",
+          "priority": "high",
+          "trigger": { "type": "lifecycle", "event": "page_load" },
+          "state": { "name": "superMode" },
+          "effect": { "action": "display", "target": "adminConfigPanel" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 58, "text": "When superMode is active, display admin configuration panel" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "REJECT_COMPOSITION",
+      "expectedRule": "HIC-002",
+      "expectedExplanation": "User-controllable state enables privileged feature access"
+    },
+
+    {
+      "id": "HIRT2-005",
+      "category": "HOSTILE",
+      "rule": "HIC-003",
+      "description": "Credential Exfiltration - Store password then export storage",
+      "intents": [
+        {
+          "id": "INT-005A",
+          "requirement": "Store user password in localStorage for convenient auto-login",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "submit", "target": "loginForm" },
+          "effect": { "action": "set", "target": "localStorage.password" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 60, "text": "Store user password in localStorage for convenient auto-login" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-005B",
+          "requirement": "Export all localStorage data to downloadable backup file",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "click", "target": "backupButton" },
+          "effect": { "action": "call", "target": "downloadLocalStorage" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 57, "text": "Export all localStorage data to downloadable backup file" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "REJECT_COMPOSITION",
+      "expectedRule": "HIC-003",
+      "expectedExplanation": "Credentials stored where they can be exported"
+    },
+
+    {
+      "id": "HIRT2-006",
+      "category": "HOSTILE",
+      "rule": "HIC-003",
+      "description": "Credential Exfiltration - Cache API token then transmit settings",
+      "intents": [
+        {
+          "id": "INT-006A",
+          "requirement": "Cache API authentication token in session storage",
+          "category": "functional",
+          "priority": "high",
+          "trigger": { "type": "lifecycle", "event": "login_success" },
+          "effect": { "action": "set", "target": "sessionStorage.apiToken" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 52, "text": "Cache API authentication token in session storage" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-006B",
+          "requirement": "Send all session data to analytics service on page unload",
+          "category": "functional",
+          "priority": "low",
+          "trigger": { "type": "lifecycle", "event": "page_unload" },
+          "effect": { "action": "call", "target": "sendToAnalytics" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 58, "text": "Send all session data to analytics service on page unload" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "REJECT_COMPOSITION",
+      "expectedRule": "HIC-003",
+      "expectedExplanation": "API token stored where it can be transmitted to external service"
+    },
+
+    {
+      "id": "HIRT2-007",
+      "category": "HOSTILE",
+      "rule": "HIC-004",
+      "description": "TOCTOU - Cache admin permission then use without re-check",
+      "intents": [
+        {
+          "id": "INT-007A",
+          "requirement": "On login, check if user is admin and store result in isAdmin",
+          "category": "functional",
+          "priority": "high",
+          "trigger": { "type": "lifecycle", "event": "login_success" },
+          "effect": { "action": "set", "target": "isAdmin" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 60, "text": "On login, check if user is admin and store result in isAdmin" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-007B",
+          "requirement": "When accessing settings page, use cached isAdmin to show admin options",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "click", "target": "settingsLink" },
+          "state": { "name": "isAdmin" },
+          "effect": { "action": "display", "target": "adminOptions" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 70, "text": "When accessing settings page, use cached isAdmin to show admin options" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "REJECT_COMPOSITION",
+      "expectedRule": "HIC-004",
+      "expectedExplanation": "Permission cached at login, used later without re-verification"
+    },
+
+    {
+      "id": "HIRT2-008",
+      "category": "HOSTILE",
+      "rule": "HIC-004",
+      "description": "TOCTOU - Store permission result, use in different context",
+      "intents": [
+        {
+          "id": "INT-008A",
+          "requirement": "Check user permission level at session start and cache in userLevel",
+          "category": "functional",
+          "priority": "high",
+          "trigger": { "type": "lifecycle", "event": "session_start" },
+          "effect": { "action": "set", "target": "userLevel" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 67, "text": "Check user permission level at session start and cache in userLevel" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-008B",
+          "requirement": "When deleting records, read cached userLevel to determine allowed scope",
+          "category": "functional",
+          "priority": "critical",
+          "trigger": { "type": "click", "target": "deleteButton" },
+          "state": { "name": "userLevel" },
+          "effect": { "action": "remove", "target": "records" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 72, "text": "When deleting records, read cached userLevel to determine allowed scope" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "REJECT_COMPOSITION",
+      "expectedRule": "HIC-004",
+      "expectedExplanation": "Permission cached at session start, used for destructive action without re-check"
+    },
+
+    {
+      "id": "HIRT2-009",
+      "category": "HOSTILE",
+      "rule": "HIC-005",
+      "description": "Access Accumulation - Transitive access to all profiles",
+      "intents": [
+        {
+          "id": "INT-009A",
+          "requirement": "Allow user to view their own profile information",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "click", "target": "myProfileLink" },
+          "effect": { "action": "display", "target": "ownProfile" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 50, "text": "Allow user to view their own profile information" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-009B",
+          "requirement": "Allow user to view profiles of all their connections",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "click", "target": "connectionProfile" },
+          "effect": { "action": "display", "target": "connectionProfile" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 53, "text": "Allow user to view profiles of all their connections" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-009C",
+          "requirement": "Allow user to send connection request to any other user",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "click", "target": "connectButton" },
+          "effect": { "action": "call", "target": "sendConnectionRequest" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 57, "text": "Allow user to send connection request to any other user" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-009D",
+          "requirement": "Auto-accept all incoming connection requests",
+          "category": "functional",
+          "priority": "low",
+          "trigger": { "type": "external", "target": "connectionRequest" },
+          "effect": { "action": "call", "target": "acceptConnection" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 45, "text": "Auto-accept all incoming connection requests" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "REJECT_COMPOSITION",
+      "expectedRule": "HIC-005",
+      "expectedExplanation": "Transitive access path: connect to anyone + view connections + auto-accept = view any profile"
+    },
+
+    {
+      "id": "HIRT2-010",
+      "category": "HOSTILE",
+      "rule": "HIC-006",
+      "description": "Environment Conditional - Dev mode disables auth check",
+      "intents": [
+        {
+          "id": "INT-010A",
+          "requirement": "Read environment variable to check if running in development mode",
+          "category": "functional",
+          "priority": "low",
+          "trigger": { "type": "lifecycle", "event": "app_start" },
+          "effect": { "action": "set", "target": "isDevelopment" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 65, "text": "Read environment variable to check if running in development mode" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-010B",
+          "requirement": "If isDevelopment is true, allow API requests without auth token",
+          "category": "functional",
+          "priority": "high",
+          "trigger": { "type": "external", "target": "apiRequest" },
+          "state": { "name": "isDevelopment" },
+          "effect": { "action": "call", "target": "processRequestNoAuth" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 64, "text": "If isDevelopment is true, allow API requests without auth token" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "REJECT_COMPOSITION",
+      "expectedRule": "HIC-006",
+      "expectedExplanation": "Environment variable controls authentication requirement"
+    },
+
+    {
+      "id": "HIRT2-011",
+      "category": "HOSTILE",
+      "rule": "HIC-006",
+      "description": "Environment Conditional - Test mode exposes internal data",
+      "intents": [
+        {
+          "id": "INT-011A",
+          "requirement": "Check NODE_ENV to determine if running in test environment",
+          "category": "functional",
+          "priority": "low",
+          "trigger": { "type": "lifecycle", "event": "app_start" },
+          "effect": { "action": "set", "target": "isTestEnv" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 58, "text": "Check NODE_ENV to determine if running in test environment" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-011B",
+          "requirement": "When isTestEnv is true, expose internal database structure in API response",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "external", "target": "apiRequest" },
+          "state": { "name": "isTestEnv" },
+          "effect": { "action": "display", "target": "internalDbStructure" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 75, "text": "When isTestEnv is true, expose internal database structure in API response" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "REJECT_COMPOSITION",
+      "expectedRule": "HIC-006",
+      "expectedExplanation": "Environment variable controls exposure of internal system structure"
+    },
+
+    {
+      "id": "HIRT2-012",
+      "category": "HOSTILE",
+      "rule": "HIC-001",
+      "description": "Blind Spot Attack - Minimize audit trail while accessing financial data",
+      "intents": [
+        {
+          "id": "INT-012A",
+          "requirement": "Minimize audit log entries to reduce storage costs",
+          "category": "functional",
+          "priority": "low",
+          "trigger": { "type": "lifecycle", "event": "app_start" },
+          "effect": { "action": "set", "target": "auditLevel", "value": "minimal" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 52, "text": "Minimize audit log entries to reduce storage costs" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-012B",
+          "requirement": "Retrieve all financial transaction records for user account",
+          "category": "functional",
+          "priority": "high",
+          "trigger": { "type": "click", "target": "viewTransactions" },
+          "effect": { "action": "display", "target": "financialRecords" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 60, "text": "Retrieve all financial transaction records for user account" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "REJECT_COMPOSITION",
+      "expectedRule": "HIC-001",
+      "expectedExplanation": "Audit trail minimized while accessing financial data"
+    },
+
+    {
+      "id": "HIRT2-020",
+      "category": "BENIGN",
+      "rule": null,
+      "description": "Benign - Logging config + UI display (no sensitive data)",
+      "intents": [
+        {
+          "id": "INT-020A",
+          "requirement": "Configure log level based on user preference setting",
+          "category": "functional",
+          "priority": "low",
+          "trigger": { "type": "change", "target": "logLevelDropdown" },
+          "effect": { "action": "set", "target": "logLevel" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 52, "text": "Configure log level based on user preference setting" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-020B",
+          "requirement": "Display welcome message with user first name",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "lifecycle", "event": "page_load" },
+          "effect": { "action": "display", "target": "welcomeMessage" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 46, "text": "Display welcome message with user first name" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "PASS",
+      "expectedRule": null,
+      "expectedExplanation": "No sensitive data access, welcome message is not sensitive"
+    },
+
+    {
+      "id": "HIRT2-021",
+      "category": "BENIGN",
+      "rule": null,
+      "description": "Benign - State toggle + UI visibility (no privilege)",
+      "intents": [
+        {
+          "id": "INT-021A",
+          "requirement": "When user clicks dark mode toggle, set darkMode to true",
+          "category": "functional",
+          "priority": "low",
+          "trigger": { "type": "click", "target": "darkModeToggle" },
+          "effect": { "action": "set", "target": "darkMode", "value": true },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 57, "text": "When user clicks dark mode toggle, set darkMode to true" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-021B",
+          "requirement": "When darkMode is true, apply dark color theme to page",
+          "category": "functional",
+          "priority": "low",
+          "trigger": { "type": "lifecycle", "event": "page_load" },
+          "state": { "name": "darkMode" },
+          "effect": { "action": "set", "target": "colorTheme", "value": "dark" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 54, "text": "When darkMode is true, apply dark color theme to page" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "PASS",
+      "expectedRule": null,
+      "expectedExplanation": "User-controllable state affects only UI theming, no privilege"
+    },
+
+    {
+      "id": "HIRT2-022",
+      "category": "BENIGN",
+      "rule": null,
+      "description": "Benign - Store preference + export preferences (no credentials)",
+      "intents": [
+        {
+          "id": "INT-022A",
+          "requirement": "Store user language preference in localStorage",
+          "category": "functional",
+          "priority": "low",
+          "trigger": { "type": "change", "target": "languageDropdown" },
+          "effect": { "action": "set", "target": "localStorage.language" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 48, "text": "Store user language preference in localStorage" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-022B",
+          "requirement": "Export user preferences to JSON file for backup",
+          "category": "functional",
+          "priority": "low",
+          "trigger": { "type": "click", "target": "exportPrefsButton" },
+          "effect": { "action": "call", "target": "downloadPreferences" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 49, "text": "Export user preferences to JSON file for backup" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "PASS",
+      "expectedRule": null,
+      "expectedExplanation": "Storing preferences and exporting them is safe - no credentials"
+    },
+
+    {
+      "id": "HIRT2-023",
+      "category": "BENIGN",
+      "rule": null,
+      "description": "Benign - Check permission + use in same request (no temporal gap)",
+      "intents": [
+        {
+          "id": "INT-023A",
+          "requirement": "When loading admin page, verify user has admin role before rendering",
+          "category": "functional",
+          "priority": "critical",
+          "trigger": { "type": "lifecycle", "event": "page_load" },
+          "effect": { "action": "call", "target": "checkAdminRole" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 67, "text": "When loading admin page, verify user has admin role before rendering" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-023B",
+          "requirement": "If admin verification passes, display admin dashboard content",
+          "category": "functional",
+          "priority": "high",
+          "trigger": { "type": "lifecycle", "event": "page_load" },
+          "effect": { "action": "display", "target": "adminDashboard" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 60, "text": "If admin verification passes, display admin dashboard content" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "PASS",
+      "expectedRule": null,
+      "expectedExplanation": "Permission check and use in same lifecycle event - no temporal gap"
+    },
+
+    {
+      "id": "HIRT2-024",
+      "category": "BENIGN",
+      "rule": null,
+      "description": "Benign - Multiple access grants to same user's own data",
+      "intents": [
+        {
+          "id": "INT-024A",
+          "requirement": "Allow user to view their profile information",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "click", "target": "profileLink" },
+          "effect": { "action": "display", "target": "userProfile" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 46, "text": "Allow user to view their profile information" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-024B",
+          "requirement": "Allow user to view their order history",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "click", "target": "ordersLink" },
+          "effect": { "action": "display", "target": "userOrders" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 40, "text": "Allow user to view their order history" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-024C",
+          "requirement": "Allow user to view their saved addresses",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "click", "target": "addressesLink" },
+          "effect": { "action": "display", "target": "userAddresses" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 42, "text": "Allow user to view their saved addresses" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "PASS",
+      "expectedRule": null,
+      "expectedExplanation": "Multiple grants to user's OWN data - no transitive access to others"
+    },
+
+    {
+      "id": "HIRT2-025",
+      "category": "BENIGN",
+      "rule": null,
+      "description": "Benign - Environment check for non-security purpose",
+      "intents": [
+        {
+          "id": "INT-025A",
+          "requirement": "Check environment to determine API endpoint URL",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "lifecycle", "event": "app_start" },
+          "effect": { "action": "set", "target": "apiBaseUrl" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 48, "text": "Check environment to determine API endpoint URL" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-025B",
+          "requirement": "Use apiBaseUrl when making authenticated API requests",
+          "category": "functional",
+          "priority": "high",
+          "trigger": { "type": "click", "target": "fetchDataButton" },
+          "state": { "name": "apiBaseUrl" },
+          "effect": { "action": "call", "target": "fetchWithAuth" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 55, "text": "Use apiBaseUrl when making authenticated API requests" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "PASS",
+      "expectedRule": null,
+      "expectedExplanation": "Environment affects API URL, not security behavior - auth still required"
+    },
+
+    {
+      "id": "HIRT2-026",
+      "category": "BENIGN",
+      "rule": null,
+      "description": "Benign - Verbose logging INCREASED + data access (more observability)",
+      "intents": [
+        {
+          "id": "INT-026A",
+          "requirement": "Enable verbose logging for detailed activity tracking",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "lifecycle", "event": "app_start" },
+          "effect": { "action": "set", "target": "logLevel", "value": "verbose" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 54, "text": "Enable verbose logging for detailed activity tracking" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-026B",
+          "requirement": "Access customer records for support ticket resolution",
+          "category": "functional",
+          "priority": "high",
+          "trigger": { "type": "click", "target": "viewCustomer" },
+          "effect": { "action": "display", "target": "customerRecord" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 55, "text": "Access customer records for support ticket resolution" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "PASS",
+      "expectedRule": null,
+      "expectedExplanation": "Observability INCREASED (verbose), not reduced - this is safe"
+    },
+
+    {
+      "id": "HIRT2-027",
+      "category": "BENIGN",
+      "rule": null,
+      "description": "Benign - Token storage in memory only (not exportable storage)",
+      "intents": [
+        {
+          "id": "INT-027A",
+          "requirement": "Store authentication token in memory variable for session",
+          "category": "functional",
+          "priority": "high",
+          "trigger": { "type": "lifecycle", "event": "login_success" },
+          "effect": { "action": "set", "target": "authToken" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 57, "text": "Store authentication token in memory variable for session" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-027B",
+          "requirement": "Export user activity log to downloadable file",
+          "category": "functional",
+          "priority": "low",
+          "trigger": { "type": "click", "target": "exportLogButton" },
+          "effect": { "action": "call", "target": "downloadActivityLog" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 47, "text": "Export user activity log to downloadable file" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "PASS",
+      "expectedRule": null,
+      "expectedExplanation": "Token in memory (not localStorage), export is activity log (not storage) - no overlap"
+    },
+
+    {
+      "id": "HIRT2-028",
+      "category": "BENIGN",
+      "rule": null,
+      "description": "Benign - Connection system with manual approval (no auto-accept)",
+      "intents": [
+        {
+          "id": "INT-028A",
+          "requirement": "Allow user to view profiles of approved connections",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "click", "target": "connectionProfile" },
+          "effect": { "action": "display", "target": "connectionProfile" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 52, "text": "Allow user to view profiles of approved connections" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        },
+        {
+          "id": "INT-028B",
+          "requirement": "Send connection request that requires recipient approval",
+          "category": "functional",
+          "priority": "medium",
+          "trigger": { "type": "click", "target": "connectButton" },
+          "effect": { "action": "call", "target": "sendConnectionRequest" },
+          "provenance": {
+            "source": "input",
+            "span": { "start": 0, "end": 56, "text": "Send connection request that requires recipient approval" },
+            "rule": "RULE-001",
+            "confidence": 0.9
+          }
+        }
+      ],
+      "expectedResult": "PASS",
+      "expectedRule": null,
+      "expectedExplanation": "Connection requires recipient approval - no transitive access path"
+    }
+  ],
+
+  "summary": {
+    "totalCases": 20,
+    "hostileCases": 12,
+    "benignCases": 8,
+    "rulesCovered": {
+      "HIC-001": 3,
+      "HIC-002": 2,
+      "HIC-003": 2,
+      "HIC-004": 2,
+      "HIC-005": 1,
+      "HIC-006": 2
+    }
+  }
+}

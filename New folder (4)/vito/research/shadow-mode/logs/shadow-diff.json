@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "mode": "PROVISIONAL",
+  "target": "intent-admissibility-frontier",
+  "startTimestamp": "2026-01-19T00:00:00.000Z",
+  "entries": [],
+  "summary": {
+    "totalEntries": 0,
+    "divergentCount": 0,
+    "divergenceRate": 0,
+    "byType": {
+      "shadowMoreStrict": 0,
+      "shadowMorePermissive": 0,
+      "sameVerdictDifferentReason": 0
+    },
+    "byRejectionCode": {}
+  }
+}
