@@ -1,0 +1,15 @@
+name: HADES Canon Lock
+on: [push, pull_request]
+jobs:
+  hades-lock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify HADES immutability
+        run: |
+          sha256sum -c docs/HADES.hash
+          git diff --exit-code docs/HADES.md
+      - name: Verify HADES tombstone
+        run: |
+          sha256sum -c docs/HADES_TOMBSTONE.hash
+          git diff --exit-code docs/HADES_TOMBSTONE.md
