@@ -691,10 +691,11 @@ describe('getTypographyForCSS', () => {
     const typography = getTypographyForCSS();
 
     for (const [, value] of Object.entries(typography)) {
-      expect(value).toHaveProperty('fontSize');
-      expect(value).toHaveProperty('fontWeight');
-      expect(typeof value.fontSize).toBe('string');
-      expect(typeof value.fontWeight).toBe('number');
+      const typedValue = value as { fontSize: string; fontWeight: number };
+      expect(typedValue).toHaveProperty('fontSize');
+      expect(typedValue).toHaveProperty('fontWeight');
+      expect(typeof typedValue.fontSize).toBe('string');
+      expect(typeof typedValue.fontWeight).toBe('number');
     }
   });
 
@@ -760,7 +761,7 @@ describe('validateDesignCompliance', () => {
 
       expect(result.valid).toBe(false);
       expect(result.violations.length).toBeGreaterThan(0);
-      expect(result.violations.some(v => v.includes('Unauthorized color'))).toBe(true);
+      expect(result.violations.some((v: string) => v.includes('Unauthorized color'))).toBe(true);
     });
   });
 
@@ -771,7 +772,7 @@ describe('validateDesignCompliance', () => {
       const result = validateDesignCompliance(code);
 
       expect(result.valid).toBe(false);
-      expect(result.violations.some(v => v.includes('bg-blue-500'))).toBe(true);
+      expect(result.violations.some((v: string) => v.includes('bg-blue-500'))).toBe(true);
     });
 
     it('should detect placeholder href="#"', () => {
@@ -780,7 +781,7 @@ describe('validateDesignCompliance', () => {
       const result = validateDesignCompliance(code);
 
       expect(result.valid).toBe(false);
-      expect(result.violations.some(v => v.includes('href="#"'))).toBe(true);
+      expect(result.violations.some((v: string) => v.includes('href="#"'))).toBe(true);
     });
 
     it('should detect empty href', () => {
@@ -789,7 +790,7 @@ describe('validateDesignCompliance', () => {
       const result = validateDesignCompliance(code);
 
       expect(result.valid).toBe(false);
-      expect(result.violations.some(v => v.includes('href=""'))).toBe(true);
+      expect(result.violations.some((v: string) => v.includes('href=""'))).toBe(true);
     });
 
     it('should detect empty onClick handlers', () => {
@@ -798,7 +799,7 @@ describe('validateDesignCompliance', () => {
       const result = validateDesignCompliance(code);
 
       expect(result.valid).toBe(false);
-      expect(result.violations.some(v => v.includes('onClick={() => {}}'))).toBe(true);
+      expect(result.violations.some((v: string) => v.includes('onClick={() => {}}'))).toBe(true);
     });
 
     it('should detect multiple forbidden patterns', () => {
@@ -839,7 +840,7 @@ describe('validateDesignCompliance', () => {
 
       // This depends on whether the check is exact match or contains
       // Based on the code, it uses includes() so this should fail
-      expect(result.violations.some(v => v.includes('blue-500'))).toBe(false);
+      expect(result.violations.some((v: string) => v.includes('blue-500'))).toBe(false);
     });
   });
 });

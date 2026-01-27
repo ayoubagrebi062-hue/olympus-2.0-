@@ -8,8 +8,8 @@
 | **Branch Coverage**    | 52.44%        |
 | **Function Coverage**  | 65.31%        |
 | **Line Coverage**      | 65.59%        |
-| **Test Files**         | 33 passing    |
-| **Total Tests**        | 1,234 passing |
+| **Test Files**         | 43 passing    |
+| **Total Tests**        | 1,717 passing |
 | **Source Files**       | 626           |
 
 ---
@@ -24,14 +24,14 @@ Gap to close: ~15% (approximately 100 critical functions need tests)
 
 These modules have almost no test coverage and represent significant risk.
 
-| Module                                              | Coverage   | Lines | Risk     | Priority | Status     |
-| --------------------------------------------------- | ---------- | ----- | -------- | -------- | ---------- |
-| `src/lib/agents/design/inject-tokens.ts`            | **100%**   | 592   | HIGH     | 1        | ✅ DONE    |
-| `src/lib/agents/design/design-provider.ts`          | **100%**   | 744   | HIGH     | 2        | ✅ DONE    |
-| `src/lib/recovery/self-healing-engine.ts`           | **83.05%** | 1392  | CRITICAL | 3        | ✅ DONE    |
-| `src/utils/safe-json.ts`                            | **93.93%** | 107   | MEDIUM   | 4        | ✅ DONE    |
-| `src/lib/agents/coordination/context-summarizer.ts` | 16.07%     | 761   | HIGH     | 5        | NEEDS TEST |
-| `src/lib/agents/orchestrator/action-plan-store.ts`  | 18.07%     | 579   | HIGH     | 6        | NEEDS TEST |
+| Module                                               | Coverage   | Lines | Risk     | Priority | Status     |
+| ---------------------------------------------------- | ---------- | ----- | -------- | -------- | ---------- |
+| `src/lib/agents/design/inject-tokens.ts`             | **100%**   | 592   | HIGH     | 1        | ✅ DONE    |
+| `src/lib/agents/design/design-provider.ts`           | **100%**   | 744   | HIGH     | 2        | ✅ DONE    |
+| `src/lib/recovery/self-healing-engine.ts`            | **83.05%** | 1392  | CRITICAL | 3        | ✅ DONE    |
+| `src/utils/safe-json.ts`                             | **93.93%** | 107   | MEDIUM   | 4        | ✅ DONE    |
+| `src/lib/agents/coordination/critical-summarizer.ts` | **98.66%** | 761   | HIGH     | 5        | ✅ DONE    |
+| `src/lib/agents/orchestrator/action-plan-store.ts`   | 18.07%     | 579   | HIGH     | 6        | NEEDS TEST |
 
 ### Why These Matter:
 
@@ -39,7 +39,7 @@ These modules have almost no test coverage and represent significant risk.
 - **design-provider.ts** - Design system provider (foundational)
 - **self-healing-engine.ts** - Automatic recovery (reliability critical)
 - **safe-json.ts** - JSON parsing safety (security sensitive)
-- **context-summarizer.ts** - Context management (data integrity)
+- **critical-summarizer.ts** - Critical decision extraction (data integrity)
 - **action-plan-store.ts** - Build plan persistence (data integrity)
 
 ---
@@ -104,7 +104,7 @@ These modules have good coverage and can serve as testing patterns:
 
 ### Week 3: Coordination & Prompts
 
-1. `context-summarizer.ts` - Add 20+ tests for context management
+1. ✅ `critical-summarizer.ts` - **80 tests added** (16.07% → 98.66%)
 2. `constraint-injector.ts` - Add 25+ tests for constraint system
 3. `prompts/hardcoded.ts` - Add 10+ tests for prompt templates
 
