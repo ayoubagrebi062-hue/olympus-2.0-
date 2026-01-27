@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { logger } from '@/utils/logger';
 
 // Schema setup errors tracker
 const schemaErrors: { step: string; error: string; timestamp: string }[] = [];
@@ -10,7 +11,7 @@ function logError(step: string, error: string) {
     error,
     timestamp: new Date().toISOString(),
   });
-  console.error(`[Schema Setup] ${step}: ${error}`);
+  logger.error(`[Schema Setup] ${step}: ${error}`);
 }
 
 // Extract project ref from Supabase URL
@@ -88,8 +89,8 @@ export async function POST() {
     }
 
     // Tables are missing - try to create via Supabase Management API
-    console.log(`[Schema Setup] Missing tables: ${missingTables.join(', ')}`);
-    console.log(`[Schema Setup] Project ref: ${projectRef}`);
+    logger.info(`[Schema Setup] Missing tables: ${missingTables.join(', ')}`);
+    logger.info(`[Schema Setup] Project ref: ${projectRef}`);
 
     // The Supabase Management API requires a different auth token (not service role)
     // For self-hosted or automated setup, we need to use the Database URL directly

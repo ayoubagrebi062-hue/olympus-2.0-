@@ -16,6 +16,7 @@ import {
   type GuardrailResult,
 } from '@/lib/agents/guardrails';
 import { createRequestId } from '@/lib/core';
+import { logger } from '@/utils/logger';
 
 // =============================================================================
 // FIX #1: Use database for build tracking instead of module-level variables
@@ -63,7 +64,7 @@ async function getActiveBuildFromDatabase(dbClient: SupabaseClient): Promise<{
       .maybeSingle();
 
     if (error) {
-      console.error('[Bootstrap] Error checking active builds:', error.message);
+      logger.error('[Bootstrap] Error checking active builds:', error.message);
       return { buildId: null, conductorBuildId: null, progress: 0, phase: null };
     }
 
@@ -85,7 +86,7 @@ async function getActiveBuildFromDatabase(dbClient: SupabaseClient): Promise<{
     cachedConductorBuildId = null;
     return { buildId: null, conductorBuildId: null, progress: 0, phase: null };
   } catch (err) {
-    console.error('[Bootstrap] Exception checking active builds:', err);
+    logger.error('[Bootstrap] Exception checking active builds:', err);
     return { buildId: null, conductorBuildId: null, progress: 0, phase: null };
   }
 }
@@ -111,18 +112,18 @@ async function cleanupStalledBuilds(dbClient: SupabaseClient): Promise<number> {
       .select('id');
 
     if (error) {
-      console.error('[Bootstrap] Error cleaning stalled builds:', error.message);
+      logger.error('[Bootstrap] Error cleaning stalled builds:', error.message);
       return 0;
     }
 
     if (data && data.length > 0) {
-      console.log(`[Bootstrap] Cleaned up ${data.length} stalled builds`);
+      logger.info(`[Bootstrap] Cleaned up ${data.length} stalled builds`);
       return data.length;
     }
 
     return 0;
   } catch (err) {
-    console.error('[Bootstrap] Exception cleaning stalled builds:', err);
+    logger.error('[Bootstrap] Exception cleaning stalled builds:', err);
     return 0;
   }
 }
@@ -189,7 +190,7 @@ export async function POST() {
     const activeBuild = await getActiveBuildFromDatabase(dbClient);
     
     if (activeBuild.buildId) {
-      console.log(`[Bootstrap] Build already in progress: ${activeBuild.buildId} (${activeBuild.progress}%)`);
+      logger.info(`[Bootstrap] Build already in progress: ${activeBuild.buildId} (${activeBuild.progress}%)`);
       return NextResponse.json({
         started: false,
         error: `A self-build is already in progress: ${activeBuild.buildId}`,
@@ -249,7 +250,7 @@ export async function POST() {
 
     // Handle guardrail decision
     if (guardrailResult.action === 'block' || guardrailResult.action === 'terminate') {
-      console.error('[Bootstrap] Guardrail blocked request:', guardrailResult.reason);
+      logger.error('[Bootstrap] Guardrail blocked request:', guardrailResult.reason);
       return NextResponse.json({
         started: false,
         error: `Input validation failed: ${guardrailResult.reason}`,
@@ -263,10 +264,10 @@ export async function POST() {
     }
 
     if (guardrailResult.action === 'warn') {
-      console.warn('[Bootstrap] Guardrail warning:', guardrailResult.reason);
+      logger.warn('[Bootstrap] Guardrail warning:', guardrailResult.reason);
     }
 
-    console.log(`[Bootstrap] Guardrail passed: ${guardrailResult.action} (confidence: ${guardrailResult.confidence.toFixed(2)})`);
+    logger.info(`[Bootstrap] Guardrail passed: ${guardrailResult.action} (confidence: ${guardrailResult.confidence.toFixed(2)})`);
 
     // Create auth client for user authentication
     const authClient = createClient(supabaseUrl, supabaseServiceKey, {
@@ -330,7 +331,7 @@ export async function POST() {
       });
 
       if (memberError) {
-        console.error('[Bootstrap] Failed to add team member:', memberError.message);
+        logger.error('[Bootstrap] Failed to add team member:', memberError.message);
       }
     }
 
@@ -358,7 +359,7 @@ export async function POST() {
         .single();
 
       if (projectError) {
-        console.error('[Bootstrap] Project creation error:', projectError.message);
+        logger.error('[Bootstrap] Project creation error:', projectError.message);
         projectId = uuidv4();
       } else {
         projectId = newProject?.id || uuidv4();
@@ -370,7 +371,7 @@ export async function POST() {
     // =======================================================================
     const doubleCheck = await getActiveBuildFromDatabase(dbClient);
     if (doubleCheck.buildId) {
-      console.log(`[Bootstrap] Race condition detected - another build started: ${doubleCheck.buildId}`);
+      logger.warn(`[Bootstrap] Race condition detected - another build started: ${doubleCheck.buildId}`);
       return NextResponse.json({
         started: false,
         error: `Another build started while preparing: ${doubleCheck.buildId}`,
@@ -428,7 +429,7 @@ export async function POST() {
 
     // Start the actual build asynchronously
     executeBuildAsync(buildId, promptContent, teamId, dbClient).catch((err) => {
-      console.error(`[Bootstrap] Build execution error for ${buildId}:`, err);
+      logger.error(`[Bootstrap] Build execution error for ${buildId}:`, err);
       const state = buildExecutions.get(buildId);
       if (state) {
         state.status = 'failed';
@@ -563,7 +564,7 @@ async function executeBuildAsync(
     throw new Error('Build execution state not found');
   }
 
-  console.log(`[Bootstrap] Starting CONDUCTOR execution for build ${dbBuildId}`);
+  logger.info(`[Bootstrap] Starting CONDUCTOR execution for build ${dbBuildId}`);
 
   try {
     const buildRequest: ConductorBuildRequest = {
@@ -583,7 +584,7 @@ async function executeBuildAsync(
     };
 
     state.status = 'running';
-    console.log(`[Bootstrap] Calling conductorService.startBuild()...`);
+    logger.info(`[Bootstrap] Calling conductorService.startBuild()...`);
 
     const result = await conductorService.startBuild(buildRequest);
 
@@ -596,7 +597,7 @@ async function executeBuildAsync(
       const eventType = 'type' in event ? event.type : 'unknown';
       const eventData = 'data' in event ? event.data : {};
 
-      console.log(`[Bootstrap] CONDUCTOR event: ${eventType}`, JSON.stringify(eventData).substring(0, 200));
+      logger.debug(`[Bootstrap] CONDUCTOR event: ${eventType}`, JSON.stringify(eventData).substring(0, 200));
 
       state.events.push({
         type: eventType,
@@ -609,7 +610,7 @@ async function executeBuildAsync(
       } else if (eventType === 'conductor:agent_completed' || eventType === 'agent_completed' || eventType === 'conductor:quality_accepted') {
         state.progress = Math.min(state.progress + 2.5, 100);
       } else if (eventType === 'conductor:build_completed' || eventType === 'build_completed') {
-        console.log(`[Bootstrap] Build event received - running POST-BUILD VALIDATION...`);
+        logger.info(`[Bootstrap] Build event received - running POST-BUILD VALIDATION...`);
         state.currentPhase = 'validation';
         state.progress = 95;
 
@@ -620,7 +621,7 @@ async function executeBuildAsync(
           skipBuild: true,
         }).then((validationResult) => {
           if (validationResult.valid) {
-            console.log(`[Bootstrap] POST-BUILD VALIDATION PASSED`);
+            logger.info(`[Bootstrap] POST-BUILD VALIDATION PASSED`);
             state.status = 'completed';
             state.progress = 100;
             state.events.push({
@@ -629,8 +630,8 @@ async function executeBuildAsync(
               data: validationResult,
             });
           } else {
-            console.error(`[Bootstrap] POST-BUILD VALIDATION FAILED`);
-            console.error(getValidationErrorMessage(validationResult));
+            logger.error(`[Bootstrap] POST-BUILD VALIDATION FAILED`);
+            logger.error(getValidationErrorMessage(validationResult));
             state.status = 'failed';
             state.error = `Build validation failed: ${validationResult.errors.join(', ')}`;
             state.events.push({
@@ -643,9 +644,9 @@ async function executeBuildAsync(
           cachedActiveBuildId = null;
           cachedConductorBuildId = null;
           unsubscribe();
-          updateDatabaseProgress(dbBuildId, state, dbClient).catch(console.error);
+          updateDatabaseProgress(dbBuildId, state, dbClient).catch((e) => logger.error('[Bootstrap] DB update failed:', e));
         }).catch((validationError) => {
-          console.error(`[Bootstrap] Validation error:`, validationError);
+          logger.error(`[Bootstrap] Validation error:`, validationError);
           state.status = 'completed';
           state.progress = 100;
           state.events.push({
@@ -656,7 +657,7 @@ async function executeBuildAsync(
           cachedActiveBuildId = null;
           cachedConductorBuildId = null;
           unsubscribe();
-          updateDatabaseProgress(dbBuildId, state, dbClient).catch(console.error);
+          updateDatabaseProgress(dbBuildId, state, dbClient).catch((e) => logger.error('[Bootstrap] DB update failed:', e));
         });
         return;
       } else if (eventType === 'conductor:build_failed' || eventType === 'build_failed') {
@@ -668,13 +669,13 @@ async function executeBuildAsync(
       }
 
       // Sync progress to database
-      updateDatabaseProgress(dbBuildId, state, dbClient).catch(console.error);
+      updateDatabaseProgress(dbBuildId, state, dbClient).catch((e) => logger.error('[Bootstrap] DB update failed:', e));
     });
 
-    console.log(`[Bootstrap] CONDUCTOR build started: ${result.buildId}`);
-    console.log(`[Bootstrap] Analysis: ${result.analysis.type} (${result.analysis.complexity})`);
-    console.log(`[Bootstrap] Estimated agents: ${result.analysis.estimatedAgents}`);
-    console.log(`[Bootstrap] Strategy: ${result.strategy.strategy}`);
+    logger.info(`[Bootstrap] CONDUCTOR build started: ${result.buildId}`);
+    logger.info(`[Bootstrap] Analysis: ${result.analysis.type} (${result.analysis.complexity})`);
+    logger.info(`[Bootstrap] Estimated agents: ${result.analysis.estimatedAgents}`);
+    logger.info(`[Bootstrap] Strategy: ${result.strategy.strategy}`);
 
     // Update database with conductor info
     await dbClient
@@ -694,7 +695,7 @@ async function executeBuildAsync(
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    console.error(`[Bootstrap] CONDUCTOR execution failed:`, errorMessage);
+    logger.error(`[Bootstrap] CONDUCTOR execution failed:`, errorMessage);
 
     state.status = 'failed';
     state.error = errorMessage;
@@ -740,6 +741,6 @@ async function updateDatabaseProgress(
       })
       .eq('id', buildId);
   } catch (err) {
-    console.error(`[Bootstrap] Failed to update database progress:`, err);
+    logger.error(`[Bootstrap] Failed to update database progress:`, err);
   }
 }

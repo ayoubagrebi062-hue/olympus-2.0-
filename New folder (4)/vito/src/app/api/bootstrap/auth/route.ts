@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { logger } from '@/utils/logger';
 
 // System user for self-build operations
 const SYSTEM_USER_EMAIL = 'system@olympus.build';
@@ -45,7 +46,7 @@ export async function GET() {
 
     // If sign in failed, create the system user
     if (signInError) {
-      console.log('[Bootstrap Auth] Sign in failed, creating system user:', signInError.message);
+      logger.info('[Bootstrap Auth] Sign in failed, creating system user:', signInError.message);
 
       const { data: signUpData, error: signUpError } = await supabase.auth.admin.createUser({
         email: SYSTEM_USER_EMAIL,
