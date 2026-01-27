@@ -15,11 +15,12 @@ type Handler<T, C> = (req: NextRequest, ctx: C, params: RouteParams) => Promise<
 export function withLogging<T, C extends ApiContext>(handler: Handler<T, C>): Handler<T, C> {
   return async (request: NextRequest, ctx: C, params: RouteParams) => {
     const startTime = Date.now();
-    let response: NextResponse<T>;
+    let response: NextResponse<T> | undefined;
     let errorInfo: { code: string; message: string } | undefined;
 
     try {
       response = await handler(request, ctx, params);
+      return response;
     } catch (error) {
       // Log error and re-throw
       if (isApiError(error)) {
@@ -30,11 +31,9 @@ export function withLogging<T, C extends ApiContext>(handler: Handler<T, C>): Ha
       throw error;
     } finally {
       const duration = Date.now() - startTime;
-      const log = buildRequestLog(request, ctx, response!?.status || 500, duration, errorInfo);
+      const log = buildRequestLog(request, ctx, response?.status || 500, duration, errorInfo);
       logRequest(log);
     }
-
-    return response;
   };
 }
 
