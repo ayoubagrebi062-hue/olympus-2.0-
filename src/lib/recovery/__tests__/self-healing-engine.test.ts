@@ -314,18 +314,21 @@ describe('SelfHealingEngine', () => {
       expect((restored as typeof state).nested.value).toBe('original');
     });
 
-    it('should handle circular references in state - hash throws but deepClone works', () => {
+    it('should handle circular references in state', () => {
       const state: Record<string, unknown> = { name: 'test' };
       state.self = state; // Circular reference
 
-      // NOTE: The hash() function uses JSON.stringify which throws on circular refs
-      // This is a known limitation - the deepClone works but hash doesn't
-      // For now, we document this behavior: circular refs cause createCheckpoint to throw
-      expect(() => engine.createCheckpoint('component-1', state)).toThrow();
+      // After fix: hash() now uses deepClone first, so circular refs are handled
+      const cp = engine.createCheckpoint('component-1', state);
+      expect(cp).toBeDefined();
+      expect(cp.hash).toBeDefined();
+
+      const restored = engine.restoreFromCheckpoint(cp.id) as Record<string, unknown>;
+      expect(restored.name).toBe('test');
+      expect(restored.self).toBe('[Circular Reference]');
     });
 
     it('should handle deeply nested objects', () => {
-      // Test deep cloning without circular refs
       const state = {
         level1: {
           level2: {

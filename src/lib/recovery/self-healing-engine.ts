@@ -546,8 +546,14 @@ class StateManager {
     return cloned;
   }
 
+  /**
+   * CRITICAL FIX: Hash with circular reference handling
+   * Use deepClone first to safely convert circular refs to strings
+   */
   private hash(obj: unknown): string {
-    const str = JSON.stringify(obj);
+    // Clone first to handle circular references safely
+    const safeObj = this.deepClone(obj);
+    const str = JSON.stringify(safeObj);
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       const char = str.charCodeAt(i);
