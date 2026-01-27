@@ -7,6 +7,7 @@
 import type { AgentId, AgentInput, AgentOutput, BuildPhase, BuildContext } from '../types';
 import type { OrchestrationStatus, OrchestrationOptions, BuildProgress, PhaseStatus, OrchestrationError, BuildPlan, OrchestrationEvent } from './types';
 import { BuildContextManager, saveContext, saveAgentOutput, heartbeatBuild } from '../context';
+import { logger } from '@/utils/logger';
 import { AgentExecutor, ExecutionResult } from '../executor';
 import { TokenTracker } from '../providers';
 import { TIER_CONFIGS, getAgent } from '../registry';
@@ -339,7 +340,7 @@ function setCachedOutput(cacheKey: string, files: Array<{ path: string; content:
     const cachePath = path.join(CACHE_DIR, `${cacheKey}.json`);
     fs.writeFileSync(cachePath, JSON.stringify(entry, null, 2));
   } catch (error) {
-    console.warn('[PixelCache] Failed to write cache:', error);
+    logger.warn('[PixelCache] Failed to write cache:', error);
   }
 }
 
@@ -487,7 +488,7 @@ export class BuildOrchestrator {
         failedAgents: this.scheduler?.getFailedAgents() || [],
         progress: this.scheduler ? calculateProgress(this.plan, new Set(this.scheduler.getCompletedAgents())) : 0,
       };
-      console.log(`[HEARTBEAT] ${new Date().toISOString()}`, JSON.stringify(state));
+      logger.debug(`[HEARTBEAT] ${new Date().toISOString()}`, JSON.stringify(state));
       logToFile(`[HEARTBEAT] ${JSON.stringify(state)}`);
 
       // FIX #3: Send heartbeat to database for stall detection
@@ -516,13 +517,13 @@ export class BuildOrchestrator {
     this.options = options;
     this.feedbackConfig = { ...DEFAULT_FEEDBACK_CONFIG, ...feedbackConfig };
 
-    console.log(`[Orchestrator] Constructor called with tier: ${tier}`);
+    logger.debug(`[Orchestrator] Constructor called with tier: ${tier}`);
     const tierConfig = TIER_CONFIGS[tier];
-    console.log(`[Orchestrator] TierConfig phases: ${tierConfig.phases.join(', ')}`);
-    console.log(`[Orchestrator] TierConfig agents count: ${tierConfig.agents.length}`);
+    logger.debug(`[Orchestrator] TierConfig phases: ${tierConfig.phases.join(', ')}`);
+    logger.debug(`[Orchestrator] TierConfig agents count: ${tierConfig.agents.length}`);
 
     this.plan = createBuildPlan(buildId, tier);
-    console.log(`[Orchestrator] Plan created with ${this.plan.phases.length} phases, ${this.plan.totalAgents} agents`);
+    logger.info(`[Orchestrator] Plan created with ${this.plan.phases.length} phases, ${this.plan.totalAgents} agents`);
 
     this.scheduler = new AgentScheduler(this.plan, options.maxConcurrency || tierConfig.maxConcurrency);
     this.tokenTracker = new TokenTracker(buildId, tierConfig.maxTokensPerBuild);
@@ -553,7 +554,7 @@ export class BuildOrchestrator {
       },
       logLevel: 'info',
     });
-    console.log(`[Orchestrator] ResilienceEngine initialized (tier: ${this.resilience.getCurrentTier()})`);
+    logger.debug(`[Orchestrator] ResilienceEngine initialized (tier: ${this.resilience.getCurrentTier()})`);
   }
 
   /** Map build tier to degradation tier */
@@ -574,8 +575,8 @@ export class BuildOrchestrator {
     outputPath?: string;
     filesWritten?: number;
   }> {
-    console.log(`[ORCH_START] ${new Date().toISOString()} - ENTERING: start()`);
-    console.log(`[ORCH_START] ${new Date().toISOString()} - STATE:`, JSON.stringify({
+    logger.debug(`[ORCH_START] ${new Date().toISOString()} - ENTERING: start()`);
+    logger.debug(`[ORCH_START] ${new Date().toISOString()} - STATE:`, JSON.stringify({
       buildId: this.buildId,
       status: this.status,
       phasesInPlan: this.plan.phases.length,
@@ -583,13 +584,13 @@ export class BuildOrchestrator {
     }));
 
     if (this.status === 'running') {
-      console.log(`[ORCH_START] ${new Date().toISOString()} - REJECTED: Already running`);
+      logger.warn(`[ORCH_START] ${new Date().toISOString()} - REJECTED: Already running`);
       return { success: false, error: { code: 'ALREADY_RUNNING', message: 'Build already running', recoverable: false } };
     }
 
-    console.log(`[ORCH_START] ${new Date().toISOString()} - Starting build ${this.buildId}`);
-    console.log(`[ORCH_START] ${new Date().toISOString()} - Plan has ${this.plan.phases.length} phases: ${this.plan.phases.map(p => p.phase).join(', ')}`);
-    console.log(`[ORCH_START] ${new Date().toISOString()} - Total agents in plan: ${this.plan.totalAgents}`);
+    logger.info(`[ORCH_START] ${new Date().toISOString()} - Starting build ${this.buildId}`);
+    logger.info(`[ORCH_START] ${new Date().toISOString()} - Plan has ${this.plan.phases.length} phases: ${this.plan.phases.map(p => p.phase).join(', ')}`);
+    logger.info(`[ORCH_START] ${new Date().toISOString()} - Total agents in plan: ${this.plan.totalAgents}`);
 
     this.status = 'running';
     this.context.setState('running');
@@ -605,11 +606,11 @@ export class BuildOrchestrator {
     const buildDescription = (this.context as any)['data']?.description || '';
     const healthScore = this.resilience.calculateHealthScore(buildDescription, this.resilience.getCurrentTier());
     this.resilience.addSpanMetadata(this.buildTrace, 'healthScore', healthScore.overall);
-    console.log(`[RESILIENCE] Health score: ${healthScore.overall}/100 (${healthScore.prediction})`);
+    logger.info(`[RESILIENCE] Health score: ${healthScore.overall}/100 (${healthScore.prediction})`);
 
     const proceedCheck = this.resilience.shouldProceed(healthScore);
     if (!proceedCheck.proceed) {
-      console.error(`[RESILIENCE] Build blocked by health check: ${proceedCheck.reason}`);
+      logger.error(`[RESILIENCE] Build blocked by health check: ${proceedCheck.reason}`);
       this.resilience.endSpan(this.buildTrace, 'FAILURE', proceedCheck.reason);
       this.resilience.exportTraces();
       return {
@@ -625,44 +626,44 @@ export class BuildOrchestrator {
     // SPEC COMPLIANCE: Parse spec to extract structured requirements
     // This prevents "false success" where builds claim 100% but only generate 3 pages
     if (buildDescription && buildDescription.length > 500) {
-      console.log(`[SPEC_COMPLIANCE] Parsing spec (${buildDescription.length} chars)...`);
+      logger.debug(`[SPEC_COMPLIANCE] Parsing spec (${buildDescription.length} chars)...`);
       const specResult = parseSpec(buildDescription);
 
       if (specResult.errors.length > 0) {
-        console.warn(`[SPEC_COMPLIANCE] Spec parse warnings:`, specResult.errors.map(e => e.message));
+        logger.warn(`[SPEC_COMPLIANCE] Spec parse warnings:`, specResult.errors.map(e => e.message));
       }
 
       if (specResult.requirements.pages.length > 0 || specResult.requirements.components.length > 0) {
         this.parsedSpecRequirements = specResult.requirements;
-        console.log(`[SPEC_COMPLIANCE] Parsed ${specResult.requirements.pages.length} pages, ${specResult.requirements.components.length} components`);
-        console.log(`[SPEC_COMPLIANCE] Critical: ${specResult.requirements.pages.filter(p => p.priority === 'P0').length} pages, ${specResult.requirements.components.filter(c => c.critical).length} components`);
+        logger.info(`[SPEC_COMPLIANCE] Parsed ${specResult.requirements.pages.length} pages, ${specResult.requirements.components.length} components`);
+        logger.info(`[SPEC_COMPLIANCE] Critical: ${specResult.requirements.pages.filter(p => p.priority === 'P0').length} pages, ${specResult.requirements.components.filter(c => c.critical).length} components`);
 
         // Reset tracker for this build and initialize with requirements
         resetRequirementsTracker();
         const tracker = getRequirementsTracker();
         tracker.initialize(specResult.requirements);
       } else {
-        console.log(`[SPEC_COMPLIANCE] No pages/components found in spec - skipping compliance tracking`);
+        logger.debug(`[SPEC_COMPLIANCE] No pages/components found in spec - skipping compliance tracking`);
       }
     }
 
     // Start heartbeat for debugging
     this.startHeartbeat();
-    console.log(`[ORCH_START] ${new Date().toISOString()} - Heartbeat started (5s interval)`);
+    logger.debug(`[ORCH_START] ${new Date().toISOString()} - Heartbeat started (5s interval)`);
 
     try {
       // Execute phases sequentially
       let phaseIndex = 0;
       for (const phasePlan of this.plan.phases) {
         phaseIndex++;
-        console.log(`[Orchestrator] ===== PHASE ${phaseIndex}/${this.plan.phases.length}: ${phasePlan.phase} =====`);
-        console.log(`[Orchestrator] Phase agents (${phasePlan.agents.length}): ${phasePlan.agents.join(', ')}`);
+        logger.info(`[Orchestrator] ===== PHASE ${phaseIndex}/${this.plan.phases.length}: ${phasePlan.phase} =====`);
+        logger.debug(`[Orchestrator] Phase agents (${phasePlan.agents.length}): ${phasePlan.agents.join(', ')}`);
         if (this.aborted) break;
 
         const phaseResult = await this.executePhase(phasePlan.phase);
-        console.log(`[ORCH_PHASE] ${new Date().toISOString()} - Phase ${phasePlan.phase} result: success=${phaseResult.success}, error=${phaseResult.error?.message || 'none'}`);
+        logger.info(`[ORCH_PHASE] ${new Date().toISOString()} - Phase ${phasePlan.phase} result: success=${phaseResult.success}, error=${phaseResult.error?.message || 'none'}`);
         if (!phaseResult.success && !this.options.continueOnError) {
-          console.log(`[ORCH_PHASE] ${new Date().toISOString()} - STOPPING BUILD: Phase ${phasePlan.phase} failed and continueOnError=false`);
+          logger.error(`[ORCH_PHASE] ${new Date().toISOString()} - STOPPING BUILD: Phase ${phasePlan.phase} failed and continueOnError=false`);
           this.stopHeartbeat();
           this.status = 'failed';
           this.context.setState('failed');
@@ -678,7 +679,7 @@ export class BuildOrchestrator {
         }
 
         this.completedPhases.add(phasePlan.phase);
-        console.log(`[Orchestrator] ✓ Phase ${phasePlan.phase} completed. Completed phases: ${Array.from(this.completedPhases).join(', ')}`);
+        logger.info(`[Orchestrator] Phase ${phasePlan.phase} completed. Completed phases: ${Array.from(this.completedPhases).join(', ')}`);
 
         if (this.options.pauseOnPhaseComplete) {
           this.status = 'paused';
@@ -687,16 +688,16 @@ export class BuildOrchestrator {
         }
       }
 
-      console.log(`[ORCH_END] ${new Date().toISOString()} - ===== ALL PHASES COMPLETED =====`);
-      console.log(`[ORCH_END] ${new Date().toISOString()} - Total phases executed: ${this.completedPhases.size}`);
-      console.log(`[ORCH_END] ${new Date().toISOString()} - Phases: ${Array.from(this.completedPhases).join(', ')}`);
+      logger.info(`[ORCH_END] ${new Date().toISOString()} - ===== ALL PHASES COMPLETED =====`);
+      logger.info(`[ORCH_END] ${new Date().toISOString()} - Total phases executed: ${this.completedPhases.size}`);
+      logger.info(`[ORCH_END] ${new Date().toISOString()} - Phases: ${Array.from(this.completedPhases).join(', ')}`);
 
       if (this.aborted) {
         this.stopHeartbeat();
         this.status = 'canceled';
         this.context.setState('canceled');
         this.emit({ type: 'build_canceled', buildId: this.buildId });
-        console.log(`[ORCH_END] ${new Date().toISOString()} - Build CANCELED`);
+        logger.warn(`[ORCH_END] ${new Date().toISOString()} - Build CANCELED`);
 
         // RESILIENCE v2.0: Finalize trace on cancel
         if (this.buildTrace) {
@@ -714,12 +715,12 @@ export class BuildOrchestrator {
       // the generated code actually compiles. This caused false success claims.
       // ═══════════════════════════════════════════════════════════════════════════════
 
-      console.log(`[ORCH_VALIDATION] ${new Date().toISOString()} - Starting post-build validation...`);
+      logger.info(`[ORCH_VALIDATION] ${new Date().toISOString()} - Starting post-build validation...`);
       this.emit({ type: 'validation_started', buildId: this.buildId });
 
       // Step 1: Write generated files from agent artifacts to disk
       const outputPath = this.options.outputPath || process.cwd() + '/.olympus/builds/' + this.buildId;
-      console.log(`[ORCH_VALIDATION] Writing project files to: ${outputPath}`);
+      logger.info(`[ORCH_VALIDATION] Writing project files to: ${outputPath}`);
 
       const fileWriteResult = await writeProjectFiles({
         buildId: this.buildId,
@@ -730,7 +731,7 @@ export class BuildOrchestrator {
       });
 
       if (!fileWriteResult.success) {
-        console.error(`[ORCH_VALIDATION] File write FAILED:`, fileWriteResult.errors);
+        logger.error(`[ORCH_VALIDATION] File write FAILED:`, fileWriteResult.errors);
         this.stopHeartbeat();
         this.status = 'failed';
         this.context.setState('failed');
@@ -745,13 +746,13 @@ export class BuildOrchestrator {
       }
 
       const fileSummary = summarizeFiles(fileWriteResult);
-      console.log(`[ORCH_VALIDATION] Files written: ${fileWriteResult.filesWritten}`);
-      console.log(`[ORCH_VALIDATION] By type:`, JSON.stringify(fileSummary.byType));
-      console.log(`[ORCH_VALIDATION] By agent:`, JSON.stringify(fileSummary.byAgent));
+      logger.info(`[ORCH_VALIDATION] Files written: ${fileWriteResult.filesWritten}`);
+      logger.debug(`[ORCH_VALIDATION] By type:`, JSON.stringify(fileSummary.byType));
+      logger.debug(`[ORCH_VALIDATION] By agent:`, JSON.stringify(fileSummary.byAgent));
 
       // SPEC COMPLIANCE: Track all written files for completeness checking
       if (this.parsedSpecRequirements) {
-        console.log(`[SPEC_COMPLIANCE] Tracking ${fileWriteResult.files.length} generated files...`);
+        logger.info(`[SPEC_COMPLIANCE] Tracking ${fileWriteResult.files.length} generated files...`);
         const tracker = getRequirementsTracker();
 
         for (const file of fileWriteResult.files) {
@@ -760,21 +761,21 @@ export class BuildOrchestrator {
             const content = fs.readFileSync(fullPath, 'utf-8');
             tracker.trackGeneratedFile(file.path, content);
           } catch (err) {
-            console.warn(`[SPEC_COMPLIANCE] Could not read file for tracking: ${file.path}`);
+            logger.warn(`[SPEC_COMPLIANCE] Could not read file for tracking: ${file.path}`);
           }
         }
 
         const pageCompletion = tracker.getPageCompletion();
         const componentCompletion = tracker.getComponentCompletion();
-        console.log(`[SPEC_COMPLIANCE] Page completion: ${pageCompletion.completed}/${pageCompletion.total} (${pageCompletion.percentage}%)`);
-        console.log(`[SPEC_COMPLIANCE] Component completion: ${componentCompletion.completed}/${componentCompletion.total} (${componentCompletion.percentage}%)`);
+        logger.info(`[SPEC_COMPLIANCE] Page completion: ${pageCompletion.completed}/${pageCompletion.total} (${pageCompletion.percentage}%)`);
+        logger.info(`[SPEC_COMPLIANCE] Component completion: ${componentCompletion.completed}/${componentCompletion.total} (${componentCompletion.percentage}%)`);
       }
 
       // Step 2: Check for missing required files and scaffold them
       const missingFiles = getMissingRequiredFiles(outputPath);
       if (missingFiles.length > 0) {
-        console.log(`[ORCH_VALIDATION] Missing required files: ${missingFiles.join(', ')}`);
-        console.log(`[ORCH_VALIDATION] Scaffolding missing config files...`);
+        logger.info(`[ORCH_VALIDATION] Missing required files: ${missingFiles.join(', ')}`);
+        logger.info(`[ORCH_VALIDATION] Scaffolding missing config files...`);
 
         const scaffoldResult = await scaffoldProject({
           projectPath: outputPath,
@@ -782,9 +783,9 @@ export class BuildOrchestrator {
           overwrite: false,  // Don't overwrite agent-generated files
         });
 
-        console.log(`[ORCH_VALIDATION] Scaffolded ${scaffoldResult.created.length} files`);
+        logger.info(`[ORCH_VALIDATION] Scaffolded ${scaffoldResult.created.length} files`);
         if (scaffoldResult.errors.length > 0) {
-          console.warn(`[ORCH_VALIDATION] Scaffold errors: ${scaffoldResult.errors.join(', ')}`);
+          logger.warn(`[ORCH_VALIDATION] Scaffold errors: ${scaffoldResult.errors.join(', ')}`);
         }
       }
 
@@ -793,7 +794,7 @@ export class BuildOrchestrator {
       let buildValidationResult: ProjectValidatorResult | null = null;
 
       if (fileWriteResult.filesWritten >= 5 && this.options.validateBuild !== false) {
-        console.log(`[ORCH_VALIDATION] Running npm install and npm run build...`);
+        logger.info(`[ORCH_VALIDATION] Running npm install and npm run build...`);
 
         buildValidationResult = await validateProjectBuild({
           projectPath: outputPath,
@@ -803,8 +804,8 @@ export class BuildOrchestrator {
         });
 
         if (!buildValidationResult.success) {
-          console.error(`[ORCH_VALIDATION] Build validation FAILED:`);
-          console.error(getValidationSummary(buildValidationResult));
+          logger.error(`[ORCH_VALIDATION] Build validation FAILED:`);
+          logger.error(getValidationSummary(buildValidationResult));
 
           this.stopHeartbeat();
           this.status = 'failed';
@@ -829,9 +830,9 @@ export class BuildOrchestrator {
           return { success: false, error: buildError };
         }
 
-        console.log(`[ORCH_VALIDATION] Build validation PASSED in ${buildValidationResult.buildTime}ms`);
+        logger.info(`[ORCH_VALIDATION] Build validation PASSED in ${buildValidationResult.buildTime}ms`);
       } else {
-        console.log(`[ORCH_VALIDATION] Skipping build validation (${fileWriteResult.filesWritten} files, validateBuild=${this.options.validateBuild})`);
+        logger.debug(`[ORCH_VALIDATION] Skipping build validation (${fileWriteResult.filesWritten} files, validateBuild=${this.options.validateBuild})`);
       }
 
       // SPEC COMPLIANCE: Run completeness gate before declaring success
@@ -839,7 +840,7 @@ export class BuildOrchestrator {
       let gateResult: CompletenessGateResult | null = null;
       // enforceSpecCompliance is an optional extension to OrchestrationOptions
       if (this.parsedSpecRequirements && (this.options as any).enforceSpecCompliance !== false) {
-        console.log(`[SPEC_COMPLIANCE] Running completeness gate...`);
+        logger.info(`[SPEC_COMPLIANCE] Running completeness gate...`);
         const tracker = getRequirementsTracker();
         gateResult = runCompletenessGate(tracker, {
           minPageCompletion: 90,
@@ -849,11 +850,11 @@ export class BuildOrchestrator {
           generateRegenInstructions: true,
         });
 
-        console.log(formatGateResult(gateResult));
+        logger.info(formatGateResult(gateResult));
 
         if (!gateResult.passed) {
-          console.error(`[SPEC_COMPLIANCE] COMPLETENESS GATE FAILED`);
-          console.error(`[SPEC_COMPLIANCE] Missing critical: ${gateResult.missing.criticalPages.length} pages, ${gateResult.missing.criticalComponents.length} components`);
+          logger.error(`[SPEC_COMPLIANCE] COMPLETENESS GATE FAILED`);
+          logger.error(`[SPEC_COMPLIANCE] Missing critical: ${gateResult.missing.criticalPages.length} pages, ${gateResult.missing.criticalComponents.length} components`);
 
           this.stopHeartbeat();
           this.status = 'failed';
@@ -880,7 +881,7 @@ export class BuildOrchestrator {
           return { success: false, error: complianceError };
         }
 
-        console.log(`[SPEC_COMPLIANCE] COMPLETENESS GATE PASSED`);
+        logger.info(`[SPEC_COMPLIANCE] COMPLETENESS GATE PASSED`);
       }
 
       // ═══════════════════════════════════════════════════════════════════════════════
@@ -890,7 +891,7 @@ export class BuildOrchestrator {
       this.stopHeartbeat();
       this.status = 'completed';
       this.context.setState('completed');
-      console.log(`[ORCH_END] ${new Date().toISOString()} - BUILD COMPLETED SUCCESSFULLY (VALIDATED)`);
+      logger.info(`[ORCH_END] ${new Date().toISOString()} - BUILD COMPLETED SUCCESSFULLY (VALIDATED)`);
       this.emit({
         type: 'build_completed',
         buildId: this.buildId,
@@ -910,7 +911,7 @@ export class BuildOrchestrator {
         this.resilience.addSpanMetadata(this.buildTrace, 'buildValidated', !!buildValidationResult?.success);
         this.resilience.endSpan(this.buildTrace, 'SUCCESS');
         this.resilience.exportTraces();
-        console.log(`[RESILIENCE] Build completed. Report:`, JSON.stringify(resilienceReport, null, 2));
+        logger.info(`[RESILIENCE] Build completed. Report:`, JSON.stringify(resilienceReport, null, 2));
       }
 
       // Store build fingerprint for future cache
@@ -923,7 +924,7 @@ export class BuildOrchestrator {
       return { success: true, outputPath, filesWritten: fileWriteResult.filesWritten };
     } catch (error) {
       this.stopHeartbeat();
-      console.error(`[ORCH_ERROR] ${new Date().toISOString()} - BUILD FAILED WITH ERROR:`, error);
+      logger.error(`[ORCH_ERROR] ${new Date().toISOString()} - BUILD FAILED WITH ERROR:`, error);
       this.status = 'failed';
       this.context.setState('failed');
       const orchError: OrchestrationError = {
@@ -946,7 +947,7 @@ export class BuildOrchestrator {
 
   /** Execute a single phase */
   private async executePhase(phase: BuildPhase): Promise<{ success: boolean; error?: OrchestrationError }> {
-    console.log(`[ORCH_PHASE] ${new Date().toISOString()} - ENTERING: executePhase(${phase})`);
+    logger.debug(`[ORCH_PHASE] ${new Date().toISOString()} - ENTERING: executePhase(${phase})`);
 
     // FIX 2: Phase Timeout (10 minutes max per phase)
     const PHASE_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutes
@@ -970,7 +971,7 @@ export class BuildOrchestrator {
     let lastProgressTime = Date.now();
     let lastCompletedCount = this.scheduler.getCompletedAgents().length;
 
-    console.log(`[ORCH_PHASE] ${new Date().toISOString()} - Starting phase loop for ${phase}`);
+    logger.debug(`[ORCH_PHASE] ${new Date().toISOString()} - Starting phase loop for ${phase}`);
 
     while (!this.scheduler.isPhaseComplete() && !this.aborted) {
       loopIteration++;
@@ -981,7 +982,7 @@ export class BuildOrchestrator {
 
       if (phaseElapsed >= PHASE_TIMEOUT_MS) {
         const runningAgents = this.scheduler.getRunningAgents();
-        console.log(`[ORCH_PHASE] ${new Date().toISOString()} - Phase ${phase} TIMED OUT after ${phaseElapsed / 60000} minutes`);
+        logger.error(`[ORCH_PHASE] ${new Date().toISOString()} - Phase ${phase} TIMED OUT after ${phaseElapsed / 60000} minutes`);
         logToFile(`[PHASE_TIMEOUT] phase=${phase} elapsed=${phaseElapsed}ms abandonedAgents=${runningAgents.join(',')}`);
 
         // CRITICAL: Mark running agents as failed (they're abandoned)
@@ -1016,7 +1017,7 @@ export class BuildOrchestrator {
           deadlockCounter,
           isPhaseComplete: this.scheduler.isPhaseComplete(),
         };
-        console.log(`[ORCH_LOOP] ${new Date().toISOString()} - Loop iteration ${loopIteration}`, JSON.stringify(loopState));
+        logger.debug(`[ORCH_LOOP] ${new Date().toISOString()} - Loop iteration ${loopIteration}`, JSON.stringify(loopState));
         logToFile(`[ORCH_LOOP] iteration=${loopIteration} ${JSON.stringify(loopState)}`);
       }
 
@@ -1041,7 +1042,7 @@ export class BuildOrchestrator {
           }
 
           if (deadlockCounter >= DEADLOCK_THRESHOLD) {
-            console.log(`[Orchestrator] DEADLOCK DETECTED in phase ${phase} - marking blocked agents as failed`);
+            logger.warn(`[Orchestrator] DEADLOCK DETECTED in phase ${phase} - marking blocked agents as failed`);
             logToFile(`[DEADLOCK] DETECTED in phase ${phase} - marking blocked agents as failed`);
             const blockedAgents = this.scheduler.getBlockedAgents();
             logToFile(`[DEADLOCK] Blocked agents: ${blockedAgents.join(', ')}`);
@@ -1059,7 +1060,7 @@ export class BuildOrchestrator {
           // Instead, check if we've been stuck for too long (no progress in 30 seconds)
           const STALL_TIMEOUT_MS = 30000; // 30 seconds without any agent completing
           if (Date.now() - lastProgressTime > STALL_TIMEOUT_MS) {
-            console.log(`[Orchestrator] STALL DETECTED in phase ${phase} - running agents may be stuck`);
+            logger.warn(`[Orchestrator] STALL DETECTED in phase ${phase} - running agents may be stuck`);
             logToFile(`[STALL] phase=${phase} noProgressFor=${Date.now() - lastProgressTime}ms runningAgents=${runningAgents.join(',')}`);
             // Increment deadlock counter even though agents are running
             deadlockCounter++;
@@ -1116,7 +1117,7 @@ export class BuildOrchestrator {
 
             // continueOnError=true: Log but continue to complete all agents in phase
             logToFile(`[PHASE_CONTINUE] Required agent ${result.agentId} failed, but continueOnError=true, continuing phase execution`);
-            console.log(`[ORCHESTRATOR] Agent ${result.agentId} failed but continuing (continueOnError=true)`);
+            logger.warn(`[ORCHESTRATOR] Agent ${result.agentId} failed but continuing (continueOnError=true)`);
           }
         }
       }
@@ -1142,7 +1143,7 @@ export class BuildOrchestrator {
 
   /** Execute a single agent with feedback loop for quality assurance */
   private async executeAgent(agentId: AgentId, phase: BuildPhase): Promise<{ success: boolean; agentId: AgentId; error?: OrchestrationError }> {
-    console.log(`[AGENT_CALL] ${new Date().toISOString()} - ENTERING: executeAgent(${agentId})`);
+    logger.debug(`[AGENT_CALL] ${new Date().toISOString()} - ENTERING: executeAgent(${agentId})`);
     this.currentAgent = agentId;
     const agentStartTime = Date.now();
 
@@ -1153,13 +1154,13 @@ export class BuildOrchestrator {
 
     // RESILIENCE v2.0: Check circuit breaker before execution
     if (this.resilience.isCircuitOpen(agentId)) {
-      console.warn(`[CIRCUIT] Agent ${agentId} circuit is OPEN - attempting fallback`);
+      logger.warn(`[CIRCUIT] Agent ${agentId} circuit is OPEN - attempting fallback`);
       logToFile(`[CIRCUIT] Agent ${agentId} circuit OPEN, attempting fallback`);
 
       // Try to get fallback response
       const fallback = await this.resilience.getFallback(agentId, { phase });
       if (fallback) {
-        console.log(`[CIRCUIT] Using cached fallback for ${agentId}`);
+        logger.info(`[CIRCUIT] Using cached fallback for ${agentId}`);
         this.scheduler.completeAgent(agentId);
         this.currentAgent = null;
         if (agentSpan) this.resilience.endSpan(agentSpan, 'SUCCESS');
@@ -1169,7 +1170,7 @@ export class BuildOrchestrator {
       // No fallback, agent is optional - skip it
       const agent = getAgent(agentId);
       if (agent?.optional) {
-        console.log(`[CIRCUIT] Skipping optional agent ${agentId} (circuit open, no fallback)`);
+        logger.info(`[CIRCUIT] Skipping optional agent ${agentId} (circuit open, no fallback)`);
         this.scheduler.completeAgent(agentId);
         this.currentAgent = null;
         if (agentSpan) this.resilience.endSpan(agentSpan, 'SUCCESS');
@@ -1195,7 +1196,7 @@ export class BuildOrchestrator {
 
     // RESILIENCE v2.0: Check if agent is active in current degradation tier
     if (!this.resilience.isAgentActive(agentId)) {
-      console.log(`[DEGRADATION] Agent ${agentId} not active in tier ${this.resilience.getCurrentTier()} - skipping`);
+      logger.debug(`[DEGRADATION] Agent ${agentId} not active in tier ${this.resilience.getCurrentTier()} - skipping`);
       logToFile(`[DEGRADATION] Skipping ${agentId} (not in tier ${this.resilience.getCurrentTier()})`);
 
       // FIX: Record placeholder output so downstream agents can handle gracefully
@@ -1243,19 +1244,20 @@ export class BuildOrchestrator {
 
     const agent = getAgent(agentId);
     if (!agent) {
-      console.error(`[AGENT_CALL] ${new Date().toISOString()} - UNKNOWN AGENT: ${agentId}`);
+      logger.error(`[AGENT_CALL] ${new Date().toISOString()} - UNKNOWN AGENT: ${agentId}`);
       this.scheduler.failAgent(agentId);
       this.currentAgent = null;
       if (agentSpan) this.resilience.endSpan(agentSpan, 'FAILURE', 'Unknown agent');
       return { success: false, agentId, error: { code: 'UNKNOWN_AGENT', message: `Unknown agent: ${agentId}`, recoverable: false } };
     }
 
-    console.log(`[AGENT_CALL] ${new Date().toISOString()} - CALLING: ${agentId} (phase: ${phase})`);
+    logger.info(`[AGENT_CALL] ${new Date().toISOString()} - CALLING: ${agentId} (phase: ${phase})`);
     logToFile(`[AGENT_CALL] CALLING ${agentId} (phase: ${phase})`);
 
     // Execute with feedback loop - WRAPPED WITH TIMEOUT
     // Pixel agent needs longer timeout due to batch component generation (9 components in 5 batches)
-    const AGENT_TIMEOUT_MS = agentId === 'pixel' ? 300000 : 180000; // 5 min for pixel, 3 min for others
+    // FIX C002: Increased pixel timeout from 5min to 10min - complex UI generation was timing out
+    const AGENT_TIMEOUT_MS = agentId === 'pixel' ? 600000 : 180000; // 10 min for pixel, 3 min for others
     try {
       const result = await Promise.race([
         this.executeAgentWithFeedback(agentId, phase, agent),
@@ -1265,7 +1267,7 @@ export class BuildOrchestrator {
       ]);
 
       const duration = Date.now() - agentStartTime;
-      console.log(`[AGENT_CALL] ${new Date().toISOString()} - COMPLETED: ${agentId} in ${duration}ms, success=${result.success}`);
+      logger.info(`[AGENT_CALL] ${new Date().toISOString()} - COMPLETED: ${agentId} in ${duration}ms, success=${result.success}`);
       logToFile(`[AGENT_CALL] COMPLETED ${agentId} in ${duration}ms, success=${result.success}`);
 
       // RESILIENCE v2.0: Record success/failure and detect anomalies
@@ -1287,7 +1289,7 @@ export class BuildOrchestrator {
         // RESILIENCE v2.0: Attempt self-healing
         const healingActions = this.resilience.analyzeFailure(agentId, errorMsg, { phase });
         if (healingActions.length > 0) {
-          console.log(`[SELF-HEAL] Suggested actions for ${agentId}:`, healingActions.map(a => a.type).join(', '));
+          logger.info(`[SELF-HEAL] Suggested actions for ${agentId}:`, healingActions.map(a => a.type).join(', '));
           logToFile(`[SELF-HEAL] ${agentId}: ${healingActions.map(a => `${a.type}(${a.confidence})`).join(', ')}`);
         }
 
@@ -1303,7 +1305,7 @@ export class BuildOrchestrator {
     } catch (error) {
       const duration = Date.now() - agentStartTime;
       const errorMsg = error instanceof Error ? error.message : 'Unknown error';
-      console.error(`[AGENT_CALL] ${new Date().toISOString()} - TIMEOUT/ERROR: ${agentId} after ${duration}ms:`, error);
+      logger.error(`[AGENT_CALL] ${new Date().toISOString()} - TIMEOUT/ERROR: ${agentId} after ${duration}ms:`, error);
       logToFile(`[AGENT_CALL] TIMEOUT/ERROR ${agentId} after ${duration}ms: ${errorMsg}`);
 
       // RESILIENCE v2.0: Record timeout failure
@@ -1348,22 +1350,22 @@ export class BuildOrchestrator {
       const components = this.extractComponentsFromBlocks(blocksOutput);
 
       if (components.length > 0) {
-        console.log(`[Orchestrator] PIXEL-AS-EMITTER: Found ${components.length} components to generate`);
+        logger.info(`[Orchestrator] PIXEL-AS-EMITTER: Found ${components.length} components to generate`);
         return this.executePixelPerComponent(phase, agent, components);
       }
 
       // FIX #5: Try to derive from STRATEGOS before failing
-      console.warn(`[Orchestrator] PIXEL: No components from BLOCKS, trying STRATEGOS fallback`);
+      logger.warn(`[Orchestrator] PIXEL: No components from BLOCKS, trying STRATEGOS fallback`);
       const strategosOutput = this.context.getPreviousOutputs(['strategos'])['strategos'];
       const derivedComponents = this.deriveComponentsFromStrategos(strategosOutput);
 
       if (derivedComponents.length > 0) {
-        console.log(`[Orchestrator] PIXEL-FALLBACK: Derived ${derivedComponents.length} components from STRATEGOS`);
+        logger.info(`[Orchestrator] PIXEL-FALLBACK: Derived ${derivedComponents.length} components from STRATEGOS`);
         return this.executePixelPerComponent(phase, agent, derivedComponents);
       }
 
       // FIX #5: Fail with helpful error instead of generating garbage
-      console.error(`[PIXEL_FAIL] No component specs from BLOCKS or STRATEGOS - cannot generate meaningful components`);
+      logger.error(`[PIXEL_FAIL] No component specs from BLOCKS or STRATEGOS - cannot generate meaningful components`);
       this.scheduler.failAgent(agentId);
       return {
         success: false,
@@ -1385,10 +1387,10 @@ export class BuildOrchestrator {
       const requiredPages = this.deriveWireRequirements(previousOutputs);
 
       if (requiredPages.length > 0) {
-        console.log(`[Orchestrator] WIRE-AS-EMITTER: Found ${requiredPages.length} required pages/components`);
+        logger.info(`[Orchestrator] WIRE-AS-EMITTER: Found ${requiredPages.length} required pages/components`);
         return this.executeWireWithCoverage(phase, agent, requiredPages, previousOutputs);
       }
-      console.log(`[Orchestrator] WIRE: No requirements derived, falling back to standard execution`);
+      logger.debug(`[Orchestrator] WIRE: No requirements derived, falling back to standard execution`);
     }
 
     let bestResult: ExecutionResult | null = null;
@@ -1398,7 +1400,7 @@ export class BuildOrchestrator {
     const maxIterations = this.feedbackConfig.enabled ? this.feedbackConfig.maxIterations : 1;
 
     for (let iteration = 1; iteration <= maxIterations; iteration++) {
-      console.log(`[Orchestrator] Agent ${agentId} - Iteration ${iteration}/${maxIterations}`);
+      logger.debug(`[Orchestrator] Agent ${agentId} - Iteration ${iteration}/${maxIterations}`);
 
       // Step 1: Build base agent input with feedback from previous iteration
       const baseInput: AgentInput = {
@@ -1432,14 +1434,14 @@ export class BuildOrchestrator {
 
       // Log injection for debugging
       if (constraintText && constraintText.length > 0) {
-        console.log(`[50X COORDINATION] ${agentId}: Injected ${estimatedTokens} tokens of upstream constraints`);
+        logger.debug(`[50X COORDINATION] ${agentId}: Injected ${estimatedTokens} tokens of upstream constraints`);
       }
 
       // Execute agent
-      console.log(`[EXECUTOR] ${new Date().toISOString()} - Creating executor for ${agentId}, iteration ${iteration}`);
+      logger.debug(`[EXECUTOR] ${new Date().toISOString()} - Creating executor for ${agentId}, iteration ${iteration}`);
       const executor = new AgentExecutor(agentId, this.tokenTracker);
 
-      console.log(`[EXECUTOR] ${new Date().toISOString()} - CALLING executor.execute() for ${agentId}`);
+      logger.debug(`[EXECUTOR] ${new Date().toISOString()} - CALLING executor.execute() for ${agentId}`);
       const execStartTime = Date.now();
 
       const result = await executor.execute(input, {
@@ -1456,7 +1458,7 @@ export class BuildOrchestrator {
       });
 
       const execDuration = Date.now() - execStartTime;
-      console.log(`[EXECUTOR] ${new Date().toISOString()} - executor.execute() RETURNED for ${agentId} in ${execDuration}ms`, JSON.stringify({
+      logger.debug(`[EXECUTOR] ${new Date().toISOString()} - executor.execute() RETURNED for ${agentId} in ${execDuration}ms`, JSON.stringify({
         success: result.success,
         hasOutput: !!result.output,
         errorMessage: result.error?.message || null,
@@ -1465,7 +1467,7 @@ export class BuildOrchestrator {
 
       if (!result.success || !result.output) {
         // Execution failed - try again if we have iterations left
-        console.warn(`[EXECUTOR] ${new Date().toISOString()} - Agent ${agentId} iteration ${iteration} FAILED: ${result.error?.message || 'No output'}`);
+        logger.warn(`[EXECUTOR] ${new Date().toISOString()} - Agent ${agentId} iteration ${iteration} FAILED: ${result.error?.message || 'No output'}`);
         lastErrors = [result.error?.message || 'Execution failed'];
         continue;
       }
@@ -1475,11 +1477,11 @@ export class BuildOrchestrator {
         const qualityResult = await this.checkAgentOutputQuality(result.output, agentId);
         const score = qualityResult.overallScore;
 
-        console.log(`[Orchestrator] Agent ${agentId} - Quality Score: ${score}/100 (min: ${this.feedbackConfig.minQualityScore})`);
+        logger.debug(`[Orchestrator] Agent ${agentId} - Quality Score: ${score}/100 (min: ${this.feedbackConfig.minQualityScore})`);
 
         // FIX 3: If quality gates failed with stopOnFailure=true, fail immediately (no retry)
         if (qualityResult.overallStatus === 'failed') {
-          console.error(`[Orchestrator] Agent ${agentId} - QUALITY GATE HARD FAILURE (stopOnFailure=true, score=${score})`);
+          logger.error(`[Orchestrator] Agent ${agentId} - QUALITY GATE HARD FAILURE (stopOnFailure=true, score=${score})`);
           logToFile(`[QUALITY_STOP] agent=${agentId} score=${score} status=failed recommendations=${qualityResult.recommendations.join('; ')}`);
           // FIX 4: Remove agent from running set to prevent infinite loop
           this.scheduler.failAgent(agentId);
@@ -1515,19 +1517,19 @@ export class BuildOrchestrator {
 
         // Check if quality is acceptable
         if (score >= this.feedbackConfig.minQualityScore) {
-          console.log(`[Orchestrator] Agent ${agentId} - Quality PASSED on iteration ${iteration}`);
+          logger.info(`[Orchestrator] Agent ${agentId} - Quality PASSED on iteration ${iteration}`);
 
           // ARCHITECTURE VALIDATION v2.1 - Run architecture gates on applicable agents
           const ARCH_VALIDATED_AGENTS: AgentId[] = ['archon', 'datum', 'nexus', 'sentinel', 'forge', 'pixel', 'wire'];
           if (ARCH_VALIDATED_AGENTS.includes(agentId)) {
             const archResult = await this.validateArchitectureCompliance(result.output!, agentId);
             if (!archResult.passed) {
-              console.warn(`[Orchestrator] Agent ${agentId} - Architecture validation FAILED (score: ${archResult.score})`);
+              logger.warn(`[Orchestrator] Agent ${agentId} - Architecture validation FAILED (score: ${archResult.score})`);
               // Add architecture issues to feedback for retry
               lastErrors = archResult.issues.slice(0, 5);
               continue; // Retry with architecture feedback
             }
-            console.log(`[Orchestrator] Agent ${agentId} - Architecture validation PASSED (score: ${archResult.score})`);
+            logger.info(`[Orchestrator] Agent ${agentId} - Architecture validation PASSED (score: ${archResult.score})`);
           }
 
           return this.finalizeAgentSuccess(agentId, result);
@@ -1550,7 +1552,7 @@ export class BuildOrchestrator {
 
     // Max iterations reached - use best result if we have one
     if (bestResult && bestResult.output) {
-      console.log(`[Orchestrator] Agent ${agentId} - Max iterations reached. Using best result (score: ${bestScore})`);
+      logger.warn(`[Orchestrator] Agent ${agentId} - Max iterations reached. Using best result (score: ${bestScore})`);
       return this.finalizeAgentSuccess(agentId, bestResult);
     }
 
@@ -1587,7 +1589,7 @@ export class BuildOrchestrator {
     if (files.length === 0) {
       // If this agent MUST produce code, fail it
       if (requiresCode) {
-        console.error(`[Orchestrator] CRITICAL: Agent ${agentId} completed but produced NO code files`);
+        logger.error(`[Orchestrator] CRITICAL: Agent ${agentId} completed but produced NO code files`);
         return {
           buildId: this.buildId,
           projectId: this.context['data'].projectId,
@@ -1682,12 +1684,12 @@ export class BuildOrchestrator {
 
     // Log architecture validation results
     if (!result.passed) {
-      console.warn(`[Orchestrator] ARCHITECTURE VALIDATION FAILED for ${agentId}:`);
+      logger.warn(`[Orchestrator] ARCHITECTURE VALIDATION FAILED for ${agentId}:`);
       for (const issue of result.issues.filter(i => i.severity === 'error').slice(0, 5)) {
-        console.warn(`  - [${issue.rule}] ${issue.message}`);
+        logger.warn(`  - [${issue.rule}] ${issue.message}`);
       }
     } else {
-      console.log(`[Orchestrator] ARCHITECTURE VALIDATION PASSED for ${agentId} (score: ${result.overallScore})`);
+      logger.info(`[Orchestrator] ARCHITECTURE VALIDATION PASSED for ${agentId} (score: ${result.overallScore})`);
     }
 
     return {
@@ -1714,14 +1716,14 @@ export class BuildOrchestrator {
         if (criticalIssues.length > 0) {
           securityBlocked = true;
           securityBlockReason = `Security issue in ${artifact.path}: ${criticalIssues[0].message}`;
-          console.error(`[Orchestrator] SECURITY BLOCK: Agent ${agentId} output blocked`, {
+          logger.error(`[Orchestrator] SECURITY BLOCK: Agent ${agentId} output blocked`, {
             file: artifact.path,
             issues: criticalIssues,
           });
           break;
         } else {
           // Log non-critical security warnings
-          console.warn(`[Orchestrator] Security warnings in ${artifact.path}:`, securityResult.issues);
+          logger.warn(`[Orchestrator] Security warnings in ${artifact.path}:`, securityResult.issues);
         }
       }
     }
@@ -1747,13 +1749,13 @@ export class BuildOrchestrator {
       const archonOutput = this.extractArchonOutputFromArtifacts(result.output!);
 
       if (!validateArchonOutput(archonOutput)) {
-        console.warn(`[50X GATE] ARCHON output missing structured pattern. Attempting recovery...`);
+        logger.warn(`[50X GATE] ARCHON output missing structured pattern. Attempting recovery...`);
 
         // Try to parse and merge with defaults
         const parsedOutput = parseArchonOutput(archonOutput, this.context['data'].tier);
 
         // Log what we recovered
-        console.log(`[50X GATE] ARCHON recovered: pattern=${parsedOutput.architecture.pattern}, multiTenant=${parsedOutput.multiTenancy.enabled}`);
+        logger.info(`[50X GATE] ARCHON recovered: pattern=${parsedOutput.architecture.pattern}, multiTenant=${parsedOutput.multiTenancy.enabled}`);
 
         // Store the enhanced output back
         if (result.output) {
@@ -1767,7 +1769,7 @@ export class BuildOrchestrator {
           result.output.artifacts.push(enhancedArtifact);
         }
       } else {
-        console.log(`[50X GATE] ARCHON output validated: structured architecture decisions present`);
+        logger.debug(`[50X GATE] ARCHON output validated: structured architecture decisions present`);
       }
     }
 
@@ -1795,9 +1797,9 @@ export class BuildOrchestrator {
       const warningViolations = violations.filter(v => v.severity === 'warning');
 
       if (errorViolations.length > 0) {
-        console.error(`[50X GATE] ${agentId} has ${errorViolations.length} constraint ERRORS:`);
+        logger.error(`[50X GATE] ${agentId} has ${errorViolations.length} constraint ERRORS:`);
         for (const v of errorViolations) {
-          console.error(`  ❌ ${v.constraint}: ${v.violation}`);
+          logger.error(`  [X] ${v.constraint}: ${v.violation}`);
         }
 
         // For now, log but don't block (could enable strict mode later)
@@ -1816,14 +1818,14 @@ export class BuildOrchestrator {
       }
 
       if (warningViolations.length > 0) {
-        console.warn(`[50X GATE] ${agentId} has ${warningViolations.length} constraint warnings:`);
+        logger.warn(`[50X GATE] ${agentId} has ${warningViolations.length} constraint warnings:`);
         for (const v of warningViolations) {
-          console.warn(`  ⚠️ ${v.constraint}: ${v.violation}`);
+          logger.warn(`  [!] ${v.constraint}: ${v.violation}`);
         }
       }
 
       if (violations.length === 0) {
-        console.log(`[50X GATE] ${agentId} passed all constraint checks ✅`);
+        logger.debug(`[50X GATE] ${agentId} passed all constraint checks`);
       }
     }
 
@@ -1948,7 +1950,7 @@ export class BuildOrchestrator {
    */
   private extractComponentsFromBlocks(blocksOutput?: AgentOutput): ComponentSpec[] {
     if (!blocksOutput?.artifacts) {
-      console.log('[Orchestrator] PIXEL-AS-EMITTER: No Blocks output found');
+      logger.debug('[Orchestrator] PIXEL-AS-EMITTER: No Blocks output found');
       return [];
     }
 
@@ -1958,7 +1960,7 @@ export class BuildOrchestrator {
     );
 
     if (!docArtifact?.content) {
-      console.log('[Orchestrator] PIXEL-AS-EMITTER: No document artifact in Blocks output');
+      logger.debug('[Orchestrator] PIXEL-AS-EMITTER: No document artifact in Blocks output');
       return [];
     }
 
@@ -1968,7 +1970,7 @@ export class BuildOrchestrator {
     );
 
     if (!parsed) {
-      console.error('[Orchestrator] PIXEL-AS-EMITTER: Failed to parse Blocks output');
+      logger.error('[Orchestrator] PIXEL-AS-EMITTER: Failed to parse Blocks output');
       return [];
     }
 
@@ -1984,18 +1986,18 @@ export class BuildOrchestrator {
       if (comp.anatomy && comp.anatomy.parts?.length > 0) hasAnatomy++;
     }
 
-    console.log(`[Orchestrator] PIXEL-AS-EMITTER: Extracted ${components.length} components:`,
+    logger.info(`[Orchestrator] PIXEL-AS-EMITTER: Extracted ${components.length} components:`,
       components.map(c => c.name).join(', '));
-    console.log(`[Orchestrator] BLOCKS→PIXEL Contract: states=${hasStates}/${components.length}, ` +
+    logger.debug(`[Orchestrator] BLOCKS->PIXEL Contract: states=${hasStates}/${components.length}, ` +
       `accessibility=${hasAccessibility}/${components.length}, motion=${hasMotion}/${components.length}, ` +
       `variants=${hasVariants}/${components.length}, anatomy=${hasAnatomy}/${components.length}`);
 
     // Warn if BLOCKS output is missing critical fields
     if (components.length > 0 && hasStates === 0) {
-      console.warn('[Orchestrator] ⚠️ BLOCKS output missing states - PIXEL quality may suffer');
+      logger.warn('[Orchestrator] BLOCKS output missing states - PIXEL quality may suffer');
     }
     if (components.length > 0 && hasAccessibility === 0) {
-      console.warn('[Orchestrator] ⚠️ BLOCKS output missing accessibility specs');
+      logger.warn('[Orchestrator] BLOCKS output missing accessibility specs');
     }
 
     return components;
@@ -2007,7 +2009,7 @@ export class BuildOrchestrator {
    */
   private deriveComponentsFromStrategos(strategosOutput?: AgentOutput): ComponentSpec[] {
     if (!strategosOutput?.artifacts) {
-      console.log('[Orchestrator] PIXEL-FALLBACK: No STRATEGOS output found');
+      logger.debug('[Orchestrator] PIXEL-FALLBACK: No STRATEGOS output found');
       return [];
     }
 
@@ -2016,7 +2018,7 @@ export class BuildOrchestrator {
     );
 
     if (!docArtifact?.content) {
-      console.log('[Orchestrator] PIXEL-FALLBACK: No document artifact in STRATEGOS output');
+      logger.debug('[Orchestrator] PIXEL-FALLBACK: No document artifact in STRATEGOS output');
       return [];
     }
 
@@ -2040,7 +2042,7 @@ export class BuildOrchestrator {
     } | null>(docArtifact.content, null, 'orchestrator:strategosFallback');
 
     if (!parsed?.featureChecklist) {
-      console.log('[Orchestrator] PIXEL-FALLBACK: No featureChecklist in STRATEGOS output');
+      logger.debug('[Orchestrator] PIXEL-FALLBACK: No featureChecklist in STRATEGOS output');
       return [];
     }
 
@@ -2073,7 +2075,7 @@ export class BuildOrchestrator {
         },
       }));
 
-    console.log(`[Orchestrator] PIXEL-FALLBACK: Derived ${components.length} minimal components from STRATEGOS:`,
+    logger.info(`[Orchestrator] PIXEL-FALLBACK: Derived ${components.length} minimal components from STRATEGOS:`,
       components.map(c => c.name).join(', '));
 
     return components;
@@ -2111,9 +2113,9 @@ export class BuildOrchestrator {
     const totalBatches = batches.length;
 
     // Log classification with criticality
-    console.log(`[Orchestrator] PIXEL PLANNER v3: ${components.length} components → ${totalBatches} batches`);
+    logger.info(`[Orchestrator] PIXEL PLANNER v3: ${components.length} components -> ${totalBatches} batches`);
     for (const batch of batches) {
-      console.log(`  [${batch.criticality}/${batch.class}] ${batch.components.map(c => c.name).join(', ')}`);
+      logger.debug(`  [${batch.criticality}/${batch.class}] ${batch.components.map(c => c.name).join(', ')}`);
     }
 
     // STEP 2: Check cache for each component first
@@ -2129,7 +2131,7 @@ export class BuildOrchestrator {
 
         if (cached) {
           cacheHits++;
-          console.log(`[PixelCache] HIT: ${comp.name} (${cacheKey})`);
+          logger.debug(`[PixelCache] HIT: ${comp.name} (${cacheKey})`);
           // Add cached files as artifacts
           for (const file of cached.files) {
             allArtifacts.push({
@@ -2154,14 +2156,14 @@ export class BuildOrchestrator {
       }
     }
 
-    console.log(`[PixelCache] Summary: ${cacheHits} hits, ${cacheMisses} misses`);
+    logger.info(`[PixelCache] Summary: ${cacheHits} hits, ${cacheMisses} misses`);
 
     // STEP 3: Execute uncached batches
     for (let batchIdx = 0; batchIdx < uncachedBatches.length; batchIdx++) {
       const batch = uncachedBatches[batchIdx];
       const batchComponents = batch.components.slice(0, MAX_BATCH_SIZE);
 
-      console.log(`[Orchestrator] PIXEL BATCH ${batchIdx + 1}/${uncachedBatches.length}: [${batch.criticality}/${batch.class}] (${batchComponents.length} components)`);
+      logger.info(`[Orchestrator] PIXEL BATCH ${batchIdx + 1}/${uncachedBatches.length}: [${batch.criticality}/${batch.class}] (${batchComponents.length} components)`);
 
       // Build file paths
       const filePaths = batchComponents.map(c => {
@@ -2213,7 +2215,7 @@ export class BuildOrchestrator {
           break;
         }
 
-        console.log(`[Orchestrator] PIXEL BATCH ${batchIdx + 1} [${batch.criticality}] attempt ${attempt}/${maxAttempts} failed`);
+        logger.warn(`[Orchestrator] PIXEL BATCH ${batchIdx + 1} [${batch.criticality}] attempt ${attempt}/${maxAttempts} failed`);
       }
 
       if (batchResult?.output) {
@@ -2236,25 +2238,25 @@ export class BuildOrchestrator {
 
           if (matchingFiles.length > 0) {
             setCachedOutput(cacheKey, matchingFiles);
-            console.log(`[PixelCache] SAVED: ${comp.name} (${cacheKey})`);
+            logger.debug(`[PixelCache] SAVED: ${comp.name} (${cacheKey})`);
           }
         }
 
-        console.log(`[Orchestrator] PIXEL BATCH ${batchIdx + 1}: ✓ ${codeArtifacts.length} files`);
+        logger.info(`[Orchestrator] PIXEL BATCH ${batchIdx + 1}: ${codeArtifacts.length} files`);
       } else {
         // FAILURE: Apply criticality rules
         switch (batch.criticality) {
           case 'critical':
             criticalFailures += batchComponents.length;
-            console.error(`[Orchestrator] PIXEL BATCH ${batchIdx + 1}: ✗ CRITICAL FAILURE (${batchComponents.map(c => c.name).join(', ')})`);
+            logger.error(`[Orchestrator] PIXEL BATCH ${batchIdx + 1}: CRITICAL FAILURE (${batchComponents.map(c => c.name).join(', ')})`);
             break;
           case 'important':
             importantFailures += batchComponents.length;
-            console.warn(`[Orchestrator] PIXEL BATCH ${batchIdx + 1}: ✗ IMPORTANT DEGRADED (${batchComponents.map(c => c.name).join(', ')})`);
+            logger.warn(`[Orchestrator] PIXEL BATCH ${batchIdx + 1}: IMPORTANT DEGRADED (${batchComponents.map(c => c.name).join(', ')})`);
             break;
           case 'optional':
             optionalFailures += batchComponents.length;
-            console.log(`[Orchestrator] PIXEL BATCH ${batchIdx + 1}: ○ Optional skipped (${batchComponents.map(c => c.name).join(', ')})`);
+            logger.debug(`[Orchestrator] PIXEL BATCH ${batchIdx + 1}: Optional skipped (${batchComponents.map(c => c.name).join(', ')})`);
             break;
         }
       }
@@ -2279,9 +2281,9 @@ export class BuildOrchestrator {
     const codeArtifacts = allArtifacts.filter(a => a.type === 'code' && a.content);
 
     // CRITICALITY-AWARE FAILURE RULES
-    // Rule 1: Any critical component fails → build fails
+    // Rule 1: Any critical component fails -> build fails
     if (criticalFailures > 0) {
-      console.error(`[Orchestrator] PIXEL PLANNER: FAILED - ${criticalFailures} critical component(s) failed`);
+      logger.error(`[Orchestrator] PIXEL PLANNER: FAILED - ${criticalFailures} critical component(s) failed`);
       this.scheduler.failAgent('pixel');
       const error: OrchestrationError = {
         code: 'CRITICAL_COMPONENT_FAILED',
@@ -2296,7 +2298,7 @@ export class BuildOrchestrator {
 
     // Rule 2: Zero files = failure
     if (codeArtifacts.length === 0) {
-      console.error(`[Orchestrator] PIXEL PLANNER: FAILED - 0 files generated`);
+      logger.error(`[Orchestrator] PIXEL PLANNER: FAILED - 0 files generated`);
       this.scheduler.failAgent('pixel');
       const error: OrchestrationError = {
         code: 'PIXEL_EMPTY_OUTPUT',
@@ -2310,13 +2312,13 @@ export class BuildOrchestrator {
     }
 
     // Log final metrics
-    console.log(`[Orchestrator] PIXEL PLANNER v3: SUCCESS`);
-    console.log(`  Files: ${codeArtifacts.length}/${components.length}`);
-    console.log(`  Cache: ${cacheHits} hits, ${cacheMisses} misses`);
-    console.log(`  Failures: ${criticalFailures} critical, ${importantFailures} important, ${optionalFailures} optional`);
-    console.log(`  Duration: ${Math.round(totalDuration / 1000)}s`);
+    logger.info(`[Orchestrator] PIXEL PLANNER v3: SUCCESS`);
+    logger.info(`  Files: ${codeArtifacts.length}/${components.length}`);
+    logger.info(`  Cache: ${cacheHits} hits, ${cacheMisses} misses`);
+    logger.debug(`  Failures: ${criticalFailures} critical, ${importantFailures} important, ${optionalFailures} optional`);
+    logger.debug(`  Duration: ${Math.round(totalDuration / 1000)}s`);
     if (importantFailures > 0) {
-      console.warn(`  ⚠ ${importantFailures} important component(s) degraded`);
+      logger.warn(`  ${importantFailures} important component(s) degraded`);
     }
 
     // Create combined output with v3 metrics (criticality-aware)
@@ -2479,16 +2481,16 @@ export class BuildOrchestrator {
         .filter(a => a.type === 'code' && a.path?.includes('components/'))
         .map(a => a.path!);
 
-      console.log(`[Orchestrator] WIRE: Found ${componentPaths.length} Pixel components to wire`);
+      logger.debug(`[Orchestrator] WIRE: Found ${componentPaths.length} Pixel components to wire`);
     }
 
     // Sort by criticality: critical first
     const critOrder: Record<ComponentCriticality, number> = { 'critical': 0, 'important': 1, 'optional': 2 };
     required.sort((a, b) => critOrder[a.criticality] - critOrder[b.criticality]);
 
-    console.log(`[Orchestrator] WIRE REQUIREMENTS:`);
+    logger.info(`[Orchestrator] WIRE REQUIREMENTS:`);
     for (const spec of required) {
-      console.log(`  [${spec.criticality}] ${spec.path} (from ${spec.sourceAgent})`);
+      logger.debug(`  [${spec.criticality}] ${spec.path} (from ${spec.sourceAgent})`);
     }
 
     return required;
@@ -2496,17 +2498,19 @@ export class BuildOrchestrator {
 
   /**
    * Validate Wire coverage against requirements
+   * ENHANCED: Also checks for files that already exist on disk (from scaffolder)
    */
   private validateWireCoverage(
     required: WirePageSpec[],
-    generatedFiles: Array<{ path: string; content: string }>
+    generatedFiles: Array<{ path: string; content: string }>,
+    outputPath?: string
   ): WireCoverageResult {
     const covered: string[] = [];
     const missing: WirePageSpec[] = [];
 
     for (const spec of required) {
-      // Check if this path was generated
-      const found = generatedFiles.some(f => {
+      // Check if this path was generated by WIRE
+      const foundInGenerated = generatedFiles.some(f => {
         // Normalize paths for comparison
         const normalizedSpec = spec.path.replace(/\\/g, '/').toLowerCase();
         const normalizedFile = f.path.replace(/\\/g, '/').toLowerCase();
@@ -2514,7 +2518,17 @@ export class BuildOrchestrator {
                normalizedFile === normalizedSpec;
       });
 
-      if (found) {
+      // ENHANCED: Also check if file already exists on disk (from scaffolder)
+      let existsOnDisk = false;
+      if (!foundInGenerated && outputPath) {
+        const fullPath = path.join(outputPath, spec.path);
+        existsOnDisk = fs.existsSync(fullPath);
+        if (existsOnDisk) {
+          logger.debug(`[Orchestrator] WIRE COVERAGE: ${spec.path} already exists on disk (scaffolder)`);
+        }
+      }
+
+      if (foundInGenerated || existsOnDisk) {
         covered.push(spec.path);
       } else {
         missing.push(spec);
@@ -2557,7 +2571,7 @@ export class BuildOrchestrator {
     const baseContext = this.context.getAgentContext('wire');
 
     for (attempts = 1; attempts <= MAX_ATTEMPTS && currentRequirements.length > 0; attempts++) {
-      console.log(`[Orchestrator] WIRE ATTEMPT ${attempts}/${MAX_ATTEMPTS}: ${currentRequirements.length} requirements`);
+      logger.info(`[Orchestrator] WIRE ATTEMPT ${attempts}/${MAX_ATTEMPTS}: ${currentRequirements.length} requirements`);
 
       // Build explicit requirement list for Wire
       const requirementList = currentRequirements.map(r =>
@@ -2605,7 +2619,7 @@ export class BuildOrchestrator {
       const result = await executor.execute(input, { streamOutput: false });
 
       if (!result.success || !result.output) {
-        console.error(`[Orchestrator] WIRE ATTEMPT ${attempts}: Execution failed`);
+        logger.error(`[Orchestrator] WIRE ATTEMPT ${attempts}: Execution failed`);
         continue;
       }
 
@@ -2617,16 +2631,17 @@ export class BuildOrchestrator {
       allDecisions.push(...result.output.decisions);
       totalTokens += result.output.tokensUsed;
 
-      console.log(`[Orchestrator] WIRE ATTEMPT ${attempts}: Generated ${generatedFiles.length} files`);
+      logger.info(`[Orchestrator] WIRE ATTEMPT ${attempts}: Generated ${generatedFiles.length} files`);
 
-      // Validate coverage
-      const coverage = this.validateWireCoverage(currentRequirements, generatedFiles);
+      // Validate coverage (includes scaffolded files)
+      const wireOutputPath = this.options.outputPath || process.cwd() + '/.olympus/builds/' + this.buildId;
+      const coverage = this.validateWireCoverage(currentRequirements, generatedFiles, wireOutputPath);
 
-      console.log(`[Orchestrator] WIRE COVERAGE: ${coverage.coverage.toFixed(0)}% (${coverage.covered.length}/${coverage.required.length})`);
+      logger.info(`[Orchestrator] WIRE COVERAGE: ${coverage.coverage.toFixed(0)}% (${coverage.covered.length}/${coverage.required.length})`);
 
       if (coverage.missing.length === 0) {
         // Full coverage achieved
-        console.log(`[Orchestrator] WIRE: Full coverage achieved on attempt ${attempts}`);
+        logger.info(`[Orchestrator] WIRE: Full coverage achieved on attempt ${attempts}`);
         break;
       }
 
@@ -2635,16 +2650,17 @@ export class BuildOrchestrator {
 
       // Log what's still missing
       for (const spec of coverage.missing) {
-        console.log(`[Orchestrator] WIRE MISSING: [${spec.criticality}] ${spec.path}`);
+        logger.warn(`[Orchestrator] WIRE MISSING: [${spec.criticality}] ${spec.path}`);
       }
     }
 
     const totalDuration = Date.now() - startTime;
     const codeArtifacts = allArtifacts.filter(a => a.type === 'code' && a.content);
 
-    // Final coverage validation
+    // Final coverage validation (includes scaffolded files)
     const generatedFiles = codeArtifacts.map(a => ({ path: a.path || '', content: a.content }));
-    const finalCoverage = this.validateWireCoverage(requiredPages, generatedFiles);
+    const finalOutputPath = this.options.outputPath || process.cwd() + '/.olympus/builds/' + this.buildId;
+    const finalCoverage = this.validateWireCoverage(requiredPages, generatedFiles, finalOutputPath);
 
     // Count missing by criticality
     for (const spec of finalCoverage.missing) {
@@ -2656,9 +2672,9 @@ export class BuildOrchestrator {
     }
 
     // CRITICALITY-AWARE FAILURE RULES
-    // Rule 1: Any critical page missing → build fails
+    // Rule 1: Any critical page missing -> build fails
     if (criticalMissing > 0) {
-      console.error(`[Orchestrator] WIRE: FAILED - ${criticalMissing} critical page(s) missing`);
+      logger.error(`[Orchestrator] WIRE: FAILED - ${criticalMissing} critical page(s) missing`);
       this.scheduler.failAgent('wire');
       const error: OrchestrationError = {
         code: 'WIRE_CRITICAL_MISSING',
@@ -2673,7 +2689,7 @@ export class BuildOrchestrator {
 
     // Rule 2: Zero files = failure
     if (codeArtifacts.length === 0) {
-      console.error(`[Orchestrator] WIRE: FAILED - 0 files generated`);
+      logger.error(`[Orchestrator] WIRE: FAILED - 0 files generated`);
       this.scheduler.failAgent('wire');
       const error: OrchestrationError = {
         code: 'WIRE_EMPTY_OUTPUT',
@@ -2687,15 +2703,15 @@ export class BuildOrchestrator {
     }
 
     // Log final metrics
-    console.log(`[Orchestrator] WIRE PLANNER v1: SUCCESS`);
-    console.log(`  Files: ${codeArtifacts.length}/${requiredPages.length}`);
-    console.log(`  Coverage: ${finalCoverage.coverage.toFixed(0)}%`);
-    console.log(`  Missing: ${criticalMissing} critical, ${importantMissing} important, ${optionalMissing} optional`);
-    console.log(`  Attempts: ${attempts}`);
-    console.log(`  Duration: ${Math.round(totalDuration / 1000)}s`);
+    logger.info(`[Orchestrator] WIRE PLANNER v1: SUCCESS`);
+    logger.info(`  Files: ${codeArtifacts.length}/${requiredPages.length}`);
+    logger.info(`  Coverage: ${finalCoverage.coverage.toFixed(0)}%`);
+    logger.debug(`  Missing: ${criticalMissing} critical, ${importantMissing} important, ${optionalMissing} optional`);
+    logger.debug(`  Attempts: ${attempts}`);
+    logger.debug(`  Duration: ${Math.round(totalDuration / 1000)}s`);
 
     if (importantMissing > 0) {
-      console.warn(`  ⚠ ${importantMissing} important page(s) degraded`);
+      logger.warn(`  ${importantMissing} important page(s) degraded`);
     }
 
     // Store metrics artifact
@@ -2823,7 +2839,7 @@ export class BuildOrchestrator {
 
     // After testing phase: Run generated tests
     if (phase === 'testing') {
-      console.log('[Orchestrator] Running post-phase validation: Generated tests');
+      logger.info('[Orchestrator] Running post-phase validation: Generated tests');
       const startTime = Date.now();
 
       try {
@@ -2851,16 +2867,16 @@ export class BuildOrchestrator {
         });
         this.context['data'].agentOutputs.set('junit' as AgentId, testOutput);
 
-        console.log(`[Orchestrator] Test results: ${testResult.summary}`);
+        logger.info(`[Orchestrator] Test results: ${testResult.summary}`);
 
         if (!testResult.passed) {
           // Log failures but don't fail the phase - let phase-rules decide
-          console.warn(`[Orchestrator] Test failures: ${testResult.failures.map(f => f.testName).join(', ')}`);
+          logger.warn(`[Orchestrator] Test failures: ${testResult.failures.map(f => f.testName).join(', ')}`);
         }
 
         return { success: true };
       } catch (error) {
-        console.error('[Orchestrator] Test runner error:', error);
+        logger.error('[Orchestrator] Test runner error:', error);
         return {
           success: false,
           error: {
@@ -2874,7 +2890,7 @@ export class BuildOrchestrator {
 
     // After frontend phase: Run smoke tests
     if (phase === 'frontend') {
-      console.log('[Orchestrator] Running post-phase validation: Smoke tests');
+      logger.info('[Orchestrator] Running post-phase validation: Smoke tests');
       const startTime = Date.now();
 
       try {
@@ -2901,15 +2917,15 @@ export class BuildOrchestrator {
         };
         this.context['data'].agentOutputs.set('cypress' as AgentId, smokeOutput);
 
-        console.log(`[Orchestrator] Smoke test results: ${smokeResult.summary}`);
+        logger.info(`[Orchestrator] Smoke test results: ${smokeResult.summary}`);
 
         if (!smokeResult.passed) {
-          console.warn(`[Orchestrator] Smoke test issues: ${smokeResult.issues.map(i => `${i.route}: ${i.message}`).join(', ')}`);
+          logger.warn(`[Orchestrator] Smoke test issues: ${smokeResult.issues.map(i => `${i.route}: ${i.message}`).join(', ')}`);
         }
 
         return { success: true };
       } catch (error) {
-        console.error('[Orchestrator] Smoke runner error:', error);
+        logger.error('[Orchestrator] Smoke runner error:', error);
         // Smoke test failures are warnings, not blockers
         return { success: true };
       }
