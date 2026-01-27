@@ -110,6 +110,7 @@ import type {
   OrchestrationEvent,
   OrchestrationOptions,
 } from '../orchestrator/types';
+import { logger } from '@/utils/logger';
 
 // ============================================================================
 // CONSTANTS
@@ -212,7 +213,7 @@ export class ConductorService {
 
     // Subscribe to checkpoint events
     this.checkpointManager.onEvent((event) => {
-      console.log(`[Checkpoint] ${event.type}:`, event.data);
+      logger.debug(`[Checkpoint] ${event.type}:`, event.data);
       // Forward checkpoint events as conductor events
       if ('checkpoint' in event.data && event.data.checkpoint) {
         const cp = event.data.checkpoint as Checkpoint;
@@ -222,7 +223,7 @@ export class ConductorService {
 
     // Subscribe to memory events for logging/metrics
     this.memoryModule.onEvent((event) => {
-      console.log(`[Memory] ${event.type}:`, event.data);
+      logger.debug(`[Memory] ${event.type}:`, event.data);
     });
 
     // Initialize HANDOFF router for agent routing
@@ -394,7 +395,7 @@ export class ConductorService {
     // Step 5: Start execution ASYNCHRONOUSLY (don't block the response)
     // The build runs in the background, status tracked via events
     this.executeBuild(buildState).catch((error) => {
-      console.error(`[CONDUCTOR] Build ${plan.buildId} execution failed:`, error);
+      logger.error(`[CONDUCTOR] Build ${plan.buildId} execution failed:`, error);
       buildState.status = 'failed';
       this.emitConductorEvent('conductor:build_failed', plan.buildId, {
         error: error instanceof Error ? error.message : 'Unknown error',
@@ -797,7 +798,7 @@ export class ConductorService {
     this.activeBuilds.set(buildId, buildState);
 
     // Step 9: Execute with phase control
-    this.executeWithPhaseControl(buildState).catch(console.error);
+    this.executeWithPhaseControl(buildState).catch((e) => logger.error('[CONDUCTOR] Phase control failed:', e));
 
     return {
       buildId,
@@ -1717,8 +1718,8 @@ export class ConductorService {
     // Use databaseBuildId if provided - this is the proper UUID for database persistence
     // Otherwise fall back to conductor's internal buildId
     const persistenceBuildId = request.options?.databaseBuildId || buildId;
-    console.log(`[CONDUCTOR] Creating orchestrator with tier: ${tier} (request.tier: ${request.tier}, suggestedTier: ${buildState.analysis.suggestedTier})`);
-    console.log(`[CONDUCTOR] Using buildId for persistence: ${persistenceBuildId} (databaseBuildId: ${request.options?.databaseBuildId || 'not provided'})`);
+    logger.info(`[CONDUCTOR] Creating orchestrator with tier: ${tier} (request.tier: ${request.tier}, suggestedTier: ${buildState.analysis.suggestedTier})`);
+    logger.info(`[CONDUCTOR] Using buildId for persistence: ${persistenceBuildId} (databaseBuildId: ${request.options?.databaseBuildId || 'not provided'})`);
     buildState.orchestrator = new BuildOrchestrator(
       persistenceBuildId,
       buildState.contextManager,
@@ -1777,7 +1778,7 @@ export class ConductorService {
       // Even with continueOnError=true, we must fail if critical agents failed
       const failedCriticalAgents = this.getFailedCriticalAgents(buildState);
       if (failedCriticalAgents.length > 0) {
-        console.error(`[CONDUCTOR] CRITICAL AGENTS FAILED: ${failedCriticalAgents.join(', ')}`);
+        logger.error(`[CONDUCTOR] CRITICAL AGENTS FAILED: ${failedCriticalAgents.join(', ')}`);
         buildState.status = 'failed';
 
         // Emit event for monitoring
@@ -1898,19 +1899,19 @@ export class ConductorService {
       this.config.enableCheckpoints &&
       this.shouldCheckpoint(buildState.strategy, event)
     ) {
-      this.createCheckpoint(buildState, event.type).catch(console.error);
+      this.createCheckpoint(buildState, event.type).catch((e) => logger.error('[CONDUCTOR] Checkpoint failed:', e));
     }
 
     // JUDGE: Score agent output after completion
     if (event.type === 'agent_completed' && event.agentId && event.output) {
       const phase = buildState.contextManager?.currentPhase ?? 'unknown';
       this.judgeAgentOutput(buildState, event.agentId, event.output, phase)
-        .catch(console.error);
+        .catch((e) => logger.error('[CONDUCTOR] Judge failed:', e));
     }
 
     // Check quality gates
     if (event.type === 'phase_completed') {
-      this.checkQualityGate(buildState, event.phase).catch(console.error);
+      this.checkQualityGate(buildState, event.phase).catch((e) => logger.error('[CONDUCTOR] Quality gate check failed:', e));
     }
   }
 
@@ -1982,7 +1983,7 @@ export class ConductorService {
       // Handle decision
       await this.handleJudgeDecision(buildState, agentId, decision, phase);
     } catch (error) {
-      console.error(`[ConductorService] Judge error for ${agentId}:`, error);
+      logger.error(`[ConductorService] Judge error for ${agentId}:`, error);
       this.emitConductorEvent('conductor:judge_error', buildState.buildId, {
         agentId,
         error: error instanceof Error ? error.message : 'Unknown error',
@@ -2124,12 +2125,12 @@ export class ConductorService {
 
       // Record metrics
       if (decision.shouldHandoff) {
-        console.log(`[Handoff] Agent ${agentId} -> ${decision.targetAgent} (confidence: ${decision.confidence.toFixed(2)})`);
+        logger.debug(`[Handoff] Agent ${agentId} -> ${decision.targetAgent} (confidence: ${decision.confidence.toFixed(2)})`);
       }
 
       return decision;
     } catch (error) {
-      console.error(`[Handoff] Evaluation error for ${agentId}:`, error);
+      logger.error(`[Handoff] Evaluation error for ${agentId}:`, error);
       // Return no-handoff decision on error
       return {
         shouldHandoff: false,
@@ -2623,7 +2624,7 @@ export class ConductorService {
         try {
           listener(event);
         } catch (error) {
-          console.error('Error in event listener:', error);
+          logger.error('[CONDUCTOR] Error in event listener:', error);
         }
       }
     }
