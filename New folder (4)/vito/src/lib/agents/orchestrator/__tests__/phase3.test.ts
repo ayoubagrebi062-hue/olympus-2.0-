@@ -165,7 +165,13 @@ const createMockTransitionContext = (
   toPhase: 'design',
   completedAgents: ['oracle', 'empathy', 'strategos'],
   agentOutputs: new Map([
-    ['strategos', { mvp_features: ['feature1', 'feature2'] }],
+    ['strategos', {
+      mvp_features: ['feature1', 'feature2'],
+      featureChecklist: {
+        critical: [{ id: 'f1', name: 'feature1', description: 'Core feature 1' }],
+        important: [{ id: 'f2', name: 'feature2', description: 'Important feature 2' }],
+      }
+    }],
   ]),
   qualityScores: new Map([
     ['oracle', 7.5],
@@ -277,7 +283,13 @@ describe('Phase Rules', () => {
         toPhase: 'design',
         completedAgents: ['oracle', 'empathy', 'strategos'],
         agentOutputs: new Map([
-          ['strategos', { mvp_features: ['feature1'] }],
+          ['strategos', {
+            mvp_features: ['feature1'],
+            featureChecklist: {
+              critical: [{ id: 'f1', name: 'feature1', description: 'Core feature' }],
+              important: [],
+            }
+          }],
         ]),
       });
 
@@ -346,7 +358,13 @@ describe('Phase Rules', () => {
         toPhase: 'design',
         completedAgents: ['oracle', 'empathy', 'strategos'],
         agentOutputs: new Map([
-          ['strategos', { mvp_features: ['feature1'] }],
+          ['strategos', {
+            mvp_features: ['feature1'],
+            featureChecklist: {
+              critical: [{ id: 'f1', name: 'feature1', description: 'Core feature' }],
+              important: [],
+            }
+          }],
         ]),
         errors: new Map([
           ['oracle', 'Non-critical error'],
@@ -619,13 +637,21 @@ describe('BuildStateMachine', () => {
     });
 
     it('should validate phase transitions', async () => {
+      const validStrategosOutput = {
+        mvp_features: ['f1'],
+        featureChecklist: {
+          critical: [{ id: 'f1', name: 'f1', description: 'Core feature' }],
+          important: [],
+        }
+      };
+
       // First transition to discovery phase (from null)
       const planInDiscovery = createMockPlan({
         currentPhase: null,
         agents: mockPlan.agents.map(a => ({
           ...a,
           status: a.phase === 'discovery' ? 'completed' as const : 'pending' as const,
-          output: a.agentId === 'strategos' ? { mvp_features: ['f1'] } : {},
+          output: a.agentId === 'strategos' ? validStrategosOutput : {},
         })),
       });
       vi.mocked(mockStore.getByBuildId).mockResolvedValue(planInDiscovery);
@@ -637,7 +663,7 @@ describe('BuildStateMachine', () => {
         agents: mockPlan.agents.map(a => ({
           ...a,
           status: 'completed' as const,
-          output: a.agentId === 'strategos' ? { mvp_features: ['f1'] } : {},
+          output: a.agentId === 'strategos' ? validStrategosOutput : {},
         })),
       });
       vi.mocked(mockStore.getByBuildId).mockResolvedValue(planWithCompleted);
@@ -651,13 +677,21 @@ describe('BuildStateMachine', () => {
       const events: unknown[] = [];
       machine.on('phase_transition', (e) => events.push(e));
 
+      const validStrategosOutput = {
+        mvp_features: ['f1'],
+        featureChecklist: {
+          critical: [{ id: 'f1', name: 'f1', description: 'Core feature' }],
+          important: [],
+        }
+      };
+
       // First transition to discovery phase (from null)
       const planInDiscovery = createMockPlan({
         currentPhase: null, // Starting from null
         agents: mockPlan.agents.map(a => ({
           ...a,
           status: a.phase === 'discovery' ? 'completed' as const : 'pending' as const,
-          output: a.agentId === 'strategos' ? { mvp_features: ['f1'] } : {},
+          output: a.agentId === 'strategos' ? validStrategosOutput : {},
         })),
       });
       vi.mocked(mockStore.getByBuildId).mockResolvedValue(planInDiscovery);
@@ -669,7 +703,7 @@ describe('BuildStateMachine', () => {
         agents: mockPlan.agents.map(a => ({
           ...a,
           status: 'completed' as const,
-          output: a.agentId === 'strategos' ? { mvp_features: ['f1'] } : {},
+          output: a.agentId === 'strategos' ? validStrategosOutput : {},
         })),
       });
       vi.mocked(mockStore.getByBuildId).mockResolvedValue(planWithCompleted);
