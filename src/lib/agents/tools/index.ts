@@ -77,6 +77,19 @@ export { createTool, createTools, quickTool, wrapFunction } from './create-tool'
 // Decorator Built-in Tools
 export { registerDecoratorBuiltinTools, decoratorBuiltinTools } from './builtin/decorator-tools';
 
+// Tool Permissions & Sandboxing (PATCH 2)
+export {
+  type ToolPermission,
+  type ToolPermissionConfig,
+  DEFAULT_PERMISSIONS,
+  SANDBOX_PERMISSIONS,
+  TRUSTED_PERMISSIONS,
+  checkPermission,
+  validatePath,
+  validateUrl,
+  createPermissionContext,
+} from './permissions';
+
 // ============================================
 // CONVENIENCE FUNCTIONS
 // ============================================

@@ -20,10 +20,23 @@ class DecoratorToolRegistry {
 
   /**
    * Register a tool
+   * PATCH 4: Throws on collision instead of silently overwriting
    */
   register(tool: DecoratorToolDefinition): void {
     if (this.tools.has(tool.id)) {
-      console.warn(`[DecoratorRegistry] Tool ${tool.id} already registered, overwriting`);
+      const existing = this.tools.get(tool.id)!;
+
+      // Check if it's the same tool (re-registration on hot reload)
+      if (existing.execute === tool.execute) {
+        // Same tool, allow re-registration
+        console.debug(`[DecoratorRegistry] Tool ${tool.id} re-registered (same instance)`);
+      } else {
+        // Different tool with same ID - this is an error
+        throw new Error(
+          `Tool ID collision: "${tool.id}" is already registered. ` +
+            `Use a unique ID or unregister the existing tool first.`
+        );
+      }
     }
 
     this.tools.set(tool.id, tool);
@@ -36,6 +49,18 @@ class DecoratorToolRegistry {
     this.categories.get(category)!.add(tool.id);
 
     console.log(`[DecoratorRegistry] Registered tool: ${tool.id} (${category})`);
+  }
+
+  /**
+   * Force-register a tool (overwrite if exists)
+   * Use with caution - only for testing or migration
+   */
+  forceRegister(tool: DecoratorToolDefinition): void {
+    if (this.tools.has(tool.id)) {
+      console.warn(`[DecoratorRegistry] Force-overwriting tool: ${tool.id}`);
+      this.unregister(tool.id);
+    }
+    this.register(tool);
   }
 
   /**

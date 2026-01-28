@@ -32,3 +32,13 @@ export { OutputGuardrailEngine, outputGuardrail } from './engine';
 
 // Integration
 export { validateAgentOutput, validateBuildOutput, OutputValidationError } from './integration';
+
+// Safe Regex (PATCH 5)
+export {
+  safeRegexExec,
+  safeRegexMatchAll,
+  isRegexSafe,
+  createSafeRegex,
+  executeRegexSafely,
+  RegexTimeoutError,
+} from './safe-regex';
