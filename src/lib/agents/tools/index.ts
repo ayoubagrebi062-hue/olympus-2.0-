@@ -2,9 +2,10 @@
  * OLYMPUS 2.0 - Agent Tools Module
  *
  * Provides structured tools for agents to use during code generation.
+ * Includes both the legacy tool system and the new decorator-based system.
  */
 
-// Types
+// Legacy Types
 export type {
   ToolCategory,
   ToolStatus,
@@ -31,10 +32,10 @@ export type {
   QualityFixInput,
 } from './types';
 
-// Registry
+// Legacy Registry
 export { ToolRegistry, getToolRegistry, resetToolRegistry } from './registry';
 
-// Built-in tools
+// Legacy Built-in tools
 export {
   registerBuiltinTools,
   qualityCheckTool,
@@ -44,6 +45,37 @@ export {
   codeAnalyzeTool,
   searchSimilarCodeTool,
 } from './builtin';
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DECORATOR-BASED TOOL SYSTEM (NEW)
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Decorator Types
+export type {
+  JsonSchema,
+  JsonSchemaProperty,
+  DecoratorToolDefinition,
+  DecoratorToolContext,
+  DecoratorToolExample,
+  DecoratorToolResult,
+  DecoratorToolOptions,
+  ParamDecoratorOptions,
+} from './decorator-types';
+
+// Schema Generator
+export { zodToJsonSchema, inferZodSchema } from './schema-generator';
+
+// Decorator Registry
+export { decoratorToolRegistry, DecoratorToolRegistry } from './decorator-registry';
+
+// Decorators
+export { tool, param, schema, toolClass, getToolDefinition, registerToolClass } from './decorators';
+
+// Functional Tool Creators
+export { createTool, createTools, quickTool, wrapFunction } from './create-tool';
+
+// Decorator Built-in Tools
+export { registerDecoratorBuiltinTools, decoratorBuiltinTools } from './builtin/decorator-tools';
 
 // ============================================
 // CONVENIENCE FUNCTIONS
