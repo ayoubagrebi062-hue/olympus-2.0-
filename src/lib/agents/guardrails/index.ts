@@ -117,3 +117,35 @@ export {
   BUILTIN_AGENT_RULES,
   DEFAULT_RESOURCE_LIMITS,
 } from './layers/agent';
+
+// ============================================================================
+// OUTPUT GUARDRAILS (Week 2 - Days 17-18)
+// ============================================================================
+
+export {
+  // Types
+  type SecurityIssueType,
+  type Severity,
+  type OutputIssue,
+  type OutputValidationResult,
+  type OutputGuardrailConfig,
+  type CustomPattern,
+  type OutputValidationRequest,
+  DEFAULT_OUTPUT_GUARDRAIL_CONFIG,
+  OutputValidationRequestSchema,
+
+  // Detectors
+  detectSecrets,
+  detectPlaceholders,
+  detectDangerousPatterns,
+  maskSecret,
+
+  // Engine
+  OutputGuardrailEngine,
+  outputGuardrail,
+
+  // Integration
+  validateAgentOutput,
+  validateBuildOutput,
+  OutputValidationError,
+} from './output';
