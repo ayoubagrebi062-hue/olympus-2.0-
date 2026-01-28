@@ -44,3 +44,54 @@ export {
   resetMetrics,
 } from './metrics';
 export type { MetricType, MetricLabel } from './metrics';
+
+// Tracing (OpenTelemetry)
+export {
+  // Initialization
+  initOlympusTracing,
+  shutdownOlympusTracing,
+  isOlympusTracingInitialized,
+  getRecommendedConfig,
+  initTracing,
+  shutdownTracing,
+  isTracingEnabled,
+
+  // OLYMPUS-specific tracers
+  traceBuild,
+  tracePhase,
+  traceAgent,
+  traceProviderCall,
+  traceCheckpoint,
+  traceRetry,
+  traceValidation,
+  traceHandoff,
+  traceSession,
+
+  // Recording helpers
+  recordBuildMetrics,
+  recordAgentTokens,
+  recordProviderResponse,
+  recordCircuitBreakerState,
+  recordValidationSuccess,
+  recordValidationFailure,
+  recordSessionExpertise,
+
+  // Low-level utilities
+  withSpan,
+  withSpanSync,
+  startSpan,
+  addSpanEvent,
+  setSpanAttributes,
+  setSpanAttribute,
+  recordSpanError,
+  getCurrentTraceId,
+  getCurrentSpanId,
+  extractTraceContext,
+  injectTraceContext,
+} from './tracing';
+export type {
+  TracingConfig,
+  OlympusSpanAttributes,
+  OlympusSpanKind,
+  TraceContext,
+} from './tracing';
