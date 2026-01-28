@@ -9,7 +9,7 @@
     "prebuild": "node scripts/validate-code-quality.js",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint src/",
     "type-check": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
