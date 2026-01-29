@@ -67,6 +67,10 @@ export interface OrchestrationOptions {
   outputPath?: string;
   /** Whether to run npm run build to validate generated code. Default: true */
   validateBuild?: boolean;
+
+  // 10X Quality Gates
+  /** Enable strict quality gates that block builds on critical issues. Default: false */
+  strictQualityGates?: boolean;
 }
 
 /** Orchestration error */
@@ -77,6 +81,8 @@ export interface OrchestrationError {
   agentId?: AgentId;
   recoverable: boolean;
   context?: Record<string, unknown>;
+  /** Additional error details (e.g., quality gate failures) */
+  details?: unknown[];
 }
 
 /** Build plan - what will be executed */
@@ -131,6 +137,21 @@ export type OrchestrationEvent =
       agentId: AgentId;
       error: OrchestrationError;
       data?: Record<string, unknown>;
+    }
+  | {
+      type: 'contract_violation';
+      agentId: AgentId;
+      data: {
+        violations: Array<{
+          field: string;
+          constraint: string;
+          expected: string;
+          actual: string;
+          severity: 'critical' | 'error' | 'warning' | 'info';
+        }>;
+        criticalCount: number;
+        downstreamAgents: AgentId[];
+      };
     }
   | { type: 'validation_started'; buildId: string; data?: Record<string, unknown> }
   | {
