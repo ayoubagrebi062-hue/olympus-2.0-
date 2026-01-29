@@ -1,0 +1,50 @@
+{
+  "$schema": "https://olympus.dev/schemas/auditrc.json",
+  "version": "1.0",
+
+  "_comment": "OLYMPUS Contract Audit Production Configuration",
+  "_docs": "Configures automatic security scanning during builds",
+
+  "enabled": true,
+
+  "triggerOn": "phase-complete",
+  "_triggerOptions": ["phase-complete", "build-complete", "checkpoint-save"],
+
+  "blocking": {
+    "critical": true,
+    "high": true,
+    "medium": false,
+    "_docs": "Which severity levels should halt the build pipeline"
+  },
+
+  "reporting": {
+    "savePath": "./audit-reports/{projectId}/{buildId}/",
+    "format": ["json", "markdown"],
+    "retentionDays": 30
+  },
+
+  "notifications": {
+    "enabled": true,
+    "channels": ["console", "file"],
+    "triggerOn": ["critical", "high"],
+    "_channelOptions": ["console", "file", "webhook", "slack"]
+  },
+
+  "exclusions": {
+    "paths": [
+      "node_modules/**",
+      "dist/**",
+      ".git/**",
+      "**/*.test.ts",
+      "**/*.spec.ts"
+    ],
+    "rules": [],
+    "agents": []
+  },
+
+  "performance": {
+    "timeout": 120000,
+    "maxFindings": 100,
+    "parallelPhases": false
+  }
+}
