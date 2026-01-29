@@ -30,6 +30,29 @@ const PRIORITY_SECTIONS = [
   'Core Features',
 ];
 
+/**
+ * FIX #7: Agents that need full code from upstream agents (not summaries)
+ * These agents compose/transform code, so they need complete source code.
+ */
+const CODE_COMPOSING_AGENTS: AgentId[] = [
+  'wire', // WIRE needs full component code from PIXEL
+  'polish', // POLISH needs full code to add animations
+  'engine', // ENGINE needs full code for data layer integration
+  'testing', // TESTING needs full code to generate tests
+  'reviewer', // REVIEWER needs full code for quality checks
+];
+
+/**
+ * Agents that produce code artifacts that should be passed in full
+ */
+const CODE_PRODUCING_AGENTS: AgentId[] = [
+  'blocks', // Component specifications
+  'pixel', // Component implementations
+  'wire', // Page implementations
+  'engine', // Data layer code
+  'shield', // Security code
+];
+
 /** Build a summarized context string for agent prompts */
 export function buildContextSummary(
   buildContext: BuildContext,
@@ -153,6 +176,9 @@ function summarizePreviousOutputs(
   const targetDef = getAgent(targetAgent);
   if (!targetDef) return '';
 
+  // FIX #7: Check if target agent needs full code
+  const includeFullCode = CODE_COMPOSING_AGENTS.includes(targetAgent);
+
   const summaries: string[] = [];
 
   for (const depId of targetDef.dependencies) {
@@ -160,7 +186,11 @@ function summarizePreviousOutputs(
     if (!output) continue;
 
     const depDef = getAgent(depId);
-    const summary = summarizeAgentOutput(output);
+
+    // FIX #7: Pass full code for code-producing agents when target needs it
+    const shouldIncludeFullCode = includeFullCode && CODE_PRODUCING_AGENTS.includes(depId);
+    const summary = summarizeAgentOutput(output, shouldIncludeFullCode);
+
     if (summary) {
       summaries.push(`### ${depDef?.name || depId}\n${summary}`);
     }
@@ -169,8 +199,15 @@ function summarizePreviousOutputs(
   return summaries.join('\n\n');
 }
 
-/** Summarize a single agent output */
-function summarizeAgentOutput(output: AgentOutput): string {
+/**
+ * Summarize a single agent output
+ *
+ * FIX #7: Added includeFullCode parameter to pass complete code for code-composing agents
+ *
+ * @param output - Agent output to summarize
+ * @param includeFullCode - If true, include full code content instead of just file paths
+ */
+function summarizeAgentOutput(output: AgentOutput, includeFullCode: boolean = false): string {
   const parts: string[] = [];
 
   // Summarize key decisions
@@ -182,15 +219,35 @@ function summarizeAgentOutput(output: AgentOutput): string {
     parts.push(`Decisions:\n${decisionSummary}`);
   }
 
-  // List generated files (if any)
+  // Get code artifacts
   const files = output.artifacts.filter(a => a.type === 'code' && a.path);
+
   if (files.length) {
-    parts.push(
-      `Files: ${files
-        .slice(0, 10)
-        .map(f => f.path)
-        .join(', ')}`
-    );
+    if (includeFullCode) {
+      // FIX #7: Include full code content for code-composing agents
+      parts.push(`\n**Generated Code (${files.length} files):**`);
+
+      for (const file of files) {
+        if (file.content) {
+          // Include full content with file path header
+          parts.push(`\n--- ${file.path} ---`);
+          parts.push('```tsx');
+          parts.push(file.content);
+          parts.push('```');
+        } else {
+          // Fallback if content is missing
+          parts.push(`\n--- ${file.path} --- (content not available)`);
+        }
+      }
+    } else {
+      // Default: just list file paths (summary mode)
+      parts.push(
+        `Files: ${files
+          .slice(0, 10)
+          .map(f => f.path)
+          .join(', ')}`
+      );
+    }
   }
 
   return parts.join('\n');

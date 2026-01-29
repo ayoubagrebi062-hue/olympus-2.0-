@@ -3,14 +3,57 @@ name: CI
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+      - run: npm ci --legacy-peer-deps
+      - run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    env:
+      # CI environment variables for tests
+      CI: true
+      NODE_ENV: test
+      # Supabase (test/dummy values for CI)
+      NEXT_PUBLIC_SUPABASE_URL: https://test.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlc3QiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTYxNjE1MjAwMCwiZXhwIjoxOTMxNzI4MDAwfQ.test
+      SUPABASE_SERVICE_ROLE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlc3QiLCJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjE2MTUyMDAwLCJleHAiOjE5MzE3MjgwMDB9.test
+      # AI Providers (test values - tests should mock these)
+      ANTHROPIC_API_KEY: sk-ant-test-key-for-ci
+      OPENAI_API_KEY: sk-test-key-for-ci
+      GROQ_API_KEY: gsk_test_key_for_ci
+      # Database
+      DATABASE_URL: postgresql://test:test@localhost:5432/olympus_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
       - run: npm ci --legacy-peer-deps
       - run: npm test
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: https://test.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci --legacy-peer-deps
+      - run: npm run build

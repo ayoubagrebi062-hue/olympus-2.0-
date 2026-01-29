@@ -40,8 +40,8 @@ export function lazyLoad<T>(importFn: () => Promise<{ default: T }>): () => Prom
 
   return async () => {
     if (cached) return cached;
-    const module = await importFn();
-    cached = module.default;
+    const importedModule = await importFn();
+    cached = importedModule.default;
     return cached;
   };
 }
