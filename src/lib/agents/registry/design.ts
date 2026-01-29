@@ -1597,6 +1597,17 @@ YOU MUST GENERATE ALL 60 COMPONENTS listed in the ATOMIC DESIGN HIERARCHY sectio
 - 15 ORGANISMS (Form, DataTable, FileUpload, etc.)
 - 5 TEMPLATES (DashboardLayout, AuthLayout, etc.)
 
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  ⚠️  CRITICAL REQUIREMENT - READ BEFORE GENERATING                           ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  You MUST generate ALL 60 components listed in the ATOMIC DESIGN HIERARCHY.  ║
+║  DO NOT stop after generating a few example components.                      ║
+║  DO NOT follow the example pattern and generate only 5-10 components.        ║
+║  The validator will REJECT outputs with fewer than 55 components.            ║
+║                                                                              ║
+║  TARGET: 60 components    MINIMUM ACCEPTABLE: 55 components                  ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
 DO NOT STOP after generating a few components.
 CONTINUE until all 60 components have complete specifications.
 The validator will REJECT outputs with fewer than 55 components.

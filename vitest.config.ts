@@ -5,6 +5,8 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
+    // FIX #21: Setup file provides mock env vars for all tests
+    setupFiles: ['./tests/setup/vitest-env.ts'],
     include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx', 'src/**/__tests__/**/*.test.ts', 'src/**/__tests__/**/*.test.tsx'],
     exclude: [
       'node_modules',
@@ -12,11 +14,12 @@ export default defineConfig({
       'tests/load/**',
       // ══════════════════════════════════════════════════════════════
       // EXCLUDED: Tests for modules that don't exist yet
-      // Re-enable these as features are implemented
+      // These are excluded because the MODULE doesn't exist, not due to env vars
+      // FIX #21: Env vars are now mocked via setupFiles
       // ══════════════════════════════════════════════════════════════
       // Auth module not implemented
       '**/multi-tenant/isolation.test.ts',
-      // Billing modules not implemented
+      // Billing modules not implemented (module code doesn't exist)
       '**/billing/constants.test.ts',
       '**/billing/features-trials.test.ts',
       '**/billing/subscriptions.test.ts',

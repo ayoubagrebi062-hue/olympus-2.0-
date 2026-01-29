@@ -8,11 +8,18 @@ export function zodToJsonSchema(schema: z.ZodType<unknown>): JsonSchema {
   return processZodType(schema) as JsonSchema;
 }
 
+// Zod internal type for accessing _def property
+interface ZodInternals {
+  _def: {
+    typeName: string;
+    [key: string]: unknown;
+  };
+}
+
 function processZodType(schema: z.ZodType<unknown>): JsonSchemaProperty | JsonSchema {
-  // Access internal Zod definition safely
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const def = (schema as any)._def;
-  const typeName = def.typeName as string;
+  // Access internal Zod definition safely using typed interface
+  const def = (schema as unknown as ZodInternals)._def;
+  const typeName = def.typeName;
 
   switch (typeName) {
     case 'ZodString':
