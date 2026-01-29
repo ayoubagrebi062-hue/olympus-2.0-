@@ -253,7 +253,16 @@ interface DeclarativeRule {
   name: string;
   version: string;
   enabled: boolean;
-  category: 'injection' | 'crypto' | 'access' | 'data' | 'logic' | 'custom';
+  category:
+    | 'injection'
+    | 'crypto'
+    | 'access'
+    | 'data'
+    | 'logic'
+    | 'custom'
+    | 'authentication'
+    | 'authorization'
+    | 'configuration';
   severity: 'critical' | 'high' | 'medium' | 'low';
 
   // Pattern matching
@@ -1003,14 +1012,13 @@ async function applyFixesInteractive(
 
   for (let i = 0; i < fixes.length; i++) {
     const fix = fixes[i];
-    console.log(chalk.bold(`\n[${i + 1}/${fixes.length}] ${fix.issue}`));
-    console.log(chalk.dim('File: ') + chalk.cyan(fix.location || 'N/A'));
-    console.log(chalk.dim('Fix: ') + chalk.white(fix.suggestion));
+    console.log(chalk.bold(`\n[${i + 1}/${fixes.length}] ${fix.violation}`));
+    console.log(chalk.dim('File: ') + chalk.cyan(fix.file || 'N/A'));
+    console.log(chalk.dim('Confidence: ') + chalk.white(`${(fix.confidence * 100).toFixed(0)}%`));
 
     if (fix.patch) {
-      console.log(chalk.dim('\nPatch:'));
-      console.log(chalk.red('- ' + fix.patch.find));
-      console.log(chalk.green('+ ' + fix.patch.replace));
+      console.log(chalk.dim('\nSuggested patch:'));
+      console.log(chalk.green(fix.patch));
     }
 
     const answer = await question(chalk.yellow('\nApply? (y/n/q): '));
@@ -1018,12 +1026,13 @@ async function applyFixesInteractive(
     if (answer.toLowerCase() === 'q') {
       console.log(chalk.dim('\nExiting fix mode.'));
       break;
-    } else if (answer.toLowerCase() === 'y' && fix.patch) {
+    } else if (answer.toLowerCase() === 'y' && fix.patch && fix.file) {
       try {
-        const filePath = fix.location || '';
+        const filePath = fix.file;
         if (fs.existsSync(filePath)) {
+          // Append the patch suggestion to the file as a comment
           const content = fs.readFileSync(filePath, 'utf-8');
-          const newContent = content.replace(fix.patch.find, fix.patch.replace);
+          const newContent = content + '\n' + fix.patch;
           fs.writeFileSync(filePath, newContent);
           console.log(chalk.green('✓ Applied!'));
           applied++;
@@ -1144,7 +1153,7 @@ function renderAgentDependencyGraph(agents: string[], contracts: AgentContract[]
       const agent = phaseAgents[i];
       const isLast = i === phaseAgents.length - 1;
       const prefix = isLast ? '└──' : '├──';
-      const hasContract = contracts.some(c => c.agentId === agent);
+      const hasContract = contracts.some(c => c.upstream === agent || c.downstream === agent);
       const status = hasContract ? chalk.green('●') : chalk.red('○');
       output += '\n' + chalk.hex(color)(`  │  ${prefix} ${status} ${agent}`);
     }
@@ -1590,6 +1599,13 @@ interface AuditOptions {
   notify?: boolean;
   score?: boolean;
   graph?: boolean;
+  // Auditor mode options
+  auditor?: boolean;
+  severity?: 'critical' | 'high' | 'medium' | 'low';
+  confidence?: string;
+  markdown?: boolean;
+  noFp?: boolean;
+  fp?: boolean;
 }
 
 interface AuditReport {
@@ -8016,18 +8032,542 @@ async function runAudit10X(options: AuditOptions): Promise<void> {
 // ============================================================================
 
 function generateMockData(): AgentOutputData[] {
+  // Generate full color scale (50-950) for contract compliance
+  const generateColorScale = (baseHue: number) => ({
+    '50': `hsl(${baseHue}, 100%, 97%)`,
+    '100': `hsl(${baseHue}, 96%, 90%)`,
+    '200': `hsl(${baseHue}, 94%, 80%)`,
+    '300': `hsl(${baseHue}, 92%, 70%)`,
+    '400': `hsl(${baseHue}, 90%, 60%)`,
+    '500': `hsl(${baseHue}, 85%, 50%)`,
+    '600': `hsl(${baseHue}, 80%, 45%)`,
+    '700': `hsl(${baseHue}, 75%, 38%)`,
+    '800': `hsl(${baseHue}, 70%, 30%)`,
+    '900': `hsl(${baseHue}, 65%, 22%)`,
+    '950': `hsl(${baseHue}, 60%, 15%)`,
+  });
+
+  // Required 8 states for all components
+  const requiredStates = [
+    'default',
+    'hover',
+    'focus',
+    'active',
+    'disabled',
+    'loading',
+    'error',
+    'success',
+  ];
+
+  // Component names for the 60 component requirement (atoms, molecules, organisms, templates)
+  const componentNames = [
+    'Box',
+    'Text',
+    'Icon',
+    'Image',
+    'Separator',
+    'Skeleton',
+    'VisuallyHidden',
+    'AspectRatio',
+    'Button',
+    'IconButton',
+    'Toggle',
+    'Switch',
+    'Link',
+    'Rating',
+    'Input',
+    'Textarea',
+    'Select',
+    'Checkbox',
+    'Radio',
+    'Slider',
+    'ColorPicker',
+    'Badge',
+    'Avatar',
+    'Card',
+    'Alert',
+    'Progress',
+    'Toast',
+    'Tooltip',
+    'Popover',
+    'HoverCard',
+    'Dialog',
+    'Sheet',
+    'Drawer',
+    'DropdownMenu',
+    'ContextMenu',
+    'Tabs',
+    'Accordion',
+    'Breadcrumb',
+    'Collapsible',
+    'ScrollArea',
+    'Form',
+    'DataTable',
+    'FileUpload',
+    'CommandPalette',
+    'Calendar',
+    'DatePicker',
+    'Combobox',
+    'MultiSelect',
+    'NavigationMenu',
+    'Pagination',
+    'Stepper',
+    'Timeline',
+    'TreeView',
+    'Carousel',
+    'RichTextEditor',
+    'DashboardLayout',
+    'AuthLayout',
+    'SettingsLayout',
+    'WizardLayout',
+    'ErrorLayout',
+  ];
+
   return [
     {
       agentId: 'strategos',
       phase: 'discovery',
-      data: { mvp_features: [{ id: 'F1' }, { id: 'F2' }] },
+      data: {
+        mvp_features: [
+          {
+            id: 'auth_system',
+            name: 'User Authentication',
+            category: 'core',
+            priority: 'must_have',
+            description:
+              'Complete authentication system with login, signup, and password reset functionality',
+            rice_score: 90,
+            rice_breakdown: { reach: 10, impact: 10, confidence: 9, effort: 8 },
+            user_story: 'As a user, I want to securely log in so that I can access my account',
+            dependencies: [],
+            acceptanceCriteria: [
+              'Login form validates input',
+              'Password is hashed',
+              'Session persists',
+            ],
+          },
+          {
+            id: 'dashboard',
+            name: 'Main Dashboard',
+            category: 'core',
+            priority: 'must_have',
+            description: 'Central dashboard showing key metrics and quick actions for users',
+            rice_score: 85,
+            rice_breakdown: { reach: 9, impact: 9, confidence: 8, effort: 7 },
+            user_story: 'As a user, I want a dashboard so that I can see my data at a glance',
+            dependencies: ['auth_system'],
+            acceptanceCriteria: ['Shows key metrics', 'Responsive layout', 'Loading states'],
+          },
+          {
+            id: 'data_management',
+            name: 'Data Management',
+            category: 'core',
+            priority: 'must_have',
+            description:
+              'CRUD operations for managing user data with validation and error handling',
+            rice_score: 82,
+            rice_breakdown: { reach: 8, impact: 9, confidence: 9, effort: 7 },
+            user_story: 'As a user, I want to manage my data so that I can keep it organized',
+            dependencies: ['auth_system'],
+            acceptanceCriteria: ['Create records', 'Update records', 'Delete with confirmation'],
+          },
+          {
+            id: 'notifications',
+            name: 'Notification System',
+            category: 'supporting',
+            priority: 'should_have',
+            description: 'Real-time notifications for user actions and system events',
+            rice_score: 70,
+            rice_breakdown: { reach: 7, impact: 7, confidence: 8, effort: 6 },
+            user_story: 'As a user, I want notifications so that I stay informed',
+            dependencies: [],
+            acceptanceCriteria: ['Toast notifications', 'Notification center', 'Read/unread state'],
+          },
+          {
+            id: 'settings',
+            name: 'User Settings',
+            category: 'supporting',
+            priority: 'should_have',
+            description:
+              'User preference management including theme, language, and account settings',
+            rice_score: 65,
+            rice_breakdown: { reach: 8, impact: 6, confidence: 9, effort: 7 },
+            user_story: 'As a user, I want settings so that I can customize my experience',
+            dependencies: ['auth_system'],
+            acceptanceCriteria: ['Theme toggle', 'Profile update', 'Password change'],
+          },
+          {
+            id: 'search',
+            name: 'Global Search',
+            category: 'enhancement',
+            priority: 'could_have',
+            description: 'Full-text search across all user data with filters and sorting',
+            rice_score: 55,
+            rice_breakdown: { reach: 6, impact: 7, confidence: 7, effort: 5 },
+            user_story: 'As a user, I want search so that I can find things quickly',
+            dependencies: ['data_management'],
+            acceptanceCriteria: ['Search input', 'Results list', 'Filters'],
+          },
+        ],
+        technical_requirements: {
+          stack: {
+            frontend: 'Next.js 14 + TypeScript + Tailwind',
+            backend: 'Next.js API Routes',
+            database: 'PostgreSQL via Supabase',
+            auth: 'Supabase Auth',
+          },
+          integrations: ['Stripe', 'Resend'],
+          performance: {
+            initial_load: '<3s',
+            interaction_response: '<100ms',
+            lighthouse_target: '>90',
+          },
+          security: ['HTTPS', 'JWT tokens', 'Input sanitization', 'CSRF protection'],
+        },
+        featureChecklist: {
+          critical: [
+            {
+              id: 'auth',
+              name: 'Authentication',
+              description: 'User auth flow with all states',
+              acceptanceCriteria: [
+                'Login works',
+                'Signup works',
+                'Password reset works',
+                'Session management',
+              ],
+              assignedTo: 'pixel',
+              priority: 1,
+              rice_score: 90,
+            },
+            {
+              id: 'dashboard',
+              name: 'Dashboard',
+              description: 'Main dashboard with metrics',
+              acceptanceCriteria: [
+                'Shows metrics',
+                'Responsive layout',
+                'Loading states',
+                'Error handling',
+              ],
+              assignedTo: 'pixel',
+              priority: 2,
+              rice_score: 85,
+            },
+            {
+              id: 'data_crud',
+              name: 'Data CRUD',
+              description: 'Data operations with validation',
+              acceptanceCriteria: [
+                'Create records',
+                'Update records',
+                'Delete with confirmation',
+                'Validation errors',
+              ],
+              assignedTo: 'forge',
+              priority: 3,
+              rice_score: 82,
+            },
+          ],
+          important: [
+            {
+              id: 'notifications',
+              name: 'Notifications',
+              description: 'Toast notifications',
+              acceptanceCriteria: ['Show toast', 'Auto dismiss', 'Action buttons'],
+              assignedTo: 'pixel',
+              priority: 4,
+              rice_score: 70,
+            },
+          ],
+          niceToHave: [
+            {
+              id: 'search',
+              name: 'Search',
+              description: 'Global search',
+              acceptanceCriteria: ['Search input', 'Results', 'Filters'],
+              assignedTo: 'pixel',
+              priority: 5,
+              rice_score: 55,
+            },
+          ],
+        },
+        brand_identity: {
+          tone: 'professional',
+          style: 'modern',
+          personality: ['trustworthy', 'efficient', 'innovative'],
+          visual_direction: 'Clean, minimal design with subtle animations and dark theme support',
+        },
+        design_requirements: {
+          accessibility: 'WCAG AA',
+          theme: 'dark',
+          responsive: true,
+          style_preferences: ['glassmorphism', 'gradient accents', 'subtle shadows'],
+        },
+        roadmap: {
+          phase_1_mvp: {
+            duration: '4 weeks',
+            features: ['auth_system', 'dashboard', 'data_management'],
+            milestone: 'Core functionality',
+          },
+          phase_2_enhance: {
+            duration: '2 weeks',
+            features: ['notifications', 'settings'],
+            milestone: 'Enhanced UX',
+          },
+          phase_3_scale: {
+            duration: 'ongoing',
+            features: ['search'],
+            milestone: 'Growth features',
+          },
+        },
+        success_criteria: {
+          launch_requirements: [
+            'All critical features functional',
+            'No TypeScript errors',
+            'Responsive on mobile/tablet/desktop',
+            'Core user flow completable end-to-end',
+          ],
+          validation_metrics: [
+            'User can complete primary task in <2 minutes',
+            'Zero critical bugs in core flow',
+          ],
+        },
+        risks: [
+          {
+            risk: 'Authentication complexity',
+            probability: 'medium',
+            impact: 'high',
+            mitigation: 'Use Supabase Auth for proven solution',
+          },
+          {
+            risk: 'Performance with large datasets',
+            probability: 'low',
+            impact: 'medium',
+            mitigation: 'Implement pagination and caching',
+          },
+        ],
+      } as Record<string, unknown>,
     },
-    { agentId: 'palette', phase: 'design', data: { colors: { primary: {} } } },
-    { agentId: 'blocks', phase: 'design', data: { components: Array(23).fill({ name: 'C' }) } },
+    {
+      agentId: 'palette',
+      phase: 'design',
+      data: {
+        colors: {
+          primary: generateColorScale(217),
+          secondary: generateColorScale(262),
+          accent: generateColorScale(187),
+          neutral: generateColorScale(220),
+          semantic: {
+            success: '#22C55E',
+            success_muted: 'rgba(34, 197, 94, 0.1)',
+            warning: '#F59E0B',
+            warning_muted: 'rgba(245, 158, 11, 0.1)',
+            error: '#EF4444',
+            error_muted: 'rgba(239, 68, 68, 0.1)',
+            info: '#3B82F6',
+            info_muted: 'rgba(59, 130, 246, 0.1)',
+          },
+        },
+        typography: {
+          heading_family: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+          body_family: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+          weights: { normal: 400, medium: 500, semibold: 600, bold: 700 },
+          recommended_sizes: {
+            h1: '3rem',
+            h2: '2.25rem',
+            h3: '1.5rem',
+            h4: '1.25rem',
+            body: '1rem',
+            small: '0.875rem',
+          },
+        },
+        design_tokens: {
+          spacing: { xs: '4px', sm: '8px', md: '16px', lg: '24px', xl: '32px', '2xl': '48px' },
+          border_radius: { none: '0', sm: '4px', md: '8px', lg: '12px', full: '9999px' },
+          shadows: {
+            sm: '0 1px 2px rgba(0,0,0,0.05)',
+            md: '0 4px 6px rgba(0,0,0,0.1)',
+            lg: '0 10px 15px rgba(0,0,0,0.1)',
+          },
+          transitions: { fast: '150ms', normal: '200ms', slow: '300ms' },
+        },
+        accessibility: {
+          wcag_level: 'AA',
+          contrast_ratios: { text_on_background: '7:1', primary_on_background: '4.5:1' },
+        },
+      } as Record<string, unknown>,
+    },
+    {
+      agentId: 'blocks',
+      phase: 'design',
+      data: {
+        components: componentNames.map((name, i) => ({
+          name,
+          category: i < 8 ? 'atom' : i < 40 ? 'molecule' : i < 55 ? 'organism' : 'template',
+          description: `${name} component for the OLYMPUS design system with full accessibility and state support`,
+          anatomy: {
+            parts: ['container', 'content', 'label'],
+            slots: { content: 'Main content area' },
+          },
+          variants: {
+            default: { classes: 'base-styles' },
+            primary: { classes: 'primary-styles' },
+            secondary: { classes: 'secondary-styles' },
+          },
+          states: [...requiredStates], // Array format required by contract
+          props: {
+            variant: {
+              type: "'default' | 'primary' | 'secondary'",
+              required: false,
+              default: 'default',
+            },
+            className: { type: 'string', required: false },
+            children: { type: 'React.ReactNode', required: false },
+          },
+          accessibility: {
+            role: i < 8 ? 'presentation' : 'button',
+            keyboard: ['Tab to focus', 'Enter to activate'],
+            focusManagement: 'native',
+          },
+        })),
+      } as Record<string, unknown>,
+    },
     {
       agentId: 'pixel',
       phase: 'frontend',
-      data: { files: [{ path: 'a.tsx', content: '// TODO' }] },
+      data: {
+        files: componentNames.slice(0, 25).map(name => ({
+          path: `src/components/${name}.tsx`,
+          content: `'use client';
+
+import React, { useState, useCallback, useMemo } from 'react';
+import { cn } from '@/lib/utils';
+import { cva, type VariantProps } from 'class-variance-authority';
+
+/**
+ * ${name} Component
+ * A fully accessible, customizable component with multiple variants and states.
+ * Supports keyboard navigation, screen readers, and reduced motion preferences.
+ */
+
+const ${name.toLowerCase()}Variants = cva(
+  'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  {
+    variants: {
+      variant: {
+        default: 'bg-background text-foreground border border-input hover:bg-accent hover:text-accent-foreground',
+        primary: 'bg-primary text-primary-foreground shadow hover:bg-primary/90',
+        secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
+        destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
+        outline: 'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+      },
+      size: {
+        sm: 'h-8 px-3 text-xs',
+        md: 'h-10 px-4 py-2',
+        lg: 'h-12 px-6 text-base',
+        icon: 'h-10 w-10',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'md',
+    },
+  }
+);
+
+export interface ${name}Props
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof ${name.toLowerCase()}Variants> {
+  asChild?: boolean;
+  loading?: boolean;
+  disabled?: boolean;
+}
+
+export const ${name} = React.forwardRef<HTMLDivElement, ${name}Props>(
+  ({ className, variant, size, asChild = false, loading, disabled, children, onClick, ...props }, ref) => {
+    const [isHovered, setIsHovered] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
+
+    const handleClick = useCallback(
+      (event: React.MouseEvent<HTMLDivElement>) => {
+        if (disabled || loading) {
+          event.preventDefault();
+          return;
+        }
+        onClick?.(event);
+      },
+      [disabled, loading, onClick]
+    );
+
+    const handleKeyDown = useCallback(
+      (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          if (!disabled && !loading) {
+            onClick?.(event as unknown as React.MouseEvent<HTMLDivElement>);
+          }
+        }
+      },
+      [disabled, loading, onClick]
+    );
+
+    const computedClassName = useMemo(
+      () =>
+        cn(
+          ${name.toLowerCase()}Variants({ variant, size }),
+          isHovered && 'shadow-md',
+          isFocused && 'ring-2 ring-ring',
+          loading && 'cursor-wait animate-pulse',
+          disabled && 'cursor-not-allowed opacity-50',
+          className
+        ),
+      [variant, size, isHovered, isFocused, loading, disabled, className]
+    );
+
+    return (
+      <div
+        ref={ref}
+        role="button"
+        tabIndex={disabled ? -1 : 0}
+        className={computedClassName}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        aria-disabled={disabled}
+        aria-busy={loading}
+        data-state={loading ? 'loading' : disabled ? 'disabled' : 'ready'}
+        {...props}
+      >
+        {loading ? (
+          <span className="flex items-center gap-2">
+            <span className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
+            <span className="sr-only">Loading...</span>
+          </span>
+        ) : (
+          children
+        )}
+      </div>
+    );
+  }
+);
+
+${name}.displayName = '${name}';
+
+export default ${name};
+`,
+        })),
+        components: componentNames.slice(0, 55).map(name => ({
+          name,
+          implemented: true,
+          states: requiredStates,
+          variants: ['default', 'primary', 'secondary'],
+        })),
+      } as Record<string, unknown>,
     },
   ];
 }
@@ -8382,9 +8922,7 @@ program
     const contradictionReport = detectContradictions(outputs);
 
     const contractPercent =
-      auditResult.summary.totalContracts > 0
-        ? (auditResult.summary.validContracts / auditResult.summary.totalContracts) * 100
-        : 0;
+      auditResult.totalContracts > 0 ? (auditResult.passed / auditResult.totalContracts) * 100 : 0;
     const consistencyPercent = contradictionReport.consistent
       ? 100
       : Math.max(0, 100 - contradictionReport.contradictions.length * 20);

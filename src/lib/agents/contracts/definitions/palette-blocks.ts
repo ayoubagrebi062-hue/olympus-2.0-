@@ -5,9 +5,33 @@
  * BLOCKS needs these tokens to define component variants.
  *
  * HIGH PRIORITY CONTRACT - Design tokens must propagate.
+ *
+ * FIX 2.3 (Jan 29, 2026): Enhanced neutral scale and semantic color validation
  */
 
 import type { AgentContract, ContractViolation } from '../types';
+
+/**
+ * REQUIRED NEUTRAL SHADES for complete design system
+ */
+export const REQUIRED_NEUTRAL_SHADES = [
+  '50',
+  '100',
+  '200',
+  '300',
+  '400',
+  '500',
+  '600',
+  '700',
+  '800',
+  '900',
+  '950',
+] as const;
+
+/**
+ * REQUIRED SEMANTIC COLORS for status indicators
+ */
+export const REQUIRED_SEMANTIC_COLORS = ['success', 'warning', 'error', 'info'] as const;
 
 /**
  * PALETTE → BLOCKS Contract
@@ -145,6 +169,38 @@ export const PALETTE_TO_BLOCKS_CONTRACT: AgentContract = {
               suggestion: `Primary ${shade} is commonly used for buttons and links`,
             });
           }
+        }
+      }
+
+      // FIX 2.3: Check neutral scale has ALL required shades (50-950)
+      const neutral = colors.neutral as Record<string, unknown>;
+      if (neutral) {
+        const missingShades = REQUIRED_NEUTRAL_SHADES.filter(shade => !neutral[shade]);
+        if (missingShades.length > 0) {
+          violations.push({
+            field: 'colors.neutral',
+            constraint: 'complete_neutral_scale',
+            expected: `All 11 neutral shades: ${REQUIRED_NEUTRAL_SHADES.join(', ')}`,
+            actual: `Missing: ${missingShades.join(', ')}`,
+            severity: 'error',
+            suggestion: 'Complete neutral scale needed for backgrounds, borders, and text',
+          });
+        }
+      }
+
+      // FIX 2.3: Check semantic colors are complete
+      const semantic = colors.semantic as Record<string, unknown>;
+      if (semantic) {
+        const missingSemantic = REQUIRED_SEMANTIC_COLORS.filter(color => !semantic[color]);
+        if (missingSemantic.length > 0) {
+          violations.push({
+            field: 'colors.semantic',
+            constraint: 'complete_semantic_colors',
+            expected: `All 4 semantic colors: ${REQUIRED_SEMANTIC_COLORS.join(', ')}`,
+            actual: `Missing: ${missingSemantic.join(', ')}`,
+            severity: 'error',
+            suggestion: 'All semantic colors needed for status indicators (toasts, alerts, badges)',
+          });
         }
       }
     }

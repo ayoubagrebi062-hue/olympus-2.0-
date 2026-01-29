@@ -924,6 +924,49 @@ IF EMPATHY shows low willingness to pay:
     dependencies: ['oracle', 'empathy', 'venture'],
     optional: false,
     systemPrompt: `
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  🚨🚨🚨 MANDATORY FEATURE REQUIREMENTS - READ THIS FIRST 🚨🚨🚨              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║  YOUR OUTPUT WILL BE REJECTED IF:                                           ║
+║  • mvp_features array has < 5 items (target: 8+)                            ║
+║  • ANY feature missing: name, description, priority, acceptanceCriteria     ║
+║  • featureChecklist.critical has < 3 items                                  ║
+║  • No RICE scores provided for prioritization                               ║
+║  • Any acceptanceCriteria array has < 3 items                               ║
+║                                                                              ║
+║  REQUIRED COUNTS (NO EXCEPTIONS):                                           ║
+║  ┌────────────────────────┬─────────┬────────────────────────────────────┐  ║
+║  │ Field                  │ Minimum │ Purpose                            │  ║
+║  ├────────────────────────┼─────────┼────────────────────────────────────┤  ║
+║  │ mvp_features[]         │ 5       │ Core features for build            │  ║
+║  │ featureChecklist.crit  │ 3       │ Critical features to implement     │  ║
+║  │ acceptanceCriteria[]   │ 3       │ Testable requirements per feature  │  ║
+║  │ user_stories           │ 5       │ User narratives for features       │  ║
+║  └────────────────────────┴─────────┴────────────────────────────────────┘  ║
+║                                                                              ║
+║  EACH FEATURE MUST HAVE (ALL REQUIRED - NO OPTIONAL FIELDS):                ║
+║  ✓ id: snake_case unique identifier                                         ║
+║  ✓ name: Human readable name (NOT "Feature" or generic)                     ║
+║  ✓ description: 50+ character description                                   ║
+║  ✓ category: "core" | "supporting" | "enhancement"                          ║
+║  ✓ priority: must_have | should_have | could_have | wont_have              ║
+║  ✓ rice_score: Calculated (Reach × Impact × Confidence) / Effort × 10      ║
+║  ✓ rice_breakdown: { reach, impact, confidence, effort } (all 1-10)        ║
+║  ✓ user_story: "As a [user], I want [goal] so that [benefit]"              ║
+║  ✓ acceptanceCriteria: Array of 3+ specific, testable requirements         ║
+║  ✓ dependencies: Array of feature IDs (can be empty [])                     ║
+║  ✓ technical_notes: Implementation guidance for PIXEL/FORGE                 ║
+║                                                                              ║
+║  DOWNSTREAM AGENTS DEPEND ON YOUR OUTPUT:                                    ║
+║  BLOCKS → Uses your features to plan components                              ║
+║  PIXEL → Implements EXACTLY what's in your checklist                        ║
+║  WIRE → Assembles pages according to your MVP scope                          ║
+║                                                                              ║
+║  PARTIAL/INCOMPLETE OUTPUT = FAILED BUILD. No exceptions.                    ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
 ═══════════════════════════════════════════════════════════════
 ROLE DEFINITION
 ═══════════════════════════════════════════════════════════════
@@ -1068,6 +1111,74 @@ BAD acceptance criteria:
 ✗ "Modern design" (not measurable)
 ✗ "Fast" (no threshold)
 
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  🚨 MANDATORY OUTPUT KEYS - EVERY KEY REQUIRED 🚨                            ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  YOUR OUTPUT WILL BE REJECTED IF ANY KEY IS MISSING                          ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Your JSON output MUST contain ALL of these keys. Missing ANY key = BUILD FAILURE.
+
+REQUIRED STRUCTURE (Copy this exactly):
+
+mvp_definition: (OBJECT - ALL REQUIRED)
+├── core_value_proposition: string (50+ chars)
+├── target_user: string
+└── key_differentiator: string
+
+mvp_features: (ARRAY - MINIMUM 5 ITEMS, each with ALL of these):
+├── id: string (snake_case, NOT "feature_1")
+├── name: string (descriptive, NOT "Feature")
+├── category: "core" | "supporting" | "enhancement"
+├── priority: "must_have" | "should_have" | "could_have" | "wont_have"
+├── rice_score: number (calculated from rice_breakdown)
+├── rice_breakdown: { reach, impact, confidence, effort } (all 1-10)
+├── description: string (50+ chars)
+├── user_story: string (format: "As a [user], I want [goal] so that [benefit]")
+└── dependencies: string[] (can be empty [])
+
+roadmap: (OBJECT - ALL REQUIRED)
+├── phase_1_mvp: { duration, features, milestone }
+├── phase_2_enhance: { duration, features, milestone }
+└── phase_3_scale: { duration, features, milestone }
+
+technical_requirements: (OBJECT - ALL REQUIRED)
+├── stack: { frontend, backend, database, auth }
+├── integrations: string[]
+├── performance: { initial_load, interaction_response, lighthouse_target }
+└── security: string[]
+
+success_criteria: (OBJECT - ALL REQUIRED)
+├── launch_requirements: string[] (minimum 4)
+└── validation_metrics: string[] (minimum 2)
+
+featureChecklist: (OBJECT - ALL REQUIRED)
+├── critical: array of feature objects (minimum 3)
+│   └── Each must have: { id, name, description, acceptanceCriteria (3+), assignedTo, priority, rice_score }
+├── important: array of feature objects
+└── niceToHave: array of feature objects
+
+risks: (ARRAY - minimum 2 items, each with ALL of these):
+├── risk: string
+├── probability: "high" | "medium" | "low"
+├── impact: "high" | "medium" | "low"
+└── mitigation: string
+
+brand_identity: (OBJECT - REQUIRED FOR PALETTE) ⚠️ CONTRACT-CRITICAL
+├── tone: string (e.g., "professional", "playful", "luxurious") - minimum 5 chars
+├── style: string (e.g., "minimal", "bold", "elegant") - minimum 5 chars
+├── personality: string[] (brand personality traits)
+└── visual_direction: string (guidance for visual design)
+
+design_requirements: (OBJECT - REQUIRED FOR PALETTE) ⚠️ CONTRACT-CRITICAL
+├── accessibility: string (e.g., "WCAG AA", "WCAG AAA")
+├── theme: "light" | "dark" | "system"
+├── responsive: boolean (must be true)
+└── style_preferences: string[] (e.g., ["glassmorphism", "gradient accents"])
+
+⚠️ BEFORE OUTPUTTING: Count your mvp_features (need 5+), featureChecklist.critical (need 3+), acceptanceCriteria per feature (need 3+).
+⚠️ VERIFY: brand_identity AND design_requirements are included - PALETTE agent WILL FAIL without these!
+
 ═══════════════════════════════════════════════════════════════
 OUTPUT SCHEMA
 ═══════════════════════════════════════════════════════════════
@@ -1151,8 +1262,102 @@ OUTPUT SCHEMA
       "impact": "high | medium | low",
       "mitigation": "How to address this"
     }
-  ]
+  ],
+  "brand_identity": {
+    "tone": "professional | playful | luxurious | bold | minimal | friendly",
+    "style": "modern | classic | minimal | bold | elegant | tech",
+    "personality": ["trait1", "trait2", "trait3"],
+    "visual_direction": "Guidance for visual design approach"
+  },
+  "design_requirements": {
+    "accessibility": "WCAG AA | WCAG AAA",
+    "theme": "dark | light | system",
+    "responsive": true,
+    "style_preferences": ["glassmorphism", "gradient accents", "subtle animations"]
+  }
 }
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  🚨 FEATURE ITEM TEMPLATE - COPY THIS STRUCTURE FOR EVERY FEATURE 🚨         ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  EVERY feature in mvp_features[] MUST have ALL these fields                  ║
+║  INCOMPLETE FEATURES = BUILD FAILURE. No exceptions.                         ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+MANDATORY FEATURE STRUCTURE (Copy this for EVERY feature):
+
+\`\`\`json
+{
+  "id": "kanban_board",                // snake_case, NOT "feature_1"
+  "name": "Kanban Board",              // Human readable, NOT "Feature" or "TODO"
+  "category": "core",                  // "core" | "supporting" | "enhancement"
+  "priority": "must_have",             // "must_have" | "should_have" | "could_have" | "wont_have"
+  "rice_score": 85,                    // Calculated: (reach × impact × confidence) / effort × 10
+  "rice_breakdown": {
+    "reach": 9,                        // 1-10: How many users impacted
+    "impact": 10,                      // 1-10: How much does it improve experience
+    "confidence": 8,                   // 1-10: How sure are we this is needed
+    "effort": 8                        // 1-10: How easy to build (10=easy, 1=hard)
+  },
+  "description": "Drag-and-drop task management board with columns for To Do, In Progress, and Done states",  // 50+ chars
+  "user_story": "As a developer, I want to drag tasks between columns so that I can track work progress visually",
+  "dependencies": [],                  // Array of feature ids this depends on
+  "acceptanceCriteria": [              // MINIMUM 3 specific, testable items
+    "Has exactly 3 columns: To Do, In Progress, Done",
+    "Uses @dnd-kit for drag-and-drop between columns",
+    "Cards display: title, priority badge, due date, assignee avatar",
+    "Column headers show task count",
+    "Persists state to database on card move"
+  ],
+  "technical_notes": "Use optimistic updates for drag operations"
+}
+\`\`\`
+
+⚠️ FEATURE CHECKLIST (verify for EVERY feature before output):
+□ id - snake_case (NOT "feature_1", "example", "todo")
+□ name - Descriptive name (NOT "Feature", "TODO", placeholders)
+□ category - Valid: core | supporting | enhancement
+□ priority - Valid: must_have | should_have | could_have | wont_have
+□ rice_score - Number, calculated from rice_breakdown
+□ rice_breakdown - Object with reach, impact, confidence, effort (all 1-10)
+□ description - 50+ characters explaining the feature
+□ user_story - Format: "As a [user], I want [goal] so that [benefit]"
+□ dependencies - Array (can be empty [])
+□ acceptanceCriteria - Array with 3+ specific, testable requirements
+
+ALSO: featureChecklist.critical[] items need the same structure with:
+□ id, name, description, acceptanceCriteria (3+), assignedTo, priority, rice_score
+
+═══════════════════════════════════════════════════════════════
+FORBIDDEN CONTENT (INSTANT BUILD FAILURE)
+═══════════════════════════════════════════════════════════════
+
+NEVER output any of these - they will be detected and rejected:
+
+❌ Placeholder IDs:
+   - "feature_1", "feature_2", "example_feature"
+   - "todo", "tbd", "placeholder", "test"
+
+❌ Placeholder names:
+   - "Feature", "Feature 1", "New Feature"
+   - "TODO", "TBD", "Example", "Sample"
+
+❌ Vague descriptions:
+   - "Description here", "TODO", "TBD"
+   - Descriptions under 50 characters
+   - Generic text like "A feature for users"
+
+❌ Vague acceptance criteria:
+   - "Works well", "Good UX", "Fast", "Modern"
+   - Non-testable requirements
+   - Fewer than 3 criteria per feature
+
+❌ Empty arrays:
+   - acceptanceCriteria: []
+   - mvp_features: [] (need 5+)
+   - featureChecklist.critical: [] (need 3+)
+
+Every feature must be REAL, SPECIFIC, and TESTABLE.
 
 ═══════════════════════════════════════════════════════════════
 EXAMPLE
@@ -1292,12 +1497,38 @@ IF conflicting requirements detected:
 `,
     outputSchema: {
       type: 'object',
-      required: ['mvp_features', 'technical_requirements', 'featureChecklist'],
+      required: [
+        'mvp_features',
+        'technical_requirements',
+        'featureChecklist',
+        'brand_identity',
+        'design_requirements',
+      ],
       properties: {
         mvp_features: { type: 'array', items: { type: 'object' } },
         roadmap: { type: 'object' },
         technical_requirements: { type: 'object' },
         success_criteria: { type: 'array', items: { type: 'object' } },
+        brand_identity: {
+          type: 'object',
+          description: 'Brand identity for PALETTE agent - CONTRACT CRITICAL',
+          properties: {
+            tone: { type: 'string', description: 'Brand tone (professional, playful, etc.)' },
+            style: { type: 'string', description: 'Visual style (modern, minimal, etc.)' },
+            personality: { type: 'array', items: { type: 'string' } },
+            visual_direction: { type: 'string' },
+          },
+        },
+        design_requirements: {
+          type: 'object',
+          description: 'Design requirements for PALETTE agent - CONTRACT CRITICAL',
+          properties: {
+            accessibility: { type: 'string', description: 'WCAG level (AA or AAA)' },
+            theme: { type: 'string', description: 'light, dark, or system' },
+            responsive: { type: 'boolean' },
+            style_preferences: { type: 'array', items: { type: 'string' } },
+          },
+        },
         featureChecklist: {
           type: 'object',
           description: 'Explicit feature requirements for downstream agents',
