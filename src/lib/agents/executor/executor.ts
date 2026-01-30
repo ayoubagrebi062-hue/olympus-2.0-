@@ -4,6 +4,10 @@
  * WIRED RELIABILITY FEATURES:
  * - SelfHealing: Automatic retry with circuit breaker and fallback
  * - Error tracking: Centralized failure aggregation
+ *
+ * @ETHICAL_OVERSIGHT - Executes AI agent operations with system-wide impact
+ * @HUMAN_ACCOUNTABILITY - Agent execution requires oversight
+ * @HUMAN_OVERRIDE_REQUIRED - Execution behavior must be human-controllable
  */
 
 import type { AgentId, AgentInput, AgentOutput, AgentDefinition, AgentStatus } from '../types';

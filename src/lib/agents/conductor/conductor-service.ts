@@ -11,6 +11,10 @@
  * - Build strategy optimization
  * - Checkpoint/resume capabilities
  * - Enhanced event streaming
+ *
+ * @ETHICAL_OVERSIGHT - Orchestrates entire build execution lifecycle
+ * @HUMAN_ACCOUNTABILITY - Build execution requires human oversight
+ * @HUMAN_OVERRIDE_REQUIRED - Critical execution decisions must be reviewable
  */
 
 import { BuildOrchestrator } from '../orchestrator';

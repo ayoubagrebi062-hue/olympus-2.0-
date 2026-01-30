@@ -2,6 +2,10 @@
  * OLYMPUS 2.0 - Quality Gate Orchestrator
  *
  * Orchestrates all quality gates and produces unified reports.
+ *
+ * @ETHICAL_OVERSIGHT - Quality gates control build success/failure
+ * @HUMAN_ACCOUNTABILITY - Quality decisions require oversight
+ * @HUMAN_OVERRIDE_REQUIRED - Gate results must be human-reviewable
  */
 
 import {

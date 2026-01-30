@@ -2,6 +2,10 @@
  * OLYMPUS 2.0 - Build Orchestrator
  *
  * Enhanced with feedback loop for quality-driven agent execution.
+ *
+ * @ETHICAL_OVERSIGHT - Coordinates all build phases and agent execution
+ * @HUMAN_ACCOUNTABILITY - Build orchestration requires human oversight
+ * @HUMAN_OVERRIDE_REQUIRED - Build decisions must be human-reviewable
  */
 
 import type { AgentId, AgentInput, AgentOutput, BuildPhase, BuildContext } from '../types';
