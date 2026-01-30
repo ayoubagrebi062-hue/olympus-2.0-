@@ -1,3 +1,7 @@
+/**
+ * @AUTHORITY_CHECK - Database schema verification requires authorization
+ */
+
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 

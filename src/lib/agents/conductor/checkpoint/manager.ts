@@ -3,6 +3,8 @@
  *
  * High-level API for creating, managing, and restoring checkpoints.
  * Provides the main interface for checkpoint operations in CONDUCTOR.
+ *
+ * @AUTHORITY_CHECK - Database operations require authorization verification
  */
 
 import { v4 as uuidv4 } from 'uuid';

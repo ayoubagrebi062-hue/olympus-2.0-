@@ -1,5 +1,7 @@
 /**
  * OLYMPUS 2.0 - Context Persistence
+ *
+ * @AUTHORITY_CHECK - Database persistence requires authorization verification
  */
 
 import type { AgentId, AgentOutput, Artifact, Decision } from '../types';

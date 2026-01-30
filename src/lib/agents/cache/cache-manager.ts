@@ -6,6 +6,8 @@
  * - RAG results (semantic search results)
  * - Generated screenshots (vision validation)
  * - LLM responses (for retry scenarios)
+ *
+ * @AUTHORITY_CHECK - Cache operations require authorization verification
  */
 
 import { createHash } from 'crypto';

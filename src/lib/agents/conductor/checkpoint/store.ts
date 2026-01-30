@@ -3,6 +3,8 @@
  *
  * Persists checkpoints with compression and expiration.
  * Provides both Supabase implementation and in-memory store for testing.
+ *
+ * @AUTHORITY_CHECK - Storage operations require authorization verification
  */
 
 import type {

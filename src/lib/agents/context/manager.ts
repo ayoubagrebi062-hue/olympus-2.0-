@@ -4,6 +4,8 @@
  * Updated with 50X Coordination Upgrade:
  * - Tracks CriticalDecisions from coordination system
  * - Provides constraint context to downstream agents
+ *
+ * @AUTHORITY_CHECK - Context management requires authorization verification
  */
 
 import type { AgentId, AgentOutput, BuildPhase, Artifact, Decision, BuildContext } from '../types';
