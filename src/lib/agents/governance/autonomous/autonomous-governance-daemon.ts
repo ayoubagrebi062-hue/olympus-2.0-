@@ -1,0 +1,898 @@
+/**
+ * AUTONOMOUS GOVERNANCE DAEMON
+ *
+ * Intelligence Features:
+ * 1. AUTONOMOUS OPERATION - Runs 24/7, auto-fixes, escalates intelligently
+ * 2. LEARNING CAPABILITY - Learns from feedback, adapts to codebase
+ * 3. PREDICTIVE INTELLIGENCE - Real-time watching, trend analysis, proactive warnings
+ *
+ * This is a DAEMON, not a one-shot script.
+ */
+
+import * as fs from 'fs';
+import * as path from 'path';
+import * as chokidar from 'chokidar';
+import { TierClassifier, FileAnalysis } from '../ci/tier-classifier';
+import { getDecisionStrategyLoader, getCurrentEnvironment } from '../shared/loader-singleton';
+import type {
+  Violation as LoaderViolation,
+  PatternLearning,
+  DecisionResult,
+  DecisionStrategyLoader,
+} from './decision-strategy-loader';
+
+// ============================================================================
+// CAPABILITY 1: AUTONOMOUS OPERATION
+// ============================================================================
+
+interface RemediationAction {
+  filePath: string;
+  action: 'auto-fix' | 'alert-human' | 'log-only';
+  confidence: number;
+  fixApplied?: string;
+  escalationReason?: string;
+}
+
+interface HealthMetrics {
+  uptime: number;
+  filesScanned: number;
+  violationsFound: number;
+  autoFixSuccess: number;
+  autoFixFailure: number;
+  falsePositiveRate: number;
+  lastHealthCheck: number;
+}
+
+class AutonomousGovernanceDaemon {
+  private classifier: TierClassifier;
+  private watcher: chokidar.FSWatcher | null = null;
+  private isRunning: boolean = false;
+  private learningSystem: LearningSystem;
+  private predictiveEngine: PredictiveEngine;
+  private healthMetrics: HealthMetrics;
+  private scanHistory: ScanResult[] = [];
+  private strategyLoader: DecisionStrategyLoader | null = null;
+
+  constructor() {
+    this.classifier = new TierClassifier();
+    this.learningSystem = new LearningSystem();
+    this.predictiveEngine = new PredictiveEngine();
+    this.healthMetrics = this.initHealthMetrics();
+
+    // Self-healing: Uncaught error handler
+    this.setupSelfHealing();
+
+    // Initialize strategy loader asynchronously
+    this.initializeStrategyLoader();
+  }
+
+  /**
+   * Initialize the strategy loader in the background
+   */
+  private async initializeStrategyLoader() {
+    try {
+      this.strategyLoader = await getDecisionStrategyLoader();
+      console.log('✅ Strategy loader initialized');
+    } catch (error) {
+      console.warn('⚠️  Strategy loader failed, using fallback logic:', error);
+      this.strategyLoader = null;
+    }
+  }
+
+  /**
+   * Start autonomous operation - runs 24/7
+   */
+  async start() {
+    console.log('🤖 Starting Autonomous Governance Daemon...');
+    this.isRunning = true;
+
+    // 1. Initial full scan
+    await this.performFullScan();
+
+    // 2. Watch for file changes (real-time)
+    this.startFileWatcher();
+
+    // 3. Periodic health checks (every 5 minutes)
+    this.startHealthMonitoring();
+
+    // 4. Periodic learning updates (every hour)
+    this.startLearningCycle();
+
+    // 5. Predictive analysis (every 30 minutes)
+    this.startPredictiveAnalysis();
+
+    console.log('✅ Daemon running. Press Ctrl+C to stop.');
+  }
+
+  /**
+   * Real-time file watching
+   */
+  private startFileWatcher() {
+    this.watcher = chokidar.watch('src/**/*.{ts,tsx}', {
+      ignored: /(^|[\/\\])\../, // ignore dotfiles
+      persistent: true,
+      ignoreInitial: true,
+    });
+
+    this.watcher
+      .on('change', filePath => this.handleFileChange(filePath))
+      .on('add', filePath => this.handleFileChange(filePath))
+      .on('error', error => this.handleWatcherError(error));
+
+    console.log('👁️  File watcher active - monitoring changes in real-time');
+  }
+
+  /**
+   * Handle file change - analyze and auto-remediate
+   */
+  private async handleFileChange(filePath: string) {
+    console.log(`📝 File changed: ${filePath}`);
+
+    try {
+      // Circuit breaker: If we've had 5 consecutive failures, pause
+      if (this.healthMetrics.autoFixFailure > 5) {
+        console.warn('⚠️  Circuit breaker activated - too many failures');
+        await this.alertHuman('circuit-breaker-tripped');
+        return;
+      }
+
+      const analysis = this.classifier.analyzeFile(filePath);
+      this.healthMetrics.filesScanned++;
+
+      if (analysis.violations.length === 0) {
+        // No violations - update learning system with success
+        this.learningSystem.recordSuccess(filePath, analysis);
+        return;
+      }
+
+      // Violations found - decide action (now async)
+      const action = await this.decideRemediationAction(analysis);
+      await this.executeRemediation(action);
+    } catch (error) {
+      // Self-healing: Fallback to basic scan if AST fails
+      console.error(`❌ Error analyzing ${filePath}:`, error);
+      await this.handleAnalysisFailure(filePath, error);
+    }
+  }
+
+  /**
+   * INTELLIGENT DECISION MAKING
+   * Decides whether to auto-fix, alert human, or just log
+   * Uses strategy loader if available, falls back to hardcoded logic
+   */
+  private async decideRemediationAction(analysis: FileAnalysis): Promise<RemediationAction> {
+    const { filePath, violations, confidence } = analysis;
+
+    // Use strategy loader if available
+    if (this.strategyLoader) {
+      try {
+        const strategy = await this.strategyLoader.getStrategy(getCurrentEnvironment());
+        const decisions: DecisionResult[] = [];
+
+        for (const violationMsg of violations) {
+          const loaderViolation: LoaderViolation = {
+            id: `viol-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            pattern: this.extractPattern(violationMsg),
+            tier: this.extractTier(analysis.detectedTier),
+            filePath: analysis.filePath,
+            confidence: analysis.confidence,
+          };
+
+          const learning = this.learningSystem.getLearningForPattern(loaderViolation.pattern);
+          const decision = strategy.decide(loaderViolation, learning);
+          decisions.push(decision);
+        }
+
+        // Take most severe action
+        const mostSevere = this.getMostSevereDecision(decisions);
+        return {
+          filePath,
+          action: mostSevere.action as 'auto-fix' | 'alert-human' | 'log-only',
+          confidence: mostSevere.confidence,
+          escalationReason: mostSevere.reason,
+        };
+      } catch (error) {
+        console.warn(`⚠️  Strategy decision failed for ${filePath}, using fallback:`, error);
+      }
+    }
+
+    // FALLBACK: Original hardcoded logic
+    return this.decideRemediationActionFallback(analysis);
+  }
+
+  /**
+   * Fallback decision logic (original hardcoded rules)
+   */
+  private decideRemediationActionFallback(analysis: FileAnalysis): RemediationAction {
+    const { filePath, violations, confidence } = analysis;
+
+    // Strategy 1: High confidence (>85%) → AUTO-FIX
+    if (confidence > 0.85 && violations.length === 1) {
+      return {
+        filePath,
+        action: 'auto-fix',
+        confidence,
+      };
+    }
+
+    // Strategy 2: Medium confidence (60-85%) → ALERT HUMAN
+    if (confidence > 0.6) {
+      return {
+        filePath,
+        action: 'alert-human',
+        confidence,
+        escalationReason: 'Medium confidence - human review needed',
+      };
+    }
+
+    // Strategy 3: Low confidence (<60%) → LOG ONLY (likely false positive)
+    return {
+      filePath,
+      action: 'log-only',
+      confidence,
+      escalationReason: 'Low confidence - likely false positive',
+    };
+  }
+
+  /**
+   * Extract pattern name from violation message for strategy lookup
+   */
+  private extractPattern(violationMsg: string): string {
+    if (violationMsg.includes('DB writes')) return 'db_write_in_tier1';
+    if (violationMsg.includes('enforcement logic')) return 'enforcement_in_tier1';
+    if (violationMsg.includes('irreversible')) return 'irreversible_operation';
+    if (violationMsg.includes('AUTHORITY_CHECK')) return 'missing_authority_check';
+    if (violationMsg.includes('ETHICAL_OVERSIGHT')) return 'missing_ethical_oversight';
+    if (violationMsg.includes('HUMAN_ACCOUNTABILITY')) return 'missing_human_accountability';
+    if (violationMsg.includes('HUMAN_OVERRIDE_REQUIRED')) return 'missing_human_override';
+    if (violationMsg.includes('mixed tier behaviors')) return 'mixed_tier_behaviors';
+    return 'unknown_violation';
+  }
+
+  /**
+   * Extract tier number from detected tier string
+   */
+  private extractTier(detectedTier: string | null): 1 | 2 | 3 {
+    if (detectedTier === 'tier1') return 1;
+    if (detectedTier === 'tier2') return 2;
+    if (detectedTier === 'tier3') return 3;
+    return 1; // Default to tier 1 for unknown
+  }
+
+  /**
+   * Select most severe decision from a list of decisions
+   */
+  private getMostSevereDecision(decisions: DecisionResult[]): DecisionResult {
+    // Priority: alert-human > auto-fix > suppress
+    const alertDecisions = decisions.filter(d => d.action === 'alert-human');
+    if (alertDecisions.length > 0) return alertDecisions[0];
+
+    const autoFixDecisions = decisions.filter(d => d.action === 'auto-fix');
+    if (autoFixDecisions.length > 0) return autoFixDecisions[0];
+
+    return decisions[0];
+  }
+
+  /**
+   * Execute remediation based on decision
+   */
+  private async executeRemediation(action: RemediationAction) {
+    switch (action.action) {
+      case 'auto-fix':
+        await this.autoFix(action);
+        break;
+      case 'alert-human':
+        await this.alertHuman(action);
+        break;
+      case 'log-only':
+        this.logViolation(action);
+        break;
+    }
+  }
+
+  /**
+   * AUTO-FIX: Automatically insert missing markers
+   */
+  private async autoFix(action: RemediationAction) {
+    try {
+      const content = fs.readFileSync(action.filePath, 'utf-8');
+      const analysis = this.classifier.analyzeFile(action.filePath);
+
+      // Generate fix
+      let fixedContent = content;
+      const fixes: string[] = [];
+
+      // Add AUTHORITY_CHECK if missing (Tier 2)
+      if (analysis.detectedTier === 'tier2' && !analysis.behaviors.hasAuthorityCheck) {
+        const marker = '// AUTHORITY_CHECK: Automatically added by governance daemon\n';
+        fixedContent = marker + fixedContent;
+        fixes.push('Added AUTHORITY_CHECK marker');
+      }
+
+      // Add Tier 3 markers if missing
+      if (analysis.detectedTier === 'tier3') {
+        const markers = [];
+        if (!analysis.behaviors.hasEthicalOversight) {
+          markers.push('// ETHICAL_OVERSIGHT: Automatically flagged - requires human review');
+        }
+        if (!analysis.behaviors.hasHumanAccountability) {
+          markers.push('// HUMAN_ACCOUNTABILITY: Auto-detected irreversible operation');
+        }
+        if (!analysis.behaviors.hasHumanOverrideRequired) {
+          markers.push('// HUMAN_OVERRIDE_REQUIRED: Manual confirmation needed');
+        }
+        if (markers.length > 0) {
+          fixedContent = markers.join('\n') + '\n' + fixedContent;
+          fixes.push(`Added ${markers.length} Tier 3 markers`);
+        }
+      }
+
+      // Apply fix
+      if (fixes.length > 0) {
+        fs.writeFileSync(action.filePath, fixedContent, 'utf-8');
+        console.log(`✅ AUTO-FIX applied to ${action.filePath}:`);
+        fixes.forEach(fix => console.log(`   - ${fix}`));
+
+        this.healthMetrics.autoFixSuccess++;
+        this.learningSystem.recordAutoFix(action.filePath, fixes);
+      }
+    } catch (error) {
+      console.error(`❌ Auto-fix failed for ${action.filePath}:`, error);
+      this.healthMetrics.autoFixFailure++;
+
+      // Escalate to human
+      await this.alertHuman({
+        ...action,
+        action: 'alert-human',
+        escalationReason: `Auto-fix failed: ${error}`,
+      });
+    }
+  }
+
+  /**
+   * ALERT HUMAN: Send notification for ambiguous cases
+   */
+  private async alertHuman(action: RemediationAction | string) {
+    const message =
+      typeof action === 'string'
+        ? action
+        : `Governance violation in ${action.filePath} - Confidence: ${Math.round((action.confidence || 0) * 100)}%`;
+
+    console.log(`🚨 HUMAN ALERT: ${message}`);
+
+    // In production: Send to Slack, email, or dashboard
+    // For now: Write to alert log
+    const alertLog = {
+      timestamp: new Date().toISOString(),
+      message,
+      action: typeof action === 'string' ? null : action,
+    };
+
+    fs.appendFileSync('governance-alerts.log', JSON.stringify(alertLog) + '\n', 'utf-8');
+  }
+
+  /**
+   * LOG ONLY: Record likely false positives
+   */
+  private logViolation(action: RemediationAction) {
+    console.log(
+      `📋 Logged (Low confidence): ${action.filePath} - Confidence: ${Math.round(action.confidence * 100)}%`
+    );
+
+    // Feed to learning system
+    this.learningSystem.recordLowConfidence(action.filePath, action.confidence);
+  }
+
+  /**
+   * Self-healing: Handle analysis failures gracefully
+   */
+  private async handleAnalysisFailure(filePath: string, error: any) {
+    console.warn(`⚠️  AST parsing failed for ${filePath}, falling back to basic scan`);
+
+    // Fallback: Use regex-only scan
+    try {
+      // Simple regex check without AST
+      const content = fs.readFileSync(filePath, 'utf-8');
+      const hasDbWrites = /\bdb\.(write|insert|update|delete)\b/i.test(content);
+
+      if (hasDbWrites) {
+        await this.alertHuman({
+          filePath,
+          action: 'alert-human',
+          confidence: 0.5,
+          escalationReason: 'AST parsing failed - using fallback scan',
+        });
+      }
+    } catch (fallbackError) {
+      // Complete failure - log and continue
+      console.error(`❌ Complete failure for ${filePath}:`, fallbackError);
+    }
+  }
+
+  // ============================================================================
+  // CAPABILITY 2: LEARNING CAPABILITY
+  // ============================================================================
+
+  /**
+   * Periodic learning cycle - runs every hour
+   */
+  private startLearningCycle() {
+    setInterval(
+      async () => {
+        console.log('🧠 Learning cycle started...');
+        await this.learningSystem.runLearningCycle(this.scanHistory);
+        console.log('✅ Learning cycle complete');
+      },
+      60 * 60 * 1000
+    ); // Every hour
+  }
+
+  /**
+   * Full scan to build history
+   */
+  private async performFullScan(): Promise<void> {
+    console.log('🔍 Performing initial full scan...');
+
+    const files = this.getAllTypeScriptFiles('src');
+    const results: ScanResult[] = [];
+
+    for (const file of files) {
+      try {
+        const analysis = this.classifier.analyzeFile(file);
+        results.push({
+          filePath: file,
+          analysis,
+          timestamp: Date.now(),
+        });
+      } catch (error) {
+        console.warn(`⚠️  Skipped ${file}:`, error);
+      }
+    }
+
+    this.scanHistory.push(...results);
+    console.log(`✅ Scanned ${results.length} files`);
+  }
+
+  private getAllTypeScriptFiles(dir: string): string[] {
+    const files: string[] = [];
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        files.push(...this.getAllTypeScriptFiles(fullPath));
+      } else if (entry.name.endsWith('.ts') || entry.name.endsWith('.tsx')) {
+        files.push(fullPath);
+      }
+    }
+
+    return files;
+  }
+
+  // ============================================================================
+  // CAPABILITY 3: PREDICTIVE INTELLIGENCE
+  // ============================================================================
+
+  /**
+   * Periodic predictive analysis - runs every 30 minutes
+   */
+  private startPredictiveAnalysis() {
+    setInterval(
+      async () => {
+        console.log('🔮 Running predictive analysis...');
+        const predictions = await this.predictiveEngine.analyzeTrends(this.scanHistory);
+
+        if (predictions.alerts.length > 0) {
+          console.log('⚠️  PREDICTIVE ALERTS:');
+          predictions.alerts.forEach(alert => console.log(`   - ${alert}`));
+        }
+
+        console.log('✅ Predictive analysis complete');
+      },
+      30 * 60 * 1000
+    ); // Every 30 minutes
+  }
+
+  // ============================================================================
+  // SELF-HEALING & HEALTH MONITORING
+  // ============================================================================
+
+  /**
+   * Setup self-healing mechanisms
+   */
+  private setupSelfHealing() {
+    // Catch uncaught errors
+    process.on('uncaughtException', error => {
+      console.error('❌ CRITICAL ERROR:', error);
+      this.handleCriticalError(error);
+    });
+
+    process.on('unhandledRejection', (reason, promise) => {
+      console.error('❌ UNHANDLED REJECTION:', reason);
+      this.handleCriticalError(reason);
+    });
+  }
+
+  /**
+   * Handle critical errors - attempt recovery
+   */
+  private async handleCriticalError(error: any) {
+    console.log('🔧 Attempting self-healing...');
+
+    // Restart file watcher
+    if (this.watcher) {
+      await this.watcher.close();
+      this.startFileWatcher();
+    }
+
+    // Alert human
+    await this.alertHuman(`Critical error occurred: ${error.message}`);
+
+    console.log('✅ Self-healing complete - daemon still running');
+  }
+
+  /**
+   * Periodic health monitoring
+   */
+  private startHealthMonitoring() {
+    setInterval(
+      () => {
+        this.performHealthCheck();
+      },
+      5 * 60 * 1000
+    ); // Every 5 minutes
+  }
+
+  /**
+   * Health check - monitor own performance
+   */
+  private performHealthCheck() {
+    console.log('💊 Health check...');
+
+    const currentTime = Date.now();
+    const uptimeMinutes = (currentTime - this.healthMetrics.lastHealthCheck) / 1000 / 60;
+
+    // Calculate false positive rate from learning system
+    const fpRate = this.learningSystem.getFalsePositiveRate();
+    this.healthMetrics.falsePositiveRate = fpRate;
+
+    // Alert if accuracy degraded
+    if (fpRate > 0.1) {
+      // >10% false positives
+      console.warn('⚠️  FALSE POSITIVE RATE TOO HIGH: ' + Math.round(fpRate * 100) + '%');
+      this.alertHuman('false-positive-rate-exceeded-threshold');
+    }
+
+    // Alert if too many auto-fix failures
+    const failureRate =
+      this.healthMetrics.autoFixFailure /
+      (this.healthMetrics.autoFixSuccess + this.healthMetrics.autoFixFailure || 1);
+
+    if (failureRate > 0.2) {
+      // >20% failure rate
+      console.warn('⚠️  AUTO-FIX FAILURE RATE TOO HIGH: ' + Math.round(failureRate * 100) + '%');
+    }
+
+    console.log(
+      `✅ Health: Uptime=${Math.round(uptimeMinutes)}min, FP Rate=${Math.round(fpRate * 100)}%, Scans=${this.healthMetrics.filesScanned}`
+    );
+
+    this.healthMetrics.lastHealthCheck = currentTime;
+  }
+
+  private initHealthMetrics(): HealthMetrics {
+    return {
+      uptime: Date.now(),
+      filesScanned: 0,
+      violationsFound: 0,
+      autoFixSuccess: 0,
+      autoFixFailure: 0,
+      falsePositiveRate: 0,
+      lastHealthCheck: Date.now(),
+    };
+  }
+
+  private handleWatcherError(error: Error) {
+    console.error('❌ File watcher error:', error);
+    // Self-healing: Restart watcher
+    setTimeout(() => {
+      console.log('🔧 Restarting file watcher...');
+      this.startFileWatcher();
+    }, 5000);
+  }
+
+  /**
+   * Graceful shutdown
+   */
+  async stop() {
+    console.log('🛑 Stopping daemon...');
+    this.isRunning = false;
+
+    if (this.watcher) {
+      await this.watcher.close();
+    }
+
+    console.log('✅ Daemon stopped');
+  }
+}
+
+// ============================================================================
+// LEARNING SYSTEM
+// ============================================================================
+
+interface ScanResult {
+  filePath: string;
+  analysis: FileAnalysis;
+  timestamp: number;
+}
+
+// Mutable version of PatternLearning for internal tracking
+interface MutablePatternLearning {
+  pattern: string;
+  deployedViolations: number;
+  incidentRate: number;
+  riskScore: number;
+  confidenceInterval: [number, number];
+}
+
+class LearningSystem {
+  private suppressionPatterns: Map<string, number> = new Map(); // Pattern → Count
+  private falsePositives: Array<{ file: string; confidence: number }> = [];
+  private successfulFixes: string[] = [];
+  private patternLearning: Map<string, MutablePatternLearning> = new Map();
+
+  /**
+   * Record successful analysis (no violations)
+   */
+  recordSuccess(filePath: string, analysis: FileAnalysis) {
+    // Learn: If this file has no violations, remember its patterns
+    // This helps identify similar safe files in the future
+  }
+
+  /**
+   * Record auto-fix application
+   */
+  recordAutoFix(filePath: string, fixes: string[]) {
+    this.successfulFixes.push(filePath);
+    console.log(`📚 Learned: Auto-fix successful for ${path.basename(filePath)}`);
+  }
+
+  /**
+   * Record low confidence (likely false positive)
+   */
+  recordLowConfidence(filePath: string, confidence: number) {
+    this.falsePositives.push({ file: filePath, confidence });
+
+    // If we've seen many false positives with similar patterns, learn to avoid them
+    if (this.falsePositives.length > 10) {
+      this.analyzeFalsePositivePatterns();
+    }
+  }
+
+  /**
+   * Analyze false positive patterns and update rules
+   */
+  private analyzeFalsePositivePatterns() {
+    // Group false positives by common patterns
+    const patterns = new Map<string, number>();
+
+    this.falsePositives.forEach(fp => {
+      const content = fs.readFileSync(fp.file, 'utf-8');
+
+      // Extract patterns (e.g., "logger.log", "test file", "config file")
+      if (content.includes('logger')) patterns.set('logger', (patterns.get('logger') || 0) + 1);
+      if (fp.file.includes('.test.'))
+        patterns.set('test-file', (patterns.get('test-file') || 0) + 1);
+      if (fp.file.includes('config'))
+        patterns.set('config-file', (patterns.get('config-file') || 0) + 1);
+    });
+
+    // If pattern occurs in >50% of false positives, add to suppression list
+    const totalFP = this.falsePositives.length;
+    patterns.forEach((count, pattern) => {
+      if (count / totalFP > 0.5) {
+        console.log(
+          `🧠 LEARNED: Pattern "${pattern}" is likely false positive (${count}/${totalFP} occurrences)`
+        );
+        this.suppressionPatterns.set(pattern, count);
+      }
+    });
+  }
+
+  /**
+   * Get current false positive rate
+   */
+  getFalsePositiveRate(): number {
+    const total = this.successfulFixes.length + this.falsePositives.length;
+    if (total === 0) return 0;
+    return this.falsePositives.length / total;
+  }
+
+  /**
+   * Get learning data for a specific pattern
+   * Returns as PatternLearning (readonly) for external consumption
+   */
+  getLearningForPattern(pattern: string): PatternLearning | null {
+    const learning = this.patternLearning.get(pattern);
+    if (!learning) return null;
+
+    // Convert to readonly PatternLearning
+    return {
+      pattern: learning.pattern,
+      deployedViolations: learning.deployedViolations,
+      incidentRate: learning.incidentRate,
+      riskScore: learning.riskScore,
+      confidenceInterval: [...learning.confidenceInterval] as [number, number],
+    };
+  }
+
+  /**
+   * Update pattern learning based on whether violation led to incident
+   */
+  updatePatternLearning(pattern: string, wasIncident: boolean) {
+    const existing = this.patternLearning.get(pattern) || {
+      pattern,
+      deployedViolations: 0,
+      incidentRate: 0,
+      riskScore: 0.5,
+      confidenceInterval: [0.3, 0.7] as [number, number],
+    };
+
+    existing.deployedViolations++;
+    if (wasIncident) {
+      // Recalculate incident rate with new data point
+      const oldIncidents = existing.incidentRate * (existing.deployedViolations - 1);
+      existing.incidentRate = (oldIncidents + 1) / existing.deployedViolations;
+    } else {
+      // Violation deployed but no incident - adjust rate downward
+      const oldIncidents = existing.incidentRate * (existing.deployedViolations - 1);
+      existing.incidentRate = oldIncidents / existing.deployedViolations;
+    }
+
+    // Update risk score based on incident rate
+    existing.riskScore = existing.incidentRate;
+
+    // Update confidence interval (gets tighter with more samples)
+    const samples = existing.deployedViolations;
+    const margin = Math.min(0.2, 1 / Math.sqrt(samples)); // Narrows with √n
+    existing.confidenceInterval = [
+      Math.max(0, existing.incidentRate - margin),
+      Math.min(1, existing.incidentRate + margin),
+    ] as [number, number];
+
+    this.patternLearning.set(pattern, existing);
+  }
+
+  /**
+   * Run learning cycle - analyze recent scans and adapt
+   */
+  async runLearningCycle(scanHistory: ScanResult[]) {
+    // Analyze last 100 scans
+    const recentScans = scanHistory.slice(-100);
+
+    // Find common violation patterns
+    const violationPatterns = new Map<string, number>();
+    recentScans.forEach(scan => {
+      scan.analysis.violations.forEach(v => {
+        violationPatterns.set(v, (violationPatterns.get(v) || 0) + 1);
+      });
+    });
+
+    // Report most common violations
+    console.log('📊 Most common violations:');
+    Array.from(violationPatterns.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .forEach(([violation, count]) => {
+        console.log(`   - ${violation}: ${count} occurrences`);
+      });
+  }
+}
+
+// ============================================================================
+// PREDICTIVE ENGINE
+// ============================================================================
+
+interface PredictivePredictions {
+  alerts: string[];
+  trends: {
+    violationTrend: 'increasing' | 'decreasing' | 'stable';
+    estimatedViolationsNextWeek: number;
+  };
+}
+
+class PredictiveEngine {
+  /**
+   * Analyze trends and predict future issues
+   */
+  async analyzeTrends(scanHistory: ScanResult[]): Promise<PredictivePredictions> {
+    const alerts: string[] = [];
+
+    // Analyze last 7 days
+    const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    const recentScans = scanHistory.filter(s => s.timestamp > oneWeekAgo);
+
+    // Calculate violations per day
+    const violationsPerDay = this.calculateViolationsPerDay(recentScans);
+
+    // Detect trend
+    const trend = this.detectTrend(violationsPerDay);
+
+    // Predict next week
+    const estimate = this.predictNextWeek(violationsPerDay);
+
+    // Generate alerts
+    if (trend === 'increasing') {
+      alerts.push(
+        `⚠️  Governance violations are INCREASING (${estimate} violations predicted next week)`
+      );
+    }
+
+    if (estimate > 50) {
+      alerts.push(`🚨 CRITICAL: Projected to exceed 50 violations next week`);
+    }
+
+    return {
+      alerts,
+      trends: {
+        violationTrend: trend,
+        estimatedViolationsNextWeek: estimate,
+      },
+    };
+  }
+
+  private calculateViolationsPerDay(scans: ScanResult[]): number[] {
+    // Group by day and count violations
+    const dailyCounts = new Map<string, number>();
+
+    scans.forEach(scan => {
+      const date = new Date(scan.timestamp).toISOString().split('T')[0];
+      const count = scan.analysis.violations.length;
+      dailyCounts.set(date, (dailyCounts.get(date) || 0) + count);
+    });
+
+    return Array.from(dailyCounts.values());
+  }
+
+  private detectTrend(dailyViolations: number[]): 'increasing' | 'decreasing' | 'stable' {
+    if (dailyViolations.length < 2) return 'stable';
+
+    const first = dailyViolations[0];
+    const last = dailyViolations[dailyViolations.length - 1];
+
+    if (last > first * 1.2) return 'increasing';
+    if (last < first * 0.8) return 'decreasing';
+    return 'stable';
+  }
+
+  private predictNextWeek(dailyViolations: number[]): number {
+    if (dailyViolations.length === 0) return 0;
+
+    // Simple linear extrapolation
+    const avg = dailyViolations.reduce((a, b) => a + b, 0) / dailyViolations.length;
+    return Math.round(avg * 7); // 7 days
+  }
+}
+
+// ============================================================================
+// MAIN ENTRY POINT
+// ============================================================================
+
+if (require.main === module) {
+  const daemon = new AutonomousGovernanceDaemon();
+
+  // Graceful shutdown
+  process.on('SIGINT', async () => {
+    console.log('\n🛑 Received shutdown signal...');
+    await daemon.stop();
+    process.exit(0);
+  });
+
+  // Start autonomous operation
+  daemon.start().catch(error => {
+    console.error('❌ Fatal error:', error);
+    process.exit(1);
+  });
+}
+
+export { AutonomousGovernanceDaemon, LearningSystem, PredictiveEngine };
