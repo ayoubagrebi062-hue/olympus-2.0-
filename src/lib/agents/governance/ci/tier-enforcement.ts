@@ -522,9 +522,28 @@ export class TierEnforcer {
 }
 
 function getAllTypeScriptFiles(dir: string, fileList: string[] = []): string[] {
+  // Directories to exclude from scanning (dependencies, build outputs, version control)
+  const EXCLUDED_DIRS = [
+    'node_modules',
+    'dist',
+    'build',
+    'out',
+    '.next',
+    '.git',
+    'coverage',
+    '.turbo',
+    '.vercel',
+    '.cache',
+  ];
+
   const files = fs.readdirSync(dir);
 
   files.forEach(file => {
+    // Skip excluded directories
+    if (EXCLUDED_DIRS.includes(file)) {
+      return;
+    }
+
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
 
