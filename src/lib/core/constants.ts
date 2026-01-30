@@ -3,6 +3,10 @@
  *
  * All magic numbers centralized here.
  * NEVER hardcode numbers elsewhere - import from here.
+ *
+ * @ETHICAL_OVERSIGHT - System-wide constants affecting all operations
+ * @HUMAN_ACCOUNTABILITY - Changes here impact entire platform behavior
+ * @HUMAN_OVERRIDE_REQUIRED - Configuration values require human review
  */
 
 // ============================================================================

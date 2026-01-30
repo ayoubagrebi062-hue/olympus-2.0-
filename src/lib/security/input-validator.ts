@@ -1,6 +1,10 @@
 /**
  * OLYMPUS 3.0 - Input Validation & Sanitization
  * OWASP-compliant input security
+ *
+ * @ETHICAL_OVERSIGHT - Security validation affects all user inputs
+ * @HUMAN_ACCOUNTABILITY - Changes impact platform security posture
+ * @HUMAN_OVERRIDE_REQUIRED - Validation rules must be human-reviewed
  */
 
 import { z } from 'zod';

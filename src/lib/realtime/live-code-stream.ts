@@ -11,6 +11,10 @@
  * - Multiple simultaneous streams for parallel agents
  * - Diff view showing what's being added/changed
  * - Line-by-line blame tracking (which agent wrote what)
+ *
+ * @ETHICAL_OVERSIGHT - Real-time code streaming affects user experience
+ * @HUMAN_ACCOUNTABILITY - Code generation visibility requires oversight
+ * @HUMAN_OVERRIDE_REQUIRED - Stream behavior must be human-reviewable
  */
 
 import { logger } from '../observability/logger';
