@@ -4,6 +4,7 @@
  */
 
 import Redis from 'ioredis';
+import { safeJsonParse } from '../utils/safe-json';
 
 // Environment variables
 const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
@@ -117,7 +118,7 @@ export async function setSession(
 export async function getSession(sessionId: string): Promise<Record<string, any> | null> {
   const redis = getClient();
   const data = await redis.get(`${PREFIXES.SESSION}${sessionId}`);
-  return data ? JSON.parse(data) : null;
+  return data ? safeJsonParse(data, null, `Redis: getSession(${sessionId})`) : null;
 }
 
 /**
@@ -170,7 +171,7 @@ export async function setBuildStatus(buildId: string, status: BuildStatusCache):
 export async function getBuildStatus(buildId: string): Promise<BuildStatusCache | null> {
   const redis = getClient();
   const data = await redis.get(`${PREFIXES.BUILD_STATUS}${buildId}`);
-  return data ? JSON.parse(data) : null;
+  return data ? safeJsonParse(data, null, `Redis: getBuildStatus(${buildId})`) : null;
 }
 
 /**
@@ -255,7 +256,7 @@ export async function setCache(key: string, value: any, ttlSeconds: number = 300
 export async function getCache<T = any>(key: string): Promise<T | null> {
   const redis = getClient();
   const data = await redis.get(`${PREFIXES.CACHE}${key}`);
-  return data ? JSON.parse(data) : null;
+  return data ? safeJsonParse(data, null, `Redis: getCache(${key})`) : null;
 }
 
 /**
@@ -343,11 +344,9 @@ export function subscribeToBuild(
   });
 
   subscriber.on('message', (_channel, message) => {
-    try {
-      const status = JSON.parse(message);
+    const status = safeJsonParse(message, null, 'Redis: subscribeToBuild message');
+    if (status) {
       callback(status);
-    } catch (e) {
-      console.error('Failed to parse message:', e);
     }
   });
 
@@ -390,7 +389,7 @@ export async function setProviderHealth(
 export async function getProviderHealth(provider: string): Promise<ProviderHealthCache | null> {
   const redis = getClient();
   const data = await redis.get(`${PREFIXES.PROVIDER_HEALTH}${provider}`);
-  return data ? JSON.parse(data) : null;
+  return data ? safeJsonParse(data, null, `Redis: getProviderHealth(${provider})`) : null;
 }
 
 /**
@@ -408,7 +407,10 @@ export async function getAllProviderHealth(): Promise<Record<string, ProviderHea
     const provider = key.replace(PREFIXES.PROVIDER_HEALTH, '');
     const data = await redis.get(key);
     if (data) {
-      result[provider] = JSON.parse(data);
+      const parsed = safeJsonParse(data, null, `Redis: getAllProviderHealth(${provider})`);
+      if (parsed) {
+        result[provider] = parsed;
+      }
     }
   }
 

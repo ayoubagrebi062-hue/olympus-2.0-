@@ -10,6 +10,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import type { OlympusAction } from '../state/build-state';
 import type { Phase, Agent, OutputEntry, BuildError, Severity } from '../types/core';
+import { safeJsonParse } from '../../utils/safe-json';
 
 export interface BuildStreamEvent {
   type: string;
@@ -86,11 +87,13 @@ export function useBuildStream({
     };
 
     eventSource.onmessage = event => {
-      try {
-        const data = JSON.parse(event.data) as BuildStreamEvent;
+      const data = safeJsonParse<BuildStreamEvent>(
+        event.data,
+        {} as BuildStreamEvent,
+        '[SSE] onmessage event'
+      );
+      if (data && (data as BuildStreamEvent).type) {
         handleStreamEvent(data, dispatch);
-      } catch (err) {
-        console.error(`[SSE] Failed to parse event:`, err, event.data);
       }
     };
 
@@ -100,51 +103,40 @@ export function useBuildStream({
     });
 
     eventSource.addEventListener('progress', event => {
-      try {
-        const data = JSON.parse(event.data);
-        handleStreamEvent({ type: 'progress', ...data }, dispatch);
-      } catch (err) {
-        console.error(`[SSE] Failed to parse progress event:`, err);
+      const data = safeJsonParse(event.data, {}, '[SSE] progress event');
+      if (data && typeof data === 'object') {
+        handleStreamEvent({ type: 'progress', ...data } as BuildStreamEvent, dispatch);
       }
     });
 
     eventSource.addEventListener('phase_completed', event => {
-      try {
-        const data = JSON.parse(event.data);
-        handleStreamEvent({ type: 'phase_completed', ...data }, dispatch);
-      } catch (err) {
-        console.error(`[SSE] Failed to parse phase event:`, err);
+      const data = safeJsonParse(event.data, {}, '[SSE] phase_completed event');
+      if (data && typeof data === 'object') {
+        handleStreamEvent({ type: 'phase_completed', ...data } as BuildStreamEvent, dispatch);
       }
     });
 
     eventSource.addEventListener('agent_completed', event => {
-      try {
-        const data = JSON.parse(event.data);
-        handleStreamEvent({ type: 'agent_completed', ...data }, dispatch);
-      } catch (err) {
-        console.error(`[SSE] Failed to parse agent event:`, err);
+      const data = safeJsonParse(event.data, {}, '[SSE] agent_completed event');
+      if (data && typeof data === 'object') {
+        handleStreamEvent({ type: 'agent_completed', ...data } as BuildStreamEvent, dispatch);
       }
     });
 
     eventSource.addEventListener('build_completed', event => {
-      try {
-        const data = JSON.parse(event.data);
-        handleStreamEvent({ type: 'build_completed', ...data }, dispatch);
+      const data = safeJsonParse(event.data, {}, '[SSE] build_completed event');
+      if (data && typeof data === 'object') {
+        handleStreamEvent({ type: 'build_completed', ...data } as BuildStreamEvent, dispatch);
         // Build is done, close the connection
         eventSource.close();
         onDisconnected?.();
-      } catch (err) {
-        console.error(`[SSE] Failed to parse build_completed event:`, err);
       }
     });
 
     eventSource.addEventListener('error', event => {
-      try {
-        const data = JSON.parse((event as MessageEvent).data);
-        handleStreamEvent({ type: 'error', ...data }, dispatch);
-      } catch (err) {
-        // This might be a connection error, not a data error
-        console.error(`[SSE] Error event:`, err);
+      const data = safeJsonParse((event as MessageEvent).data, {}, '[SSE] error event');
+      if (data && typeof data === 'object') {
+        handleStreamEvent({ type: 'error', ...data } as BuildStreamEvent, dispatch);
       }
     });
   }, [buildId, dispatch, onConnected, onDisconnected, onError]);
