@@ -171,6 +171,11 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import { trace, SpanStatusCode } from '@opentelemetry/api';
 import { createLogger, format, transports, Logger as WinstonLogger } from 'winston';
+import {
+  ClaudeCodeAdapter,
+  createClaudeCodeAdapter,
+  type ClaudeDecisionResult,
+} from './claude-code-adapter';
 
 // ============================================================================
 // CONSTANTS (Professional: No magic numbers/strings)
@@ -1690,13 +1695,33 @@ export class DecisionStrategyLoader {
  * ```
  */
 export class DecisionStrategy {
+  private readonly claudeAdapter: ClaudeCodeAdapter;
+
   constructor(
     private readonly config: StrategyConfig,
     private readonly fullConfig: GovernanceConfig,
     private readonly environment: string,
     private readonly logger?: ILogger,
     private readonly debugEnabled: boolean = false
-  ) {}
+  ) {
+    // Initialize Claude Code adapter from config
+    this.claudeAdapter = createClaudeCodeAdapter(this.fullConfig);
+
+    if (this.debugEnabled && this.logger?.debug) {
+      const health = this.claudeAdapter.getHealth();
+      this.logger.debug('Claude Code adapter initialized', {
+        available: health.available,
+        circuitOpen: health.circuitOpen,
+      });
+    }
+  }
+
+  /**
+   * Get Claude adapter health for monitoring.
+   */
+  getClaudeHealth(): ReturnType<ClaudeCodeAdapter['getHealth']> {
+    return this.claudeAdapter.getHealth();
+  }
 
   /**
    * Make a governance decision for a violation.
@@ -1727,6 +1752,64 @@ export class DecisionStrategy {
           hasLearningData: learning !== null,
         });
       }
+
+      // === CLAUDE CODE INTEGRATION (v5.3.0) ===
+      // Try Claude first for qualifying violations (high-severity/complex)
+      if (this.claudeAdapter.shouldUse(violation)) {
+        if (this.debugEnabled && this.logger?.debug) {
+          this.logger.debug('Attempting Claude Code decision', {
+            pattern: violation.pattern,
+            tier: violation.tier,
+          });
+        }
+
+        try {
+          // Use sync version since decide() is synchronous
+          const claudeDecision = this.claudeAdapter.decideSync(violation, learning);
+
+          if (claudeDecision) {
+            // Map Claude's extended actions to standard actions
+            const mappedAction = this.mapClaudeAction(claudeDecision.action);
+
+            span.setAttribute('decision.source', 'claude-code');
+            span.setAttribute('decision.action', mappedAction);
+            span.setStatus({ code: SpanStatusCode.OK });
+
+            metrics.increment('decision.source.claude-code');
+            metrics.increment(`decision.action.${mappedAction}`);
+            metrics.recordLatency('decision.duration_ms', Date.now() - startTime);
+
+            const result: DecisionResult = {
+              action: mappedAction,
+              reason: `[Claude Code] ${claudeDecision.reason}`,
+              confidence: claudeDecision.confidence,
+              evidence: {
+                totalSamples: learning?.deployedViolations ?? 0,
+                incidentRate: learning?.incidentRate ?? 0,
+                riskScore: learning?.riskScore ?? 0,
+                strategyUsed: 'claude-code',
+                thresholdsApplied: this.config.defaults,
+              },
+            };
+
+            if (this.debugEnabled && this.logger?.debug) {
+              this.logger.debug('Decision made by Claude Code', {
+                decision: result,
+                durationMs: Date.now() - startTime,
+              });
+            }
+
+            return result;
+          }
+        } catch (claudeError) {
+          // Claude failed - log and fall through to rule-based
+          this.logger?.warn?.('Claude Code decision failed, falling back to rules', {
+            error: claudeError instanceof Error ? claudeError.message : String(claudeError),
+          });
+          metrics.increment('decision.claude.fallback');
+        }
+      }
+      // === END CLAUDE CODE INTEGRATION ===
 
       const thresholds = this.config.defaults;
 
@@ -1812,5 +1895,27 @@ export class DecisionStrategy {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Map Claude's extended action set to standard governance actions.
+   * Claude may suggest actions like 'rollback', 'patch', 'isolate' which need
+   * to be mapped to the standard 'alert-human', 'auto-fix', 'suppress' set.
+   */
+  private mapClaudeAction(claudeAction: string): DecisionResult['action'] {
+    const actionMap: Record<string, DecisionResult['action']> = {
+      // Standard actions (pass through)
+      'alert-human': 'alert-human',
+      'auto-fix': 'auto-fix',
+      suppress: 'suppress',
+      // Extended actions → map to standards
+      alert: 'alert-human',
+      rollback: 'alert-human', // Rollback requires human oversight
+      patch: 'auto-fix', // Patch is a form of auto-fix
+      isolate: 'alert-human', // Isolation requires human decision
+      ignore: 'suppress', // Ignore maps to suppress
+    };
+
+    return actionMap[claudeAction.toLowerCase()] ?? 'alert-human';
   }
 }

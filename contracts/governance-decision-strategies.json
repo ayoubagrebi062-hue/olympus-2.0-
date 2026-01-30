@@ -1,0 +1,227 @@
+{
+  "version": "2.1.0",
+  "lastUpdated": "2026-01-30T00:00:00Z",
+  "description": "Configuration-driven decision strategies for governance system with Claude Code integration",
+
+  "strategies": {
+    "production": {
+      "name": "Production (Conservative)",
+      "description": "Strict thresholds for production - minimize false negatives",
+      "defaults": {
+        "highRiskThreshold": 0.7,
+        "mediumRiskThreshold": 0.3,
+        "lowRiskThreshold": 0.05,
+        "minSamplesForDecision": 10,
+        "minSamplesForSuppression": 20
+      },
+      "actions": {
+        "alert-human": {
+          "when": ["riskScore > highRiskThreshold", "insufficientSamples"],
+          "priority": 1
+        },
+        "auto-fix": {
+          "when": ["riskScore > mediumRiskThreshold", "sufficientSamples"],
+          "priority": 2
+        },
+        "suppress": {
+          "when": ["incidentRate < lowRiskThreshold", "provenSafe"],
+          "priority": 3
+        }
+      }
+    },
+
+    "staging": {
+      "name": "Staging (Balanced)",
+      "description": "Balanced thresholds for staging - learn aggressively",
+      "defaults": {
+        "highRiskThreshold": 0.8,
+        "mediumRiskThreshold": 0.4,
+        "lowRiskThreshold": 0.1,
+        "minSamplesForDecision": 5,
+        "minSamplesForSuppression": 10
+      }
+    },
+
+    "development": {
+      "name": "Development (Aggressive)",
+      "description": "Lenient thresholds for dev - suppress more, alert less",
+      "defaults": {
+        "highRiskThreshold": 0.9,
+        "mediumRiskThreshold": 0.5,
+        "lowRiskThreshold": 0.15,
+        "minSamplesForDecision": 3,
+        "minSamplesForSuppression": 5
+      }
+    }
+  },
+
+  "patternOverrides": {
+    "sql_injection_risk": {
+      "description": "SQL injection is CRITICAL - never suppress, stricter thresholds",
+      "strategy": "production",
+      "overrides": {
+        "highRiskThreshold": 0.5,
+        "neverSuppress": true,
+        "alwaysAlert": false
+      },
+      "customActions": {
+        "escalate-to-security": {
+          "when": ["riskScore > 0.8"],
+          "priority": 0,
+          "metadata": {
+            "notifyTeams": ["security-team", "incident-response"],
+            "severityOverride": "P0"
+          }
+        }
+      }
+    },
+
+    "missing_authority_check": {
+      "description": "Missing auth checks - context matters (read vs write)",
+      "strategy": "production",
+      "overrides": {
+        "highRiskThreshold": 0.6
+      },
+      "contextRules": {
+        "readOnlyEndpoint": {
+          "when": ["tier === 1"],
+          "adjustThresholds": {
+            "lowRiskThreshold": 0.1
+          }
+        },
+        "writeEndpoint": {
+          "when": ["tier >= 2"],
+          "adjustThresholds": {
+            "highRiskThreshold": 0.5
+          }
+        }
+      }
+    },
+
+    "hardcoded_credentials": {
+      "description": "Credentials in code - NEVER suppress, always alert",
+      "strategy": "production",
+      "overrides": {
+        "neverSuppress": true,
+        "alwaysAlert": true,
+        "highRiskThreshold": 0.0
+      }
+    },
+
+    "console_log_in_production": {
+      "description": "Console logs - low severity, safe to auto-fix",
+      "strategy": "staging",
+      "overrides": {
+        "lowRiskThreshold": 0.2,
+        "minSamplesForSuppression": 5
+      }
+    }
+  },
+
+  "tierOverrides": {
+    "tier3": {
+      "description": "Tier 3 (irreversible operations) - never suppress without review",
+      "overrides": {
+        "neverSuppress": true,
+        "minSamplesForSuppression": 100,
+        "highRiskThreshold": 0.6
+      }
+    },
+    "tier2": {
+      "description": "Tier 2 (writes) - balanced approach",
+      "overrides": {
+        "minSamplesForSuppression": 20
+      }
+    },
+    "tier1": {
+      "description": "Tier 1 (reads) - can be more lenient",
+      "overrides": {
+        "minSamplesForSuppression": 10,
+        "lowRiskThreshold": 0.1
+      }
+    }
+  },
+
+  "customActions": {
+    "escalate-to-security": {
+      "description": "Alert security team for critical patterns",
+      "integration": "slack-security-channel",
+      "template": "🚨 SECURITY: {{pattern}} in {{file}} - Risk: {{riskScore}}%"
+    },
+    "create-jira-ticket": {
+      "description": "Create Jira ticket for tracking",
+      "integration": "jira-api",
+      "template": "Governance violation: {{pattern}} needs review"
+    },
+    "auto-remediate": {
+      "description": "Automatically apply fix and create PR",
+      "integration": "github-api",
+      "template": "fix: Apply governance auto-fix for {{pattern}}"
+    },
+    "quarantine": {
+      "description": "Block deployment until manual review",
+      "integration": "ci-cd-pipeline",
+      "blockDeploy": true
+    }
+  },
+
+  "experimentalStrategies": {
+    "claudeCode": {
+      "name": "Claude Code CLI Integration",
+      "description": "Use Claude Code CLI for high-severity governance decisions",
+      "enabled": true,
+      "fallbackOnError": true,
+      "timeoutMs": 30000,
+      "maxFailures": 3,
+      "cooldownMs": 60000,
+      "minSeverity": "high",
+      "supportedActions": ["alert-human", "auto-fix", "suppress", "rollback", "patch", "isolate"]
+    },
+    "ml-enhanced": {
+      "name": "ML-Enhanced Decision Making",
+      "description": "Use ML model for risk prediction (future)",
+      "enabled": false,
+      "modelEndpoint": "http://localhost:8000/predict"
+    },
+    "ab-test-aggressive": {
+      "name": "A/B Test: Aggressive Suppression",
+      "description": "Test suppressing more patterns to reduce alert fatigue",
+      "enabled": false,
+      "percentage": 10,
+      "overrides": {
+        "lowRiskThreshold": 0.15,
+        "minSamplesForSuppression": 5
+      }
+    }
+  },
+
+  "documentation": {
+    "decisionFlowchart": "https://docs.olympus.com/governance/decision-flow",
+    "configurationGuide": "https://docs.olympus.com/governance/config",
+    "strategyComparison": "https://docs.olympus.com/governance/strategies",
+    "troubleshooting": "https://docs.olympus.com/governance/troubleshooting",
+    "claudeCodeIntegration": "https://docs.olympus.com/governance/claude-code"
+  },
+
+  "metadata": {
+    "author": "OLYMPUS Governance Team",
+    "contact": "governance@olympus.com",
+    "changeLog": [
+      {
+        "version": "2.1.0",
+        "date": "2026-01-30",
+        "changes": "Added Claude Code CLI integration for intelligent governance decisions"
+      },
+      {
+        "version": "2.0.0",
+        "date": "2026-01-30",
+        "changes": "Added pluggable strategy system with pattern/tier overrides"
+      },
+      {
+        "version": "1.0.0",
+        "date": "2026-01-25",
+        "changes": "Initial hardcoded strategy"
+      }
+    ]
+  }
+}
