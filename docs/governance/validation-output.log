@@ -1,0 +1,63 @@
+🔍 Starting tier classifier validation...
+
+Found 905 TypeScript files to scan
+
+  Scanned 100/905 files...
+  Scanned 200/905 files...
+  Scanned 300/905 files...
+  Scanned 400/905 files...
+  Scanned 500/905 files...
+  Scanned 600/905 files...
+  Scanned 700/905 files...
+  Scanned 800/905 files...
+  Scanned 900/905 files...
+
+📊 VALIDATION REPORT
+
+Files Scanned: 905
+Violations Found: 905
+  - Tier 1: 856
+  - Tier 2: 36
+  - Tier 3: 13
+
+Suspected False Positives: 79 (8.7%)
+
+Example False Positives:
+  1. \src\lib\agents\conductor\checkpoint\checkpoint.test.ts
+     Tier: tier1, Confidence: 50%
+     Reason: No specific violations
+  2. \src\lib\agents\conductor\evolution\__tests__\evolution.test.ts
+     Tier: tier1, Confidence: 50%
+     Reason: No specific violations
+  3. \src\lib\agents\conductor\memory\__tests__\memory.test.ts
+     Tier: tier1, Confidence: 50%
+     Reason: No specific violations
+  4. \src\lib\agents\conductor\prompts\__tests__\prompts.test.ts
+     Tier: tier1, Confidence: 50%
+     Reason: No specific violations
+  5. \src\lib\agents\coordination\__tests__\critical-summarizer.test.ts
+     Tier: tier1, Confidence: 50%
+     Reason: No specific violations
+
+Performance:
+  - Scan Time: 542 ms
+  - Files/sec: 1669.7
+  - Memory: 11.6 MB
+
+Top Violations:
+  1. \src\lib\agents\contracts\audit\audit-history.ts
+     Tier: tier3, Violations: 3, Confidence: 65%
+  2. \src\lib\agents\design\design-intelligence.ts
+     Tier: tier3, Violations: 3, Confidence: 65%
+  3. \src\lib\agents\governance\ci\decision-binding.ts
+     Tier: tier3, Violations: 3, Confidence: 65%
+  4. \src\lib\agents\guardrails\layers\agent.ts
+     Tier: tier3, Violations: 3, Confidence: 65%
+  5. \src\lib\agents\guardrails\layers\security.ts
+     Tier: tier3, Violations: 3, Confidence: 65%
+
+✅ Report saved to validation-report-baseline.json
+
+🎯 DECISION CRITERIA:
+
+✅ MINIMAL false positive rate (<10%) → UPGRADE NOT NEEDED

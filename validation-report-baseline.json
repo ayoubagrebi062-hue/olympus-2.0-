@@ -1,0 +1,186 @@
+{
+  "timestamp": "2026-01-30T16:07:57.567Z",
+  "scanStats": {
+    "filesScanned": 905,
+    "violationsFound": 905,
+    "scanDurationMs": 542,
+    "memoryUsedMB": 11.606071472167969
+  },
+  "violationBreakdown": {
+    "tier1": 856,
+    "tier2": 36,
+    "tier3": 13
+  },
+  "suspectedFalsePositives": {
+    "count": 79,
+    "percentage": 8.729281767955802,
+    "examples": [
+      {
+        "file": "\\src\\lib\\agents\\conductor\\checkpoint\\checkpoint.test.ts",
+        "tier": "tier1",
+        "reason": "No specific violations",
+        "confidence": 0.5
+      },
+      {
+        "file": "\\src\\lib\\agents\\conductor\\evolution\\__tests__\\evolution.test.ts",
+        "tier": "tier1",
+        "reason": "No specific violations",
+        "confidence": 0.5
+      },
+      {
+        "file": "\\src\\lib\\agents\\conductor\\memory\\__tests__\\memory.test.ts",
+        "tier": "tier1",
+        "reason": "No specific violations",
+        "confidence": 0.5
+      },
+      {
+        "file": "\\src\\lib\\agents\\conductor\\prompts\\__tests__\\prompts.test.ts",
+        "tier": "tier1",
+        "reason": "No specific violations",
+        "confidence": 0.5
+      },
+      {
+        "file": "\\src\\lib\\agents\\coordination\\__tests__\\critical-summarizer.test.ts",
+        "tier": "tier1",
+        "reason": "No specific violations",
+        "confidence": 0.5
+      },
+      {
+        "file": "\\src\\lib\\agents\\design\\design-intelligence.ts",
+        "tier": "tier3",
+        "reason": "Tier3 code missing ETHICAL_OVERSIGHT marker, Tier3 code missing HUMAN_ACCOUNTABILITY marker, Tier3 code missing HUMAN_OVERRIDE_REQUIRED marker",
+        "confidence": 0.65
+      },
+      {
+        "file": "\\src\\lib\\agents\\design\\__tests__\\chaos-runner.ts",
+        "tier": "tier1",
+        "reason": "No specific violations",
+        "confidence": 0.5
+      },
+      {
+        "file": "\\src\\lib\\agents\\design\\__tests__\\chaos.test.ts",
+        "tier": "tier1",
+        "reason": "No specific violations",
+        "confidence": 0.5
+      },
+      {
+        "file": "\\src\\lib\\agents\\design\\__tests__\\design-token-provider.test.ts",
+        "tier": "tier1",
+        "reason": "No specific violations",
+        "confidence": 0.5
+      },
+      {
+        "file": "\\src\\lib\\agents\\design\\__tests__\\design-wiring.test.ts",
+        "tier": "tier1",
+        "reason": "No specific violations",
+        "confidence": 0.5
+      }
+    ]
+  },
+  "performance": {
+    "avgTimePerFile": 0.5988950276243094,
+    "filesPerSecond": 1669.7416974169741
+  },
+  "topViolations": [
+    {
+      "file": "\\src\\lib\\agents\\contracts\\audit\\audit-history.ts",
+      "tier": "tier3",
+      "violations": [
+        "Tier3 code missing ETHICAL_OVERSIGHT marker",
+        "Tier3 code missing HUMAN_ACCOUNTABILITY marker",
+        "Tier3 code missing HUMAN_OVERRIDE_REQUIRED marker"
+      ],
+      "confidence": 0.65
+    },
+    {
+      "file": "\\src\\lib\\agents\\design\\design-intelligence.ts",
+      "tier": "tier3",
+      "violations": [
+        "Tier3 code missing ETHICAL_OVERSIGHT marker",
+        "Tier3 code missing HUMAN_ACCOUNTABILITY marker",
+        "Tier3 code missing HUMAN_OVERRIDE_REQUIRED marker"
+      ],
+      "confidence": 0.65
+    },
+    {
+      "file": "\\src\\lib\\agents\\governance\\ci\\decision-binding.ts",
+      "tier": "tier3",
+      "violations": [
+        "Tier3 code missing ETHICAL_OVERSIGHT marker",
+        "Tier3 code missing HUMAN_ACCOUNTABILITY marker",
+        "Tier3 code missing HUMAN_OVERRIDE_REQUIRED marker"
+      ],
+      "confidence": 0.65
+    },
+    {
+      "file": "\\src\\lib\\agents\\guardrails\\layers\\agent.ts",
+      "tier": "tier3",
+      "violations": [
+        "Tier3 code missing ETHICAL_OVERSIGHT marker",
+        "Tier3 code missing HUMAN_ACCOUNTABILITY marker",
+        "Tier3 code missing HUMAN_OVERRIDE_REQUIRED marker"
+      ],
+      "confidence": 0.65
+    },
+    {
+      "file": "\\src\\lib\\agents\\guardrails\\layers\\security.ts",
+      "tier": "tier3",
+      "violations": [
+        "Tier3 code missing ETHICAL_OVERSIGHT marker",
+        "Tier3 code missing HUMAN_ACCOUNTABILITY marker",
+        "Tier3 code missing HUMAN_OVERRIDE_REQUIRED marker"
+      ],
+      "confidence": 0.65
+    },
+    {
+      "file": "\\src\\lib\\agents\\guardrails\\tripwire.ts",
+      "tier": "tier3",
+      "violations": [
+        "Tier3 code missing ETHICAL_OVERSIGHT marker",
+        "Tier3 code missing HUMAN_ACCOUNTABILITY marker",
+        "Tier3 code missing HUMAN_OVERRIDE_REQUIRED marker"
+      ],
+      "confidence": 0.65
+    },
+    {
+      "file": "\\src\\lib\\agents\\intelligence\\__tests__\\intelligence-engine.test.ts",
+      "tier": "tier3",
+      "violations": [
+        "Tier3 code missing ETHICAL_OVERSIGHT marker",
+        "Tier3 code missing HUMAN_ACCOUNTABILITY marker",
+        "Tier3 code missing HUMAN_OVERRIDE_REQUIRED marker"
+      ],
+      "confidence": 0.65
+    },
+    {
+      "file": "\\src\\lib\\agents\\providers\\claude-code.ts",
+      "tier": "tier3",
+      "violations": [
+        "Tier3 code missing ETHICAL_OVERSIGHT marker",
+        "Tier3 code missing HUMAN_ACCOUNTABILITY marker",
+        "Tier3 code missing HUMAN_OVERRIDE_REQUIRED marker"
+      ],
+      "confidence": 0.65
+    },
+    {
+      "file": "\\src\\lib\\agents\\registry\\design.ts",
+      "tier": "tier3",
+      "violations": [
+        "Tier3 code missing ETHICAL_OVERSIGHT marker",
+        "Tier3 code missing HUMAN_ACCOUNTABILITY marker",
+        "Tier3 code missing HUMAN_OVERRIDE_REQUIRED marker"
+      ],
+      "confidence": 0.65
+    },
+    {
+      "file": "\\src\\lib\\agents\\validation\\feature-validator.ts",
+      "tier": "tier3",
+      "violations": [
+        "Tier3 code missing ETHICAL_OVERSIGHT marker",
+        "Tier3 code missing HUMAN_ACCOUNTABILITY marker",
+        "Tier3 code missing HUMAN_OVERRIDE_REQUIRED marker"
+      ],
+      "confidence": 0.65
+    }
+  ]
+}
