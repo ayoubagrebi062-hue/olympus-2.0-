@@ -13,6 +13,7 @@ import { MinimalInvariantEngine } from './invariant/core';
 import { AgentIdentity, AgentRole } from './types';
 import type { AgentId } from '../types';
 import type { ILedgerStore } from './ledger/types';
+import type { VerificationEvent } from './store/transaction/types';
 
 /**
  * Runtime startup result
@@ -117,7 +118,10 @@ export class GovernanceRuntimeStartup {
    * Append seal breach to ledger
    * Critical: All seal breaches must be logged
    */
-  private async appendSealBreachToLedger(reason: string, verificationEvent: any): Promise<void> {
+  private async appendSealBreachToLedger(
+    reason: string,
+    verificationEvent: VerificationEvent
+  ): Promise<void> {
     if (!this.ledger) return;
 
     try {
@@ -131,7 +135,7 @@ export class GovernanceRuntimeStartup {
           details: {
             sealVersion: GOVERNANCE_SEAL.version,
             sealHash: GOVERNANCE_SEAL.sealHash,
-            verificationEvent,
+            verificationEvent: verificationEvent as unknown as Record<string, unknown>,
           },
         },
         timestamp: new Date(),
@@ -150,7 +154,9 @@ export class GovernanceRuntimeStartup {
    * Append seal verification to ledger
    * Log successful seal checks for audit trail
    */
-  private async appendSealVerificationToLedger(verificationEvent: any): Promise<void> {
+  private async appendSealVerificationToLedger(
+    verificationEvent: VerificationEvent
+  ): Promise<void> {
     if (!this.ledger) return;
 
     try {
@@ -164,7 +170,7 @@ export class GovernanceRuntimeStartup {
           details: {
             sealVersion: GOVERNANCE_SEAL.version,
             sealHash: GOVERNANCE_SEAL.sealHash,
-            verificationEvent,
+            verificationEvent: verificationEvent as unknown as Record<string, unknown>,
           },
         },
         timestamp: new Date(),

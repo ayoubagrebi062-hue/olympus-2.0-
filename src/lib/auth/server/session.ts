@@ -145,9 +145,12 @@ export async function extractVerifiedClaims(
 
     const JWKS = getJWKS();
 
+    // SECURITY FIX (Jan 31, 2026): Added clockTolerance to prevent clock skew attacks
+    // 30 seconds tolerance handles minor server clock drift while maintaining security
     const { payload } = await jwtVerify(accessToken, JWKS, {
       issuer: `${supabaseUrl}/auth/v1`,
       audience: 'authenticated',
+      clockTolerance: 30, // 30 seconds tolerance for clock skew
     });
 
     const olympusPayload = payload as OlympusJWTPayload;

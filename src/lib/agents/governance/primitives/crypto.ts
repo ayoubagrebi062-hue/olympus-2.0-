@@ -13,7 +13,7 @@ import { createHash, randomBytes } from 'crypto';
 export function computeFingerprint(
   agentCode: string,
   promptTemplate: string,
-  toolPermissions: any
+  toolPermissions: unknown
 ): string {
   const data = JSON.stringify({
     code: agentCode,

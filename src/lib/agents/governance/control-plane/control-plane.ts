@@ -503,7 +503,7 @@ export class GovernanceControlPlane implements IControlPlane {
       id: event.id,
       buildId: event.target || 'system',
       agentId: event.triggeredBy,
-      actionType: 'MONITOR_VIOLATION' as any,
+      actionType: 'MONITOR_VIOLATION',
       actionData: {
         passed: true,
         reason: typeof event.details?.reason === 'string' ? event.details.reason : '',

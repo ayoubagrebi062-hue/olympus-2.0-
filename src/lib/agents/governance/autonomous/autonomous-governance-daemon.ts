@@ -527,7 +527,7 @@ class AutonomousGovernanceDaemon {
   /**
    * Self-healing: Handle analysis failures gracefully
    */
-  private async handleAnalysisFailure(filePath: string, error: any) {
+  private async handleAnalysisFailure(filePath: string, error: unknown) {
     console.warn(`⚠️  AST parsing failed for ${filePath}, falling back to basic scan`);
 
     // Fallback: Use regex-only scan
@@ -716,7 +716,7 @@ class AutonomousGovernanceDaemon {
   /**
    * Handle critical errors - attempt recovery
    */
-  private async handleCriticalError(error: any) {
+  private async handleCriticalError(error: unknown) {
     console.log('🔧 Attempting self-healing...');
 
     // Restart file watcher
@@ -726,7 +726,8 @@ class AutonomousGovernanceDaemon {
     }
 
     // Alert human
-    await this.alertHuman(`Critical error occurred: ${error.message}`);
+    const message = error instanceof Error ? error.message : String(error);
+    await this.alertHuman(`Critical error occurred: ${message}`);
 
     console.log('✅ Self-healing complete - daemon still running');
   }

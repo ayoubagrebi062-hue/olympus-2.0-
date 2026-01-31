@@ -114,7 +114,7 @@ export class AttentionIndexGenerator {
     }
   }
 
-  private loadDecisionLog(): any[] {
+  private loadDecisionLog(): Array<Record<string, unknown>> {
     try {
       if (!fs.existsSync(this.DECISION_LOG_PATH)) {
         return [];

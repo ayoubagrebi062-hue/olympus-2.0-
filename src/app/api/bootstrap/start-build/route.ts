@@ -45,6 +45,9 @@ const buildExecutions = new Map<string, BuildExecutionState>();
 // FIX #2: Database-based singleton check for active builds
 // =============================================================================
 
+// SECURITY FIX (Jan 31, 2026): Query timeout to prevent hanging requests
+const QUERY_TIMEOUT_MS = 5000; // 5 seconds
+
 /**
  * Get the currently active build from database (source of truth)
  */
@@ -55,13 +58,36 @@ async function getActiveBuildFromDatabase(dbClient: SupabaseClient): Promise<{
   phase: string | null;
 }> {
   try {
-    const { data, error } = await dbClient
-      .from('builds')
-      .select('id, config, progress, current_phase')
-      .eq('status', 'running')
-      .order('started_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
+    // Create timeout race condition
+    // SECURITY FIX: Wrap Supabase query in Promise.resolve to ensure proper Promise type
+    const queryPromise = Promise.resolve(
+      dbClient
+        .from('builds')
+        .select('id, config, progress, current_phase')
+        .eq('status', 'running')
+        .order('started_at', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+    );
+
+    const timeoutPromise = new Promise<{ data: null; error: Error }>(resolve =>
+      setTimeout(
+        () => resolve({ data: null, error: new Error('Database query timeout') }),
+        QUERY_TIMEOUT_MS
+      )
+    );
+
+    // Race between query and timeout
+    const result = await Promise.race([queryPromise, timeoutPromise]);
+    const { data, error } = result as {
+      data: {
+        id: string;
+        config: Record<string, unknown>;
+        progress: number;
+        current_phase: string;
+      } | null;
+      error: Error | null;
+    };
 
     if (error) {
       logger.error('[Bootstrap] Error checking active builds:', error.message);
@@ -69,7 +95,7 @@ async function getActiveBuildFromDatabase(dbClient: SupabaseClient): Promise<{
     }
 
     if (data) {
-      const conductorId = data.config?.conductorBuildId || null;
+      const conductorId = (data.config?.conductorBuildId as string) || null;
       // Sync cache with database
       cachedActiveBuildId = data.id;
       cachedConductorBuildId = conductorId;

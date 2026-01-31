@@ -366,7 +366,7 @@ export class DecisionFinalizationGate {
     return counts;
   }
 
-  private updateSummary(decisionClass: string, summary: any): void {
+  private updateSummary(decisionClass: string, summary: Record<string, number>): void {
     const key = `class${decisionClass}`;
     if (summary[key] !== undefined) {
       summary[key]++;

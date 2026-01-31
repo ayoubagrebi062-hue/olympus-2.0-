@@ -15,6 +15,25 @@ import {
 import type { IAuditLogStore } from '../store/types';
 import { LedgerSigner, getLedgerSigner, type SignedLedgerEntry } from './signing';
 
+/** actionData shape when entries have been signed */
+interface SignedActionData {
+  passed?: boolean;
+  reason?: string;
+  details?: Record<string, unknown>;
+  _signature?: string;
+  _signedAt?: string;
+  _signedBy?: string;
+  _signatureVersion?: string;
+}
+
+/** actionData shape for lock entries */
+interface LockActionData {
+  isLocked?: boolean;
+  lockedBy?: string;
+  lockedAt?: string;
+  reason?: string;
+}
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
@@ -151,15 +170,16 @@ export class PostgresLedgerStore implements ILedgerStore {
     const entries = await this.getEntries(buildId, 1000);
 
     // Convert to SignedLedgerEntry format
-    const signedEntries: SignedLedgerEntry[] = entries.map(e => ({
-      ...e,
-      signature: (e.actionData as any)?._signature,
-      signedAt: (e.actionData as any)?._signedAt
-        ? new Date((e.actionData as any)._signedAt)
-        : undefined,
-      signedBy: (e.actionData as any)?._signedBy,
-      signatureVersion: (e.actionData as any)?._signatureVersion,
-    }));
+    const signedEntries: SignedLedgerEntry[] = entries.map(e => {
+      const signed = e.actionData as SignedActionData;
+      return {
+        ...e,
+        signature: signed?._signature,
+        signedAt: signed?._signedAt ? new Date(signed._signedAt) : undefined,
+        signedBy: signed?._signedBy,
+        signatureVersion: signed?._signatureVersion,
+      };
+    });
 
     return this.signer.verifyChainIntegrity(signedEntries);
   }
@@ -294,7 +314,7 @@ export class PostgresLedgerStore implements ILedgerStore {
       };
     }
 
-    const lockData = data?.action_data as any;
+    const lockData = data?.action_data as LockActionData | undefined;
 
     if (!lockData) {
       return {
@@ -384,7 +404,7 @@ export class PostgresLedgerStore implements ILedgerStore {
       };
     }
 
-    const lockData = data?.action_data as any;
+    const lockData = data?.action_data as LockActionData | undefined;
 
     if (!lockData || typeof lockData !== 'object' || !lockData.isLocked) {
       return {

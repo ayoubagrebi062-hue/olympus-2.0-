@@ -19,12 +19,29 @@ export interface CorsConfig {
 
 /**
  * Default CORS config.
+ * SECURITY FIX (Jan 31, 2026): Removed wildcard '*' for development mode.
+ * Always use explicit origin whitelist from CORS_ORIGINS environment variable.
  */
 const DEFAULT_CORS: CorsConfig = {
-  origins: process.env.NODE_ENV === 'development' ? '*' : [],
+  // Parse CORS_ORIGINS env var (comma-separated) or use empty array (deny all)
+  origins: (() => {
+    const originsEnv = process.env.CORS_ORIGINS;
+    if (!originsEnv) {
+      // In development, allow localhost origins if no explicit config
+      if (process.env.NODE_ENV === 'development') {
+        return ['http://localhost:3000', 'http://localhost:3001', 'http://127.0.0.1:3000'];
+      }
+      return []; // Production: deny all if not configured
+    }
+    return originsEnv
+      .split(',')
+      .map(o => o.trim())
+      .filter(Boolean);
+  })(),
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   headers: ['Content-Type', 'Authorization', 'X-Tenant-Id', 'X-Request-Id'],
-  credentials: true,
+  // SECURITY: Only send credentials when origins are explicitly whitelisted
+  credentials: !!process.env.CORS_ORIGINS || process.env.NODE_ENV === 'development',
   maxAge: 86400, // 24 hours
 };
 

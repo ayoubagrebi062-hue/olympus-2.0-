@@ -183,15 +183,40 @@ export const FORBIDDEN_CODE_PATTERNS = [
 ] as const;
 
 /**
+ * Maximum content length before pattern matching (ReDoS protection).
+ * FIX A.2 (Jan 31, 2026): Prevents catastrophic backtracking on large inputs.
+ */
+const MAX_CONTENT_LENGTH_FOR_PATTERN_MATCHING = 500000; // 500KB
+
+/**
  * Check if content contains any forbidden pattern
  * @returns The pattern found, or null if clean
  *
  * FIX: Destruction Test Jan 31, 2026
  * - Now normalizes whitespace to catch evasion attempts like '//  TODO'
+ * FIX A.1 (Jan 31, 2026): Added Unicode normalization (NFKC) to prevent
+ *   homoglyph bypass attacks (e.g., "＿＿proto＿＿" vs "__proto__")
+ * FIX A.4 (Jan 31, 2026): Strip block comments to prevent injection bypass
  */
 export function containsForbiddenPattern(content: string): string | null {
+  // FIX A.2: Input length cap for ReDoS protection
+  if (content.length > MAX_CONTENT_LENGTH_FOR_PATTERN_MATCHING) {
+    console.warn(
+      `[SECURITY] Input too large for pattern matching (${content.length} bytes). ` +
+        `Max: ${MAX_CONTENT_LENGTH_FOR_PATTERN_MATCHING}. Skipping detailed checks.`
+    );
+    return null; // Let other validation catch issues in large files
+  }
+
+  // FIX A.1: Unicode normalization to catch homoglyph attacks
+  // NFKC normalizes fullwidth/halfwidth chars: ＿ → _, ／ → /
+  const unicodeNormalized = content.normalize('NFKC');
+
+  // FIX A.4: Strip block comments to prevent "/* this is not a TODO */" evasion
+  const withoutBlockComments = unicodeNormalized.replace(/\/\*[\s\S]*?\*\//g, '');
+
   // Normalize whitespace: collapse multiple spaces to single space
-  const normalizedContent = content.toLowerCase().replace(/\s+/g, ' ');
+  const normalizedContent = withoutBlockComments.toLowerCase().replace(/\s+/g, ' ');
 
   for (const pattern of FORBIDDEN_CODE_PATTERNS) {
     const normalizedPattern = pattern.toLowerCase().replace(/\s+/g, ' ');
@@ -212,6 +237,8 @@ export function containsForbiddenPattern(content: string): string | null {
  * - Added uncontrolled input detection (CLAUDE.md Rule #6)
  * - Added missing loading state detection (CLAUDE.md Rule #7)
  * - Added console.log handler detection (CLAUDE.md Rule #3)
+ *
+ * FIX A.2 (Jan 31, 2026): Added input length cap for ReDoS protection
  */
 export function detectStubPatterns(
   content: string
@@ -221,6 +248,16 @@ export function detectStubPatterns(
     description: string;
     severity: 'critical' | 'error' | 'warning';
   }> = [];
+
+  // FIX A.2: Input length cap for ReDoS protection
+  if (content.length > MAX_CONTENT_LENGTH_FOR_PATTERN_MATCHING) {
+    detected.push({
+      pattern: 'input_too_large',
+      description: `Input exceeds ${MAX_CONTENT_LENGTH_FOR_PATTERN_MATCHING} bytes - skipping regex patterns`,
+      severity: 'warning',
+    });
+    return detected;
+  }
 
   const stubRegexes: Array<{
     regex: RegExp;

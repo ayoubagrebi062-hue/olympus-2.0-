@@ -338,7 +338,7 @@ export class TierEnforcer {
     return violations;
   }
 
-  private updateSummary(detectedTier: string | null, summary: any): void {
+  private updateSummary(detectedTier: string | null, summary: Record<string, number>): void {
     if (!detectedTier) {
       summary.unclassified++;
     } else {
@@ -509,7 +509,7 @@ export class TierEnforcer {
     }
   }
 
-  private printViolations(violations: Violation[], colors: any): void {
+  private printViolations(violations: Violation[], colors: Record<string, string>): void {
     violations.forEach((v, index) => {
       const tierColor =
         v.tier === 'tier3' ? colors.red : v.tier === 'tier2' ? colors.yellow : colors.green;

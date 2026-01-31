@@ -372,8 +372,8 @@ export class RiskAgingAnalyzer {
             lastDetected: ack.lastDetected,
             unresolved: ack.acknowledged !== true,
           };
-          if (ack.aging && !(preserved as any).aging) {
-            (preserved as any).aging = ack.aging;
+          if (ack.aging && !('aging' in preserved)) {
+            (preserved as ExtendedAcknowledgmentEntry).aging = ack.aging;
           }
           return preserved as ExtendedAcknowledgmentEntry;
         }

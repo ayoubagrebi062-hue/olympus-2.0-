@@ -40,7 +40,7 @@ export interface AuditRecord {
   entity_id: string;
   performed_by: 'system' | 'agent' | 'operator';
   action_result: 'SUCCESS' | 'FAILURE' | 'REJECTED' | 'APPROVED';
-  details?: any;
+  details?: Record<string, unknown>;
   created_at?: string;
 }
 

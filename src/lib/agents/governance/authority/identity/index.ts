@@ -1,6 +1,7 @@
 import { IIdentityAuthority, AgentIdentity, VerificationResult, AgentRole } from '../../types';
 import { computeFingerprint as computeFingerprintUtil } from '../../primitives/crypto';
 import { getAgent } from '@/lib/agents/registry';
+import type { AgentId } from '@/lib/agents/types';
 import type { ILedgerStore, GovernanceLedgerEntry } from '../../ledger/types';
 import { logger } from '@/utils/logger';
 
@@ -137,7 +138,7 @@ export class IdentityAuthority implements IIdentityAuthority {
   // ─────────────── CHECKS ───────────────
 
   private checkExistence(identity: AgentIdentity): VerificationResult {
-    if (!getAgent(identity.agentId as any)) {
+    if (!getAgent(identity.agentId as AgentId)) {
       return { verified: false, reason: 'AGENT_NOT_FOUND' };
     }
     return { verified: true };

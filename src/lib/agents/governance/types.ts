@@ -55,5 +55,5 @@ export interface VerificationResult {
  */
 export interface IIdentityAuthority {
   verifyAgent(identity: AgentIdentity): Promise<VerificationResult>;
-  computeFingerprint(agentCode: string, promptTemplate: string, toolPermissions: any): string;
+  computeFingerprint(agentCode: string, promptTemplate: string, toolPermissions: unknown): string;
 }

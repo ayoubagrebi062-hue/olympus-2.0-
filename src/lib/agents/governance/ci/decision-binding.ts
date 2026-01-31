@@ -910,7 +910,7 @@ export class DecisionBindingGate {
 
         if (decisionLog.decisions && Array.isArray(decisionLog.decisions)) {
           return decisionLog.decisions.some(
-            (d: any) =>
+            (d: { decisionIdentity?: { id: string } }) =>
               d.decisionIdentity && d.decisionIdentity.id.toLowerCase() === decisionId.toLowerCase()
           );
         }
@@ -939,7 +939,7 @@ export class DecisionBindingGate {
     return counts;
   }
 
-  private updateSummary(tier: string, summary: any): void {
+  private updateSummary(tier: string, summary: Record<string, number>): void {
     // Handle meta tier (governance logic exempt)
     if (tier === 'meta') {
       summary.meta = (summary.meta || 0) + 1;

@@ -88,16 +88,15 @@ export class InMemoryTransactionStore implements ITransactionStore {
         success: true,
         data: result,
       };
-    } catch (error: any) {
-      console.error(
-        `[TransactionStore] Transaction ${context.transactionId} failed: ${error.message}`
-      );
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(`[TransactionStore] Transaction ${context.transactionId} failed: ${message}`);
 
       const rollbackResult = await this.rollbackTransaction(context);
 
       return {
         success: false,
-        error: error,
+        error: error instanceof Error ? error : new Error(message),
         rollbackActions: rollbackResult.rollbackActions,
       };
     }

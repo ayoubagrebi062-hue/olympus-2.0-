@@ -321,7 +321,9 @@ export class ReasoningQualityAuditor {
     return { score: Math.min(20, score), maxScore: 20, factors };
   }
 
-  private detectLogicalGaps(reasoningChain?: any): boolean {
+  private detectLogicalGaps(reasoningChain?: {
+    steps?: Array<{ evidence?: string; confidence?: string }>;
+  }): boolean {
     if (!reasoningChain?.steps || reasoningChain.steps.length === 0) {
       return true;
     }
@@ -353,7 +355,7 @@ export class ReasoningQualityAuditor {
 
     const hasLowEvidence = !evidence?.level || evidence.level === 'L3' || evidence.level === 'L4';
     const hasUncertaintyInReasoning = reasoningChain?.steps?.some(
-      (s: any) => s.uncertainties && s.uncertainties.length > 0
+      (s: { uncertainties?: string[] }) => s.uncertainties && s.uncertainties.length > 0
     );
 
     if (hasLowEvidence && uncertainty?.declared) {
@@ -432,7 +434,10 @@ export class ReasoningQualityAuditor {
     return { score: Math.min(20, score), maxScore: 20, factors };
   }
 
-  private detectShallowEthics(ethicalAssessment?: any): boolean {
+  private detectShallowEthics(ethicalAssessment?: {
+    present?: boolean;
+    principlesEvaluated?: Record<string, { explanation?: string }>;
+  }): boolean {
     if (!ethicalAssessment?.present) {
       return false;
     }
@@ -442,7 +447,7 @@ export class ReasoningQualityAuditor {
       return true;
     }
 
-    for (const principle of Object.values(principles) as any[]) {
+    for (const principle of Object.values(principles) as Array<{ explanation?: string }>) {
       if (!principle.explanation || principle.explanation.length < 10) {
         return true;
       }

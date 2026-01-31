@@ -420,6 +420,8 @@ export interface Violation {
   readonly tier: 1 | 2 | 3;
   readonly filePath: string;
   readonly confidence: number;
+  readonly codeSnippet?: string;
+  readonly message?: string;
 }
 
 /**
@@ -799,7 +801,7 @@ class ConfigMigrator {
     return { migrated: migrated as GovernanceConfig, migrations };
   }
 
-  private static migrateV1toV2(v1Config: any): any {
+  private static migrateV1toV2(v1Config: Record<string, unknown>): Record<string, unknown> {
     const v2Config = JSON.parse(JSON.stringify(v1Config));
 
     if (!v2Config.experimentalStrategies) {
@@ -999,7 +1001,7 @@ class FileConfigLoader implements IConfigLoader {
           throw error;
         }
 
-        if ((error as any).code === 'ENOENT') {
+        if (error instanceof Error && (error as NodeJS.ErrnoException).code === 'ENOENT') {
           throw new GovernanceError(
             GovernanceErrorCode.CONFIG_NOT_FOUND,
             `Configuration file not found: ${this.configPath}`,

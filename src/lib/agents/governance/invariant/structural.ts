@@ -4,10 +4,10 @@
  * @version 1.0.0
  */
 
-import { AgentIdentity } from '../types';
+import { AgentIdentity, AgentRole } from '../types';
 import { GovernanceInvariant, InvariantResult } from '../store/transaction/types';
 import { getAgent } from '@/lib/agents/registry';
-import { AgentRole } from '../types';
+import type { AgentId } from '@/lib/agents/types';
 
 export class StructuralIdentityInvariant implements GovernanceInvariant {
   name = 'STRUCTURAL_IDENTITY';
@@ -17,7 +17,7 @@ export class StructuralIdentityInvariant implements GovernanceInvariant {
     const startTime = Date.now();
     const failures: string[] = [];
 
-    const registryAgent = getAgent(identity.agentId as any);
+    const registryAgent = getAgent(identity.agentId as AgentId);
     if (!registryAgent) {
       failures.push('AGENT_NOT_FOUND');
     }

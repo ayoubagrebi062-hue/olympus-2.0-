@@ -476,6 +476,27 @@ export class ClaudeCodeAdapter {
       return null;
     }
 
+    // 0.5. SECURITY FIX (Jan 31, 2026): Pre-validate input sizes BEFORE building prompt
+    // Prevents memory spike from oversized violation fields
+    const MAX_FIELD_LENGTH = 1000;
+    const patternLength = violation.pattern?.length || 0;
+    const filePathLength = violation.filePath?.length || 0;
+    const snippetLength = violation.codeSnippet?.length || 0;
+
+    if (
+      patternLength > MAX_FIELD_LENGTH ||
+      filePathLength > MAX_FIELD_LENGTH ||
+      snippetLength > MAX_FIELD_LENGTH * 5
+    ) {
+      this.log('warn', 'violation-field-too-large', {
+        violationId: violation.id,
+        patternLength,
+        filePathLength,
+        snippetLength,
+      });
+      return null; // Fall back to rule-based decision
+    }
+
     // 1. Check circuit breaker
     if (this.isCircuitOpen()) {
       this.metricsTracker.recordFallback();

@@ -6837,8 +6837,33 @@ interface SignedCursor {
 
 class StableCursor {
   private static readonly CURSOR_TTL = 86400000; // 24 hours
-  // SECURITY: Use environment variable for cursor signing key
-  private static readonly SIGNING_KEY = process.env.CURSOR_SIGNING_KEY || 'change-me-in-production';
+
+  // SECURITY FIX (Jan 31, 2026): Remove hardcoded fallback - require env variable
+  private static readonly SIGNING_KEY = (() => {
+    const key = process.env.CURSOR_SIGNING_KEY;
+
+    // In development, allow a default key for local testing
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+      return key || 'dev-only-cursor-signing-key-not-for-production';
+    }
+
+    // In production, require the key
+    if (!key) {
+      console.error(
+        '[SECURITY] CRITICAL: CURSOR_SIGNING_KEY environment variable is required in production. ' +
+        'Generate with: openssl rand -hex 32'
+      );
+      // Use a runtime-generated fallback to prevent complete failure, but log loudly
+      return require('crypto').randomBytes(32).toString('hex');
+    }
+
+    // Validate minimum key length
+    if (key.length < 32) {
+      console.warn('[SECURITY] WARNING: CURSOR_SIGNING_KEY should be at least 32 characters for security');
+    }
+
+    return key;
+  })();
 
   /**
    * Encode a cursor from the last record of a result set

@@ -57,13 +57,14 @@ export class MinimalInvariantEngine implements InvariantEngine {
         console.log(
           `[InvariantEngine] ${invariantName}: ${result.passed ? 'PASS' : 'FAIL'} (${checkDuration}ms)${result.reason ? ` - ${result.reason}` : ''}`
         );
-      } catch (error: any) {
-        console.error(`[InvariantEngine] ${invariantName} threw error: ${error.message}`);
+      } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error(`[InvariantEngine] ${invariantName} threw error: ${message}`);
 
         results.push({
           invariantName,
           passed: false,
-          reason: `ERROR: ${error.message}`,
+          reason: `ERROR: ${message}`,
           duration: 0,
         });
       }

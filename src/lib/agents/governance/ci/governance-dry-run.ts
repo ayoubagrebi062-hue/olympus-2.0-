@@ -52,7 +52,7 @@ interface ModuleReport {
   moduleName: string;
   status: 'PASS' | 'FAIL' | 'WARNING';
   executionTime: number;
-  summary: unknown;
+  summary: Record<string, unknown>;
   errors: string[];
   warnings: string[];
 }
