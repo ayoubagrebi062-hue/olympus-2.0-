@@ -53,7 +53,11 @@ vi.mock('@/lib/auth/clients/server', () => ({
 }));
 
 // Import after mocks are set up
-import { extractVerifiedClaims, extractClaimsFromJWT, type VerifiedOlympusClaims } from '../session';
+import {
+  extractVerifiedClaims,
+  extractClaimsFromJWT,
+  type VerifiedOlympusClaims,
+} from '../session';
 
 describe('JWT Verification Security', () => {
   const TEST_SUPABASE_URL = 'https://test-project.supabase.co';
@@ -165,7 +169,9 @@ describe('JWT Verification Security', () => {
 
       extractClaimsFromJWT(token);
 
-      expect(logger.warn).toHaveBeenCalledWith(expect.stringContaining('without signature verification'));
+      expect(logger.warn).toHaveBeenCalledWith(
+        expect.stringContaining('without signature verification')
+      );
     });
 
     it('should return null for malformed tokens', () => {

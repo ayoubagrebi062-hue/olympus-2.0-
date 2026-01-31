@@ -6,7 +6,7 @@
  *
  * Purpose: Comparative judgment against elite products (taste).
  * Philosophy: "Technically valid ≠ good"
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable

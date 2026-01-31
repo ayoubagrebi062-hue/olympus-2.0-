@@ -95,6 +95,11 @@ export class BuildContextManager {
     return this.data.currentPhase;
   }
 
+  /** Get when build started */
+  get startedAt(): Date | null {
+    return this.data.startedAt;
+  }
+
   /** Get iteration number */
   get iteration(): number {
     return this.data.iteration;

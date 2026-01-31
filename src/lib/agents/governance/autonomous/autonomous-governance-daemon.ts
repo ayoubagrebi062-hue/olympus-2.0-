@@ -57,6 +57,10 @@ class AutonomousGovernanceDaemon {
   private scanHistory: ScanResult[] = [];
   private strategyLoader: DecisionStrategyLoader | null = null;
 
+  // SECURITY FIX (Jan 31, 2026): Circuit breaker cooldown to prevent permanent lockout
+  private circuitBreakerCooldownUntil: number = 0;
+  private readonly CIRCUIT_COOLDOWN_MS = 5 * 60 * 1000; // 5 minutes
+
   constructor() {
     this.classifier = new TierClassifier();
     this.astAnalyzer = new ASTAnalyzer();
@@ -135,10 +139,31 @@ class AutonomousGovernanceDaemon {
     console.log(`📝 File changed: ${filePath}`);
 
     try {
-      // Circuit breaker: If we've had 5 consecutive failures, pause
+      // SECURITY FIX (Jan 31, 2026): Circuit breaker with cooldown reset
+      // Previously: autoFixFailure > 5 caused PERMANENT lockout (no reset path)
+      // Now: After 5-minute cooldown, counter resets and auto-fix resumes
+
+      const now = Date.now();
+
+      // Check if we're in cooldown period
+      if (now < this.circuitBreakerCooldownUntil) {
+        const remainingSeconds = Math.round((this.circuitBreakerCooldownUntil - now) / 1000);
+        console.log(`⏳ Circuit breaker cooling down (${remainingSeconds}s remaining)`);
+        return;
+      }
+
+      // Reset failure counter after cooldown expires
+      if (this.circuitBreakerCooldownUntil > 0 && now >= this.circuitBreakerCooldownUntil) {
+        console.log('🔄 Circuit breaker cooldown complete - resetting failure counter');
+        this.healthMetrics.autoFixFailure = 0;
+        this.circuitBreakerCooldownUntil = 0;
+      }
+
+      // Circuit breaker: If we've had 5 consecutive failures, enter cooldown
       if (this.healthMetrics.autoFixFailure > 5) {
-        console.warn('⚠️  Circuit breaker activated - too many failures');
-        await this.alertHuman('circuit-breaker-tripped');
+        console.warn('⚠️  Circuit breaker activated - entering 5-minute cooldown');
+        this.circuitBreakerCooldownUntil = now + this.CIRCUIT_COOLDOWN_MS;
+        await this.alertHuman('circuit-breaker-cooling-down');
         return;
       }
 
@@ -205,7 +230,7 @@ class AutonomousGovernanceDaemon {
             pattern: this.extractPattern(violationMsg),
             tier: this.extractTier(analysis.detectedTier),
             filePath: analysis.filePath,
-            confidence: analysis.confidence,
+            confidence: analysis.confidence ?? 0,
           };
 
           const learning = this.learningSystem.getLearningForPattern(loaderViolation.pattern);
@@ -255,7 +280,8 @@ class AutonomousGovernanceDaemon {
     analysis: FileAnalysis,
     astFindings: readonly ASTFinding[] = []
   ): RemediationAction {
-    const { filePath, violations, confidence } = analysis;
+    const { filePath, violations } = analysis;
+    const confidence = analysis.confidence ?? 0;
 
     // AST override: critical security findings always escalate
     const criticalAst = astFindings.filter(f => f.severity === 'critical');

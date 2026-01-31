@@ -2,7 +2,7 @@
  * OLYMPUS 2.0 - Security Patches Tests
  *
  * Tests for Week 2 critical security patches.
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
@@ -205,18 +205,20 @@ describe('Session Limits (PATCH 3)', () => {
 
   it('should enforce build history limit', () => {
     const session = createMockSession({
-      builds: Array(200).fill(null).map((_, i) => ({
-        id: `build-${i}`,
-        timestamp: new Date(),
-        prompt: 'test',
-        buildType: 'webapp',
-        stack: {},
-        totalDuration: 1000,
-        totalTokens: 100,
-        totalCost: 0.01,
-        phases: [],
-        success: true,
-      })),
+      builds: Array(200)
+        .fill(null)
+        .map((_, i) => ({
+          id: `build-${i}`,
+          timestamp: new Date(),
+          prompt: 'test',
+          buildType: 'webapp',
+          stack: {},
+          totalDuration: 1000,
+          totalTokens: 100,
+          totalCost: 0.01,
+          phases: [],
+          success: true,
+        })),
     });
 
     enforceSessionLimits(session);
@@ -225,18 +227,20 @@ describe('Session Limits (PATCH 3)', () => {
 
   it('should enforce learnings limit', () => {
     const session = createMockSession({
-      learnings: Array(1000).fill(null).map((_, i) => ({
-        id: `learning-${i}`,
-        type: 'success' as const,
-        category: 'test',
-        subject: 'test',
-        learning: 'test learning',
-        evidence: [],
-        confidence: Math.random(),
-        relevance: 1,
-        learnedAt: new Date(),
-        applicationCount: 0,
-      })),
+      learnings: Array(1000)
+        .fill(null)
+        .map((_, i) => ({
+          id: `learning-${i}`,
+          type: 'success' as const,
+          category: 'test',
+          subject: 'test',
+          learning: 'test learning',
+          evidence: [],
+          confidence: Math.random(),
+          relevance: 1,
+          learnedAt: new Date(),
+          applicationCount: 0,
+        })),
     });
 
     enforceSessionLimits(session);
@@ -255,18 +259,20 @@ describe('Session Limits (PATCH 3)', () => {
   it('should warn when approaching limits', () => {
     // Create a session with lots of data
     const session = createMockSession({
-      builds: Array(95).fill(null).map((_, i) => ({
-        id: `build-${i}`,
-        timestamp: new Date(),
-        prompt: 'test prompt '.repeat(100),
-        buildType: 'webapp',
-        stack: {},
-        totalDuration: 1000,
-        totalTokens: 100,
-        totalCost: 0.01,
-        phases: [],
-        success: true,
-      })),
+      builds: Array(95)
+        .fill(null)
+        .map((_, i) => ({
+          id: `build-${i}`,
+          timestamp: new Date(),
+          prompt: 'test prompt '.repeat(100),
+          buildType: 'webapp',
+          stack: {},
+          totalDuration: 1000,
+          totalTokens: 100,
+          totalCost: 0.01,
+          phases: [],
+          success: true,
+        })),
     });
 
     const { warnings } = checkSessionSize(session);

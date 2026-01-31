@@ -220,6 +220,19 @@ export class StreamManager extends EventEmitter {
   }
 
   /**
+   * Close all client connections for a specific build
+   */
+  closeConnections(buildId: string): void {
+    const clientIds = this.buildSubscriptions.get(buildId);
+    if (clientIds) {
+      for (const clientId of clientIds) {
+        this.unregisterClient(clientId);
+      }
+      this.buildSubscriptions.delete(buildId);
+    }
+  }
+
+  /**
    * Shutdown the stream manager
    */
   shutdown(): void {

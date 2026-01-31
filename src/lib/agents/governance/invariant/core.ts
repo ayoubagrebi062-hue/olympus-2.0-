@@ -74,8 +74,8 @@ export class MinimalInvariantEngine implements InvariantEngine {
 
     const event: VerificationEvent = {
       verificationId,
-      agentId: identity.agentId,
-      buildId: identity.buildId,
+      agentId: identity.agentId as string,
+      buildId: identity.buildId || '',
       invariantResults: results,
       timestamp: new Date(),
     };

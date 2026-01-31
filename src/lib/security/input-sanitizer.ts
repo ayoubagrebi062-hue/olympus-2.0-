@@ -60,7 +60,8 @@ const INJECTION_PATTERNS: InjectionPattern[] = [
   // Direct instruction override attempts
   {
     name: 'instruction_override',
-    pattern: /ignore\s+(all\s+)?(previous|prior|above|earlier)\s+(instructions?|prompts?|rules?|guidelines?)/i,
+    pattern:
+      /ignore\s+(all\s+)?(previous|prior|above|earlier)\s+(instructions?|prompts?|rules?|guidelines?)/i,
     severity: 'critical',
     action: 'block',
   },
@@ -92,7 +93,8 @@ const INJECTION_PATTERNS: InjectionPattern[] = [
   // System prompt extraction attempts
   {
     name: 'reveal_system_prompt',
-    pattern: /(show|reveal|display|print|output|repeat)\s+(your\s+)?(system\s+prompt|instructions?|initial\s+prompt)/i,
+    pattern:
+      /(show|reveal|display|print|output|repeat)\s+(your\s+)?(system\s+prompt|instructions?|initial\s+prompt)/i,
     severity: 'critical',
     action: 'block',
   },
@@ -118,7 +120,8 @@ const INJECTION_PATTERNS: InjectionPattern[] = [
   },
   {
     name: 'bypass_safety',
-    pattern: /(bypass|disable|ignore|skip)\s+(safety|content|ethical)\s+(filters?|guidelines?|restrictions?)/i,
+    pattern:
+      /(bypass|disable|ignore|skip)\s+(safety|content|ethical)\s+(filters?|guidelines?|restrictions?)/i,
     severity: 'critical',
     action: 'block',
   },
@@ -265,9 +268,7 @@ export class InputSanitizer {
     // 4. Template injection protection
     if (this.config.enableTemplateProtection) {
       // Escape dangerous template characters
-      sanitized = sanitized
-        .replace(/\$\{/g, '\\${')
-        .replace(/\{\{/g, '\\{\\{');
+      sanitized = sanitized.replace(/\$\{/g, '\\${').replace(/\{\{/g, '\\{\\{');
     }
 
     // 5. Trim and normalize whitespace
@@ -331,7 +332,7 @@ export class InputSanitizer {
     let hash = 0;
     for (let i = 0; i < Math.min(input.length, 1000); i++) {
       const char = input.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32bit integer
     }
     return Math.abs(hash).toString(16).padStart(8, '0');

@@ -4,7 +4,7 @@
  *
  * All security patterns MUST follow these rules.
  * No shortcuts. No exceptions.
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable

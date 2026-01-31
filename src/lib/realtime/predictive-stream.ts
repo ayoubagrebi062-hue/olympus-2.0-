@@ -18,7 +18,7 @@
  *
  * - MULTI-CURSOR: Watch multiple agents write simultaneously
  *   Color-coded cursors showing who's writing what
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable

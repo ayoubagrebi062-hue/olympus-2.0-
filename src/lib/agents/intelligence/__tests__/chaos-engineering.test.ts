@@ -3,7 +3,7 @@
  *
  * Intentionally trying to break the system.
  * Each test documents: SHOULD happen vs ACTUALLY happens
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable

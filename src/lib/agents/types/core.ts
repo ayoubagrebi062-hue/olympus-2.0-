@@ -123,6 +123,7 @@ export type ArtifactType = 'code' | 'schema' | 'config' | 'document' | 'design' 
 export interface Decision {
   id: string;
   type: string;
+  key?: string;
   choice: string;
   reasoning: string;
   alternatives: string[];

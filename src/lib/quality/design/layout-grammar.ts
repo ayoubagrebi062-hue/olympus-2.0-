@@ -5,7 +5,7 @@
  * Based on: Hick's Law, Fitts's Law, Gestalt Principles, Miller's Law
  *
  * "Design is not just what it looks like. Design is how it works." - Steve Jobs
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable

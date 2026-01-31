@@ -22,7 +22,7 @@ interface Approach {
   priority: number;
 }
 
-interface RaceResult {
+export interface RaceResult {
   winner: string;
   code: string;
   confidence: number;

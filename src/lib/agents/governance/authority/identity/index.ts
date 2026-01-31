@@ -137,14 +137,14 @@ export class IdentityAuthority implements IIdentityAuthority {
   // ─────────────── CHECKS ───────────────
 
   private checkExistence(identity: AgentIdentity): VerificationResult {
-    if (!getAgent(identity.agentId)) {
+    if (!getAgent(identity.agentId as any)) {
       return { verified: false, reason: 'AGENT_NOT_FOUND' };
     }
     return { verified: true };
   }
 
   private checkVersionFormat(identity: AgentIdentity): VerificationResult {
-    if (!/^\d+\.\d+\.\d+$/.test(identity.version)) {
+    if (!identity.version || !/^\d+\.\d+\.\d+$/.test(identity.version)) {
       return { verified: false, reason: 'INVALID_VERSION_FORMAT' };
     }
     return { verified: true };
@@ -158,7 +158,7 @@ export class IdentityAuthority implements IIdentityAuthority {
   }
 
   private checkFingerprintFormat(identity: AgentIdentity): VerificationResult {
-    if (!/^[a-f0-9]{64}$/i.test(identity.fingerprint)) {
+    if (!identity.fingerprint || !/^[a-f0-9]{64}$/i.test(identity.fingerprint)) {
       return { verified: false, reason: 'INVALID_FINGERPRINT_FORMAT' };
     }
     return { verified: true };
@@ -170,7 +170,7 @@ export class IdentityAuthority implements IIdentityAuthority {
    * FAIL-CLOSED: Unknown versions are rejected
    */
   private checkVersionApproval(identity: AgentIdentity): VerificationResult {
-    const { version } = identity;
+    const version = identity.version || '';
 
     // Check explicit whitelist first
     if (this.versionConfig.allowedVersions.includes(version)) {
@@ -268,6 +268,7 @@ export class IdentityAuthority implements IIdentityAuthority {
       [AgentRole.ARCHITECT]: [/^architect/, /^blocks/, /^design/],
       [AgentRole.EXECUTOR]: [/^coder/, /^pixel/, /^fixer/, /^scribe/],
       [AgentRole.MONITOR]: [/^monitor/, /^sentinel/, /^watch/],
+      [AgentRole.WORKER]: [/^worker/, /^agent/],
     };
 
     const patterns = rolePatterns[role];
@@ -300,8 +301,8 @@ export class IdentityAuthority implements IIdentityAuthority {
     reason: string | undefined
   ): Promise<void> {
     const entry: GovernanceLedgerEntry = {
-      buildId: identity.buildId,
-      agentId: identity.agentId,
+      buildId: identity.buildId || '',
+      agentId: identity.agentId as string,
       actionType: 'IDENTITY_VERIFICATION',
       actionData: { passed, reason },
       timestamp: new Date(),

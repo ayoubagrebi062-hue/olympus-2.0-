@@ -8,13 +8,7 @@
  * @version 1.0.0
  */
 
-import {
-  createCipheriv,
-  createDecipheriv,
-  randomBytes,
-  scryptSync,
-  createHash,
-} from 'crypto';
+import { createCipheriv, createDecipheriv, randomBytes, scryptSync, createHash } from 'crypto';
 import { logger } from '@/utils/logger';
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -230,10 +224,7 @@ export class EncryptedConfigStore {
   /**
    * Re-encrypt config with new key (for key rotation)
    */
-  rotateKey<T extends Record<string, unknown>>(
-    config: T,
-    newStore: EncryptedConfigStore
-  ): T {
+  rotateKey<T extends Record<string, unknown>>(config: T, newStore: EncryptedConfigStore): T {
     const decrypted = this.decryptConfig(config);
     return newStore.encryptConfig(decrypted);
   }
@@ -287,9 +278,7 @@ export class EncryptedConfigStore {
    */
   private isSensitiveKey(key: string): boolean {
     const lowerKey = key.toLowerCase();
-    return SENSITIVE_CONFIG_KEYS.some(
-      sensitive => lowerKey.includes(sensitive.toLowerCase())
-    );
+    return SENSITIVE_CONFIG_KEYS.some(sensitive => lowerKey.includes(sensitive.toLowerCase()));
   }
 }
 

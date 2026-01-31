@@ -3,7 +3,7 @@
  * Tests all validators against simulated outputs of varying quality
  *
  * Run with: npx ts-node src/lib/agents/validation/__tests__/stress-test.ts
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable

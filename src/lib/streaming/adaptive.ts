@@ -405,7 +405,9 @@ export async function decompressContent(data: Uint8Array): Promise<string> {
   if (typeof DecompressionStream !== 'undefined') {
     const ds = new DecompressionStream('gzip');
     const writer = ds.writable.getWriter();
-    writer.write(new Uint8Array(data.buffer, data.byteOffset, data.byteLength) as unknown as BufferSource);
+    writer.write(
+      new Uint8Array(data.buffer, data.byteOffset, data.byteLength) as unknown as BufferSource
+    );
     writer.close();
 
     const chunks: Uint8Array[] = [];

@@ -23,10 +23,16 @@ interface LogEntry {
   data?: unknown;
 }
 
-// In production, we could send logs to a service
+/**
+ * Production log service integration point.
+ *
+ * ENHANCEMENT: When ready to add external logging, implement this function
+ * to send logs to Sentry, LogRocket, DataDog, or similar service.
+ * Current state: No-op placeholder (logs go to console only).
+ */
 const sendToLogService = async (_entry: LogEntry): Promise<void> => {
-  // TODO: Integrate with logging service (e.g., Sentry, LogRocket, etc.)
-  // For now, this is a no-op placeholder
+  // No-op: External logging service not yet configured
+  // To enable: Set LOG_SERVICE_URL and implement the fetch call
 };
 
 /**

@@ -443,4 +443,50 @@ export function getComponentCache(): ComponentCache {
   return componentCache;
 }
 
+// ============================================
+// BUILD-SCOPED CACHE (SECURITY FIX - Jan 31, 2026)
+// Prevents cross-build pollution by scoping cache keys to buildId
+// ============================================
+
+const buildScopedCaches = new Map<string, CacheManager>();
+
+/**
+ * Get a build-scoped cache manager.
+ * This prevents cache pollution between concurrent builds.
+ * @param buildId - Unique identifier for the build
+ */
+export function getBuildScopedCacheManager(buildId: string): CacheManager {
+  if (!buildScopedCaches.has(buildId)) {
+    buildScopedCaches.set(
+      buildId,
+      new CacheManager({
+        maxSize: 50 * 1024 * 1024, // 50MB per build (smaller than global)
+        maxEntries: 5000,
+      })
+    );
+  }
+  return buildScopedCaches.get(buildId)!;
+}
+
+/**
+ * Clean up all cache entries for a completed build.
+ * MUST be called after build completion to prevent memory leaks.
+ * @param buildId - The build ID to clean up
+ */
+export function cleanupBuildCache(buildId: string): void {
+  const cache = buildScopedCaches.get(buildId);
+  if (cache) {
+    cache.clear();
+    buildScopedCaches.delete(buildId);
+    console.info(`[Cache] Cleaned up build-scoped cache for ${buildId}`);
+  }
+}
+
+/**
+ * Get total number of active build caches (for monitoring)
+ */
+export function getActiveBuildCacheCount(): number {
+  return buildScopedCaches.size;
+}
+
 export default CacheManager;

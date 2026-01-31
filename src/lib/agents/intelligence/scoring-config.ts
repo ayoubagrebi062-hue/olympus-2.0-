@@ -22,7 +22,7 @@
  * LAST CALIBRATED: January 2026
  * CALIBRATION METHOD: Manual review of 100+ content pieces
  * TODO: Add A/B testing framework to validate thresholds empirically
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable

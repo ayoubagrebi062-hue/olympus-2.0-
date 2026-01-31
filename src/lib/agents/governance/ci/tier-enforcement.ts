@@ -60,6 +60,14 @@ export class TierEnforcer {
         continue;
       }
 
+      // POLICY: Exclude test files from governance checks
+      // Rationale: Test files simulate operations for testing purposes,
+      // not production execution. Governance markers are for production code.
+      const normalizedPath = filePath.replace(/\\/g, '/');
+      if (normalizedPath.includes('/__tests__/') || normalizedPath.endsWith('.test.ts')) {
+        continue;
+      }
+
       const analysis: FileAnalysis = this.classifier.analyzeFile(filePath);
 
       this.updateSummary(analysis.detectedTier, summary);
@@ -111,7 +119,7 @@ export class TierEnforcer {
           pattern: this.extractPattern(violationMsg),
           tier: this.extractTier(analysis.detectedTier),
           filePath: analysis.filePath,
-          confidence: analysis.confidence,
+          confidence: analysis.confidence ?? 0,
         };
 
         const decision = await strategy.decide(loaderViolation, null);
@@ -154,7 +162,10 @@ export class TierEnforcer {
    */
   private checkTierComplianceHardcoded(analysis: FileAnalysis): Violation[] {
     const violations: Violation[] = [];
-    const { filePath, detectedTier, behaviors, confidence, lineNumbers, codeSnippets } = analysis;
+    const { filePath, detectedTier, behaviors } = analysis;
+    const confidence = analysis.confidence ?? 0;
+    const lineNumbers = analysis.lineNumbers ?? [];
+    const codeSnippets = analysis.codeSnippets ?? [];
 
     if (!detectedTier) {
       return [

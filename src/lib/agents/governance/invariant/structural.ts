@@ -17,12 +17,12 @@ export class StructuralIdentityInvariant implements GovernanceInvariant {
     const startTime = Date.now();
     const failures: string[] = [];
 
-    const registryAgent = getAgent(identity.agentId);
+    const registryAgent = getAgent(identity.agentId as any);
     if (!registryAgent) {
       failures.push('AGENT_NOT_FOUND');
     }
 
-    const versionMatch = identity.version.match(/^\d+\.\d+\.\d+$/);
+    const versionMatch = identity.version?.match(/^\d+\.\d+\.\d+$/);
     if (!versionMatch) {
       failures.push('INVALID_VERSION_FORMAT');
     }
@@ -31,7 +31,7 @@ export class StructuralIdentityInvariant implements GovernanceInvariant {
       failures.push('INVALID_ROLE');
     }
 
-    const fingerprintMatch = identity.fingerprint.match(/^[a-f0-9]{64}$/i);
+    const fingerprintMatch = identity.fingerprint?.match(/^[a-f0-9]{64}$/i);
     if (!fingerprintMatch) {
       failures.push('INVALID_FINGERPRINT_FORMAT');
     }

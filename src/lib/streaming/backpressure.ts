@@ -3,7 +3,7 @@
  *
  * Prevents overwhelming slow clients with adaptive flow control.
  * Tracks client consumption rate and throttles production accordingly.
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
@@ -150,9 +150,10 @@ export class BackpressureController extends EventEmitter {
    * Get current metrics
    */
   getMetrics(): BackpressureMetrics {
-    const avgLatency = this.latencies.length > 0
-      ? this.latencies.reduce((a, b) => a + b, 0) / this.latencies.length
-      : 0;
+    const avgLatency =
+      this.latencies.length > 0
+        ? this.latencies.reduce((a, b) => a + b, 0) / this.latencies.length
+        : 0;
 
     return {
       queueSize: this.queue.length,

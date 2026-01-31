@@ -3,7 +3,7 @@
  *
  * Prevents ReDoS (Regular Expression Denial of Service) attacks.
  * PATCH 5: Critical security for Week 2.
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
@@ -59,13 +59,17 @@ export async function safeRegexMatchAll(
 
     // Check timeout
     if (Date.now() - startTime > timeoutMs) {
-      console.warn(`[SafeRegex] Timeout after ${matches.length} matches for pattern: ${regex.source.slice(0, 50)}`);
+      console.warn(
+        `[SafeRegex] Timeout after ${matches.length} matches for pattern: ${regex.source.slice(0, 50)}`
+      );
       break;
     }
 
     // Check max matches
     if (matches.length >= maxMatches) {
-      console.warn(`[SafeRegex] Max matches (${maxMatches}) reached for pattern: ${regex.source.slice(0, 50)}`);
+      console.warn(
+        `[SafeRegex] Max matches (${maxMatches}) reached for pattern: ${regex.source.slice(0, 50)}`
+      );
       break;
     }
 
@@ -166,7 +170,9 @@ export async function executeRegexSafely(
   if (content.length > maxContentLength) {
     processedContent = content.slice(0, maxContentLength);
     truncated = true;
-    console.warn(`[SafeRegex] Content truncated from ${content.length} to ${maxContentLength} chars`);
+    console.warn(
+      `[SafeRegex] Content truncated from ${content.length} to ${maxContentLength} chars`
+    );
   }
 
   const regex = typeof pattern === 'string' ? new RegExp(pattern, 'g') : pattern;

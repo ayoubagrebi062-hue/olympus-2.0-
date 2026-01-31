@@ -17,6 +17,7 @@ export enum AgentRole {
   MONITOR = 'monitor',
   ORCHESTRATOR = 'orchestrator',
   GOVERNANCE = 'governance',
+  WORKER = 'worker',
 }
 
 /**
@@ -24,15 +25,16 @@ export enum AgentRole {
  * The minimal identity claim an agent presents to governance
  */
 export interface AgentIdentity {
-  agentId: AgentId; // Agent ID from registry
-  version: string; // Semantic version "X.Y.Z"
-  fingerprint: string; // SHA-256 hash
+  agentId: AgentId | string; // Agent ID from registry (string for test/runtime flexibility)
+  version?: string; // Semantic version "X.Y.Z"
+  fingerprint?: string; // SHA-256 hash
   role: AgentRole; // Assigned role class
   tenantId: string; // Tenant UUID
-  buildId: string; // Build UUID
+  buildId?: string; // Build UUID
   phase?: string; // Optional: current phase
   verifiedAt?: Date; // When this identity was verified
   verificationDuration?: number; // Duration in ms
+  timestamp?: number; // Creation timestamp
 }
 
 /**

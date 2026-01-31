@@ -8,7 +8,7 @@
  *
  * FIX 1.1 (Jan 31, 2026): Added cryptographic role verification for bypass
  * FIX 2.1 (Jan 31, 2026): Added SSRF, extended XSS, and deserialization tripwires
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
@@ -142,7 +142,8 @@ export const DEFAULT_TRIPWIRES: TripwireConfig[] = [
   // Priority 1: SSRF Protection
   {
     name: 'ssrf-internal-ip',
-    pattern: /(?:https?:\/\/)?(?:localhost|127\.0\.0\.1|0\.0\.0\.0|10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3})/i,
+    pattern:
+      /(?:https?:\/\/)?(?:localhost|127\.0\.0\.1|0\.0\.0\.0|10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3})/i,
     action: 'block',
     priority: 1,
   },
@@ -174,7 +175,8 @@ export const DEFAULT_TRIPWIRES: TripwireConfig[] = [
   },
   {
     name: 'xss-data-uri',
-    pattern: /(?:src|href|data|action)\s*=\s*["']?\s*data:(?:text\/html|application\/javascript|text\/javascript)/i,
+    pattern:
+      /(?:src|href|data|action)\s*=\s*["']?\s*data:(?:text\/html|application\/javascript|text\/javascript)/i,
     action: 'block',
     priority: 3,
   },
@@ -198,7 +200,8 @@ export const DEFAULT_TRIPWIRES: TripwireConfig[] = [
   },
   {
     name: 'xss-meta-refresh',
-    pattern: /<meta[^>]*http-equiv\s*=\s*["']?refresh["']?[^>]*content\s*=\s*["'][^"']*(?:javascript:|data:)/i,
+    pattern:
+      /<meta[^>]*http-equiv\s*=\s*["']?refresh["']?[^>]*content\s*=\s*["'][^"']*(?:javascript:|data:)/i,
     action: 'block',
     priority: 3,
   },
@@ -527,9 +530,7 @@ export function createSignedRoleContext(
   const roleSecret = secret || process.env.OLYMPUS_ROLE_SECRET || process.env.ROLE_SECRET;
 
   if (!roleSecret) {
-    throw new Error(
-      'Cannot sign roles: OLYMPUS_ROLE_SECRET environment variable not set'
-    );
+    throw new Error('Cannot sign roles: OLYMPUS_ROLE_SECRET environment variable not set');
   }
 
   const sortedRoles = [...roles].sort();
@@ -548,11 +549,7 @@ export function createSignedRoleContext(
  * Verify a role signature is valid.
  * FIX 1.1: Use this to validate role claims.
  */
-export function verifyRoleSignature(
-  roles: string[],
-  signature: string,
-  secret?: string
-): boolean {
+export function verifyRoleSignature(roles: string[], signature: string, secret?: string): boolean {
   const roleSecret = secret || process.env.OLYMPUS_ROLE_SECRET || process.env.ROLE_SECRET;
 
   if (!roleSecret) {

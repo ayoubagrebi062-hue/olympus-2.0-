@@ -140,6 +140,9 @@ export interface ContractValidationResult {
   /** Warning message (if no contract defined) */
   warning?: string;
 
+  /** Error message for security-critical validation failures */
+  error?: string;
+
   /** Time taken for validation (ms) */
   duration: number;
 }

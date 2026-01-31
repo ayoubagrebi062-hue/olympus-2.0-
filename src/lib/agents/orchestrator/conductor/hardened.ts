@@ -7,7 +7,7 @@
  * - 🤬 XSS attempt? Sanitize everything
  * - 🐌 Slow network? Timeout, cancel, recover
  * - 💀 Memory explodes? Bounded caches, LRU eviction
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable

@@ -1,5 +1,13 @@
 'use client';
 
+/**
+ * Sentinel Violation List - Governance violation display and management
+ *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
+ */
+
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 interface Finding {

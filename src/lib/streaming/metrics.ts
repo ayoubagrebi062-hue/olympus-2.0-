@@ -3,7 +3,7 @@
  *
  * Real-time metrics collection for streaming operations.
  * Enables monitoring, alerting, and performance optimization.
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
@@ -357,9 +357,11 @@ export class StreamMetricsCollector extends EventEmitter {
 
     // Calculate average stream duration
     const completedWithDuration = this.completedSpans.filter(s => s.endTime);
-    const avgDuration = completedWithDuration.length > 0
-      ? completedWithDuration.reduce((sum, s) => sum + (s.endTime! - s.startTime), 0) / completedWithDuration.length
-      : 0;
+    const avgDuration =
+      completedWithDuration.length > 0
+        ? completedWithDuration.reduce((sum, s) => sum + (s.endTime! - s.startTime), 0) /
+          completedWithDuration.length
+        : 0;
 
     // Calculate buffer utilization (approximate)
     let totalBuffer = 0;
@@ -407,8 +409,7 @@ export class StreamMetricsCollector extends EventEmitter {
    * Get span by ID
    */
   getSpan(streamId: string): StreamSpan | undefined {
-    return this.spans.get(streamId) ||
-           this.completedSpans.find(s => s.streamId === streamId);
+    return this.spans.get(streamId) || this.completedSpans.find(s => s.streamId === streamId);
   }
 
   /**

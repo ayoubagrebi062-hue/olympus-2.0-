@@ -16,8 +16,10 @@ const schemaMap: Record<string, () => Promise<ZodType>> = {
   scope: () => import('./scope').then(m => m.ScopeOutputSchema),
   psyche: () => import('./psyche').then(m => m.PsycheOutputSchema),
   scribe: () => import('./scribe').then(m => m.ScribeOutputSchema),
-  'architect-conversion': () => import('./architect-conversion').then(m => m.ArchitectConversionOutputSchema),
-  architect_conversion: () => import('./architect-conversion').then(m => m.ArchitectConversionOutputSchema),
+  'architect-conversion': () =>
+    import('./architect-conversion').then(m => m.ArchitectConversionOutputSchema),
+  architect_conversion: () =>
+    import('./architect-conversion').then(m => m.ArchitectConversionOutputSchema),
   'conversion-judge': () => import('./conversion-judge').then(m => m.ConversionJudgeOutputSchema),
   conversion_judge: () => import('./conversion-judge').then(m => m.ConversionJudgeOutputSchema),
   archon: () => import('./archon').then(m => m.ArchonOutputSchema),

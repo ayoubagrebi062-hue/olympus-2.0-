@@ -330,7 +330,7 @@
  * stripe.simulateRateLimit(5); // Next 5 requests return 429
  *
  * ═══════════════════════════════════════════════════════════════════════════════
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
@@ -1142,7 +1142,14 @@ IF external dependencies fail:
               content: { type: 'string' },
               type: {
                 type: 'string',
-                enum: ['service', 'domain_entity', 'value_object', 'specification', 'saga', 'event'],
+                enum: [
+                  'service',
+                  'domain_entity',
+                  'value_object',
+                  'specification',
+                  'saga',
+                  'event',
+                ],
               },
             },
           },
@@ -5918,7 +5925,10 @@ GATEWAY output MUST pass these checks:
             required: ['name', 'type', 'capabilities'],
             properties: {
               name: { type: 'string' },
-              type: { type: 'string', enum: ['payment', 'auth', 'email', 'storage', 'analytics', 'other'] },
+              type: {
+                type: 'string',
+                enum: ['payment', 'auth', 'email', 'storage', 'analytics', 'other'],
+              },
               capabilities: { type: 'array', items: { type: 'string' } },
               webhookEvents: { type: 'array', items: { type: 'string' } },
             },

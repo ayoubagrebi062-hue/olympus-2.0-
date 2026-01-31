@@ -367,11 +367,7 @@ export class AgentKeyRegistry {
   /**
    * Sign message from one agent to another
    */
-  signMessage<T>(
-    fromAgent: string,
-    toAgent: string,
-    payload: T
-  ): SignedAgentMessage<T> | null {
+  signMessage<T>(fromAgent: string, toAgent: string, payload: T): SignedAgentMessage<T> | null {
     const signer = this.getSigner(fromAgent, toAgent);
     if (!signer) {
       logger.error('[AgentKeyRegistry] No key registered for pair', { fromAgent, toAgent });

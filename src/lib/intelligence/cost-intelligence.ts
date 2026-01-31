@@ -12,7 +12,7 @@
  * - Auto-downgrade to cheaper models when approaching limits
  * - Cost attribution and chargeback support
  * - Visual cost dashboards
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable

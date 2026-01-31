@@ -1,1 +1,1 @@
-console.log("writer ready")
+console.log('writer ready');

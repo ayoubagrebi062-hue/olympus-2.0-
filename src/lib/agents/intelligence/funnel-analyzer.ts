@@ -16,7 +16,7 @@
  * 4. Cognitive Load Balance - Is effort distributed well?
  * 5. Drop-off Risk - Where will people leave?
  * 6. Gap Detection - What's missing between stages?
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable

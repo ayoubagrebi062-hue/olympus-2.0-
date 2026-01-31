@@ -10,7 +10,7 @@
  * 3. BRIDGE - Show there's a way out
  * 4. SOLUTION - Present your offer as the answer
  * 5. CALL - Drive action with urgency
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable

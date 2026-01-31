@@ -6,7 +6,6 @@
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
-
 import { createHash } from 'crypto';
 import type { Gate, DecisionTrace, Severity } from '../types/core';
 

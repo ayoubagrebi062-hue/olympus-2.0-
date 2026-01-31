@@ -49,6 +49,7 @@ export type BuildEventType =
   | 'AGENT_TIMEOUT'
   | 'AGENT_CIRCUIT_OPENED'
   | 'AGENT_CIRCUIT_CLOSED'
+  | 'AGENT_WARNING'
   // Quality Events
   | 'QUALITY_GATE_PASSED'
   | 'QUALITY_GATE_FAILED'
@@ -310,6 +311,13 @@ export class EventStore {
 
     // Return unsubscribe function
     return () => this.emitter.off('event', handler);
+  }
+
+  /**
+   * Clear in-memory state (for cleanup)
+   */
+  clear(): void {
+    this.emitter.removeAllListeners();
   }
 
   private async getNextVersion(buildId: string): Promise<number> {

@@ -5,7 +5,7 @@
  *
  * NOTE: Design validation types (OLYMPUS 2.1) are in ./design/gates/types.ts
  * Design gates: 'design-tokens' | 'components' | 'layout' | 'motion' | 'design-a11y'
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable

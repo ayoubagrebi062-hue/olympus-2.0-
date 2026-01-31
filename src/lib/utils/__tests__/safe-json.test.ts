@@ -2,7 +2,7 @@
  * Safe JSON Utilities - Unit Tests
  * =================================
  * Tests for safe JSON parsing and stringifying with fallbacks.
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
@@ -112,8 +112,8 @@ describe('safeJsonParse', () => {
       // Second call should be the preview with ellipsis
       expect(console.error).toHaveBeenCalledTimes(2);
       const errorCalls = (console.error as ReturnType<typeof vi.fn>).mock.calls;
-      const previewCall = errorCalls.find(call =>
-        typeof call[0] === 'string' && call[0].includes('Content preview')
+      const previewCall = errorCalls.find(
+        call => typeof call[0] === 'string' && call[0].includes('Content preview')
       );
       expect(previewCall).toBeDefined();
       expect(previewCall?.[0]).toContain('...');
@@ -124,8 +124,8 @@ describe('safeJsonParse', () => {
       safeJsonParse(shortContent, {}, 'short-content-test');
       // The preview should not have ellipsis for content < 200 chars
       const errorCalls = (console.error as ReturnType<typeof vi.fn>).mock.calls;
-      const previewCall = errorCalls.find(call =>
-        typeof call[0] === 'string' && call[0].includes('Content preview')
+      const previewCall = errorCalls.find(
+        call => typeof call[0] === 'string' && call[0].includes('Content preview')
       );
       expect(previewCall).toBeDefined();
       // Short content should NOT have ellipsis
@@ -298,9 +298,7 @@ describe('safeJsonParseValidated', () => {
 
       const result = safeJsonParseValidated(json, isUser, fallback, 'invalid-user');
       expect(result).toBe(fallback);
-      expect(console.warn).toHaveBeenCalledWith(
-        expect.stringContaining('Validation failed')
-      );
+      expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('Validation failed'));
     });
 
     it('should return fallback for wrong types', () => {
@@ -374,15 +372,9 @@ describe('safeJsonParseFile', () => {
 
   it('should return fallback for non-existent file', async () => {
     const fallback = { default: true };
-    const result = await safeJsonParseFile(
-      '/non/existent/file.json',
-      fallback,
-      'missing-file'
-    );
+    const result = await safeJsonParseFile('/non/existent/file.json', fallback, 'missing-file');
     expect(result).toBe(fallback);
-    expect(console.warn).toHaveBeenCalledWith(
-      expect.stringContaining('File not found')
-    );
+    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('File not found'));
   });
 
   it('should handle fs import failure gracefully', async () => {
@@ -392,11 +384,7 @@ describe('safeJsonParseFile', () => {
     });
 
     const fallback = { default: true };
-    const result = await safeJsonParseFile(
-      '/some/file.json',
-      fallback,
-      'fs-error'
-    );
+    const result = await safeJsonParseFile('/some/file.json', fallback, 'fs-error');
     expect(result).toBe(fallback);
   });
 });
@@ -445,7 +433,10 @@ describe('integration scenarios', () => {
 
   it('should round-trip complex data', () => {
     const original = {
-      users: [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }],
+      users: [
+        { id: 1, name: 'Alice' },
+        { id: 2, name: 'Bob' },
+      ],
       settings: { theme: 'dark', notifications: true },
       timestamp: 1234567890,
     };

@@ -191,8 +191,9 @@ export interface BuildStartEvent extends BaseStreamEvent {
   type: 'build:start';
   data: {
     buildId: string;
-    totalPhases: number;
+    totalPhases?: number;
     totalAgents: number;
+    startTime?: string;
   };
 }
 
@@ -205,9 +206,10 @@ export interface BuildCompleteEvent extends BaseStreamEvent {
     buildId: string;
     success: boolean;
     durationMs: number;
-    totalTokens: number;
-    completedAgents: number;
-    failedAgents: number;
+    totalTokens?: number;
+    totalAgents?: number;
+    completedAgents?: number;
+    failedAgents?: number;
   };
 }
 

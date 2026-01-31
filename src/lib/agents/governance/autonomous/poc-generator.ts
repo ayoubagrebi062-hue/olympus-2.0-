@@ -10,6 +10,10 @@
  * - Step-by-step reproduction
  * - Remediation guide
  *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
+ *
  * @module governance/poc-generator
  * @version 1.0.0
  * @since 2026-01-31

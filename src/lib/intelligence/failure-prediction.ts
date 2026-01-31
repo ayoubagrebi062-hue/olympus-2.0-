@@ -9,7 +9,7 @@
  * - Predicts which phases/agents are likely to fail
  * - Suggests preventive actions BEFORE build starts
  * - Estimates confidence in predictions
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable

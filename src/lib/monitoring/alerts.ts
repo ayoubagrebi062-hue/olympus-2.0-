@@ -1,7 +1,7 @@
 /**
  * OLYMPUS 2.0 - Alert Configuration
  * Defines alerting rules and thresholds for monitoring
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable

@@ -3,7 +3,7 @@
  *
  * Vector database for storing and retrieving high-quality component examples.
  * Uses Qdrant for semantic search over component embeddings.
-  *
+ *
  * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
  * @HUMAN_ACCOUNTABILITY - Critical operations require human review
  * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
@@ -93,11 +93,9 @@ export class ComponentStore {
    */
   async initialize(): Promise<void> {
     try {
-      const exists = await this.client
-        .getCollections()
-        .then(collections => ({
-          exists: collections.collections.some(c => c.name === this.collectionName),
-        }));
+      const exists = await this.client.getCollections().then(collections => ({
+        exists: collections.collections.some(c => c.name === this.collectionName),
+      }));
 
       if (!exists.exists) {
         await this.client.createCollection(this.collectionName, {
