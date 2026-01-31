@@ -276,7 +276,7 @@ export class CognitiveSessionManager {
     }
 
     // Validate input
-    const validation = validatePreferenceInput({ category, key, value });
+    const validation = validatePreferenceInput({ category: category as string, key, value });
     if (!validation.success) {
       throw new Error(validation.error || 'Invalid preference data');
     }

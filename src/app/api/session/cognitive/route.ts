@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
 
       case 'prefill': {
         const buildType = searchParams.get('buildType') ?? undefined;
-        const prefill = await getPrefilledConfig(userId, buildType);
+        const prefill = await getPrefilledConfig(userId);
         return NextResponse.json({
           success: true,
           data: prefill,

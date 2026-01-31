@@ -5,7 +5,7 @@
  * PATCH 3: Critical security for Week 2.
  */
 
-import type { CognitiveSession } from './types';
+import type { CognitiveSession, Learning, ErrorPattern, DomainExpertise } from './types';
 
 /**
  * Session size limits
@@ -51,7 +51,7 @@ export function enforceSessionLimits(session: CognitiveSession): void {
   // Trim learnings (keep highest confidence)
   if (session.learnings.length > SESSION_LIMITS.maxLearnings) {
     session.learnings = session.learnings
-      .sort((a, b) => b.confidence - a.confidence)
+      .sort((a: Learning, b: Learning) => b.confidence - a.confidence)
       .slice(0, SESSION_LIMITS.maxLearnings);
   }
 
@@ -82,7 +82,7 @@ export function enforceSessionLimits(session: CognitiveSession): void {
   if (session.identity.domainExpertise.length > SESSION_LIMITS.maxDomainExpertise) {
     // Keep highest proficiency
     session.identity.domainExpertise = session.identity.domainExpertise
-      .sort((a, b) => b.proficiency - a.proficiency)
+      .sort((a: DomainExpertise, b: DomainExpertise) => b.proficiency - a.proficiency)
       .slice(0, SESSION_LIMITS.maxDomainExpertise);
   }
 
@@ -90,7 +90,7 @@ export function enforceSessionLimits(session: CognitiveSession): void {
   if (session.patterns.errorPatterns.length > SESSION_LIMITS.maxErrorPatterns) {
     // Keep most frequent
     session.patterns.errorPatterns = session.patterns.errorPatterns
-      .sort((a, b) => b.frequency - a.frequency)
+      .sort((a: ErrorPattern, b: ErrorPattern) => b.frequency - a.frequency)
       .slice(0, SESSION_LIMITS.maxErrorPatterns);
   }
 }
@@ -141,7 +141,7 @@ export function aggressiveCleanup(session: CognitiveSession): void {
 
   session.builds = session.builds.slice(-halfBuilds);
   session.learnings = session.learnings
-    .sort((a, b) => b.confidence - a.confidence)
+    .sort((a: Learning, b: Learning) => b.confidence - a.confidence)
     .slice(0, halfLearnings);
   session.evolution = session.evolution.slice(-halfEvolution);
   session.predictions = session.predictions.slice(0, 10);

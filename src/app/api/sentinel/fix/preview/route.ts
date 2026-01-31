@@ -92,7 +92,7 @@ export const POST = withGuard(async (request: Request) => {
     }
 
     const fixer = new AutoFixer({ cwd: PROJECT_ROOT, dryRun: true });
-    const result = await fixer.fix(finding as Parameters<AutoFixer['fix']>[0]);
+    const result = await fixer.fix(finding as unknown as Parameters<AutoFixer['fix']>[0]);
 
     return NextResponse.json({
       status: result.success ? 'ok' : 'error',
