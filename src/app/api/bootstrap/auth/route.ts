@@ -1,15 +1,53 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { logger } from '@/utils/logger';
 
 // System user for self-build operations
+// SECURITY FIX (Jan 31, 2026): Removed hardcoded password fallback
+// Password MUST be provided via environment variable - no fallback allowed
 const SYSTEM_USER_EMAIL = 'system@olympus.build';
-const SYSTEM_USER_PASSWORD = process.env.SYSTEM_USER_PASSWORD || 'olympus_system_build_2026';
+const SYSTEM_USER_PASSWORD = process.env.SYSTEM_USER_PASSWORD;
 
-export async function GET() {
+// Fail fast if password not configured - do NOT allow operation without secure config
+if (!SYSTEM_USER_PASSWORD) {
+  console.error('[SECURITY] CRITICAL: SYSTEM_USER_PASSWORD environment variable is not set');
+}
+
+export async function GET(request: NextRequest) {
   const startTime = Date.now();
 
   try {
+    // SECURITY: Require BOOTSTRAP_SECRET to prevent unauthorized admin account creation
+    const bootstrapSecret = process.env.BOOTSTRAP_SECRET;
+    if (!bootstrapSecret) {
+      return NextResponse.json(
+        {
+          authenticated: false,
+          error: 'Bootstrap endpoint disabled — set BOOTSTRAP_SECRET to enable',
+        },
+        { status: 403 }
+      );
+    }
+    const providedSecret = request.headers.get('x-bootstrap-secret');
+    if (providedSecret !== bootstrapSecret) {
+      return NextResponse.json(
+        { authenticated: false, error: 'Unauthorized — invalid bootstrap secret' },
+        { status: 401 }
+      );
+    }
+
+    // SECURITY FIX: Fail if system password not configured
+    if (!SYSTEM_USER_PASSWORD) {
+      return NextResponse.json(
+        {
+          authenticated: false,
+          error: 'SECURITY: System password not configured. Set SYSTEM_USER_PASSWORD env var.',
+          duration: Date.now() - startTime,
+        },
+        { status: 503 }
+      );
+    }
+
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 

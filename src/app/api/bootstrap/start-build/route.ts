@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
@@ -151,10 +151,32 @@ function createDbClient(): SupabaseClient | null {
 }
 
 // =============================================================================
+// SECURITY: Bootstrap secret verification
+// =============================================================================
+
+function verifyBootstrapSecret(request: NextRequest): NextResponse | null {
+  const bootstrapSecret = process.env.BOOTSTRAP_SECRET;
+  if (!bootstrapSecret) {
+    return NextResponse.json(
+      { error: 'Bootstrap endpoint disabled — set BOOTSTRAP_SECRET to enable' },
+      { status: 403 }
+    );
+  }
+  const providedSecret = request.headers.get('x-bootstrap-secret');
+  if (providedSecret !== bootstrapSecret) {
+    return NextResponse.json({ error: 'Unauthorized — invalid bootstrap secret' }, { status: 401 });
+  }
+  return null; // Passed
+}
+
+// =============================================================================
 // API ROUTES
 // =============================================================================
 
-export async function POST() {
+export async function POST(request: NextRequest) {
+  const authError = verifyBootstrapSecret(request);
+  if (authError) return authError;
+
   const startTime = Date.now();
 
   try {
@@ -281,10 +303,23 @@ export async function POST() {
       },
     });
 
+    // SECURITY FIX (Jan 31, 2026): Removed hardcoded password fallback
+    const systemPassword = process.env.SYSTEM_USER_PASSWORD;
+    if (!systemPassword) {
+      return NextResponse.json(
+        {
+          started: false,
+          error: 'SECURITY: SYSTEM_USER_PASSWORD environment variable must be configured',
+          duration: Date.now() - startTime,
+        },
+        { status: 503 }
+      );
+    }
+
     // Get system user
     const { data: userData, error: userError } = await authClient.auth.signInWithPassword({
       email: 'system@olympus.build',
-      password: process.env.SYSTEM_USER_PASSWORD || 'olympus_system_build_2026',
+      password: systemPassword,
     });
 
     if (userError || !userData.user) {
@@ -469,7 +504,10 @@ export async function POST() {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const authError = verifyBootstrapSecret(request);
+  if (authError) return authError;
+
   // =======================================================================
   // FIX #4: Always check database for accurate status (not just cache)
   // =======================================================================
@@ -533,7 +571,10 @@ export async function GET() {
  * DELETE - Force reset the active build to allow new builds
  * Now also updates database to mark build as failed
  */
-export async function DELETE() {
+export async function DELETE(request: NextRequest) {
+  const authError = verifyBootstrapSecret(request);
+  if (authError) return authError;
+
   const previousBuildId = cachedActiveBuildId;
 
   // Clear cache
