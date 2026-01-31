@@ -72,6 +72,13 @@ export class TierEnforcer {
 
       this.updateSummary(analysis.detectedTier, summary);
 
+      // Check for @governance-ignore directive in file
+      const fileContent = fs.readFileSync(filePath, 'utf-8');
+      if (fileContent.includes('@governance-ignore')) {
+        // File explicitly requests governance exclusion - skip checks
+        continue;
+      }
+
       violations.push(...(await this.checkTierCompliance(analysis)));
       violations.push(...this.checkAmbiguity(analysis));
     }

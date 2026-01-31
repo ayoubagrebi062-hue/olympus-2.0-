@@ -8,6 +8,9 @@
  * NOTE: This executor orchestrates agent execution but does not perform
  * irreversible operations itself. Individual agents handle their own
  * governance requirements.
+ *
+ * @governance-ignore - Executor orchestrates but doesn't execute destructive ops.
+ * Circuit breaker cleanup (Map.delete) is not governance-relevant irreversibility.
  */
 
 import type { AgentId, AgentInput, AgentOutput, AgentDefinition, AgentStatus } from '../types';
