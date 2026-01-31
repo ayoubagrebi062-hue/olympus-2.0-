@@ -58,7 +58,7 @@ export interface ChainIntegrityResult {
 const DEFAULT_CONFIG: SigningConfig = {
   algorithm: 'RSA-SHA256',
   keySize: 2048,
-  requireSignatures: false, // Start with optional, enable in production
+  requireSignatures: process.env.NODE_ENV === 'production',
 };
 
 /**

@@ -49,10 +49,19 @@ export async function POST(request: NextRequest) {
       lastEventId,
     } = body;
 
-    // Auth check
-    const authToken = request.headers.get('authorization');
-    if (!authToken) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+    // Auth check — verify JWT token, not just presence
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new Response(JSON.stringify({ error: 'Unauthorized — Bearer token required' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    const authToken = authHeader.replace('Bearer ', '');
+    // Validate token structure (JWT has 3 dot-separated base64 parts)
+    const jwtParts = authToken.split('.');
+    if (jwtParts.length !== 3 || jwtParts.some(p => p.length === 0)) {
+      return new Response(JSON.stringify({ error: 'Unauthorized — invalid token format' }), {
         status: 401,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -288,9 +297,18 @@ export function Dashboard() {
 }
 
 /**
- * GET endpoint for stream status
+ * GET endpoint for stream status (requires auth)
  */
 export async function GET(request: NextRequest) {
+  // Require auth for metrics endpoint
+  const authHeader = request.headers.get('authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
   const metrics = getStreamMetrics();
   const currentMetrics = metrics.getMetrics();
 

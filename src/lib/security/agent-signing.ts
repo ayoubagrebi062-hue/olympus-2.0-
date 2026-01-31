@@ -442,15 +442,27 @@ export function getGovernanceSigner(): AgentSigner {
     return governanceSigner;
   }
 
-  const secretKey =
-    process.env.OLYMPUS_AGENT_SIGNING_KEY ||
-    // Fallback for development (DO NOT USE IN PRODUCTION)
-    'olympus-dev-signing-key-change-in-prod';
+  const secretKey = process.env.OLYMPUS_AGENT_SIGNING_KEY;
 
-  if (!process.env.OLYMPUS_AGENT_SIGNING_KEY) {
+  if (!secretKey) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error(
+        '[AgentSigning] OLYMPUS_AGENT_SIGNING_KEY is required in production. ' +
+          'Set this environment variable to a cryptographically random string.'
+      );
+    }
+    // Dev-only: generate a random ephemeral key (different each restart)
+    const ephemeralKey = require('crypto').randomBytes(32).toString('hex');
     logger.warn(
-      '[AgentSigning] Using default signing key - set OLYMPUS_AGENT_SIGNING_KEY in production'
+      '[AgentSigning] No signing key configured — using ephemeral key (dev only, changes on restart)'
     );
+    governanceSigner = new AgentSigner({
+      secretKey: ephemeralKey,
+      maxMessageAge: 5 * 60 * 1000,
+      nonceCacheTtl: 10 * 60 * 1000,
+      maxNonceCacheSize: 5000,
+    });
+    return governanceSigner;
   }
 
   governanceSigner = new AgentSigner({

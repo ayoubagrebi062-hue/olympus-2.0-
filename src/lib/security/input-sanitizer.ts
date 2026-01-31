@@ -159,15 +159,15 @@ const INJECTION_PATTERNS: InjectionPattern[] = [
  * SECURITY: XSS and HTML patterns
  */
 const HTML_PATTERNS = [
-  /<script\b[^>]*>[\s\S]*?<\/script>/gi,
-  /<iframe\b[^>]*>[\s\S]*?<\/iframe>/gi,
-  /<object\b[^>]*>[\s\S]*?<\/object>/gi,
-  /<embed\b[^>]*>/gi,
-  /<link\b[^>]*>/gi,
-  /javascript:/gi,
-  /vbscript:/gi,
-  /data:text\/html/gi,
-  /on\w+\s*=/gi, // onclick, onerror, etc.
+  /<script\b[^>]*>[\s\S]*?<\/script>/i,
+  /<iframe\b[^>]*>[\s\S]*?<\/iframe>/i,
+  /<object\b[^>]*>[\s\S]*?<\/object>/i,
+  /<embed\b[^>]*>/i,
+  /<link\b[^>]*>/i,
+  /javascript:/i,
+  /vbscript:/i,
+  /data:text\/html/i,
+  /on\w+\s*=/i, // onclick, onerror, etc.
 ];
 
 /**

@@ -30,8 +30,7 @@ export function withPermission(permission: Permission, handler: AuthenticatedHan
         return NextResponse.json(body, { status });
       }
 
-      const hasPermission =
-        auth.permissions.includes(permission) || auth.permissions.includes('*' as Permission);
+      const hasPermission = auth.permissions.includes(permission);
 
       if (!hasPermission) {
         const { status, body } = getErrorResponse(
@@ -61,9 +60,7 @@ export function withAnyPermission(permissions: Permission[], handler: Authentica
         return NextResponse.json(body, { status });
       }
 
-      const hasAny =
-        auth.permissions.includes('*' as Permission) ||
-        permissions.some(p => auth.permissions.includes(p));
+      const hasAny = permissions.some(p => auth.permissions.includes(p));
 
       if (!hasAny) {
         const { status, body } = getErrorResponse(

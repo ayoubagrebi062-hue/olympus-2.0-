@@ -389,12 +389,21 @@ export class ContextCompressor implements IContextCompressor {
     // In production: call LLM to summarize conversation history
     // and extract key information
 
-    const compressed = JSON.parse(semanticResult.content);
+    let compressed: Record<string, unknown>;
+    try {
+      compressed = JSON.parse(semanticResult.content);
+    } catch (error) {
+      log.warn('Neural compression: failed to parse semantic result, using raw content');
+      return semanticResult; // Fallback to semantic result
+    }
 
     // Simulate neural extraction of key information
-    if (compressed.conversationHistory && compressed.conversationHistory.length > 0) {
+    const history = compressed.conversationHistory;
+    if (Array.isArray(history) && history.length > 0) {
       // Create a summary instead of keeping messages
-      const summary = this.createConversationSummary(compressed.conversationHistory);
+      const summary = this.createConversationSummary(
+        history as Array<{ role: string; content: string }>
+      );
       compressed.conversationSummary = summary;
       delete compressed.conversationHistory;
     }

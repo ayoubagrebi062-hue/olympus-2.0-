@@ -98,7 +98,15 @@ export const parseJsonTool = createTool({
     json: z.string().describe('JSON string to parse'),
   }),
   execute: async ({ json }) => {
-    return JSON.parse(json);
+    // SECURITY FIX (Jan 31, 2026): Proper error handling for untrusted JSON
+    try {
+      return JSON.parse(json);
+    } catch (error) {
+      const preview = json.length > 100 ? `${json.slice(0, 100)}...` : json;
+      throw new Error(
+        `Invalid JSON: ${error instanceof Error ? error.message : 'Parse error'}. Input preview: ${preview}`
+      );
+    }
   },
   metadata: {
     tags: ['json', 'parse'],

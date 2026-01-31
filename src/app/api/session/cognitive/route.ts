@@ -1,9 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createRemoteJWKSet, jwtVerify } from 'jose';
 import { cognitiveSessionManager } from '@/lib/agents/session/cognitive/manager';
-import { getSmartSuggestions, getPrefilledConfig } from '@/lib/agents/session/cognitive/integration';
+import {
+  getSmartSuggestions,
+  getPrefilledConfig,
+} from '@/lib/agents/session/cognitive/integration';
 import { trackError } from '@/lib/observability/error-tracker';
+import { logger } from '@/utils/logger';
 
 export const dynamic = 'force-dynamic';
+
+// SECURITY: JWT verification for cognitive API
+async function verifyToken(authToken: string): Promise<{ sub: string } | null> {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!supabaseUrl) {
+    logger.error('[cognitive] NEXT_PUBLIC_SUPABASE_URL not set, cannot verify JWT');
+    return null;
+  }
+
+  try {
+    const JWKS = createRemoteJWKSet(new URL(`${supabaseUrl}/auth/v1/.well-known/jwks.json`));
+    const { payload } = await jwtVerify(authToken, JWKS, {
+      issuer: `${supabaseUrl}/auth/v1`,
+      audience: 'authenticated',
+    });
+    if (!payload.sub) return null;
+    return { sub: payload.sub };
+  } catch (error) {
+    logger.warn('[cognitive] JWT verification failed', {
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return null;
+  }
+}
 
 /**
  * GET /api/session/cognitive
@@ -18,19 +47,9 @@ export const dynamic = 'force-dynamic';
  * Returns cognitive session data based on action
  */
 export async function GET(request: NextRequest) {
-  const userId = request.headers.get('x-user-id');
   const authToken = request.headers.get('authorization')?.replace('Bearer ', '');
 
-  // PATCH 1: Require user ID
-  if (!userId) {
-    return NextResponse.json(
-      { success: false, error: 'User ID required in x-user-id header' },
-      { status: 401 }
-    );
-  }
-
-  // PATCH 1: Require authorization token
-  // In production, validate authToken against your auth system (JWT, session, etc.)
+  // Require authorization token
   if (!authToken) {
     return NextResponse.json(
       { success: false, error: 'Authorization token required' },
@@ -38,13 +57,15 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // Validate token format (basic check - in production, verify JWT signature)
-  if (authToken.length < 10) {
+  // SECURITY: Verify JWT signature and extract userId from token (not from header)
+  const verified = await verifyToken(authToken);
+  if (!verified) {
     return NextResponse.json(
-      { success: false, error: 'Invalid authorization token' },
+      { success: false, error: 'Invalid or expired authorization token' },
       { status: 401 }
     );
   }
+  const userId = verified.sub;
 
   const { searchParams } = new URL(request.url);
   const action = searchParams.get('action');
@@ -149,24 +170,24 @@ export async function GET(request: NextRequest) {
  * - ...action-specific fields
  */
 export async function POST(request: NextRequest) {
-  const userId = request.headers.get('x-user-id');
   const authToken = request.headers.get('authorization')?.replace('Bearer ', '');
 
-  // PATCH 1: Require user ID
-  if (!userId) {
+  if (!authToken) {
     return NextResponse.json(
-      { success: false, error: 'User ID required in x-user-id header' },
+      { success: false, error: 'Authorization token required' },
       { status: 401 }
     );
   }
 
-  // PATCH 1: Require authorization token
-  if (!authToken || authToken.length < 10) {
+  // SECURITY: Verify JWT signature and extract userId from token
+  const verified = await verifyToken(authToken);
+  if (!verified) {
     return NextResponse.json(
-      { success: false, error: 'Valid authorization token required' },
+      { success: false, error: 'Invalid or expired authorization token' },
       { status: 401 }
     );
   }
+  const userId = verified.sub;
 
   try {
     const body = await request.json();
@@ -266,24 +287,24 @@ export async function POST(request: NextRequest) {
  * Clears the cognitive session for the user
  */
 export async function DELETE(request: NextRequest) {
-  const userId = request.headers.get('x-user-id');
   const authToken = request.headers.get('authorization')?.replace('Bearer ', '');
 
-  // PATCH 1: Require user ID
-  if (!userId) {
+  if (!authToken) {
     return NextResponse.json(
-      { success: false, error: 'User ID required in x-user-id header' },
+      { success: false, error: 'Authorization token required' },
       { status: 401 }
     );
   }
 
-  // PATCH 1: Require authorization token
-  if (!authToken || authToken.length < 10) {
+  // SECURITY: Verify JWT signature and extract userId from token
+  const verified = await verifyToken(authToken);
+  if (!verified) {
     return NextResponse.json(
-      { success: false, error: 'Valid authorization token required' },
+      { success: false, error: 'Invalid or expired authorization token' },
       { status: 401 }
     );
   }
+  const userId = verified.sub;
 
   try {
     const deleted = await cognitiveSessionManager.clearSession(userId);
@@ -296,9 +317,6 @@ export async function DELETE(request: NextRequest) {
       type: 'api',
       metadata: { operation: 'DELETE /api/session/cognitive', userId },
     });
-    return NextResponse.json(
-      { success: false, error: 'Failed to clear session' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Failed to clear session' }, { status: 500 });
   }
 }

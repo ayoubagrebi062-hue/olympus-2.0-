@@ -18,6 +18,7 @@
  */
 
 import { NextResponse } from 'next/server';
+import { logger } from '@/utils/logger';
 
 // ============================================================================
 // RATE LIMITER
@@ -71,7 +72,14 @@ function getRateLimitResult(ip: string): { allowed: boolean; remaining: number; 
 
 function checkAuth(request: Request): boolean {
   const apiKey = process.env.SENTINEL_API_KEY;
-  if (!apiKey) return true; // No key configured = open access (dev mode)
+  if (!apiKey) {
+    // In production, deny access if no API key is configured
+    if (process.env.NODE_ENV === 'production') {
+      logger.error('[api-guard] SENTINEL_API_KEY not configured in production — denying access');
+      return false;
+    }
+    return true; // No key configured = open access (dev mode only)
+  }
 
   const authHeader = request.headers.get('authorization');
   if (!authHeader) return false;
