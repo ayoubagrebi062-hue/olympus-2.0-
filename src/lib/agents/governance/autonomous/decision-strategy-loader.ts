@@ -175,6 +175,7 @@ import {
   ClaudeCodeAdapter,
   createClaudeCodeAdapter,
   type ClaudeDecisionResult,
+  type AdapterMetrics,
 } from './claude-code-adapter';
 
 // ============================================================================
@@ -1725,12 +1726,13 @@ export class DecisionStrategy {
 
   /**
    * Make a governance decision for a violation.
+   * v2.0: Now async to support truly async Claude calls (no more blocking).
    *
    * @param violation - Violation to evaluate
    * @param learning - Historical learning data (null if no history)
    * @returns Decision with action, reason, and confidence
    */
-  decide(violation: Violation, learning: PatternLearning | null): DecisionResult {
+  async decide(violation: Violation, learning: PatternLearning | null): Promise<DecisionResult> {
     const span = tracer.startSpan('decision.make', {
       attributes: {
         'violation.pattern': violation.pattern,
@@ -1753,8 +1755,7 @@ export class DecisionStrategy {
         });
       }
 
-      // === CLAUDE CODE INTEGRATION (v5.3.0) ===
-      // Try Claude first for qualifying violations (high-severity/complex)
+      // === CLAUDE CODE INTEGRATION (v2.0: truly async) ===
       if (this.claudeAdapter.shouldUse(violation)) {
         if (this.debugEnabled && this.logger?.debug) {
           this.logger.debug('Attempting Claude Code decision', {
@@ -1764,30 +1765,28 @@ export class DecisionStrategy {
         }
 
         try {
-          // Use sync version since decide() is synchronous
-          const claudeDecision = this.claudeAdapter.decideSync(violation, learning);
+          const claudeDecision = await this.claudeAdapter.decide(violation, learning);
 
           if (claudeDecision) {
-            // Map Claude's extended actions to standard actions
             const mappedAction = this.mapClaudeAction(claudeDecision.action);
 
-            span.setAttribute('decision.source', 'claude-code');
+            span.setAttribute('decision.source', claudeDecision.source);
             span.setAttribute('decision.action', mappedAction);
             span.setStatus({ code: SpanStatusCode.OK });
 
-            metrics.increment('decision.source.claude-code');
+            metrics.increment(`decision.source.${claudeDecision.source}`);
             metrics.increment(`decision.action.${mappedAction}`);
             metrics.recordLatency('decision.duration_ms', Date.now() - startTime);
 
             const result: DecisionResult = {
               action: mappedAction,
-              reason: `[Claude Code] ${claudeDecision.reason}`,
+              reason: `[Claude Code] ${claudeDecision.reasoning}`,
               confidence: claudeDecision.confidence,
               evidence: {
                 totalSamples: learning?.deployedViolations ?? 0,
                 incidentRate: learning?.incidentRate ?? 0,
                 riskScore: learning?.riskScore ?? 0,
-                strategyUsed: 'claude-code',
+                strategyUsed: claudeDecision.source,
                 thresholdsApplied: this.config.defaults,
               },
             };
@@ -1795,14 +1794,13 @@ export class DecisionStrategy {
             if (this.debugEnabled && this.logger?.debug) {
               this.logger.debug('Decision made by Claude Code', {
                 decision: result,
-                durationMs: Date.now() - startTime,
+                latencyMs: claudeDecision.latencyMs,
               });
             }
 
             return result;
           }
         } catch (claudeError) {
-          // Claude failed - log and fall through to rule-based
           this.logger?.warn?.('Claude Code decision failed, falling back to rules', {
             error: claudeError instanceof Error ? claudeError.message : String(claudeError),
           });

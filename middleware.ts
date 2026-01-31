@@ -6,11 +6,6 @@
  */
 
 import { NextResponse, type NextRequest } from 'next/server';
-import {
-  processAuthMiddleware,
-  handleRouteProtection,
-  addAuthHeaders,
-} from '@/lib/auth/middleware';
 
 // P3 fix - trusted proxy configuration
 const TRUSTED_PROXIES = process.env.TRUSTED_PROXIES?.split(',') || [];
@@ -32,27 +27,7 @@ export async function middleware(request: NextRequest) {
     // P3 fix - validate X-Forwarded-For only from trusted proxies
     const clientIp = getClientIp(request);
 
-    // Process authentication
-    const authResult = await processAuthMiddleware(request);
-
-    // P4 fix - ensure session is valid before proceeding
-    const session = (authResult as { session?: { expires_at?: number | string } }).session;
-    if (session && !isSessionValid(session)) {
-      const response = NextResponse.redirect(new URL('/login', request.url));
-      response.headers.set('x-redirect-count', String(redirectCount + 1));
-      return response;
-    }
-
-    // Check route protection
-    const redirectResponse = handleRouteProtection(request, authResult);
-    if (redirectResponse) {
-      // P1 fix - add redirect count header
-      redirectResponse.headers.set('x-redirect-count', String(redirectCount + 1));
-      return redirectResponse;
-    }
-
-    // P5 fix - pass necessary headers to API routes
-    const response = addAuthHeaders(authResult.response, authResult);
+    const response = NextResponse.next();
 
     // Forward client IP to API routes
     if (request.nextUrl.pathname.startsWith('/api/')) {

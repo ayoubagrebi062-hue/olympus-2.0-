@@ -74,13 +74,15 @@ export class NetworkQualityEstimator {
    * Estimate current network conditions
    */
   estimate(): NetworkConditions {
-    const avgRTT = this.rttSamples.length > 0
-      ? this.rttSamples.reduce((a, b) => a + b, 0) / this.rttSamples.length
-      : 100;
+    const avgRTT =
+      this.rttSamples.length > 0
+        ? this.rttSamples.reduce((a, b) => a + b, 0) / this.rttSamples.length
+        : 100;
 
-    const avgBandwidth = this.bandwidthSamples.length > 0
-      ? this.bandwidthSamples.reduce((a, b) => a + b, 0) / this.bandwidthSamples.length
-      : 1000000; // 1 MB/s default
+    const avgBandwidth =
+      this.bandwidthSamples.length > 0
+        ? this.bandwidthSamples.reduce((a, b) => a + b, 0) / this.bandwidthSamples.length
+        : 1000000; // 1 MB/s default
 
     // Estimate packet loss from RTT variance
     const rttVariance = this.calculateVariance(this.rttSamples);
@@ -197,7 +199,7 @@ export class AdaptiveStreamConfig {
     }
 
     // Apply quality score modifier
-    targetChunkSize *= (0.5 + qualityScore * 0.5);
+    targetChunkSize *= 0.5 + qualityScore * 0.5;
 
     // Smooth adaptation
     this.currentChunkSize = Math.round(
@@ -403,7 +405,7 @@ export async function decompressContent(data: Uint8Array): Promise<string> {
   if (typeof DecompressionStream !== 'undefined') {
     const ds = new DecompressionStream('gzip');
     const writer = ds.writable.getWriter();
-    writer.write(data);
+    writer.write(new Uint8Array(data.buffer, data.byteOffset, data.byteLength));
     writer.close();
 
     const chunks: Uint8Array[] = [];

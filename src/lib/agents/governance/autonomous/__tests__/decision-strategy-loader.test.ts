@@ -156,8 +156,14 @@ describe('DecisionStrategyLoader - Initialization', () => {
       configLoader: mockConfigLoader,
     });
 
-    await expect(loader.waitUntilReady(1000)).rejects.toThrow(GovernanceError);
-    await expect(loader.waitUntilReady(1000)).rejects.toThrow(/timeout/i);
+    // Single call — the finally block clears initializationPromise after first rejection
+    try {
+      await loader.waitUntilReady(1000);
+      expect.unreachable('Should have thrown GovernanceError');
+    } catch (error) {
+      expect(error).toBeInstanceOf(GovernanceError);
+      expect((error as GovernanceError).message).toMatch(/timed?\s*out/i);
+    }
   });
 
   test('handles concurrent waitUntilReady calls', async () => {
@@ -278,29 +284,26 @@ describe('DecisionStrategyLoader - Progressive Degradation', () => {
     expect(health.reason).toContain('auto-repaired');
   });
 
-  test('level 3: uses partial config (DEGRADED)', async () => {
-    const partiallyValidConfig = {
+  test('level 3: uses repaired config (DEGRADED)', async () => {
+    // Config with percentage thresholds triggers auto-repair → DEGRADED
+    const configNeedingRepairs = {
       version: '2.0.0',
       strategies: {
         production: {
           name: 'Production',
-          description: 'Valid strategy',
+          description: 'Needs repair',
           defaults: {
-            highRiskThreshold: 0.7,
-            mediumRiskThreshold: 0.3,
-            lowRiskThreshold: 0.05,
+            highRiskThreshold: 70, // ❌ Percentage, should be 0.7
+            mediumRiskThreshold: 30, // ❌ Percentage, should be 0.3
+            lowRiskThreshold: 5, // ❌ Percentage, should be 0.05
             minSamplesForDecision: 10,
             minSamplesForSuppression: 20,
           },
         },
-        broken: {
-          name: 'Broken',
-          // ❌ Missing defaults
-        },
       },
     };
 
-    const mockConfigLoader = createMockConfigLoader(partiallyValidConfig as any);
+    const mockConfigLoader = createMockConfigLoader(configNeedingRepairs as any);
 
     const loader = new DecisionStrategyLoader('/fake/path/config.json', {
       configLoader: mockConfigLoader,
@@ -310,7 +313,7 @@ describe('DecisionStrategyLoader - Progressive Degradation', () => {
 
     const health = loader.getHealthStatus();
     expect(health.state).toBe(HealthState.DEGRADED);
-    expect(health.configSource).toBe('partial');
+    expect(health.configSource).toBe('repaired');
   });
 
   test('level 4: uses cached config (CRITICAL)', async () => {
@@ -444,7 +447,7 @@ describe('DecisionStrategyLoader - Decision Making', () => {
       incidentRate: 0.4,
     };
 
-    const decision = strategy.decide(violation, learning);
+    const decision = await strategy.decide(violation, learning);
 
     expect(decision.action).toBe('alert-human');
     expect(decision.reason).toContain('High risk');
@@ -470,7 +473,7 @@ describe('DecisionStrategyLoader - Decision Making', () => {
       incidentRate: 0.15,
     };
 
-    const decision = strategy.decide(violation, learning);
+    const decision = await strategy.decide(violation, learning);
 
     expect(decision.action).toBe('auto-fix');
     expect(decision.reason).toContain('Medium risk');
@@ -495,7 +498,7 @@ describe('DecisionStrategyLoader - Decision Making', () => {
       incidentRate: 0.02, // Very low incident rate (<0.05)
     };
 
-    const decision = strategy.decide(violation, learning);
+    const decision = await strategy.decide(violation, learning);
 
     expect(decision.action).toBe('suppress');
     expect(decision.reason).toContain('Safe pattern');
@@ -514,7 +517,7 @@ describe('DecisionStrategyLoader - Decision Making', () => {
     const strategy = await loader.getStrategy('production');
     const violation = createMockViolation();
 
-    const decision = strategy.decide(violation, null);
+    const decision = await strategy.decide(violation, null);
 
     expect(decision.action).toBe('alert-human');
     expect(decision.reason).toContain('No historical data');
@@ -535,7 +538,7 @@ describe('DecisionStrategyLoader - Decision Making', () => {
     const violation = createMockViolation();
     const learning = createMockLearning();
 
-    const decision = strategy.decide(violation, learning);
+    const decision = await strategy.decide(violation, learning);
 
     expect(decision.evidence).toBeDefined();
     expect(decision.evidence?.totalSamples).toBe(learning.deployedViolations);

@@ -203,7 +203,9 @@ describe('Production Streaming', () => {
       const multiplexer = new StreamMultiplexer();
       const events: any[] = [];
 
-      multiplexer.on('event', (event) => { events.push(event); });
+      multiplexer.on('event', event => {
+        events.push(event);
+      });
 
       const oracle = multiplexer.addChannel({ id: 'oracle', name: 'Oracle', priority: 2 });
       const architect = multiplexer.addChannel({ id: 'architect', name: 'Architect', priority: 1 });
@@ -249,12 +251,14 @@ describe('Production Streaming', () => {
       const events: any[] = [];
 
       // Subscribe to flush events (what actually gets emitted after processing)
-      multiplexer.on('flush', (event) => { events.push(event); });
+      multiplexer.on('flush', event => {
+        events.push(event);
+      });
       multiplexer.start();
 
       multiplexer.broadcast({
         type: 'build:start',
-        data: { buildId: 'test' },
+        data: { buildId: 'test', totalPhases: 1, totalAgents: 1 },
       });
 
       // Wait for flush interval to process
@@ -275,7 +279,11 @@ describe('Production Streaming', () => {
       const metrics = getStreamMetrics();
 
       metrics.recordStreamStart('stream-1', { buildId: 'build-1' });
-      metrics.recordEvent('stream-1', { type: 'stream:chunk', data: { content: 'test' } } as any, 10);
+      metrics.recordEvent(
+        'stream-1',
+        { type: 'stream:chunk', data: { content: 'test' } } as any,
+        10
+      );
       metrics.recordStreamComplete('stream-1');
 
       const stats = metrics.getMetrics();
@@ -399,7 +407,9 @@ describe('Production Streaming', () => {
     it('should respect min and max chunk sizes', () => {
       const chunker = new ContentAwareChunker(5, 20);
 
-      const chunks = chunker.addContent('A very long sentence that should be split into multiple chunks based on size limits.');
+      const chunks = chunker.addContent(
+        'A very long sentence that should be split into multiple chunks based on size limits.'
+      );
 
       for (const chunk of chunks) {
         expect(chunk.length).toBeLessThanOrEqual(20);
@@ -417,7 +427,7 @@ describe('Production Streaming', () => {
       const metrics = new StreamMetricsCollector();
       const receivedEvents: any[] = [];
 
-      multiplexer.on('event', (event) => {
+      multiplexer.on('event', event => {
         receivedEvents.push(event);
         metrics.recordEvent(event.channelId, event);
       });
@@ -470,9 +480,24 @@ describe('Production Streaming', () => {
       reconnectionManager.connected();
 
       // Simulate events being buffered
-      const event1Id = buffer.add({ type: 'stream:chunk', id: '1', timestamp: new Date(), data: { content: 'A' } } as any);
-      const event2Id = buffer.add({ type: 'stream:chunk', id: '2', timestamp: new Date(), data: { content: 'B' } } as any);
-      buffer.add({ type: 'stream:chunk', id: '3', timestamp: new Date(), data: { content: 'C' } } as any);
+      const event1Id = buffer.add({
+        type: 'stream:chunk',
+        id: '1',
+        timestamp: new Date(),
+        data: { content: 'A' },
+      } as any);
+      const event2Id = buffer.add({
+        type: 'stream:chunk',
+        id: '2',
+        timestamp: new Date(),
+        data: { content: 'B' },
+      } as any);
+      buffer.add({
+        type: 'stream:chunk',
+        id: '3',
+        timestamp: new Date(),
+        data: { content: 'C' },
+      } as any);
 
       // Simulate client received up to event1
       reconnectionManager.setLastEventId(event1Id);

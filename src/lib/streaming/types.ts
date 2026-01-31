@@ -169,6 +169,65 @@ export interface BuildProgressEvent extends BaseStreamEvent {
 }
 
 /**
+ * Agent error event
+ */
+export interface AgentErrorEvent extends BaseStreamEvent {
+  type: 'agent:error';
+  data: {
+    agentId: string;
+    buildId: string;
+    error: {
+      code: string;
+      message: string;
+      recoverable: boolean;
+    };
+  };
+}
+
+/**
+ * Build start event
+ */
+export interface BuildStartEvent extends BaseStreamEvent {
+  type: 'build:start';
+  data: {
+    buildId: string;
+    totalPhases: number;
+    totalAgents: number;
+  };
+}
+
+/**
+ * Build complete event
+ */
+export interface BuildCompleteEvent extends BaseStreamEvent {
+  type: 'build:complete';
+  data: {
+    buildId: string;
+    success: boolean;
+    durationMs: number;
+    totalTokens: number;
+    completedAgents: number;
+    failedAgents: number;
+  };
+}
+
+/**
+ * Build error event
+ */
+export interface BuildErrorEvent extends BaseStreamEvent {
+  type: 'build:error';
+  data: {
+    buildId: string;
+    error: {
+      code: string;
+      message: string;
+      recoverable: boolean;
+    };
+    partialResults?: Record<string, unknown>;
+  };
+}
+
+/**
  * Union type of all stream events
  */
 export type StreamEvent =
@@ -180,8 +239,12 @@ export type StreamEvent =
   | AgentStartEvent
   | AgentProgressEvent
   | AgentCompleteEvent
+  | AgentErrorEvent
   | BuildPhaseEvent
-  | BuildProgressEvent;
+  | BuildProgressEvent
+  | BuildStartEvent
+  | BuildCompleteEvent
+  | BuildErrorEvent;
 
 /**
  * Stream configuration

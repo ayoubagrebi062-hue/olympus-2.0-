@@ -20,6 +20,8 @@ import type {
   DecisionResult,
   DecisionStrategyLoader,
 } from './decision-strategy-loader';
+import { LearningEngine, type DecisionOutcome, type ThresholdSuggestion } from './learning-engine';
+import { ASTAnalyzer, type ASTFinding } from './ast-analyzer';
 
 // ============================================================================
 // CAPABILITY 1: AUTONOMOUS OPERATION
@@ -45,9 +47,11 @@ interface HealthMetrics {
 
 class AutonomousGovernanceDaemon {
   private classifier: TierClassifier;
+  private astAnalyzer: ASTAnalyzer;
   private watcher: chokidar.FSWatcher | null = null;
   private isRunning: boolean = false;
   private learningSystem: LearningSystem;
+  private learningEngine: LearningEngine;
   private predictiveEngine: PredictiveEngine;
   private healthMetrics: HealthMetrics;
   private scanHistory: ScanResult[] = [];
@@ -55,7 +59,9 @@ class AutonomousGovernanceDaemon {
 
   constructor() {
     this.classifier = new TierClassifier();
+    this.astAnalyzer = new ASTAnalyzer();
     this.learningSystem = new LearningSystem();
+    this.learningEngine = new LearningEngine();
     this.predictiveEngine = new PredictiveEngine();
     this.healthMetrics = this.initHealthMetrics();
 
@@ -136,18 +142,37 @@ class AutonomousGovernanceDaemon {
         return;
       }
 
+      // Pass 1: TierClassifier (governance tier analysis)
       const analysis = this.classifier.analyzeFile(filePath);
       this.healthMetrics.filesScanned++;
 
-      if (analysis.violations.length === 0) {
-        // No violations - update learning system with success
+      // Pass 2: AST Analyzer (security vulnerability detection)
+      const astResult = this.astAnalyzer.analyzeFile(filePath);
+      const astFindings = astResult.findings;
+
+      if (analysis.violations.length === 0 && astFindings.length === 0) {
+        // No violations from either pass
         this.learningSystem.recordSuccess(filePath, analysis);
         return;
       }
 
-      // Violations found - decide action (now async)
-      const action = await this.decideRemediationAction(analysis);
+      // Merge AST findings into violation list for decision making
+      if (astFindings.length > 0) {
+        console.log(
+          `🔍 AST found ${astFindings.length} vulnerabilities in ${path.basename(filePath)}`
+        );
+        for (const finding of astFindings) {
+          // Record confidence for learning
+          this.learningEngine.recordConfidence(finding.pattern, finding.confidence);
+        }
+      }
+
+      // Decide action using both TierClassifier violations and AST findings
+      const action = await this.decideRemediationAction(analysis, astFindings);
       await this.executeRemediation(action);
+
+      // Record outcome in learning engine
+      this.recordDecisionOutcome(action, analysis, astFindings);
     } catch (error) {
       // Self-healing: Fallback to basic scan if AST fails
       console.error(`❌ Error analyzing ${filePath}:`, error);
@@ -159,9 +184,13 @@ class AutonomousGovernanceDaemon {
    * INTELLIGENT DECISION MAKING
    * Decides whether to auto-fix, alert human, or just log
    * Uses strategy loader if available, falls back to hardcoded logic
+   * Now considers both TierClassifier violations and AST findings
    */
-  private async decideRemediationAction(analysis: FileAnalysis): Promise<RemediationAction> {
-    const { filePath, violations, confidence } = analysis;
+  private async decideRemediationAction(
+    analysis: FileAnalysis,
+    astFindings: readonly ASTFinding[] = []
+  ): Promise<RemediationAction> {
+    const { filePath, violations } = analysis;
 
     // Use strategy loader if available
     if (this.strategyLoader) {
@@ -169,6 +198,7 @@ class AutonomousGovernanceDaemon {
         const strategy = await this.strategyLoader.getStrategy(getCurrentEnvironment());
         const decisions: DecisionResult[] = [];
 
+        // Process TierClassifier violations
         for (const violationMsg of violations) {
           const loaderViolation: LoaderViolation = {
             id: `viol-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -179,32 +209,64 @@ class AutonomousGovernanceDaemon {
           };
 
           const learning = this.learningSystem.getLearningForPattern(loaderViolation.pattern);
-          const decision = strategy.decide(loaderViolation, learning);
+          const decision = await strategy.decide(loaderViolation, learning);
           decisions.push(decision);
         }
 
-        // Take most severe action
-        const mostSevere = this.getMostSevereDecision(decisions);
-        return {
-          filePath,
-          action: mostSevere.action as 'auto-fix' | 'alert-human' | 'log-only',
-          confidence: mostSevere.confidence,
-          escalationReason: mostSevere.reason,
-        };
+        // Process AST findings (security vulnerabilities)
+        for (const finding of astFindings) {
+          const astViolation: LoaderViolation = {
+            id: `ast-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            pattern: finding.pattern,
+            tier: finding.severity === 'critical' ? 3 : finding.severity === 'high' ? 2 : 1,
+            filePath: finding.file,
+            confidence: finding.confidence,
+          };
+
+          const learning = this.learningSystem.getLearningForPattern(finding.pattern);
+          const decision = await strategy.decide(astViolation, learning);
+          decisions.push(decision);
+        }
+
+        if (decisions.length > 0) {
+          // Take most severe action
+          const mostSevere = this.getMostSevereDecision(decisions);
+          return {
+            filePath,
+            action: mostSevere.action as 'auto-fix' | 'alert-human' | 'log-only',
+            confidence: mostSevere.confidence,
+            escalationReason: mostSevere.reason,
+          };
+        }
       } catch (error) {
         console.warn(`⚠️  Strategy decision failed for ${filePath}, using fallback:`, error);
       }
     }
 
-    // FALLBACK: Original hardcoded logic
-    return this.decideRemediationActionFallback(analysis);
+    // FALLBACK: Original hardcoded logic (also considers AST severity)
+    return this.decideRemediationActionFallback(analysis, astFindings);
   }
 
   /**
    * Fallback decision logic (original hardcoded rules)
+   * Now also considers AST findings — critical AST findings escalate to alert-human
    */
-  private decideRemediationActionFallback(analysis: FileAnalysis): RemediationAction {
+  private decideRemediationActionFallback(
+    analysis: FileAnalysis,
+    astFindings: readonly ASTFinding[] = []
+  ): RemediationAction {
     const { filePath, violations, confidence } = analysis;
+
+    // AST override: critical security findings always escalate
+    const criticalAst = astFindings.filter(f => f.severity === 'critical');
+    if (criticalAst.length > 0) {
+      return {
+        filePath,
+        action: 'alert-human',
+        confidence: Math.max(...criticalAst.map(f => f.confidence)),
+        escalationReason: `Critical AST finding: ${criticalAst[0].pattern} — ${criticalAst[0].message}`,
+      };
+    }
 
     // Strategy 1: High confidence (>85%) → AUTO-FIX
     if (confidence > 0.85 && violations.length === 1) {
@@ -215,13 +277,17 @@ class AutonomousGovernanceDaemon {
       };
     }
 
-    // Strategy 2: Medium confidence (60-85%) → ALERT HUMAN
-    if (confidence > 0.6) {
+    // Strategy 2: Medium confidence (60-85%) or high-severity AST → ALERT HUMAN
+    const highAst = astFindings.filter(f => f.severity === 'high');
+    if (confidence > 0.6 || highAst.length > 0) {
       return {
         filePath,
         action: 'alert-human',
-        confidence,
-        escalationReason: 'Medium confidence - human review needed',
+        confidence: Math.max(confidence, ...highAst.map(f => f.confidence), 0),
+        escalationReason:
+          highAst.length > 0
+            ? `AST finding: ${highAst[0].pattern} + governance violation`
+            : 'Medium confidence - human review needed',
       };
     }
 
@@ -291,6 +357,37 @@ class AutonomousGovernanceDaemon {
   }
 
   /**
+   * Record decision outcome in the learning engine for adaptive intelligence
+   */
+  private recordDecisionOutcome(
+    action: RemediationAction,
+    analysis: FileAnalysis,
+    astFindings: readonly ASTFinding[]
+  ): void {
+    // Determine pattern — use AST finding pattern if available, otherwise extract from violations
+    const pattern =
+      astFindings.length > 0
+        ? astFindings[0].pattern
+        : analysis.violations.length > 0
+          ? this.extractPattern(analysis.violations[0])
+          : 'unknown';
+
+    // Map action to initial result — will be updated when we know actual outcome
+    const result: DecisionOutcome['result'] = action.action === 'log-only' ? 'unknown' : 'unknown';
+
+    const outcome: DecisionOutcome = {
+      violationId: `${path.basename(action.filePath)}-${Date.now()}`,
+      pattern,
+      action: action.action,
+      result,
+      timestamp: Date.now(),
+    };
+
+    this.learningEngine.recordOutcome(outcome);
+    this.learningEngine.recordConfidence(pattern, action.confidence);
+  }
+
+  /**
    * AUTO-FIX: Automatically insert missing markers
    */
   private async autoFix(action: RemediationAction) {
@@ -335,10 +432,28 @@ class AutonomousGovernanceDaemon {
 
         this.healthMetrics.autoFixSuccess++;
         this.learningSystem.recordAutoFix(action.filePath, fixes);
+
+        // Record successful fix in learning engine
+        this.learningEngine.recordOutcome({
+          violationId: `fix-${path.basename(action.filePath)}-${Date.now()}`,
+          pattern: fixes[0] || 'auto-fix',
+          action: 'auto-fix',
+          result: 'fixed',
+          timestamp: Date.now(),
+        });
       }
     } catch (error) {
       console.error(`❌ Auto-fix failed for ${action.filePath}:`, error);
       this.healthMetrics.autoFixFailure++;
+
+      // Record failure in learning engine
+      this.learningEngine.recordOutcome({
+        violationId: `fix-fail-${path.basename(action.filePath)}-${Date.now()}`,
+        pattern: 'auto-fix-failure',
+        action: 'auto-fix',
+        result: 'escalated',
+        timestamp: Date.now(),
+      });
 
       // Escalate to human
       await this.alertHuman({
@@ -415,12 +530,36 @@ class AutonomousGovernanceDaemon {
 
   /**
    * Periodic learning cycle - runs every hour
+   * Now includes learning engine threshold analysis
    */
   private startLearningCycle() {
     setInterval(
       async () => {
         console.log('🧠 Learning cycle started...');
+
+        // Legacy learning system analysis
         await this.learningSystem.runLearningCycle(this.scanHistory);
+
+        // New: Learning engine threshold suggestions
+        const suggestions = this.learningEngine.suggestThresholdAdjustments();
+        if (suggestions.length > 0) {
+          console.log('📊 Learning engine threshold suggestions:');
+          for (const s of suggestions) {
+            console.log(
+              `   - ${s.pattern}: ${s.currentAction} → ${s.suggestedAction} (${s.reason})`
+            );
+          }
+        }
+
+        // New: Print learning engine summary
+        const summary = this.learningEngine.getSummary();
+        console.log(
+          `📈 Learning engine: ${summary.totalPatterns} patterns, ${summary.totalOutcomes} outcomes tracked`
+        );
+
+        // Persist learning data
+        this.learningEngine.saveToDisk();
+
         console.log('✅ Learning cycle complete');
       },
       60 * 60 * 1000
@@ -429,6 +568,7 @@ class AutonomousGovernanceDaemon {
 
   /**
    * Full scan to build history
+   * Now runs both TierClassifier and AST Analyzer
    */
   private async performFullScan(): Promise<void> {
     console.log('🔍 Performing initial full scan...');
@@ -436,6 +576,7 @@ class AutonomousGovernanceDaemon {
     const files = this.getAllTypeScriptFiles('src');
     const results: ScanResult[] = [];
 
+    // Pass 1: TierClassifier scan
     for (const file of files) {
       try {
         const analysis = this.classifier.analyzeFile(file);
@@ -450,7 +591,40 @@ class AutonomousGovernanceDaemon {
     }
 
     this.scanHistory.push(...results);
-    console.log(`✅ Scanned ${results.length} files`);
+    console.log(`✅ TierClassifier: Scanned ${results.length} files`);
+
+    // Pass 2: AST Analyzer deep scan
+    try {
+      const astResults = this.astAnalyzer.analyzeDirectory('src');
+      const totalFindings = astResults.reduce((sum, r) => sum + r.findings.length, 0);
+
+      // Record all AST findings in learning engine
+      for (const result of astResults) {
+        for (const finding of result.findings) {
+          this.learningEngine.recordConfidence(finding.pattern, finding.confidence);
+        }
+      }
+
+      console.log(
+        `✅ AST Analyzer: ${astResults.length} files, ${totalFindings} security findings`
+      );
+
+      if (totalFindings > 0) {
+        const bySeverity: Record<string, number> = {};
+        for (const r of astResults) {
+          for (const f of r.findings) {
+            bySeverity[f.severity] = (bySeverity[f.severity] ?? 0) + 1;
+          }
+        }
+        console.log(
+          `   Breakdown: ${Object.entries(bySeverity)
+            .map(([k, v]) => `${k}=${v}`)
+            .join(', ')}`
+        );
+      }
+    } catch (error) {
+      console.warn('⚠️  AST Analyzer scan failed, continuing with TierClassifier only:', error);
+    }
   }
 
   private getAllTypeScriptFiles(dir: string): string[] {
@@ -611,6 +785,10 @@ class AutonomousGovernanceDaemon {
     if (this.watcher) {
       await this.watcher.close();
     }
+
+    // Persist learning data before exit
+    this.learningEngine.dispose();
+    console.log('✅ Learning data saved');
 
     console.log('✅ Daemon stopped');
   }
@@ -895,4 +1073,4 @@ if (require.main === module) {
   });
 }
 
-export { AutonomousGovernanceDaemon, LearningSystem, PredictiveEngine };
+export { AutonomousGovernanceDaemon, LearningSystem, PredictiveEngine, LearningEngine };

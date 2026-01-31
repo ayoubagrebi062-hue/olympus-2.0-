@@ -1,33 +1,30 @@
 /**
- * Claude Code Adapter - OLYMPUS Governance Integration
+ * Claude Code Adapter - OLYMPUS Governance Integration (World-Class Rewrite)
  *
  * Wraps Claude Code CLI for autonomous governance decisions.
- * Features:
- * - Circuit breaker protection (3 failures → 60s cooldown → retry)
- * - Graceful degradation to rule-based decisions
- * - JSON-only responses for deterministic parsing
- * - Configurable enable/disable via config
+ *
+ * v2.0.0 FIXES:
+ * - FIX #1: No shell injection (spawn with array args, no shell)
+ * - FIX #2: True async (spawn + Promise, never blocks main thread)
+ * - FIX #3: Structured metrics (total, success, failed, latency P50/P99)
+ * - FIX #4: Token bucket rate limiter (prevents cost explosion)
+ * - FIX #5: Honest async API (removed fake decideSync)
+ * - FIX #6: Startup validation (checks CLI installed + authenticated)
+ * - FIX #7: Clean interface (removed duplicate reason/reasoning)
+ *
+ * ADDITIONS:
+ * - Zod response validation (schema-enforced, not ad-hoc)
+ * - Response cache with TTL (idempotent: same violation = same decision)
+ * - Structured JSON logging (filterable by component/event)
  *
  * @module governance/claude-code-adapter
- * @version 1.0.0
- * @since 2026-01-30
- *
- * @example
- * ```typescript
- * const adapter = new ClaudeCodeAdapter({ enabled: true });
- *
- * if (adapter.shouldUse(violation)) {
- *   const decision = await adapter.decide(violation, learning);
- *   if (decision) {
- *     // Use Claude's decision
- *     return decision;
- *   }
- *   // Falls back to rule-based
- * }
- * ```
+ * @version 2.0.0
+ * @since 2026-01-31
  */
 
-import { execSync } from 'child_process';
+import { spawn } from 'child_process';
+import { createHash } from 'crypto';
+import { z } from 'zod';
 import type { Violation, PatternLearning, DecisionResult } from './decision-strategy-loader';
 
 // ============================================================================
@@ -36,7 +33,7 @@ import type { Violation, PatternLearning, DecisionResult } from './decision-stra
 
 /**
  * Extended DecisionResult for Claude Code adapter.
- * Includes Claude's extended action set and source tracking.
+ * v2.0: Removed duplicate `reason` field. Only `reasoning` exists.
  */
 export interface ClaudeDecisionResult {
   readonly action:
@@ -49,26 +46,25 @@ export interface ClaudeDecisionResult {
     | 'auto-fix'
     | 'suppress';
   readonly confidence: number;
-  readonly reason: string;
   readonly reasoning: string;
   readonly parameters: Readonly<Record<string, unknown>>;
-  readonly source: 'claude-code';
+  readonly source: 'claude-code' | 'cache' | 'fallback';
+  readonly latencyMs: number;
 }
 
 /**
  * Claude Code adapter configuration.
  */
 export interface ClaudeCodeConfig {
-  /** Enable/disable Claude Code integration */
   readonly enabled?: boolean;
-  /** Timeout for Claude CLI calls in milliseconds */
   readonly timeoutMs?: number;
-  /** Max consecutive failures before circuit opens */
   readonly maxFailures?: number;
-  /** Cooldown period in milliseconds when circuit is open */
   readonly cooldownMs?: number;
-  /** Minimum violation severity to use Claude */
   readonly minSeverity?: 'low' | 'medium' | 'high' | 'critical';
+  /** Max calls per second (token bucket rate) */
+  readonly maxCallsPerSecond?: number;
+  /** Response cache TTL in milliseconds */
+  readonly cacheTtlMs?: number;
 }
 
 /**
@@ -89,7 +85,67 @@ export interface ClaudeAdapterHealth {
   readonly circuitOpen: boolean;
   readonly lastError?: string;
   readonly lastSuccessTime?: number;
+  readonly cliInstalled?: boolean;
+  readonly cliAuthenticated?: boolean;
+  readonly cliVersion?: string;
 }
+
+/**
+ * Adapter metrics for observability.
+ */
+export interface AdapterMetrics {
+  readonly totalCalls: number;
+  readonly successfulCalls: number;
+  readonly failedCalls: number;
+  readonly cacheHits: number;
+  readonly rateLimitDrops: number;
+  readonly avgLatencyMs: number;
+  readonly p50LatencyMs: number;
+  readonly p99LatencyMs: number;
+  readonly circuitOpenCount: number;
+  readonly fallbackCount: number;
+  readonly lastCallTimestamp: number;
+}
+
+/**
+ * Structured log entry.
+ */
+export interface LogEntry {
+  readonly timestamp: number;
+  readonly level: 'debug' | 'info' | 'warn' | 'error';
+  readonly component: 'ClaudeAdapter';
+  readonly event: string;
+  readonly data?: Readonly<Record<string, unknown>>;
+}
+
+/**
+ * Logger interface for dependency injection.
+ */
+export interface AdapterLogger {
+  log(entry: LogEntry): void;
+}
+
+// ============================================================================
+// ZOD SCHEMAS (FIX #7 bonus: schema validation, not ad-hoc)
+// ============================================================================
+
+const ClaudeResponseSchema = z.object({
+  action: z.enum([
+    'alert-human',
+    'auto-fix',
+    'suppress',
+    'rollback',
+    'patch',
+    'isolate',
+    'alert',
+    'ignore',
+  ]),
+  confidence: z.number().min(0).max(1),
+  reasoning: z.string().min(1),
+  parameters: z.record(z.unknown()).optional().default({}),
+});
+
+type ClaudeResponse = z.infer<typeof ClaudeResponseSchema>;
 
 // ============================================================================
 // CONSTANTS
@@ -98,17 +154,246 @@ export interface ClaudeAdapterHealth {
 const DEFAULT_TIMEOUT_MS = 30_000;
 const DEFAULT_MAX_FAILURES = 3;
 const DEFAULT_COOLDOWN_MS = 60_000;
+const DEFAULT_MAX_CALLS_PER_SECOND = 1;
+const DEFAULT_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const MAX_PROMPT_LENGTH = 16_000; // 16KB — safe for all OS arg limits
+const MAX_CACHE_SIZE = 1000; // Hard cap on cache entries
 
 // ============================================================================
-// CLAUDE CODE ADAPTER
+// TOKEN BUCKET RATE LIMITER (FIX #4)
 // ============================================================================
 
-/**
- * Adapter for calling Claude Code CLI from OLYMPUS governance.
- *
- * Implements circuit breaker pattern to prevent cascade failures.
- * Falls back to rule-based decisions when Claude is unavailable.
- */
+class TokenBucketRateLimiter {
+  private tokens: number;
+  private lastRefill: number;
+  private readonly maxTokens: number;
+  private readonly refillRatePerMs: number;
+
+  constructor(maxCallsPerSecond: number) {
+    this.maxTokens = maxCallsPerSecond;
+    this.tokens = maxCallsPerSecond;
+    this.refillRatePerMs = maxCallsPerSecond / 1000;
+    this.lastRefill = Date.now();
+  }
+
+  tryAcquire(): boolean {
+    this.refill();
+    if (this.tokens >= 1) {
+      this.tokens -= 1;
+      return true;
+    }
+    return false;
+  }
+
+  private refill(): void {
+    const now = Date.now();
+    const elapsed = now - this.lastRefill;
+    this.tokens = Math.min(this.maxTokens, this.tokens + elapsed * this.refillRatePerMs);
+    this.lastRefill = now;
+  }
+}
+
+// ============================================================================
+// RESPONSE CACHE
+// ============================================================================
+
+interface CacheEntry {
+  result: ClaudeDecisionResult;
+  expiresAt: number;
+}
+
+class ResponseCache {
+  private cache = new Map<string, CacheEntry>();
+  private readonly ttlMs: number;
+
+  constructor(ttlMs: number) {
+    this.ttlMs = ttlMs;
+  }
+
+  static buildKey(violationId: string, confidence: number): string {
+    return createHash('sha256')
+      .update(`${violationId}:${confidence.toFixed(4)}`)
+      .digest('hex')
+      .substring(0, 16);
+  }
+
+  get(key: string): ClaudeDecisionResult | null {
+    const entry = this.cache.get(key);
+    if (!entry) return null;
+    if (Date.now() > entry.expiresAt) {
+      this.cache.delete(key);
+      return null;
+    }
+    return entry.result;
+  }
+
+  set(key: string, result: ClaudeDecisionResult): void {
+    // Prevent unbounded growth — evict expired first, then enforce hard cap
+    if (this.cache.size >= MAX_CACHE_SIZE) {
+      this.evictExpired();
+    }
+    // If still over hard cap after eviction, drop oldest entries
+    if (this.cache.size >= MAX_CACHE_SIZE) {
+      const entriesToRemove = this.cache.size - MAX_CACHE_SIZE + 1;
+      const keys = this.cache.keys();
+      for (let i = 0; i < entriesToRemove; i++) {
+        const next = keys.next();
+        if (!next.done) {
+          this.cache.delete(next.value);
+        }
+      }
+    }
+    this.cache.set(key, {
+      result,
+      expiresAt: Date.now() + this.ttlMs,
+    });
+  }
+
+  get size(): number {
+    return this.cache.size;
+  }
+
+  clear(): void {
+    this.cache.clear();
+  }
+
+  private evictExpired(): void {
+    const now = Date.now();
+    for (const [key, entry] of this.cache) {
+      if (now > entry.expiresAt) {
+        this.cache.delete(key);
+      }
+    }
+  }
+}
+
+// ============================================================================
+// DEFAULT CONSOLE LOGGER
+// ============================================================================
+
+class ConsoleAdapterLogger implements AdapterLogger {
+  log(entry: LogEntry): void {
+    const prefix = `[${entry.component}]`;
+    const msg = `${prefix} ${entry.event}`;
+    const data = entry.data ? ` ${JSON.stringify(entry.data)}` : '';
+
+    switch (entry.level) {
+      case 'error':
+        console.error(msg + data);
+        break;
+      case 'warn':
+        console.warn(msg + data);
+        break;
+      case 'debug':
+        // Only log debug if GOVERNANCE_DEBUG is set
+        if (process.env.GOVERNANCE_DEBUG) {
+          console.log(msg + data);
+        }
+        break;
+      default:
+        console.log(msg + data);
+    }
+  }
+}
+
+// ============================================================================
+// METRICS TRACKER
+// ============================================================================
+
+class MetricsTracker {
+  private _totalCalls = 0;
+  private _successfulCalls = 0;
+  private _failedCalls = 0;
+  private _cacheHits = 0;
+  private _rateLimitDrops = 0;
+  private _circuitOpenCount = 0;
+  private _fallbackCount = 0;
+  private _lastCallTimestamp = 0;
+  private _latencies: number[] = [];
+  private readonly maxLatencySamples = 1000;
+
+  recordSuccess(latencyMs: number): void {
+    this._totalCalls++;
+    this._successfulCalls++;
+    this._lastCallTimestamp = Date.now();
+    this.addLatency(latencyMs);
+  }
+
+  recordFailure(): void {
+    this._totalCalls++;
+    this._failedCalls++;
+    this._lastCallTimestamp = Date.now();
+  }
+
+  recordCacheHit(): void {
+    this._cacheHits++;
+  }
+
+  recordRateLimitDrop(): void {
+    this._rateLimitDrops++;
+  }
+
+  recordCircuitOpen(): void {
+    this._circuitOpenCount++;
+  }
+
+  recordFallback(): void {
+    this._fallbackCount++;
+  }
+
+  getMetrics(): AdapterMetrics {
+    return {
+      totalCalls: this._totalCalls,
+      successfulCalls: this._successfulCalls,
+      failedCalls: this._failedCalls,
+      cacheHits: this._cacheHits,
+      rateLimitDrops: this._rateLimitDrops,
+      avgLatencyMs: this.calcAvg(),
+      p50LatencyMs: this.calcPercentile(50),
+      p99LatencyMs: this.calcPercentile(99),
+      circuitOpenCount: this._circuitOpenCount,
+      fallbackCount: this._fallbackCount,
+      lastCallTimestamp: this._lastCallTimestamp,
+    };
+  }
+
+  reset(): void {
+    this._totalCalls = 0;
+    this._successfulCalls = 0;
+    this._failedCalls = 0;
+    this._cacheHits = 0;
+    this._rateLimitDrops = 0;
+    this._circuitOpenCount = 0;
+    this._fallbackCount = 0;
+    this._lastCallTimestamp = 0;
+    this._latencies = [];
+  }
+
+  private addLatency(ms: number): void {
+    this._latencies.push(ms);
+    if (this._latencies.length > this.maxLatencySamples) {
+      this._latencies.shift();
+    }
+  }
+
+  private calcAvg(): number {
+    if (this._latencies.length === 0) return 0;
+    const sum = this._latencies.reduce((a, b) => a + b, 0);
+    return Math.round(sum / this._latencies.length);
+  }
+
+  private calcPercentile(p: number): number {
+    if (this._latencies.length === 0) return 0;
+    const sorted = [...this._latencies].sort((a, b) => a - b);
+    const idx = Math.ceil((p / 100) * sorted.length) - 1;
+    return sorted[Math.max(0, idx)];
+  }
+}
+
+// ============================================================================
+// CLAUDE CODE ADAPTER (WORLD-CLASS REWRITE)
+// ============================================================================
+
 export class ClaudeCodeAdapter {
   private circuit: CircuitBreakerState = {
     failures: 0,
@@ -121,34 +406,45 @@ export class ClaudeCodeAdapter {
   private readonly timeoutMs: number;
   private readonly enabled: boolean;
   private readonly minSeverity: string;
+  private readonly rateLimiter: TokenBucketRateLimiter;
+  private readonly responseCache: ResponseCache;
+  private readonly metricsTracker: MetricsTracker;
+  private readonly logger: AdapterLogger;
+
   private lastError?: string;
   private lastSuccessTime?: number;
 
-  constructor(config: ClaudeCodeConfig = {}) {
+  // Startup validation state
+  private _cliInstalled?: boolean;
+  private _cliAuthenticated?: boolean;
+  private _cliVersion?: string;
+
+  constructor(config: ClaudeCodeConfig = {}, logger?: AdapterLogger) {
     this.enabled = config.enabled ?? true;
     this.timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS;
     this.maxFailures = config.maxFailures ?? DEFAULT_MAX_FAILURES;
     this.cooldownMs = config.cooldownMs ?? DEFAULT_COOLDOWN_MS;
     this.minSeverity = config.minSeverity ?? 'high';
+    this.rateLimiter = new TokenBucketRateLimiter(
+      config.maxCallsPerSecond ?? DEFAULT_MAX_CALLS_PER_SECOND
+    );
+    this.responseCache = new ResponseCache(config.cacheTtlMs ?? DEFAULT_CACHE_TTL_MS);
+    this.metricsTracker = new MetricsTracker();
+    this.logger = logger ?? new ConsoleAdapterLogger();
   }
+
+  // ============================================================================
+  // PUBLIC API
+  // ============================================================================
 
   /**
    * Check if Claude should be used for this violation.
-   *
-   * Returns false if:
-   * - Adapter is disabled
-   * - Circuit breaker is open
-   * - Violation severity is too low
-   *
-   * @param violation - The violation to evaluate
-   * @returns Whether to attempt Claude decision
    */
   shouldUse(violation: Violation): boolean {
     if (!this.enabled) return false;
+    if (!this.isValidViolation(violation)) return false;
     if (this.isCircuitOpen()) return false;
 
-    // Only use Claude for high-severity or complex decisions
-    // Tier 3 = irreversible (critical), Tier 2 = writes (high), Tier 1 = reads (low)
     const isHighSeverity = violation.tier >= 2 || violation.confidence > 0.8;
     const isComplexPattern = this.isComplexPattern(violation.pattern);
 
@@ -156,54 +452,149 @@ export class ClaudeCodeAdapter {
   }
 
   /**
-   * Ask Claude Code to make a governance decision (synchronous).
-   * Uses execSync internally for blocking CLI calls.
+   * Ask Claude Code to make a governance decision.
+   * Truly async: uses spawn + Promise, never blocks main thread.
    *
-   * @param violation - The violation to evaluate
-   * @param learning - Historical learning data (null if none)
-   * @returns Decision result or null to fall back to rules
-   */
-  decideSync(violation: Violation, learning: PatternLearning | null): ClaudeDecisionResult | null {
-    if (this.isCircuitOpen()) {
-      return null; // Fallback to rule-based
-    }
-
-    const prompt = this.buildPrompt(violation, learning);
-
-    try {
-      const result = execSync(`claude -p "${this.escapePrompt(prompt)}" --output-format json`, {
-        timeout: this.timeoutMs,
-        encoding: 'utf-8',
-        stdio: ['pipe', 'pipe', 'pipe'],
-        windowsHide: true, // Don't show console window on Windows
-      });
-
-      this.recordSuccess();
-      return this.parseResponse(result);
-    } catch (error) {
-      this.recordFailure(error instanceof Error ? error.message : String(error));
-      console.error('[ClaudeAdapter] Decision failed:', error);
-      return null; // Fallback to rule-based
-    }
-  }
-
-  /**
-   * Ask Claude Code to make a governance decision (async wrapper).
-   * Wraps decideSync for Promise-based callers.
-   *
-   * @param violation - The violation to evaluate
-   * @param learning - Historical learning data (null if none)
-   * @returns Decision result or null to fall back to rules
+   * Returns null to signal: fall back to rule-based decisions.
    */
   async decide(
     violation: Violation,
     learning: PatternLearning | null
   ): Promise<ClaudeDecisionResult | null> {
-    return this.decideSync(violation, learning);
+    const startTime = Date.now();
+
+    // 0. Input validation
+    if (!this.isValidViolation(violation)) {
+      this.log('warn', 'invalid-violation-input', {
+        hasViolation: !!violation,
+        type: typeof violation,
+      });
+      return null;
+    }
+
+    // 1. Check circuit breaker
+    if (this.isCircuitOpen()) {
+      this.metricsTracker.recordFallback();
+      this.log('debug', 'circuit-open-fallback', { violationId: violation.id });
+      return null;
+    }
+
+    // 2. Check cache
+    const cacheKey = ResponseCache.buildKey(violation.id, violation.confidence);
+    const cached = this.responseCache.get(cacheKey);
+    if (cached) {
+      this.metricsTracker.recordCacheHit();
+      this.log('debug', 'cache-hit', { violationId: violation.id, action: cached.action });
+      return { ...cached, source: 'cache', latencyMs: Date.now() - startTime };
+    }
+
+    // 3. Rate limit
+    if (!this.rateLimiter.tryAcquire()) {
+      this.metricsTracker.recordRateLimitDrop();
+      this.log('warn', 'rate-limited', { violationId: violation.id });
+      return null;
+    }
+
+    // 4. Build prompt and call Claude
+    const prompt = this.buildPrompt(violation, learning);
+
+    // 4.5. Prompt size guard — prevent OS arg length limit failures
+    if (prompt.length > MAX_PROMPT_LENGTH) {
+      this.log('warn', 'prompt-too-large', {
+        violationId: violation.id,
+        promptLength: prompt.length,
+        maxLength: MAX_PROMPT_LENGTH,
+      });
+      return null;
+    }
+
+    try {
+      const raw = await this.spawnClaude(prompt);
+      const parsed = this.parseResponse(raw);
+
+      if (!parsed) {
+        this.recordFailure('Invalid response from Claude');
+        return null;
+      }
+
+      const latencyMs = Date.now() - startTime;
+      const result: ClaudeDecisionResult = {
+        ...parsed,
+        source: 'claude-code',
+        latencyMs,
+      };
+
+      // Cache the result
+      this.responseCache.set(cacheKey, result);
+      this.recordSuccess();
+      this.metricsTracker.recordSuccess(latencyMs);
+
+      this.log('info', 'decision', {
+        violationId: violation.id,
+        action: result.action,
+        confidence: result.confidence,
+        latencyMs,
+        source: 'claude-code',
+        circuitState: this.circuit.isOpen ? 'open' : 'closed',
+      });
+
+      return result;
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : String(error);
+      this.recordFailure(msg);
+      this.metricsTracker.recordFailure();
+      this.log('error', 'decision-failed', { violationId: violation.id, error: msg });
+      return null;
+    }
   }
 
   /**
-   * Get current health status for monitoring/dashboards.
+   * Validate that Claude CLI is installed and authenticated.
+   * Call once on daemon startup.
+   */
+  async validateSetup(): Promise<{
+    installed: boolean;
+    authenticated: boolean;
+    version: string;
+  }> {
+    const result = { installed: false, authenticated: false, version: '' };
+
+    try {
+      const versionOutput = await this.spawnProcess('claude', ['--version']);
+      result.installed = true;
+      result.version = versionOutput.trim().split('\n')[0];
+      this._cliInstalled = true;
+      this._cliVersion = result.version;
+    } catch {
+      this._cliInstalled = false;
+      this.log('error', 'cli-not-found', {
+        hint: 'Install Claude Code CLI: npm install -g @anthropic-ai/claude-code',
+      });
+      return result;
+    }
+
+    try {
+      const authOutput = await this.spawnProcess('claude', ['auth', 'status']);
+      result.authenticated = !authOutput.toLowerCase().includes('not authenticated');
+      this._cliAuthenticated = result.authenticated;
+
+      if (!result.authenticated) {
+        this.log('warn', 'cli-not-authenticated', {
+          hint: 'Run: claude auth login',
+        });
+      }
+    } catch {
+      // auth status command may not exist in all versions - treat as authenticated
+      result.authenticated = true;
+      this._cliAuthenticated = true;
+    }
+
+    this.log('info', 'setup-validated', result);
+    return result;
+  }
+
+  /**
+   * Get current health status.
    */
   getHealth(): ClaudeAdapterHealth {
     return {
@@ -212,29 +603,116 @@ export class ClaudeCodeAdapter {
       circuitOpen: this.circuit.isOpen,
       lastError: this.lastError,
       lastSuccessTime: this.lastSuccessTime,
+      cliInstalled: this._cliInstalled,
+      cliAuthenticated: this._cliAuthenticated,
+      cliVersion: this._cliVersion,
     };
+  }
+
+  /**
+   * Get adapter metrics.
+   */
+  getMetrics(): AdapterMetrics {
+    return this.metricsTracker.getMetrics();
   }
 
   /**
    * Manually reset the circuit breaker.
-   * Useful for testing or forced recovery.
    */
   resetCircuit(): void {
-    this.circuit = {
-      failures: 0,
-      lastFailure: 0,
-      isOpen: false,
-    };
+    this.circuit = { failures: 0, lastFailure: 0, isOpen: false };
     this.lastError = undefined;
   }
 
+  /**
+   * Clear response cache.
+   */
+  clearCache(): void {
+    this.responseCache.clear();
+  }
+
+  /**
+   * Reset metrics.
+   */
+  resetMetrics(): void {
+    this.metricsTracker.reset();
+  }
+
   // ============================================================================
-  // PRIVATE METHODS
+  // PRIVATE: SPAWN (FIX #1 + #2: No shell, truly async)
   // ============================================================================
 
   /**
-   * Build the prompt for Claude.
+   * Spawn claude CLI as a child process. Array args = no shell = no injection.
+   * Returns a Promise that resolves with stdout or rejects on error/timeout.
    */
+  private spawnClaude(prompt: string): Promise<string> {
+    return this.spawnProcess('claude', ['-p', prompt, '--output-format', 'json']);
+  }
+
+  private spawnProcess(command: string, args: string[]): Promise<string> {
+    return new Promise((resolve, reject) => {
+      let stdout = '';
+      let stderr = '';
+      let settled = false;
+
+      const child = spawn(command, args, {
+        stdio: ['pipe', 'pipe', 'pipe'],
+        windowsHide: true,
+        shell: false, // Explicit: no shell
+      });
+
+      // Timeout guard
+      const timer = setTimeout(() => {
+        if (!settled) {
+          settled = true;
+          child.kill('SIGTERM');
+          // Give 2s for graceful shutdown, then force kill
+          setTimeout(() => {
+            try {
+              child.kill('SIGKILL');
+            } catch {
+              /* already dead */
+            }
+          }, 2000);
+          reject(new Error(`Timeout: process did not exit within ${this.timeoutMs}ms`));
+        }
+      }, this.timeoutMs);
+
+      child.stdout?.on('data', (chunk: Buffer) => {
+        stdout += chunk.toString();
+      });
+
+      child.stderr?.on('data', (chunk: Buffer) => {
+        stderr += chunk.toString();
+      });
+
+      child.on('error', err => {
+        if (!settled) {
+          settled = true;
+          clearTimeout(timer);
+          reject(err);
+        }
+      });
+
+      child.on('close', code => {
+        if (!settled) {
+          settled = true;
+          clearTimeout(timer);
+          if (code === 0) {
+            resolve(stdout);
+          } else {
+            reject(new Error(`Process exited with code ${code}: ${stderr.substring(0, 500)}`));
+          }
+        }
+      });
+    });
+  }
+
+  // ============================================================================
+  // PRIVATE: PROMPT BUILDING
+  // ============================================================================
+
   private buildPrompt(violation: Violation, learning: PatternLearning | null): string {
     const severityMap: Record<number, string> = {
       1: 'low',
@@ -278,15 +756,15 @@ RESPOND WITH JSON ONLY (no markdown, no explanation):
 }`;
   }
 
-  /**
-   * Parse Claude's JSON response.
-   */
-  private parseResponse(raw: string): ClaudeDecisionResult | null {
+  // ============================================================================
+  // PRIVATE: RESPONSE PARSING (FIX #7: Zod validation)
+  // ============================================================================
+
+  private parseResponse(raw: string): Omit<ClaudeDecisionResult, 'source' | 'latencyMs'> | null {
     try {
-      // Claude may wrap response in markdown code blocks - extract JSON
       let jsonStr = raw.trim();
 
-      // Remove markdown code block if present
+      // Strip markdown code blocks if present
       const jsonMatch = jsonStr.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
       if (jsonMatch) {
         jsonStr = jsonMatch[1].trim();
@@ -294,35 +772,39 @@ RESPOND WITH JSON ONLY (no markdown, no explanation):
 
       const parsed = JSON.parse(jsonStr);
 
-      // Validate required fields
-      if (!parsed.action || typeof parsed.confidence !== 'number') {
-        throw new Error('Invalid response structure: missing action or confidence');
-      }
+      // Zod validates structure + types + ranges
+      const validated = ClaudeResponseSchema.parse(parsed);
 
-      // Map Claude actions to standard governance actions if needed
-      const action = this.normalizeAction(parsed.action);
+      const action = this.normalizeAction(validated.action);
 
-      const reasoning = parsed.reasoning || '';
       return {
         action,
-        confidence: Math.min(1, Math.max(0, parsed.confidence)),
-        reason: reasoning,
-        reasoning: reasoning,
-        parameters: parsed.parameters || {},
-        source: 'claude-code',
+        confidence: validated.confidence,
+        reasoning: validated.reasoning,
+        parameters: validated.parameters,
       };
     } catch (error) {
-      console.error('[ClaudeAdapter] Failed to parse response:', error);
-      console.error('[ClaudeAdapter] Raw response:', raw.substring(0, 500));
+      if (error instanceof z.ZodError) {
+        this.log('error', 'response-validation-failed', {
+          zodErrors: error.errors.map(e => `${e.path.join('.')}: ${e.message}`),
+          rawPrefix: raw.substring(0, 200),
+        });
+      } else {
+        this.log('error', 'response-parse-failed', {
+          error: error instanceof Error ? error.message : String(error),
+          rawPrefix: raw.substring(0, 200),
+        });
+      }
       return null;
     }
   }
 
-  /**
-   * Normalize action names to match governance system.
-   */
+  // ============================================================================
+  // PRIVATE: ACTION NORMALIZATION
+  // ============================================================================
+
   private normalizeAction(action: string): ClaudeDecisionResult['action'] {
-    const normalizedActions: Record<string, ClaudeDecisionResult['action']> = {
+    const normalized: Record<string, ClaudeDecisionResult['action']> = {
       'alert-human': 'alert-human',
       alert: 'alert-human',
       'auto-fix': 'auto-fix',
@@ -337,26 +819,13 @@ RESPOND WITH JSON ONLY (no markdown, no explanation):
       quarantine: 'isolate',
     };
 
-    const normalized = normalizedActions[action.toLowerCase()];
-    return normalized || 'alert-human'; // Default to safest action
+    return normalized[action.toLowerCase()] || 'alert-human';
   }
 
-  /**
-   * Escape prompt for shell execution.
-   */
-  private escapePrompt(prompt: string): string {
-    return prompt
-      .replace(/\\/g, '\\\\')
-      .replace(/"/g, '\\"')
-      .replace(/\n/g, '\\n')
-      .replace(/\r/g, '')
-      .replace(/\$/g, '\\$')
-      .replace(/`/g, '\\`');
-  }
+  // ============================================================================
+  // PRIVATE: PATTERN DETECTION
+  // ============================================================================
 
-  /**
-   * Check if a pattern is considered complex.
-   */
   private isComplexPattern(pattern: string): boolean {
     const complexPatterns = [
       'sql_injection',
@@ -369,40 +838,46 @@ RESPOND WITH JSON ONLY (no markdown, no explanation):
       'insecure_deserialization',
     ];
 
-    // Normalize both sides by removing underscores for comparison
     const normalizedInput = pattern.toLowerCase().replace(/_/g, '');
     return complexPatterns.some(p => normalizedInput.includes(p.replace(/_/g, '')));
   }
 
   /**
-   * Check if circuit breaker is open.
+   * Validate that a violation object has required fields with correct types.
+   * Prevents crashes on null/undefined/garbage input.
    */
+  private isValidViolation(violation: Violation): boolean {
+    if (!violation || typeof violation !== 'object') return false;
+    if (typeof violation.id !== 'string' || violation.id.length === 0) return false;
+    if (typeof violation.pattern !== 'string') return false;
+    if (typeof violation.confidence !== 'number' || isNaN(violation.confidence)) return false;
+    if (typeof violation.tier !== 'number') return false;
+    return true;
+  }
+
+  // ============================================================================
+  // PRIVATE: CIRCUIT BREAKER
+  // ============================================================================
+
   private isCircuitOpen(): boolean {
     if (!this.circuit.isOpen) return false;
 
-    // Check if cooldown has passed
     if (Date.now() - this.circuit.lastFailure > this.cooldownMs) {
       this.circuit.isOpen = false;
       this.circuit.failures = 0;
-      console.info('[ClaudeAdapter] Circuit CLOSED - cooldown expired, retrying');
+      this.log('info', 'circuit-closed', { reason: 'cooldown-expired' });
       return false;
     }
 
     return true;
   }
 
-  /**
-   * Record a successful call.
-   */
   private recordSuccess(): void {
     this.circuit.failures = Math.max(0, this.circuit.failures - 1);
     this.lastSuccessTime = Date.now();
     this.lastError = undefined;
   }
 
-  /**
-   * Record a failed call.
-   */
   private recordFailure(errorMessage: string): void {
     this.circuit.failures++;
     this.circuit.lastFailure = Date.now();
@@ -410,10 +885,26 @@ RESPOND WITH JSON ONLY (no markdown, no explanation):
 
     if (this.circuit.failures >= this.maxFailures) {
       this.circuit.isOpen = true;
-      console.warn(
-        `[ClaudeAdapter] Circuit OPEN - ${this.circuit.failures} failures. Falling back to rules for ${this.cooldownMs / 1000}s`
-      );
+      this.metricsTracker.recordCircuitOpen();
+      this.log('warn', 'circuit-opened', {
+        failures: this.circuit.failures,
+        cooldownMs: this.cooldownMs,
+      });
     }
+  }
+
+  // ============================================================================
+  // PRIVATE: STRUCTURED LOGGING (FIX #3)
+  // ============================================================================
+
+  private log(level: LogEntry['level'], event: string, data?: Record<string, unknown>): void {
+    this.logger.log({
+      timestamp: Date.now(),
+      level,
+      component: 'ClaudeAdapter',
+      event,
+      data,
+    });
   }
 }
 
@@ -421,30 +912,30 @@ RESPOND WITH JSON ONLY (no markdown, no explanation):
 // FACTORY FUNCTION
 // ============================================================================
 
-/**
- * GovernanceConfig type (minimal interface to avoid circular dependency)
- */
 interface GovernanceConfigLike {
   readonly experimentalStrategies?: Readonly<Record<string, unknown>>;
 }
 
 /**
  * Create a ClaudeCodeAdapter from governance config.
- *
- * @param config - Governance configuration object (any object with experimentalStrategies)
- * @returns Configured adapter instance
  */
-export function createClaudeCodeAdapter(config?: {
-  experimentalStrategies?: Record<string, unknown>;
-}): ClaudeCodeAdapter {
+export function createClaudeCodeAdapter(
+  config?: { experimentalStrategies?: Record<string, unknown> },
+  logger?: AdapterLogger
+): ClaudeCodeAdapter {
   const claudeConfig = config?.experimentalStrategies;
   const claudeCodeConfig = claudeConfig?.claudeCode as ClaudeCodeConfig | undefined;
 
-  return new ClaudeCodeAdapter({
-    enabled: claudeCodeConfig?.enabled ?? false,
-    timeoutMs: claudeCodeConfig?.timeoutMs ?? DEFAULT_TIMEOUT_MS,
-    maxFailures: claudeCodeConfig?.maxFailures ?? DEFAULT_MAX_FAILURES,
-    cooldownMs: claudeCodeConfig?.cooldownMs ?? DEFAULT_COOLDOWN_MS,
-    minSeverity: claudeCodeConfig?.minSeverity ?? 'high',
-  });
+  return new ClaudeCodeAdapter(
+    {
+      enabled: claudeCodeConfig?.enabled ?? false,
+      timeoutMs: claudeCodeConfig?.timeoutMs ?? DEFAULT_TIMEOUT_MS,
+      maxFailures: claudeCodeConfig?.maxFailures ?? DEFAULT_MAX_FAILURES,
+      cooldownMs: claudeCodeConfig?.cooldownMs ?? DEFAULT_COOLDOWN_MS,
+      minSeverity: claudeCodeConfig?.minSeverity ?? 'high',
+      maxCallsPerSecond: claudeCodeConfig?.maxCallsPerSecond ?? DEFAULT_MAX_CALLS_PER_SECOND,
+      cacheTtlMs: claudeCodeConfig?.cacheTtlMs ?? DEFAULT_CACHE_TTL_MS,
+    },
+    logger
+  );
 }

@@ -7,17 +7,23 @@
 
 import { EventEmitter } from 'events';
 import { v4 as uuid } from 'uuid';
-import { StreamEvent, StreamEventType, AgentProgressEvent, AgentCompleteEvent, BuildProgressEvent } from './types';
+import {
+  StreamEvent,
+  StreamEventType,
+  AgentProgressEvent,
+  AgentCompleteEvent,
+  BuildProgressEvent,
+} from './types';
 import { StreamController } from './stream-controller';
 import { PriorityBackpressureController } from './backpressure';
 import { SSEEncoder } from './sse-encoder';
 
-export interface MultiplexedEvent extends StreamEvent {
+export type MultiplexedEvent = StreamEvent & {
   /** Source stream/channel ID */
   channelId: string;
   /** Channel name (e.g., agent name) */
   channelName?: string;
-}
+};
 
 export interface ChannelConfig {
   /** Channel ID */
@@ -43,12 +49,15 @@ export interface MultiplexerMetrics {
  */
 export class StreamMultiplexer extends EventEmitter {
   private id: string;
-  private channels: Map<string, {
-    config: ChannelConfig;
-    controller: StreamController;
-    eventCount: number;
-    lastEventTime: number;
-  }> = new Map();
+  private channels: Map<
+    string,
+    {
+      config: ChannelConfig;
+      controller: StreamController;
+      eventCount: number;
+      lastEventTime: number;
+    }
+  > = new Map();
   private backpressure: PriorityBackpressureController;
   private encoder: SSEEncoder;
   private totalEvents: number = 0;
@@ -65,7 +74,7 @@ export class StreamMultiplexer extends EventEmitter {
     // Forward backpressure events
     this.backpressure.on('pause', () => this.emit('backpressure:pause'));
     this.backpressure.on('resume', () => this.emit('backpressure:resume'));
-    this.backpressure.on('drop', (event) => this.emit('backpressure:drop', event));
+    this.backpressure.on('drop', event => this.emit('backpressure:drop', event));
   }
 
   /**
@@ -89,7 +98,7 @@ export class StreamMultiplexer extends EventEmitter {
     });
 
     // Subscribe to channel events
-    controller.subscribe((event) => {
+    controller.subscribe(event => {
       this.handleChannelEvent(config.id, event);
     });
 
@@ -162,12 +171,14 @@ export class StreamMultiplexer extends EventEmitter {
    * Check if event is high priority
    */
   private isPriorityEvent(event: StreamEvent): boolean {
-    return event.type === 'stream:error' ||
-           event.type === 'stream:complete' ||
-           event.type === 'agent:error' ||
-           event.type === 'agent:complete' ||
-           event.type === 'build:complete' ||
-           event.type === 'build:error';
+    return (
+      event.type === 'stream:error' ||
+      event.type === 'stream:complete' ||
+      event.type === 'agent:error' ||
+      event.type === 'agent:complete' ||
+      event.type === 'build:complete' ||
+      event.type === 'build:error'
+    );
   }
 
   /**
@@ -237,7 +248,7 @@ export class StreamMultiplexer extends EventEmitter {
       },
       cancel() {
         self.stop();
-      }
+      },
     });
   }
 
@@ -270,9 +281,7 @@ export class StreamMultiplexer extends EventEmitter {
       totalProgress += progress;
     }
 
-    const overallProgress = this.channels.size > 0
-      ? totalProgress / this.channels.size
-      : 0;
+    const overallProgress = this.channels.size > 0 ? totalProgress / this.channels.size : 0;
 
     return {
       overallProgress,

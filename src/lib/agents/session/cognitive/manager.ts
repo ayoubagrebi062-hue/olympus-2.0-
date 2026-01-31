@@ -1,12 +1,6 @@
 import { createHash } from 'crypto';
 import { CognitiveEngine } from './engine';
-import {
-  CognitiveSession,
-  BuildRecord,
-  UserIdentity,
-  Learning,
-  StackPreferences,
-} from './types';
+import { CognitiveSession, BuildRecord, UserIdentity, Learning, StackPreferences } from './types';
 import { trackError } from '@/lib/observability/error-tracker';
 import {
   RELEVANCE_DECAY_PER_DAY,
@@ -59,9 +53,7 @@ export class CognitiveSessionManager {
    * Generate access token for a user session
    */
   generateAccessToken(userId: string, secret: string): string {
-    const hash = createHash('sha256')
-      .update(`${userId}:${secret}:${Date.now()}`)
-      .digest('hex');
+    const hash = createHash('sha256').update(`${userId}:${secret}:${Date.now()}`).digest('hex');
 
     this.accessTokens.set(hash, {
       userId,
@@ -186,7 +178,9 @@ export class CognitiveSessionManager {
     // Check rate limit
     const rateCheck = checkRateLimitForUser(safeUserId, 'BUILDS_PER_MINUTE');
     if (!rateCheck.allowed) {
-      throw new Error(`Rate limited. Retry after ${Math.ceil((rateCheck.retryAfterMs || 0) / 1000)}s`);
+      throw new Error(
+        `Rate limited. Retry after ${Math.ceil((rateCheck.retryAfterMs || 0) / 1000)}s`
+      );
     }
 
     // Validate build input
@@ -276,7 +270,9 @@ export class CognitiveSessionManager {
     // Check rate limit
     const rateCheck = checkRateLimitForUser(safeUserId, 'PREFERENCES_PER_MINUTE');
     if (!rateCheck.allowed) {
-      throw new Error(`Rate limited. Retry after ${Math.ceil((rateCheck.retryAfterMs || 0) / 1000)}s`);
+      throw new Error(
+        `Rate limited. Retry after ${Math.ceil((rateCheck.retryAfterMs || 0) / 1000)}s`
+      );
     }
 
     // Validate input
@@ -337,7 +333,9 @@ export class CognitiveSessionManager {
     // Check rate limit
     const rateCheck = checkRateLimitForUser(safeUserId, 'FEEDBACK_PER_MINUTE');
     if (!rateCheck.allowed) {
-      throw new Error(`Rate limited. Retry after ${Math.ceil((rateCheck.retryAfterMs || 0) / 1000)}s`);
+      throw new Error(
+        `Rate limited. Retry after ${Math.ceil((rateCheck.retryAfterMs || 0) / 1000)}s`
+      );
     }
 
     // Validate input
@@ -404,11 +402,7 @@ export class CognitiveSessionManager {
   /**
    * Verify a prediction (track accuracy)
    */
-  async verifyPrediction(
-    userId: string,
-    predictionId: string,
-    wasCorrect: boolean
-  ): Promise<void> {
+  async verifyPrediction(userId: string, predictionId: string, wasCorrect: boolean): Promise<void> {
     const { session, engine } = await this.getSession(userId);
 
     const prediction = session.predictions.find(p => p.id === predictionId);
@@ -419,7 +413,9 @@ export class CognitiveSessionManager {
       engine.recordEvolution(
         'prediction_quality',
         prediction.confidence,
-        wasCorrect ? Math.min(1, prediction.confidence + 0.05) : Math.max(0, prediction.confidence - 0.1),
+        wasCorrect
+          ? Math.min(1, prediction.confidence + 0.05)
+          : Math.max(0, prediction.confidence - 0.1),
         `Prediction ${wasCorrect ? 'correct' : 'incorrect'}: ${prediction.type}`,
         wasCorrect ? 0.1 : -0.1
       );
@@ -442,15 +438,19 @@ export class CognitiveSessionManager {
     const now = Date.now();
     for (const learning of session.learnings) {
       const ageInDays = (now - learning.learnedAt.getTime()) / (1000 * 60 * 60 * 24);
-      learning.relevance = Math.max(MIN_RELEVANCE_TO_KEEP, learning.relevance - (ageInDays * RELEVANCE_DECAY_PER_DAY));
+      learning.relevance = Math.max(
+        MIN_RELEVANCE_TO_KEEP,
+        learning.relevance - ageInDays * RELEVANCE_DECAY_PER_DAY
+      );
     }
 
     // Remove expired predictions - keep only actionable predictions
     session.predictions = session.predictions.filter(p => p.expiresAt > new Date());
 
     // Prune learnings that are both low-relevance AND rarely used
-    session.learnings = session.learnings.filter(l =>
-      l.relevance > MIN_RELEVANCE_TO_KEEP || l.applicationCount > MIN_APPLICATIONS_TO_KEEP
+    session.learnings = session.learnings.filter(
+      (l: Learning) =>
+        l.relevance > MIN_RELEVANCE_TO_KEEP || l.applicationCount > MIN_APPLICATIONS_TO_KEEP
     );
 
     session.lastUpdated = new Date();
@@ -475,27 +475,30 @@ export class CognitiveSessionManager {
   }> {
     const { session, engine } = await this.getSession(userId);
 
-    const successfulBuilds = session.builds.filter(b => b.success);
-    const totalTokens = session.builds.reduce((sum, b) => sum + b.totalTokens, 0);
-    const totalCost = session.builds.reduce((sum, b) => sum + b.totalCost, 0);
-    const totalTime = session.builds.reduce((sum, b) => sum + b.totalDuration, 0);
+    const successfulBuilds = session.builds.filter((b: BuildRecord) => b.success);
+    const totalTokens = session.builds.reduce(
+      (sum: number, b: BuildRecord) => sum + b.totalTokens,
+      0
+    );
+    const totalCost = session.builds.reduce((sum: number, b: BuildRecord) => sum + b.totalCost, 0);
+    const totalTime = session.builds.reduce(
+      (sum: number, b: BuildRecord) => sum + b.totalDuration,
+      0
+    );
 
     return {
       identity: session.identity,
       stats: {
         totalBuilds: session.builds.length,
-        successRate: session.builds.length > 0
-          ? successfulBuilds.length / session.builds.length
-          : 0,
-        averageBuildTime: session.builds.length > 0
-          ? totalTime / session.builds.length
-          : 0,
+        successRate:
+          session.builds.length > 0 ? successfulBuilds.length / session.builds.length : 0,
+        averageBuildTime: session.builds.length > 0 ? totalTime / session.builds.length : 0,
         totalTokensUsed: totalTokens,
         totalCost: totalCost,
       },
       topLearnings: session.learnings
-        .filter(l => l.confidence > 0.6)
-        .sort((a, b) => b.relevance - a.relevance)
+        .filter((l: Learning) => l.confidence > 0.6)
+        .sort((a: Learning, b: Learning) => b.relevance - a.relevance)
         .slice(0, 5),
       evolution: engine.getEvolutionSummary(),
       predictions: session.predictions.filter(p => p.expiresAt > new Date()),
@@ -545,14 +548,12 @@ export class CognitiveSessionManager {
   /**
    * Add domain expertise
    */
-  async addDomainExpertise(
-    userId: string,
-    domain: string,
-    proficiency: number
-  ): Promise<void> {
+  async addDomainExpertise(userId: string, domain: string, proficiency: number): Promise<void> {
     const { session } = await this.getSession(userId);
 
-    const existing = session.identity.domainExpertise.find(d => d.domain === domain);
+    const existing = session.identity.domainExpertise.find(
+      (d: { domain: string; proficiency: number; projectCount: number }) => d.domain === domain
+    );
     if (existing) {
       existing.proficiency = proficiency;
       existing.projectCount++;
