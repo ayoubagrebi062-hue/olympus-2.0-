@@ -147,6 +147,20 @@ export const DEFAULT_TRIPWIRES: TripwireConfig[] = [
     action: 'block',
     priority: 1,
   },
+  // FIX 2.2 (Jan 31, 2026): IPv6 SSRF patterns - bypasses IPv4 filters
+  {
+    name: 'ssrf-ipv6-localhost',
+    pattern: /(?:https?:\/\/)?\[?(?:::1|::ffff:127\.0\.0\.1|0:0:0:0:0:0:0:1)\]?(?::\d+)?/i,
+    action: 'block',
+    priority: 1,
+  },
+  {
+    name: 'ssrf-ipv6-internal',
+    pattern:
+      /(?:https?:\/\/)?\[?(?:fe80::|fc00::|fd[0-9a-f]{2}:|::ffff:(?:10\.|192\.168\.|172\.(?:1[6-9]|2\d|3[01])))/i,
+    action: 'block',
+    priority: 1,
+  },
   {
     name: 'ssrf-cloud-metadata',
     pattern: /169\.254\.169\.254|metadata\.google\.internal|169\.254\.170\.2/i,
@@ -285,14 +299,39 @@ export class TripwireSystem {
     };
   }
 
+  // FIX 2.3 (Jan 31, 2026): ReDoS protection constants
+  private static readonly MAX_INPUT_LENGTH = 100000; // 100KB max for regex matching
+  private static readonly REGEX_WARN_THRESHOLD_MS = 50; // Warn if regex takes >50ms
+
   /**
    * Check a single tripwire against input.
+   * FIX 2.3: Added ReDoS protection with input limits and timing warnings.
+   *
+   * Note: Function-based patterns receive ORIGINAL input (for length checks).
+   *       Regex patterns receive TRUNCATED input (for ReDoS protection).
    */
   private checkTripwire(tripwire: TripwireConfig, input: string): TripwireResult {
     const { name, pattern, action } = tripwire;
 
     if (pattern instanceof RegExp) {
-      const match = input.match(pattern);
+      // FIX 2.3: ReDoS protection - limit input length for regex only
+      const safeInput =
+        input.length > TripwireSystem.MAX_INPUT_LENGTH
+          ? input.substring(0, TripwireSystem.MAX_INPUT_LENGTH)
+          : input;
+
+      // FIX 2.3: Track regex execution time for ReDoS detection
+      const startTime = performance.now();
+      const match = safeInput.match(pattern);
+      const execTime = performance.now() - startTime;
+
+      // Warn on slow regexes (potential ReDoS vulnerability)
+      if (execTime > TripwireSystem.REGEX_WARN_THRESHOLD_MS) {
+        console.warn(
+          `[TRIPWIRE ReDoS WARNING] Pattern '${name}' took ${execTime.toFixed(2)}ms on ${safeInput.length} chars`
+        );
+      }
+
       if (match) {
         return {
           triggered: true,
@@ -308,8 +347,20 @@ export class TripwireSystem {
         };
       }
     } else if (typeof pattern === 'function') {
+      // Function-based patterns receive ORIGINAL input
+      // (needed for length checks like excessive-length tripwire)
       try {
-        if (pattern(input)) {
+        const startTime = performance.now();
+        const result = pattern(input); // Use original input, not truncated
+        const execTime = performance.now() - startTime;
+
+        if (execTime > TripwireSystem.REGEX_WARN_THRESHOLD_MS) {
+          console.warn(
+            `[TRIPWIRE ReDoS WARNING] Function '${name}' took ${execTime.toFixed(2)}ms on ${input.length} chars`
+          );
+        }
+
+        if (result) {
           return {
             triggered: true,
             action,

@@ -31,26 +31,189 @@ function getConfig(): WireConfig {
 }
 
 // ════════════════════════════════════════════════════════════════════════════════
-// RATE LIMITING (Now uses externalized config)
+// RATE LIMITER CLASS (FIX A.3: Jan 31, 2026 - Commander Investigation)
+// Replaces module-global state with class instance to prevent race conditions
+// under concurrent load. Each instance maintains isolated state.
 // ════════════════════════════════════════════════════════════════════════════════
 
-let lastRequestTime = 0;
+/**
+ * Circuit breaker configuration interface.
+ */
+interface CircuitBreakerConfig {
+  failureThreshold: number;
+  resetTimeoutMs: number;
+  halfOpenMaxAttempts: number;
+}
 
-async function waitForRateLimit(): Promise<void> {
-  const config = getConfig();
-  const minDelayMs = config.rateLimit.minDelayMs;
-  const now = Date.now();
-  const timeSinceLastRequest = now - lastRequestTime;
+/**
+ * Rate limiter with integrated circuit breaker.
+ * FIX A.3: Class-based to prevent race conditions from module-global state.
+ *
+ * @example
+ * const limiter = new RateLimiter();
+ * await limiter.waitForSlot();
+ * try {
+ *   const result = await apiCall();
+ *   limiter.recordSuccess();
+ * } catch (e) {
+ *   limiter.recordFailure();
+ *   throw e;
+ * }
+ */
+export class RateLimiter {
+  private lastRequestTime = 0;
+  private failures = 0;
+  private lastFailure = 0;
+  private state: 'CLOSED' | 'OPEN' | 'HALF_OPEN' = 'CLOSED';
+  private readonly config: CircuitBreakerConfig;
+  private readonly instanceId: string;
 
-  if (timeSinceLastRequest < minDelayMs && lastRequestTime > 0) {
-    const waitTime = minDelayMs - timeSinceLastRequest;
-    if (config.debug) {
-      console.log(`   [RATE LIMIT] Waiting ${waitTime}ms...`);
-    }
-    await new Promise(resolve => setTimeout(resolve, waitTime));
+  constructor(config?: Partial<CircuitBreakerConfig>) {
+    this.config = {
+      failureThreshold: config?.failureThreshold ?? 3,
+      resetTimeoutMs: config?.resetTimeoutMs ?? 30000,
+      halfOpenMaxAttempts: config?.halfOpenMaxAttempts ?? 1,
+    };
+    this.instanceId = Math.random().toString(36).substring(2, 8);
   }
 
-  lastRequestTime = Date.now();
+  /**
+   * Check if circuit breaker allows request.
+   * @throws Error if circuit is OPEN and not ready for retry
+   */
+  private checkCircuitBreaker(): void {
+    const now = Date.now();
+
+    if (this.state === 'OPEN') {
+      if (now - this.lastFailure > this.config.resetTimeoutMs) {
+        this.state = 'HALF_OPEN';
+        console.log(`[CIRCUIT:${this.instanceId}] Transitioning to HALF_OPEN`);
+      } else {
+        const remainingMs = this.config.resetTimeoutMs - (now - this.lastFailure);
+        throw new Error(
+          `Circuit breaker OPEN - service unavailable. Retry in ${Math.ceil(remainingMs / 1000)}s`
+        );
+      }
+    }
+  }
+
+  /**
+   * Wait for rate limit slot and check circuit breaker.
+   */
+  async waitForSlot(): Promise<void> {
+    this.checkCircuitBreaker();
+
+    const wireConfig = getConfig();
+    const minDelayMs = wireConfig.rateLimit.minDelayMs;
+    const now = Date.now();
+    const timeSinceLastRequest = now - this.lastRequestTime;
+
+    if (timeSinceLastRequest < minDelayMs && this.lastRequestTime > 0) {
+      const waitTime = minDelayMs - timeSinceLastRequest;
+      if (wireConfig.debug) {
+        console.log(`[RATE:${this.instanceId}] Waiting ${waitTime}ms...`);
+      }
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+    }
+
+    this.lastRequestTime = Date.now();
+  }
+
+  /**
+   * Record a successful request - resets circuit breaker.
+   */
+  recordSuccess(): void {
+    if (this.state === 'HALF_OPEN') {
+      console.log(`[CIRCUIT:${this.instanceId}] Success in HALF_OPEN - closing circuit`);
+    }
+    this.failures = 0;
+    this.state = 'CLOSED';
+  }
+
+  /**
+   * Record a failed request - may open circuit breaker.
+   */
+  recordFailure(): void {
+    this.failures++;
+    this.lastFailure = Date.now();
+
+    if (this.failures >= this.config.failureThreshold) {
+      this.state = 'OPEN';
+      console.error(
+        `[CIRCUIT:${this.instanceId}] OPEN after ${this.failures} failures - ` +
+          `blocking for ${this.config.resetTimeoutMs / 1000}s`
+      );
+    }
+  }
+
+  /**
+   * Get current status for monitoring/debugging.
+   */
+  getStatus(): {
+    instanceId: string;
+    state: string;
+    failures: number;
+    canRequest: boolean;
+    lastRequestTime: number;
+  } {
+    const now = Date.now();
+    const canRequest = this.state !== 'OPEN' || now - this.lastFailure > this.config.resetTimeoutMs;
+
+    return {
+      instanceId: this.instanceId,
+      state: this.state,
+      failures: this.failures,
+      canRequest,
+      lastRequestTime: this.lastRequestTime,
+    };
+  }
+
+  /**
+   * Reset the rate limiter to initial state (for testing).
+   */
+  reset(): void {
+    this.lastRequestTime = 0;
+    this.failures = 0;
+    this.lastFailure = 0;
+    this.state = 'CLOSED';
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════════════════
+// DEFAULT INSTANCE (backward compatibility)
+// New code should create its own RateLimiter instance for isolation.
+// ════════════════════════════════════════════════════════════════════════════════
+
+const defaultRateLimiter = new RateLimiter();
+
+/**
+ * Get circuit breaker status (backward compatible).
+ * @deprecated Use new RateLimiter().getStatus() for new code.
+ */
+export function getCircuitBreakerStatus(): {
+  state: string;
+  failures: number;
+  canRequest: boolean;
+} {
+  const status = defaultRateLimiter.getStatus();
+  return {
+    state: status.state,
+    failures: status.failures,
+    canRequest: status.canRequest,
+  };
+}
+
+// Legacy wrapper functions for backward compatibility
+function recordSuccess(): void {
+  defaultRateLimiter.recordSuccess();
+}
+
+function recordFailure(): void {
+  defaultRateLimiter.recordFailure();
+}
+
+async function waitForRateLimit(): Promise<void> {
+  await defaultRateLimiter.waitForSlot();
 }
 
 // ════════════════════════════════════════════════════════════════════════════════
@@ -239,8 +402,12 @@ async function wireGeneratorDirect(prompt: string): Promise<string> {
     }
 
     // Clean up code - remove markdown code blocks if present
+    // CIRCUIT BREAKER: Record success - resets failure count
+    recordSuccess();
     return cleanCodeOutput(code);
   } catch (error) {
+    // CIRCUIT BREAKER: Record failure - may open circuit after threshold
+    recordFailure();
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error(`   [WIRE] Generation failed:`, errorMessage);
     throw error;
@@ -249,20 +416,67 @@ async function wireGeneratorDirect(prompt: string): Promise<string> {
 
 /**
  * Clean markdown artifacts from generated code
+ * HARDENED (FIX: WIRE Analysis Jan 31, 2026)
+ * - Handles nested markdown blocks
+ * - Handles multiple code fences
+ * - Preserves internal code structure
  */
 function cleanCodeOutput(code: string): string {
-  let cleaned = code;
+  let cleaned = code.trim();
 
-  // Remove ```typescript or ```tsx at start
-  cleaned = cleaned.replace(/^```(?:typescript|tsx|javascript|jsx)?\n?/i, '');
+  // Pattern 1: Full markdown wrapper (most common LLM output)
+  // Matches: ```typescript\n...\n``` or ```tsx\n...\n```
+  const fullBlockMatch = cleaned.match(
+    /^```(?:typescript|tsx|javascript|jsx|ts|js)?\s*\n([\s\S]*?)\n```\s*$/i
+  );
+  if (fullBlockMatch) {
+    cleaned = fullBlockMatch[1];
+  } else {
+    // Pattern 2: Opening fence at start (no closing or partial)
+    cleaned = cleaned.replace(/^```(?:typescript|tsx|javascript|jsx|ts|js)?\s*\n?/i, '');
 
-  // Remove ``` at end
-  cleaned = cleaned.replace(/\n?```$/i, '');
+    // Pattern 3: Closing fence at end
+    cleaned = cleaned.replace(/\n?```\s*$/i, '');
+  }
 
-  // Remove any leading/trailing whitespace
-  cleaned = cleaned.trim();
+  // Pattern 4: Nested blocks - LLM sometimes wraps code in multiple layers
+  // Check if result still starts with a code fence (nested case)
+  let iterations = 0;
+  const maxIterations = 3; // Prevent infinite loops
+  while (
+    iterations < maxIterations &&
+    /^```(?:typescript|tsx|javascript|jsx|ts|js)?\s*\n/i.test(cleaned)
+  ) {
+    const nestedMatch = cleaned.match(
+      /^```(?:typescript|tsx|javascript|jsx|ts|js)?\s*\n([\s\S]*?)\n```\s*$/i
+    );
+    if (nestedMatch) {
+      cleaned = nestedMatch[1];
+    } else {
+      break;
+    }
+    iterations++;
+  }
 
-  return cleaned;
+  // Pattern 5: Remove any markdown explanation text before actual code
+  // LLM sometimes adds "Here's the code:" before the actual code
+  const codeStartPatterns = [
+    /^.*?(?:here'?s?\s+(?:the|your)\s+(?:code|component|implementation)[:\s]*)/i,
+    /^.*?(?:below\s+is\s+(?:the|your)\s+(?:code|component)[:\s]*)/i,
+  ];
+
+  for (const pattern of codeStartPatterns) {
+    if (pattern.test(cleaned) && cleaned.includes('import ')) {
+      // Only strip if there's actual code after
+      const importIndex = cleaned.indexOf('import ');
+      if (importIndex > 0 && importIndex < 200) {
+        cleaned = cleaned.substring(importIndex);
+      }
+    }
+  }
+
+  // Final trim
+  return cleaned.trim();
 }
 
 /**
