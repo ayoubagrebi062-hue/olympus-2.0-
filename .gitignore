@@ -11,8 +11,8 @@ coverage/
 out/
 
 # Production
-build/
-dist/
+/build/
+/dist/
 
 # Environment files
 .env
