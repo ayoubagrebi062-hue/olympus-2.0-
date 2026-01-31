@@ -52,7 +52,7 @@ interface ModuleReport {
   moduleName: string;
   status: 'PASS' | 'FAIL' | 'WARNING';
   executionTime: number;
-  summary: any;
+  summary: unknown;
   errors: string[];
   warnings: string[];
 }
@@ -227,11 +227,11 @@ class GovernanceDryRun {
       let bindingReport;
       try {
         bindingReport = bindingGate.enforce(allTsFiles);
-        report.summary = bindingReport;
+        report.summary = bindingReport as unknown as Record<string, unknown>;
         report.executionTime = Date.now() - startTime;
         report.status = bindingReport.failedFiles > 0 ? 'FAIL' : 'PASS';
       } catch (error) {
-        if (error instanceof Error && (error as any).code === 'exit') {
+        if (error instanceof Error && (error as NodeJS.ErrnoException).code === 'exit') {
           report.status = 'FAIL';
           report.errors.push('Decision binding enforcement failed - see module output above');
         } else {
@@ -270,7 +270,7 @@ class GovernanceDryRun {
       let finalizationReport;
       try {
         finalizationReport = finalizationGate.enforce();
-        report.summary = finalizationReport;
+        report.summary = finalizationReport as unknown as Record<string, unknown>;
         report.executionTime = Date.now() - startTime;
 
         if (finalizationReport.violations.some(v => v.severity === 'error')) {
@@ -285,7 +285,7 @@ class GovernanceDryRun {
             .map(v => `${v.decisionId}: ${v.description}`);
         }
       } catch (error) {
-        if (error instanceof Error && (error as any).code === 'exit') {
+        if (error instanceof Error && (error as NodeJS.ErrnoException).code === 'exit') {
           report.status = 'FAIL';
           report.errors.push('Decision finalization enforcement failed - see module output above');
         } else {
@@ -336,7 +336,7 @@ class GovernanceDryRun {
           report.warnings.push(`${auditArtifact.summary.bySeverity.warning} warning findings`);
         }
       } catch (error) {
-        if (error instanceof Error && (error as any).code === 'exit') {
+        if (error instanceof Error && (error as NodeJS.ErrnoException).code === 'exit') {
           report.status = 'FAIL';
           report.errors.push('Deliberation audit failed - see module output above');
         } else {
@@ -387,13 +387,15 @@ class GovernanceDryRun {
           report.summary = {
             totalDecisions: decisions.length,
             averageScore:
-              decisions.reduce((sum: number, d: any) => sum + (d.totalScore || 0), 0) /
-              decisions.length,
+              decisions.reduce(
+                (sum: number, d: { totalScore?: number }) => sum + (d.totalScore || 0),
+                0
+              ) / decisions.length,
           };
           report.executionTime = Date.now() - startTime;
 
           const lowQualityCount = decisions.filter(
-            (d: any) => d.totalScore && d.totalScore < 50
+            (d: { totalScore?: number }) => d.totalScore && d.totalScore < 50
           ).length;
           if (lowQualityCount > 0) {
             report.status = 'WARNING';
@@ -446,7 +448,7 @@ class GovernanceDryRun {
           );
         }
       } catch (error) {
-        if (error instanceof Error && (error as any).code === 'exit') {
+        if (error instanceof Error && (error as NodeJS.ErrnoException).code === 'exit') {
           report.status = 'FAIL';
           report.errors.push('Capability learning extraction failed - see module output above');
         } else {
@@ -499,7 +501,7 @@ class GovernanceDryRun {
           report.warnings.push('Overall system risk level is MEDIUM');
         }
       } catch (error) {
-        if (error instanceof Error && (error as any).code === 'exit') {
+        if (error instanceof Error && (error as NodeJS.ErrnoException).code === 'exit') {
           report.status = 'FAIL';
           report.errors.push('Governance observatory failed - see module output above');
         } else {
