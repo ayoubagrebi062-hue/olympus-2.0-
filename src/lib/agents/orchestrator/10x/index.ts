@@ -344,3 +344,47 @@ export function getTenXSystem(): TenXSystem {
 export function resetTenXSystem(): void {
   defaultSystem = null;
 }
+
+// ============================================
+// BUILD-SCOPED SYSTEMS (SECURITY FIX - Jan 31, 2026)
+// Prevents cross-build pollution by isolating TenXSystem per build
+// ============================================
+
+const buildScopedSystems = new Map<string, TenXSystem>();
+
+/**
+ * Get a build-scoped TenXSystem.
+ * This prevents state pollution between concurrent builds.
+ * @param buildId - Unique identifier for the build
+ */
+export function getBuildScopedTenXSystem(buildId: string): TenXSystem {
+  if (!buildScopedSystems.has(buildId)) {
+    buildScopedSystems.set(buildId, createTenXSystem());
+  }
+  return buildScopedSystems.get(buildId)!;
+}
+
+/**
+ * Clean up TenXSystem for a completed build.
+ * MUST be called after build completion to prevent memory leaks.
+ * @param buildId - The build ID to clean up
+ */
+export function cleanupBuildTenXSystem(buildId: string): void {
+  const system = buildScopedSystems.get(buildId);
+  if (system) {
+    // Clear event store to free memory (if clear method exists)
+    const eventStoreAny = system.eventStore as unknown as { clear?: () => void };
+    if (typeof eventStoreAny.clear === 'function') {
+      eventStoreAny.clear();
+    }
+    buildScopedSystems.delete(buildId);
+    console.info(`[10X] Cleaned up build-scoped system for ${buildId}`);
+  }
+}
+
+/**
+ * Get total number of active build systems (for monitoring)
+ */
+export function getActiveBuildSystemCount(): number {
+  return buildScopedSystems.size;
+}

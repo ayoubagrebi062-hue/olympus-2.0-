@@ -20,6 +20,7 @@ import type {
 import { DEFAULT_EVOLUTION_CONFIG } from './types';
 import type { PromptService } from '../prompts';
 import type { AgentDefinition, OutputSchema } from '../../types';
+import { safeJsonParse } from '@/lib/core/safe-json';
 
 // ============================================================================
 // TYPES
@@ -340,13 +341,15 @@ Requirements:
       // Extract JSON from response
       const jsonMatch = response.match(/```json\s*([\s\S]*?)\s*```/);
       if (jsonMatch) {
-        return JSON.parse(jsonMatch[1]);
+        // FIX 3.3: Use safeJsonParse to prevent prototype pollution
+        return safeJsonParse<AgentDesign>(jsonMatch[1]);
       }
 
       // Try to find raw JSON
       const rawJsonMatch = response.match(/\{[\s\S]*"name"[\s\S]*"systemPrompt"[\s\S]*\}/);
       if (rawJsonMatch) {
-        return JSON.parse(rawJsonMatch[0]);
+        // FIX 3.3: Use safeJsonParse to prevent prototype pollution
+        return safeJsonParse<AgentDesign>(rawJsonMatch[0]);
       }
 
       throw new Error('No valid JSON found in response');

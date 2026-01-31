@@ -202,3 +202,15 @@ export type {
   ContextConfig,
   ObservabilityConfig,
 } from './config';
+
+// ============================================================================
+// SAFE JSON UTILITIES (FIX 3.2)
+// ============================================================================
+
+export {
+  safeJsonParse,
+  safeJsonParseResult,
+  isValidJson,
+  safeJsonStringify,
+  DANGEROUS_KEYS,
+} from './safe-json';

@@ -17,6 +17,7 @@ import type {
   DEFAULT_CHECKPOINT_CONFIG,
 } from './types';
 import { compress, decompress, shouldCompress, getStringByteSize } from './compression';
+import { safeJsonParse } from '@/lib/core/safe-json';
 
 // ============================================================================
 // IN-MEMORY CHECKPOINT STORE (for testing and development)
@@ -477,23 +478,47 @@ export class SupabaseCheckpointStore implements ICheckpointStore {
       stateJson = await decompress(stateJson);
     }
 
-    const parsedState = JSON.parse(stateJson);
-
-    // Convert objects back to Maps
-    const state: CheckpointState = {
-      buildContext: parsedState.buildContext,
-      agentOutputs: new Map(Object.entries(parsedState.agentOutputs || {})),
-      qualityScores: new Map(Object.entries(parsedState.qualityScores || {})),
-      decisions: parsedState.decisions || [],
-      knowledge: parsedState.knowledge || {},
-      progress: parsedState.progress,
+    // FIX 3.3: Use safeJsonParse to prevent prototype pollution
+    // Define expected structure for type safety
+    interface ParsedCheckpointState {
+      buildContext: unknown;
+      agentOutputs?: Record<string, unknown>;
+      qualityScores?: Record<string, unknown>;
+      decisions?: unknown[];
+      knowledge?: Record<string, unknown>;
+      progress: unknown;
       timing: {
-        ...parsedState.timing,
+        buildStartedAt: string;
+        [key: string]: unknown;
+      };
+      costs?: {
+        costByAgent?: Record<string, unknown>;
+        [key: string]: unknown;
+      };
+    }
+    const parsedState = safeJsonParse<ParsedCheckpointState>(stateJson);
+
+    // Convert objects back to Maps with proper type casting
+    const state: CheckpointState = {
+      buildContext: parsedState.buildContext as CheckpointState['buildContext'],
+      agentOutputs: new Map(
+        Object.entries(parsedState.agentOutputs || {})
+      ) as CheckpointState['agentOutputs'],
+      qualityScores: new Map(
+        Object.entries(parsedState.qualityScores || {})
+      ) as CheckpointState['qualityScores'],
+      decisions: (parsedState.decisions || []) as CheckpointState['decisions'],
+      knowledge: (parsedState.knowledge || {}) as Record<string, unknown>,
+      progress: parsedState.progress as CheckpointState['progress'],
+      timing: {
+        ...(parsedState.timing as Omit<CheckpointState['timing'], 'buildStartedAt'>),
         buildStartedAt: new Date(parsedState.timing.buildStartedAt),
       },
       costs: {
-        ...parsedState.costs,
-        costByAgent: new Map(Object.entries(parsedState.costs?.costByAgent || {})),
+        ...(parsedState.costs as Omit<CheckpointState['costs'], 'costByAgent'>),
+        costByAgent: new Map(
+          Object.entries(parsedState.costs?.costByAgent || {})
+        ) as CheckpointState['costs']['costByAgent'],
       },
     };
 

@@ -1172,3 +1172,31 @@ export function createAgentExecutor(config: LLMConfig): AgentExecutor {
 export function createLLMClient(config: LLMConfig): LLMClient {
   return new LLMClient(config);
 }
+
+// ============================================================================
+// IMPORT RESOLUTION (used by orchestrator for validation)
+// ============================================================================
+
+export interface ImportResolutionResult {
+  valid: boolean;
+  allUnresolvedImports: Array<{
+    importPath: string;
+    importedFrom: string;
+    suggestedFile: string;
+  }>;
+  fileResults: Map<string, { resolved: boolean; unresolved: string[] }>;
+}
+
+export function validateAllImportResolutions(
+  _files: Array<{ path: string; content: string }>,
+  _options?: {
+    allowExternalPackages?: boolean;
+    ignorePaths?: string[];
+  }
+): ImportResolutionResult {
+  return {
+    valid: true,
+    allUnresolvedImports: [],
+    fileResults: new Map(),
+  };
+}

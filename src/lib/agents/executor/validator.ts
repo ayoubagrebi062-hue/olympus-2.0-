@@ -21,6 +21,7 @@ import {
   validatePaletteUsage,
   generateDesignReport,
 } from '../validation/design-validator';
+import { safeJsonParse } from '@/lib/core/safe-json';
 import ts from 'typescript';
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -679,28 +680,32 @@ function validateAgainstSchema(
   const errors: ValidationError[] = [];
 
   try {
-    const parsed = JSON.parse(content);
+    // FIX 3.3: Use safeJsonParse to prevent prototype pollution
+    const rawParsed = safeJsonParse<unknown>(content);
 
     // Check type
-    if (schema.type === 'object' && typeof parsed !== 'object') {
+    if (schema.type === 'object' && typeof rawParsed !== 'object') {
       errors.push({
         field: 'root',
         message: 'Expected object',
         expected: 'object',
-        received: typeof parsed,
+        received: typeof rawParsed,
       });
       return errors;
     }
 
-    if (schema.type === 'array' && !Array.isArray(parsed)) {
+    if (schema.type === 'array' && !Array.isArray(rawParsed)) {
       errors.push({
         field: 'root',
         message: 'Expected array',
         expected: 'array',
-        received: typeof parsed,
+        received: typeof rawParsed,
       });
       return errors;
     }
+
+    // Cast to record for property access after type validation
+    const parsed = rawParsed as Record<string, unknown>;
 
     // Check required fields
     for (const field of schema.required) {

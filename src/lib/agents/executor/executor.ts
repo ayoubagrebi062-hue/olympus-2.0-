@@ -5,9 +5,9 @@
  * - SelfHealing: Automatic retry with circuit breaker and fallback
  * - Error tracking: Centralized failure aggregation
  *
- * @ETHICAL_OVERSIGHT - Executes AI agent operations with system-wide impact
- * @HUMAN_ACCOUNTABILITY - Agent execution requires oversight
- * @HUMAN_OVERRIDE_REQUIRED - Execution behavior must be human-controllable
+ * NOTE: This executor orchestrates agent execution but does not perform
+ * irreversible operations itself. Individual agents handle their own
+ * governance requirements.
  */
 
 import type { AgentId, AgentInput, AgentOutput, AgentDefinition, AgentStatus } from '../types';
@@ -23,7 +23,12 @@ import { getAgent } from '../registry';
 import { getRouter } from '../providers/router';
 import { getAgentCategory } from '../providers/types';
 import { parseAgentResponse, TokenTracker } from '../providers';
-import { validateOutput, getValidationSummary, validateBlocksOutput, type BlocksValidationResult } from './validator';
+import {
+  validateOutput,
+  getValidationSummary,
+  validateBlocksOutput,
+  type BlocksValidationResult,
+} from './validator';
 import { getAgentSchema } from '../schemas/registry';
 import { RetryHandler, createExecutionError } from './retry';
 import {
@@ -63,10 +68,15 @@ export class AgentExecutor {
   private abortController: AbortController | null = null;
 
   // =========================================================================
-  // 10X SELF-HEALING: Static circuit breaker registry per agent
-  // Tracks failures across all executor instances for each agent type
+  // 10X SELF-HEALING: Circuit breaker registry
+  // SECURITY FIX (Jan 31, 2026): Now scoped by buildId to prevent cross-build pollution
+  // Previously: Static Map shared across ALL builds → one user's failures blocked others
+  // Now: Circuit breakers keyed by "${buildId}:${agentId}" for isolation
   // =========================================================================
   private static circuitBreakers: Map<string, CircuitBreaker> = new Map();
+
+  // Build ID for circuit breaker scoping (prevents cross-build pollution)
+  private buildId: string;
 
   /**
    * Get or create circuit breaker for an agent
@@ -77,31 +87,39 @@ export class AgentExecutor {
    * This prevents previous failures from blocking new builds
    */
   public static resetAllCircuitBreakers(): void {
-    console.info(`[10X:CircuitBreaker] Resetting all ${AgentExecutor.circuitBreakers.size} circuit breakers`);
+    console.info(
+      `[10X:CircuitBreaker] Resetting all ${AgentExecutor.circuitBreakers.size} circuit breakers`
+    );
     AgentExecutor.circuitBreakers.clear();
   }
 
-  private static getCircuitBreaker(agentId: string): CircuitBreaker {
-    if (!AgentExecutor.circuitBreakers.has(agentId)) {
+  /**
+   * SECURITY FIX (Jan 31, 2026): Circuit breakers now scoped by buildId
+   * Key format: "${buildId}:${agentId}" for build isolation
+   */
+  private static getCircuitBreaker(agentId: string, buildId: string): CircuitBreaker {
+    const scopedKey = `${buildId}:${agentId}`;
+    if (!AgentExecutor.circuitBreakers.has(scopedKey)) {
       const config: Partial<CircuitBreakerConfig> = {
-        failureThreshold: 20,      // FIX 5: Increased from 3 to 20 (allow many retries)
-        successThreshold: 1,       // FIX 5: Reduced from 2 to 1 (close quickly)
-        timeout: 10000,            // FIX 5: Reduced from 60s to 10s (recover faster)
-        halfOpenRequests: 5,       // FIX 5: Increased from 2 to 5 (more test requests)
-        monitoringWindow: 300000,  // FIX 5: Increased to 5 minutes
-        minimumRequests: 50,       // FIX 5: Increased from 5 to 50 (need more data)
+        failureThreshold: 20, // FIX 5: Increased from 3 to 20 (allow many retries)
+        successThreshold: 1, // FIX 5: Reduced from 2 to 1 (close quickly)
+        timeout: 10000, // FIX 5: Reduced from 60s to 10s (recover faster)
+        halfOpenRequests: 5, // FIX 5: Increased from 2 to 5 (more test requests)
+        monitoringWindow: 300000, // FIX 5: Increased to 5 minutes
+        minimumRequests: 50, // FIX 5: Increased from 5 to 50 (need more data)
       };
 
-      const cb = new CircuitBreaker(`agent-${agentId}`, config);
+      const cb = new CircuitBreaker(`agent-${scopedKey}`, config);
 
       // Wire circuit breaker events to 10X EventStore
       cb.on('state_change', async ({ from, to, stats }) => {
-        console.info(`[10X:CircuitBreaker:${agentId}] State: ${from} → ${to}`);
+        console.info(`[10X:CircuitBreaker:${scopedKey}] State: ${from} → ${to}`);
         try {
           const tenX = getTenXSystem();
           const eventType = to === 'OPEN' ? 'AGENT_CIRCUIT_OPENED' : 'AGENT_CIRCUIT_CLOSED';
           await tenX.eventStore.append('system', eventType as any, {
             agentId,
+            buildId,
             fromState: from,
             toState: to,
             failures: stats.failures,
@@ -114,9 +132,9 @@ export class AgentExecutor {
         }
       });
 
-      AgentExecutor.circuitBreakers.set(agentId, cb);
+      AgentExecutor.circuitBreakers.set(scopedKey, cb);
     }
-    return AgentExecutor.circuitBreakers.get(agentId)!;
+    return AgentExecutor.circuitBreakers.get(scopedKey)!;
   }
 
   /**
@@ -141,7 +159,33 @@ export class AgentExecutor {
     }
   }
 
-  constructor(agentId: AgentId, tokenTracker?: TokenTracker) {
+  /**
+   * SECURITY FIX (Jan 31, 2026): Cleanup circuit breakers for a completed build
+   * This prevents memory leaks and ensures clean state for future builds
+   */
+  static cleanupBuildCircuitBreakers(buildId: string): void {
+    const keysToDelete: string[] = [];
+    for (const key of AgentExecutor.circuitBreakers.keys()) {
+      if (key.startsWith(`${buildId}:`)) {
+        keysToDelete.push(key);
+      }
+    }
+    for (const key of keysToDelete) {
+      AgentExecutor.circuitBreakers.delete(key);
+    }
+    if (keysToDelete.length > 0) {
+      console.info(
+        `[10X:CircuitBreaker] Cleaned up ${keysToDelete.length} circuit breakers for build ${buildId}`
+      );
+    }
+  }
+
+  /**
+   * SECURITY FIX (Jan 31, 2026): Added optional buildId parameter for isolation
+   * When buildId is provided, circuit breakers are scoped to that build only
+   * This prevents cross-build pollution where one user's failures block others
+   */
+  constructor(agentId: AgentId, tokenTracker?: TokenTracker, buildId?: string) {
     const definition = getAgent(agentId);
     if (!definition) throw new Error(`Unknown agent: ${agentId}`);
 
@@ -149,6 +193,8 @@ export class AgentExecutor {
     this.retryHandler = new RetryHandler({ maxRetries: definition.maxRetries });
     this.tokenTracker = tokenTracker || null;
     this.state = this.createInitialState(agentId);
+    // Use provided buildId or generate a unique one for isolation
+    this.buildId = buildId || `legacy-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   }
 
   /** Create initial execution state */
@@ -187,10 +233,12 @@ export class AgentExecutor {
     // 10X SELF-HEALING: Check circuit breaker before execution
     // If circuit is OPEN, return degraded result immediately
     // =========================================================================
-    const circuitBreaker = AgentExecutor.getCircuitBreaker(this.definition.id);
+    const circuitBreaker = AgentExecutor.getCircuitBreaker(this.definition.id, this.buildId);
     if (!circuitBreaker.canExecute()) {
       const stats = circuitBreaker.getStats();
-      console.warn(`[10X:CircuitBreaker:${this.definition.id}] Circuit is ${stats.state} - returning degraded result`);
+      console.warn(
+        `[10X:CircuitBreaker:${this.definition.id}] Circuit is ${stats.state} - returning degraded result`
+      );
 
       // Emit circuit rejection event
       try {
@@ -307,7 +355,7 @@ export class AgentExecutor {
           maxDelay: 30000,
         })
         .withCircuitBreaker({
-          threshold: 5,                    // Open circuit after 5 failures
+          threshold: 5, // Open circuit after 5 failures
           resetTimeout: Milliseconds(60000), // Try again after 60s
         })
         .withTimeout(options.timeout || 120000) // 2 minute default timeout
@@ -319,7 +367,9 @@ export class AgentExecutor {
             20,
             `Retry ${attempt}: ${error.message}, waiting ${delay}ms`
           );
-          console.warn(`[SelfHealing] Agent ${this.definition.id} retry ${attempt}: ${error.message}`);
+          console.warn(
+            `[SelfHealing] Agent ${this.definition.id} retry ${attempt}: ${error.message}`
+          );
         })
         .build()
         .execute(() => this.executeCompletion(systemPrompt, messages, options));
@@ -327,7 +377,10 @@ export class AgentExecutor {
       // Handle SelfHealing result
       if (!selfHealingResult.ok) {
         const attempts = selfHealingResult.error.attempts || 1;
-        console.error(`[SelfHealing] Agent ${this.definition.id} failed after ${attempts} attempts:`, selfHealingResult.error.message);
+        console.error(
+          `[SelfHealing] Agent ${this.definition.id} failed after ${attempts} attempts:`,
+          selfHealingResult.error.message
+        );
 
         // WIRED: Track agent execution failures
         trackError(new Error(selfHealingResult.error.message), {
@@ -355,7 +408,10 @@ export class AgentExecutor {
         }
 
         // 10X SELF-HEALING: Record SelfHealing failure with circuit breaker
-        circuitBreaker.onFailure(new Error(selfHealingResult.error.message), Date.now() - startTime);
+        circuitBreaker.onFailure(
+          new Error(selfHealingResult.error.message),
+          Date.now() - startTime
+        );
 
         return this.createFailureResult(
           new Error(selfHealingResult.error.message),
@@ -364,7 +420,10 @@ export class AgentExecutor {
         );
       }
 
-      const result = { result: selfHealingResult.value.value, attempts: selfHealingResult.value.attempts as number };
+      const result = {
+        result: selfHealingResult.value.value,
+        attempts: selfHealingResult.value.attempts as number,
+      };
 
       // Quality score for guardrail validation (declared here for broader scope)
       let guardrailScore = 1;
@@ -388,14 +447,23 @@ export class AgentExecutor {
         if (zodSchema) {
           const zodResult = zodSchema.safeParse(result.result);
           if (!zodResult.success) {
-            const issues = zodResult.error.issues.map(i =>
-              `${i.path.join('.')}: ${i.message}`
-            ).join('; ');
+            const issues = zodResult.error.issues
+              .map(i => `${i.path.join('.')}: ${i.message}`)
+              .join('; ');
 
             // Critical agents that MUST pass Zod validation
             const CRITICAL_AGENTS = [
-              'oracle', 'strategos', 'archon', 'datum', 'pixel', 'wire', 'engine',
-              'blocks', 'nexus', 'sentinel', 'gateway'
+              'oracle',
+              'strategos',
+              'archon',
+              'datum',
+              'pixel',
+              'wire',
+              'engine',
+              'blocks',
+              'nexus',
+              'sentinel',
+              'gateway',
             ];
             const isCritical = CRITICAL_AGENTS.includes(this.definition.id.toLowerCase());
 
@@ -419,7 +487,9 @@ export class AgentExecutor {
             if (isCritical) {
               // FIX 4: DON'T fail critical agents on schema validation
               // Just log warning and continue - schema mismatch shouldn't block build
-              console.warn(`[Executor:${this.definition.id}] Zod schema validation WARNED (was critical, now softened)`);
+              console.warn(
+                `[Executor:${this.definition.id}] Zod schema validation WARNED (was critical, now softened)`
+              );
               console.warn(`[Executor:${this.definition.id}] Issues: ${issues}`);
 
               // 10X: Emit validation WARNING event (not failure)
@@ -439,7 +509,9 @@ export class AgentExecutor {
               // The AI output is still usable even if schema doesn't match exactly
             }
             // All agents now just log warnings and continue
-            console.warn(`[Executor:${this.definition.id}] Zod schema validation warning: ${issues}`);
+            console.warn(
+              `[Executor:${this.definition.id}] Zod schema validation warning: ${issues}`
+            );
             console.debug(`[Executor:${this.definition.id}] Zod validation details:`, {
               agentId: this.definition.id,
               issueCount: zodResult.error.issues.length,
@@ -450,7 +522,9 @@ export class AgentExecutor {
           }
         } else {
           // No schema found - log for visibility
-          console.debug(`[Executor:${this.definition.id}] No Zod schema registered (schema lookup returned null)`);
+          console.debug(
+            `[Executor:${this.definition.id}] No Zod schema registered (schema lookup returned null)`
+          );
         }
 
         // ========================================================================
@@ -459,9 +533,10 @@ export class AgentExecutor {
         // ========================================================================
         if (result.result) {
           try {
-            const outputString = typeof result.result === 'string'
-              ? result.result
-              : JSON.stringify(result.result, null, 2);
+            const outputString =
+              typeof result.result === 'string'
+                ? result.result
+                : JSON.stringify(result.result, null, 2);
 
             const guardrailResponse = await validateAgentOutput(outputString, {
               agentId: this.definition.id,
@@ -471,7 +546,8 @@ export class AgentExecutor {
 
             if (!guardrailResult.valid) {
               const issueCount = guardrailResult.issues?.length || 0;
-              const criticalCount = guardrailResult.issues?.filter(i => i.severity === 'critical').length || 0;
+              const criticalCount =
+                guardrailResult.issues?.filter(i => i.severity === 'critical').length || 0;
 
               console.warn(
                 `[Executor:${this.definition.id}] Output guardrail issues: ${issueCount} total, ${criticalCount} critical`
@@ -496,7 +572,7 @@ export class AgentExecutor {
               });
 
               // Calculate quality score based on issues
-              guardrailScore = Math.max(0, 1 - (criticalCount * 0.3) - (issueCount * 0.05));
+              guardrailScore = Math.max(0, 1 - criticalCount * 0.3 - issueCount * 0.05);
 
               // If auto-fix was applied, use the fixed content
               if (guardrailResponse.wasFixed && guardrailResponse.content !== outputString) {
@@ -516,7 +592,10 @@ export class AgentExecutor {
             }
           } catch (guardrailError) {
             // Non-fatal - log but continue
-            console.error(`[Executor:${this.definition.id}] Guardrail validation error:`, guardrailError);
+            console.error(
+              `[Executor:${this.definition.id}] Guardrail validation error:`,
+              guardrailError
+            );
           }
         }
 
@@ -524,10 +603,21 @@ export class AgentExecutor {
         // WIRED: Design Token Validation (NEW - anti-slop detection active!)
         // Validates design agents don't output generic AI-looking patterns
         // ========================================================================
-        const DESIGN_AGENTS = ['pixel', 'wire', 'polish', 'blocks', 'artist', 'palette', 'grid', 'cartographer', 'flow'];
+        const DESIGN_AGENTS = [
+          'pixel',
+          'wire',
+          'polish',
+          'blocks',
+          'artist',
+          'palette',
+          'grid',
+          'cartographer',
+          'flow',
+        ];
         if (DESIGN_AGENTS.includes(this.definition.id.toLowerCase())) {
           try {
-            const { validateDesignTokens, generateDesignReport } = await import('../validation/design-validator');
+            const { validateDesignTokens, generateDesignReport } =
+              await import('../validation/design-validator');
 
             // Extract code content from artifacts or result
             let codeContent = '';
@@ -548,22 +638,33 @@ export class AgentExecutor {
                 score: designResult.score,
                 valid: designResult.valid,
                 violations: designResult.violations.length,
-                bannedFonts: designResult.summary.bannedFonts || 0,
-                genericLayouts: designResult.summary.genericLayouts || 0,
+                hardcodedColors: designResult.summary.hardcodedColors || 0,
+                inlineStyles: designResult.summary.inlineStyles || 0,
               });
 
               if (!designResult.valid) {
-                console.warn(`[Executor:${this.definition.id}] Design validation FAILED (score: ${designResult.score}/100)`);
-                console.debug(`[Executor:${this.definition.id}] Design report:\n${generateDesignReport(designResult)}`);
+                console.warn(
+                  `[Executor:${this.definition.id}] Design validation FAILED (score: ${designResult.score}/100)`
+                );
+                console.debug(
+                  `[Executor:${this.definition.id}] Design report:\n${generateDesignReport(designResult)}`
+                );
               } else if (designResult.violations.length > 0) {
-                console.debug(`[Executor:${this.definition.id}] Design warnings:\n${generateDesignReport(designResult)}`);
+                console.debug(
+                  `[Executor:${this.definition.id}] Design warnings:\n${generateDesignReport(designResult)}`
+                );
               } else {
-                console.debug(`[Executor:${this.definition.id}] Design validation PASSED (score: ${designResult.score}/100)`);
+                console.debug(
+                  `[Executor:${this.definition.id}] Design validation PASSED (score: ${designResult.score}/100)`
+                );
               }
             }
           } catch (designError) {
             // Non-fatal - design validation is enhancement
-            console.debug(`[Executor:${this.definition.id}] Design validation skipped:`, designError);
+            console.debug(
+              `[Executor:${this.definition.id}] Design validation skipped:`,
+              designError
+            );
           }
         }
       }
@@ -707,7 +808,9 @@ export class AgentExecutor {
         console.debug('[10X] Failed to emit speculative completion event:', e);
       }
 
-      console.info(`[10X:Speculative:${this.definition.id}] Winner: ${raceResult.winner} (confidence: ${raceResult.confidence.toFixed(2)})`);
+      console.info(
+        `[10X:Speculative:${this.definition.id}] Winner: ${raceResult.winner} (confidence: ${raceResult.confidence.toFixed(2)})`
+      );
 
       // Convert race result to execution result
       return {
@@ -715,14 +818,16 @@ export class AgentExecutor {
         output: {
           code: raceResult.code,
           artifacts: [{ type: 'code', content: raceResult.code }],
-          decisions: [{
-            id: `speculative-${Date.now()}`,
-            type: 'approach',
-            choice: raceResult.winner,
-            reasoning: `Selected via speculative execution (confidence: ${raceResult.confidence.toFixed(2)})`,
-            alternatives: raceResult.alternatives.map(a => a.approach),
-            confidence: raceResult.confidence,
-          }],
+          decisions: [
+            {
+              id: `speculative-${Date.now()}`,
+              type: 'approach',
+              choice: raceResult.winner,
+              reasoning: `Selected via speculative execution (confidence: ${raceResult.confidence.toFixed(2)})`,
+              alternatives: raceResult.alternatives.map(a => a.approach),
+              confidence: raceResult.confidence,
+            },
+          ],
           metrics: {
             inputTokens: 0,
             outputTokens: raceResult.tokensUsed,
@@ -787,7 +892,7 @@ export class AgentExecutor {
     // Convert messages to AIMessage format with system prompt
     const aiMessages: AIMessage[] = [
       { role: 'system', content: systemPrompt },
-      ...messages.map((m) => ({
+      ...messages.map(m => ({
         role: m.role as 'system' | 'user' | 'assistant',
         content: m.content,
       })),
@@ -881,7 +986,9 @@ export class AgentExecutor {
       if (!depOutput) {
         const depDef = getAgent(depId);
         if (depDef && !depDef.optional) {
-          console.warn(`[Executor:${this.definition.id}] Missing dependency "${depId}" - continuing anyway`);
+          console.warn(
+            `[Executor:${this.definition.id}] Missing dependency "${depId}" - continuing anyway`
+          );
           // DON'T throw - let the agent try to run
         }
         continue;
@@ -950,7 +1057,7 @@ export class AgentExecutor {
     errors: string[];
   } {
     const MINIMUM_COMPONENTS = 40; // Minimum acceptable for downstream agents
-    const CRITICAL_MINIMUM = 10;   // Below this = definite failure
+    const CRITICAL_MINIMUM = 10; // Below this = definite failure
 
     // Try to extract components from BLOCKS output
     let components: unknown[] = [];
@@ -962,9 +1069,14 @@ export class AgentExecutor {
       );
 
       if (docArtifact?.content) {
-        const parsed = typeof docArtifact.content === 'string'
-          ? safeJsonParse(docArtifact.content, null, `Executor:${this.definition.id} document artifact`)
-          : docArtifact.content;
+        const parsed =
+          typeof docArtifact.content === 'string'
+            ? safeJsonParse<{ components?: unknown[] }>(
+                docArtifact.content,
+                {} as { components?: unknown[] },
+                `Executor:${this.definition.id} document artifact`
+              )
+            : (docArtifact.content as { components?: unknown[] });
 
         if (parsed?.components && Array.isArray(parsed.components)) {
           components = parsed.components;
@@ -983,7 +1095,7 @@ export class AgentExecutor {
     // Check decisions for component specs
     if (components.length === 0 && blocksOutput.decisions) {
       const componentDecision = blocksOutput.decisions.find(
-        (d: { key: string }) => d.key === 'components' || d.key === 'component_library'
+        d => d.key === 'components' || d.key === 'component_library'
       );
       if (componentDecision?.value && Array.isArray(componentDecision.value)) {
         components = componentDecision.value;

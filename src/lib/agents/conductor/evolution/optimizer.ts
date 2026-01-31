@@ -16,6 +16,7 @@ import type {
 } from './types';
 import { DEFAULT_EVOLUTION_CONFIG } from './types';
 import type { PromptService, PromptRecord } from '../prompts';
+import { safeJsonParse } from '@/lib/core/safe-json';
 
 // ============================================================================
 // TYPES
@@ -451,13 +452,21 @@ SPECIALIZE: Add domain-specific knowledge and techniques.
   ): { text: string; changes: PromptChange[]; confidence: number } | null {
     try {
       // Extract JSON from response
+      // FIX 3.3: Define expected structure for type safety
+      interface ParsedOptimization {
+        improved_prompt?: string;
+        changes?: PromptChange[];
+        confidence?: number;
+      }
+
       const jsonMatch = response.match(/```json\s*([\s\S]*?)\s*```/);
       if (!jsonMatch) {
         // Try to find raw JSON
         const rawJsonMatch = response.match(/\{[\s\S]*"improved_prompt"[\s\S]*\}/);
         if (!rawJsonMatch) return null;
 
-        const parsed = JSON.parse(rawJsonMatch[0]);
+        // FIX 3.3: Use safeJsonParse to prevent prototype pollution
+        const parsed = safeJsonParse<ParsedOptimization>(rawJsonMatch[0]);
         return {
           text: parsed.improved_prompt || currentPrompt,
           changes: parsed.changes || [],
@@ -465,7 +474,8 @@ SPECIALIZE: Add domain-specific knowledge and techniques.
         };
       }
 
-      const parsed = JSON.parse(jsonMatch[1]);
+      // FIX 3.3: Use safeJsonParse to prevent prototype pollution
+      const parsed = safeJsonParse<ParsedOptimization>(jsonMatch[1]);
 
       return {
         text: parsed.improved_prompt || currentPrompt,

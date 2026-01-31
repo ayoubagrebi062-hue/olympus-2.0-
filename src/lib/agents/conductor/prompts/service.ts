@@ -25,6 +25,7 @@ import {
   PromptHistoryEntry,
 } from './types';
 import { getHardcodedPrompt, getAllHardcodedPrompts, hasHardcodedPrompt } from './hardcoded';
+import { safeJsonParse } from '@/lib/core/safe-json';
 
 // Redis type (optional dependency)
 type RedisClient = {
@@ -605,7 +606,8 @@ export class PromptService {
     try {
       const data = await this.redis.get(`prompt:${agentId}`);
       if (!data) return null;
-      return JSON.parse(data);
+      // FIX 3.3: Use safeJsonParse to prevent prototype pollution
+      return safeJsonParse<LoadedPrompt>(data);
     } catch {
       return null;
     }

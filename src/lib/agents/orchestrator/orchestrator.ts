@@ -351,7 +351,8 @@ interface WireCoverageResult {
   covered: string[]; // paths that were generated AND valid
   missing: WirePageSpec[];
   invalid: WirePageSpec[]; // FIX C: paths with syntax errors
-  unresolvedImports: Array<{  // FIX D: imports that don't resolve to generated files
+  unresolvedImports: Array<{
+    // FIX D: imports that don't resolve to generated files
     importPath: string;
     importedFrom: string;
     suggestedFile: string;
@@ -801,15 +802,15 @@ export class BuildOrchestrator {
         const projectType = (this.context as any)['data']?.projectType || 'unknown';
         const phases = this.plan.phases.map(p => p.phase);
         const agents = this.plan.phases.flatMap(p => p.agents);
-        const prediction = await this.tenX.predictions.predictBuild(
-          projectType,
-          phases,
-          agents,
-          { complexity: this.plan.totalAgents > 20 ? 'high' : this.plan.totalAgents > 10 ? 'medium' : 'low' }
-        );
+        const prediction = await this.tenX.predictions.predictBuild(projectType, phases, agents, {
+          complexity:
+            this.plan.totalAgents > 20 ? 'high' : this.plan.totalAgents > 10 ? 'medium' : 'low',
+        });
 
         if (prediction) {
-          logger.info(`[10X] Build prediction: ~${Math.round(prediction.estimatedDuration.expected / 1000)}s, ${(prediction.failureProbability.overall * 100).toFixed(1)}% failure risk`);
+          logger.info(
+            `[10X] Build prediction: ~${Math.round(prediction.estimatedDuration.expected / 1000)}s, ${(prediction.failureProbability.overall * 100).toFixed(1)}% failure risk`
+          );
 
           // Emit prediction event
           await this.tenX.eventStore.append(this.buildId, 'BUILD_PREDICTION', {
@@ -831,7 +832,7 @@ export class BuildOrchestrator {
         const sagaSteps = this.plan.phases.map(p => p.phase);
 
         // Track saga for this build
-        this.tenX.activeSagas.set(this.buildId, {
+        this.tenX.activeSagas!.set(this.buildId, {
           id: sagaId,
           startTime: Date.now(),
           steps: sagaSteps,
@@ -846,7 +847,9 @@ export class BuildOrchestrator {
           timestamp: new Date().toISOString(),
         });
 
-        logger.info(`[10X] Saga ${sagaId} started with ${sagaSteps.length} steps: ${sagaSteps.join(' → ')}`);
+        logger.info(
+          `[10X] Saga ${sagaId} started with ${sagaSteps.length} steps: ${sagaSteps.join(' → ')}`
+        );
       } catch (sagaError) {
         logger.debug(`[10X] Saga creation failed (non-blocking):`, sagaError);
       }
@@ -856,12 +859,14 @@ export class BuildOrchestrator {
       // =========================================================================
       try {
         // Add this build to recent builds for evolution tracking
-        this.tenX.evolutionMetrics.recentBuilds.push(this.buildId);
+        this.tenX.evolutionMetrics!.recentBuilds.push(this.buildId);
         // Keep only last 100 builds
-        if (this.tenX.evolutionMetrics.recentBuilds.length > 100) {
-          this.tenX.evolutionMetrics.recentBuilds.shift();
+        if (this.tenX.evolutionMetrics!.recentBuilds.length > 100) {
+          this.tenX.evolutionMetrics!.recentBuilds.shift();
         }
-        logger.debug(`[10X] Build ${this.buildId} added to evolution tracking (${this.tenX.evolutionMetrics.recentBuilds.length} builds tracked)`);
+        logger.debug(
+          `[10X] Build ${this.buildId} added to evolution tracking (${this.tenX.evolutionMetrics!.recentBuilds.length} builds tracked)`
+        );
       } catch (evolError) {
         logger.debug(`[10X] Evolution tracking failed (non-blocking):`, evolError);
       }
@@ -990,7 +995,7 @@ export class BuildOrchestrator {
               // =========================================================================
               // P2: SAGA COMPENSATION - Trigger rollback on phase failure
               // =========================================================================
-              const saga = this.tenX.activeSagas.get(this.buildId);
+              const saga = this.tenX.activeSagas?.get(this.buildId);
               if (saga && this.options.strictQualityGates) {
                 try {
                   // Emit compensation started
@@ -1001,7 +1006,9 @@ export class BuildOrchestrator {
                     timestamp: new Date().toISOString(),
                   });
 
-                  logger.warn(`[10X] Saga compensation triggered for ${saga.id} due to ${phasePlan.phase} failure`);
+                  logger.warn(
+                    `[10X] Saga compensation triggered for ${saga.id} due to ${phasePlan.phase} failure`
+                  );
 
                   // Get completed phases to compensate (in reverse order)
                   const phasesToCompensate = Array.from(this.completedPhases).reverse();
@@ -1029,7 +1036,9 @@ export class BuildOrchestrator {
                     timestamp: new Date().toISOString(),
                   });
 
-                  logger.info(`[10X] Saga compensation completed: ${compensatedPhases.length} phases rolled back`);
+                  logger.info(
+                    `[10X] Saga compensation completed: ${compensatedPhases.length} phases rolled back`
+                  );
                 } catch (compError) {
                   logger.error(`[10X] Saga compensation failed:`, compError);
                 }
@@ -1052,7 +1061,9 @@ export class BuildOrchestrator {
                 const clientCount = this.tenX.streaming.getClientCount(this.buildId);
                 this.tenX.streaming.closeConnections(this.buildId);
                 if (clientCount > 0) {
-                  logger.info(`[10X] Streaming: closed ${clientCount} client connections for failed build`);
+                  logger.info(
+                    `[10X] Streaming: closed ${clientCount} client connections for failed build`
+                  );
                 }
               }
             } catch (streamError) {
@@ -1132,7 +1143,11 @@ export class BuildOrchestrator {
             );
 
             // If gate failed with blockers and strict mode is enabled, stop the build
-            if (gate.status === 'failed' && gate.summary.blockers > 0 && this.options.strictQualityGates) {
+            if (
+              gate.status === 'failed' &&
+              gate.summary.blockers > 0 &&
+              this.options.strictQualityGates
+            ) {
               logger.error(`[10X] Quality gate BLOCKED build: ${gate.summary.blockers} blockers`);
               this.status = 'failed';
               this.context.setState('failed');
@@ -1444,9 +1459,9 @@ export class BuildOrchestrator {
 
             logger.info(
               `[10X] Build analyzed: health=${buildProfile.intelligence.buildHealth}, ` +
-              `quality=${buildProfile.qualityProfile.overallScore}/100, ` +
-              `${buildProfile.bottlenecks.length} bottlenecks, ` +
-              `${buildProfile.opportunities.length} optimizations`
+                `quality=${buildProfile.qualityProfile.overallScore}/100, ` +
+                `${buildProfile.bottlenecks.length} bottlenecks, ` +
+                `${buildProfile.opportunities.length} optimizations`
             );
 
             // Log key recommendations
@@ -1467,7 +1482,7 @@ export class BuildOrchestrator {
           // P2: SAGA COMPLETION - Mark saga as completed successfully
           // =========================================================================
           try {
-            const saga = this.tenX.activeSagas.get(this.buildId);
+            const saga = this.tenX.activeSagas?.get(this.buildId);
             if (saga) {
               await this.tenX.eventStore.append(this.buildId, 'SAGA_COMPLETED', {
                 sagaId: saga.id,
@@ -1477,10 +1492,12 @@ export class BuildOrchestrator {
                 timestamp: new Date().toISOString(),
               });
 
-              logger.info(`[10X] Saga ${saga.id} completed successfully in ${Math.round((Date.now() - saga.startTime) / 1000)}s`);
+              logger.info(
+                `[10X] Saga ${saga.id} completed successfully in ${Math.round((Date.now() - saga.startTime) / 1000)}s`
+              );
 
               // Cleanup saga tracking
-              this.tenX.activeSagas.delete(this.buildId);
+              this.tenX.activeSagas?.delete(this.buildId);
             }
           } catch (sagaError) {
             logger.debug(`[10X] Saga completion failed (non-blocking):`, sagaError);
@@ -1496,8 +1513,8 @@ export class BuildOrchestrator {
               // Emit evolution cycle started
               await this.tenX.eventStore.append(this.buildId, 'EVOLUTION_CYCLE_STARTED', {
                 reason: 'scheduled',
-                buildCount: this.tenX.evolutionMetrics.recentBuilds.length,
-                agentCount: this.tenX.evolutionMetrics.executionRecords.size,
+                buildCount: this.tenX.evolutionMetrics?.recentBuilds?.length ?? 0,
+                agentCount: this.tenX.evolutionMetrics?.executionRecords?.size ?? 0,
                 timestamp: new Date().toISOString(),
               });
 
@@ -1522,9 +1539,11 @@ export class BuildOrchestrator {
                 }
               });
             } else {
-              const buildsNeeded = 10 - this.tenX.evolutionMetrics.recentBuilds.length;
+              const buildsNeeded = 10 - (this.tenX.evolutionMetrics?.recentBuilds?.length ?? 0);
               if (buildsNeeded > 0) {
-                logger.debug(`[10X] Evolution: ${buildsNeeded} more builds needed before next cycle`);
+                logger.debug(
+                  `[10X] Evolution: ${buildsNeeded} more builds needed before next cycle`
+                );
               }
             }
           } catch (evolError) {
@@ -1539,7 +1558,9 @@ export class BuildOrchestrator {
               const clientCount = this.tenX.streaming.getClientCount(this.buildId);
               this.tenX.streaming.closeConnections(this.buildId);
               if (clientCount > 0) {
-                logger.info(`[10X] Streaming: closed ${clientCount} client connections for completed build`);
+                logger.info(
+                  `[10X] Streaming: closed ${clientCount} client connections for completed build`
+                );
               }
             }
           } catch (streamError) {
@@ -1620,7 +1641,7 @@ export class BuildOrchestrator {
           totalCost: 0,
           success: true,
         };
-        await onBuildComplete(userId, buildResult);
+        await onBuildComplete(userId, buildResult as any);
         logger.debug(`[Cognitive] Build result recorded for learning`);
       } catch (cognitiveError) {
         // Non-fatal - log but continue
@@ -1671,7 +1692,7 @@ export class BuildOrchestrator {
           success: false,
           failureReason: (error as Error).message,
         };
-        await onBuildComplete(userId, buildResult);
+        await onBuildComplete(userId, buildResult as any);
         logger.debug(`[Cognitive] Failed build recorded for learning`);
       } catch (cognitiveError) {
         logger.warn(`[Cognitive] Failed to record build failure:`, cognitiveError);
@@ -2946,9 +2967,10 @@ export class BuildOrchestrator {
     else if (artifactCount >= 1) score += 0.5;
 
     // Check code artifacts specifically
-    const codeArtifacts = output.artifacts?.filter(
-      a => a.type === 'code' || a.path?.match(/\.(ts|tsx|js|jsx|py|css|scss)$/)
-    ) || [];
+    const codeArtifacts =
+      output.artifacts?.filter(
+        a => a.type === 'code' || a.path?.match(/\.(ts|tsx|js|jsx|py|css|scss)$/)
+      ) || [];
     if (codeArtifacts.length >= 3) score += 1;
     else if (codeArtifacts.length >= 1) score += 0.5;
 
@@ -3329,9 +3351,10 @@ export class BuildOrchestrator {
 
           // Find matching file in output (filter ensures path is defined)
           const matchingFiles = codeArtifacts
-            .filter((a): a is typeof a & { path: string } =>
-              Boolean(a.path) && (a.path.includes(safeFileName) || a.path === expectedPath)
-            )
+            .filter((a): a is typeof a & { path: string } => {
+              if (typeof a.path !== 'string') return false;
+              return a.path.includes(safeFileName) || a.path === expectedPath;
+            })
             .map(a => ({ path: a.path, content: a.content }));
 
           if (matchingFiles.length > 0) {
@@ -3600,9 +3623,10 @@ export class BuildOrchestrator {
     const pixelOutput = previousOutputs['pixel'];
     if (pixelOutput?.artifacts) {
       const componentPaths = pixelOutput.artifacts
-        .filter((a): a is typeof a & { path: string } =>
-          a.type === 'code' && Boolean(a.path) && a.path.includes('components/')
-        )
+        .filter((a): a is typeof a & { path: string } => {
+          if (typeof a.path !== 'string') return false;
+          return a.type === 'code' && a.path.includes('components/');
+        })
         .map(a => a.path);
 
       logger.debug(`[Orchestrator] WIRE: Found ${componentPaths.length} Pixel components to wire`);
@@ -3729,9 +3753,9 @@ export class BuildOrchestrator {
       const importValidation = validateAllImportResolutions(generatedFiles, {
         allowExternalPackages: true,
         ignorePaths: [
-          '@/components/ui/',  // shadcn/ui components (scaffolded)
-          '@/lib/utils',       // utility functions (scaffolded)
-          '@/styles/',         // global styles
+          '@/components/ui/', // shadcn/ui components (scaffolded)
+          '@/lib/utils', // utility functions (scaffolded)
+          '@/styles/', // global styles
         ],
       });
 
@@ -3747,7 +3771,7 @@ export class BuildOrchestrator {
         for (const unresolved of unresolvedImports.slice(0, 5)) {
           logger.error(
             `[WIRE]   - "${unresolved.importPath}" imported from "${unresolved.importedFrom}"\n` +
-            `         Missing file: ${unresolved.suggestedFile}`
+              `         Missing file: ${unresolved.suggestedFile}`
           );
         }
 
@@ -3794,13 +3818,16 @@ export class BuildOrchestrator {
           let parsed: unknown;
           try {
             parsed =
-              typeof artifact.content === 'string' ? JSON.parse(artifact.content) : artifact.content;
+              typeof artifact.content === 'string'
+                ? JSON.parse(artifact.content)
+                : artifact.content;
           } catch (parseError) {
             logger.warn(`[WIRE] JSON parse failed for artifact:`, {
               error: parseError instanceof Error ? parseError.message : String(parseError),
-              contentPreview: typeof artifact.content === 'string'
-                ? artifact.content.slice(0, 100)
-                : 'non-string content',
+              contentPreview:
+                typeof artifact.content === 'string'
+                  ? artifact.content.slice(0, 100)
+                  : 'non-string content',
             });
             continue; // Skip this artifact, try next one
           }
@@ -3836,7 +3863,10 @@ export class BuildOrchestrator {
 
           // Extract from shared_components[]
           if (Array.isArray(parsedObj.shared_components)) {
-            for (const comp of parsedObj.shared_components as Array<{ path?: string; content?: string }>) {
+            for (const comp of parsedObj.shared_components as Array<{
+              path?: string;
+              content?: string;
+            }>) {
               if (comp.path && comp.content) {
                 files.push({ path: comp.path, content: comp.content });
                 logger.debug(`[WIRE] Extracted shared component: ${comp.path}`);
@@ -4069,7 +4099,8 @@ export class BuildOrchestrator {
       const needsRetry = [...coverage.missing, ...coverage.invalid];
 
       // Also check for unresolved imports - these need additional files generated
-      const hasUnresolvedImports = !coverage.importResolutionPassed && coverage.unresolvedImports.length > 0;
+      const hasUnresolvedImports =
+        !coverage.importResolutionPassed && coverage.unresolvedImports.length > 0;
 
       if (needsRetry.length === 0 && !hasUnresolvedImports) {
         // Full coverage achieved with valid code AND all imports resolve
@@ -4095,11 +4126,15 @@ export class BuildOrchestrator {
           );
         }
         if (coverage.unresolvedImports.length > 10) {
-          retryContext.push(`... and ${coverage.unresolvedImports.length - 10} more unresolved imports`);
+          retryContext.push(
+            `... and ${coverage.unresolvedImports.length - 10} more unresolved imports`
+          );
         }
       }
 
-      logger.warn(`[Orchestrator] WIRE RETRY needed for ${needsRetry.length} files + ${coverage.unresolvedImports.length} unresolved imports:`);
+      logger.warn(
+        `[Orchestrator] WIRE RETRY needed for ${needsRetry.length} files + ${coverage.unresolvedImports.length} unresolved imports:`
+      );
       for (const ctx of retryContext) {
         logger.warn(`  - ${ctx}`);
       }
@@ -4108,7 +4143,9 @@ export class BuildOrchestrator {
       // Also add specs for unresolved imports
       const importSpecs: WirePageSpec[] = coverage.unresolvedImports.map(u => ({
         path: u.suggestedFile,
+        route: '/' + (u.importPath.split('/').pop() || 'component'),
         name: u.importPath.split('/').pop() || 'component',
+        type: 'component' as const,
         criticality: 'important' as const, // Imported files are important
         sourceAgent: 'blocks' as const,
       }));
@@ -4220,7 +4257,8 @@ export class BuildOrchestrator {
       this.scheduler.failAgent('wire');
       const error: OrchestrationError = {
         code: 'WIRE_UNRESOLVED_IMPORTS',
-        message: `${unresolvedCount} import(s) don't resolve to generated files. ` +
+        message:
+          `${unresolvedCount} import(s) don't resolve to generated files. ` +
           `Missing: ${finalCoverage.unresolvedImports
             .slice(0, 5)
             .map(u => u.importPath)
@@ -4406,11 +4444,7 @@ export class BuildOrchestrator {
     const relevantContracts = contracts.filter(c => c.upstream === agentId);
 
     for (const contract of relevantContracts) {
-      const result = this.contractValidator.validateHandoff(
-        agentId,
-        contract.downstream,
-        output
-      );
+      const result = this.contractValidator.validateHandoff(agentId, contract.downstream, output);
 
       if (!result.valid) {
         allViolations.push(...result.violations);

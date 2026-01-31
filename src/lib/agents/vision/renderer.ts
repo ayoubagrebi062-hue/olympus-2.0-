@@ -3,6 +3,10 @@
  *
  * Renders React components in a headless browser for visual validation.
  * Uses Playwright for screenshot capture.
+ *
+ * FIX 3.1 (Jan 31, 2026): SECURITY - Removed eval() usage
+ * - Replaced eval(name) with window[name] lookup
+ * - Prevents RCE via malicious component code injection
  */
 
 // Note: Playwright is a dev dependency, this module is for build-time validation
@@ -117,23 +121,23 @@ function buildHtmlTemplate(code: string, options: RenderOptions): string {
     ${
       code.includes('export const')
         ? `
-    // Extract component name from export
+    // Extract component name from export (FIX 3.1: Removed eval() - use window[] lookup)
     const exportMatch = \`${code.replace(/`/g, '\\`')}\`.match(/export const (\\w+)/);
-    if (exportMatch) {
-      Component = eval(exportMatch[1]);
+    if (exportMatch && typeof window[exportMatch[1]] === 'function') {
+      Component = window[exportMatch[1]];
     }
     `
         : ''
     }
 
-    // Fallback: look for common component patterns
+    // Fallback: look for common component patterns (FIX 3.1: Removed eval() - use window[] lookup)
     if (!Component) {
       const possibleNames = ['Component', 'Button', 'Card', 'Input', 'Hero', 'Navbar', 'Footer', 'Modal', 'Form'];
       for (const name of possibleNames) {
-        try {
-          Component = eval(name);
-          if (Component) break;
-        } catch {}
+        if (typeof window[name] === 'function') {
+          Component = window[name];
+          break;
+        }
       }
     }
 

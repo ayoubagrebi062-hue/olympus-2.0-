@@ -20,6 +20,7 @@ import type {
   ValidationOptions,
   ViolationSeverity,
 } from './types';
+import { safeJsonParse } from '@/lib/core/safe-json';
 
 // ============================================================================
 // CONTRACT VALIDATOR
@@ -70,12 +71,24 @@ export class ContractValidator {
     const contract = this.contracts.get(key);
 
     if (!contract) {
+      // SECURITY FIX (Jan 31, 2026): Fail-closed - missing contract = validation failure
+      // Previously returned valid: true which allowed bypassing security validation
+      console.warn(`[SECURITY] Contract validation FAILED: No contract defined for ${key}`);
       return {
         contract: key,
-        valid: true,
-        violations: [],
+        valid: false,
+        violations: [
+          {
+            field: '_contract',
+            constraint: 'contract_exists',
+            expected: `Contract definition for ${key}`,
+            actual: 'undefined',
+            severity: 'critical' as const,
+            suggestion: `Define contract in contracts/agent-contracts.json for handoff ${key}`,
+          },
+        ],
         timestamp: new Date(),
-        warning: `No contract defined for ${key}`,
+        error: `SECURITY: No contract defined for ${key}. Handoff rejected.`,
         duration: Date.now() - startTime,
       };
     }
@@ -164,9 +177,10 @@ export class ContractValidator {
       a => a.type === 'document' || a.type === 'schema' || a.path?.endsWith('.json')
     );
 
+    // FIX 3.3: Use safeJsonParse to prevent prototype pollution
     if (jsonArtifact?.content) {
       try {
-        return JSON.parse(jsonArtifact.content);
+        return safeJsonParse<Record<string, unknown>>(jsonArtifact.content);
       } catch {
         // Not valid JSON
       }
@@ -176,9 +190,9 @@ export class ContractValidator {
     for (const artifact of output.artifacts) {
       if (artifact.content) {
         try {
-          const parsed = JSON.parse(artifact.content);
+          const parsed = safeJsonParse<unknown>(artifact.content);
           if (typeof parsed === 'object' && parsed !== null) {
-            return parsed;
+            return parsed as Record<string, unknown>;
           }
         } catch {
           // Continue to next artifact
