@@ -276,10 +276,14 @@ export class TierEnforcer {
     const violations: Violation[] = [];
     const { filePath, behaviors } = analysis;
 
-    const hasTier1Behavior = !behaviors.hasDbWrites && !behaviors.hasEnforcement;
-    const hasTier2Behavior =
-      (behaviors.hasDbWrites || behaviors.hasEnforcement) && !behaviors.hasIrreversibility;
+    // HIERARCHICAL tier detection (FIXED: was overlapping, causing false positives)
+    // Tier 3 = highest priority (irreversible operations)
+    // Tier 2 = medium priority (DB/enforcement without irreversibility)
+    // Tier 1 = default (pure logic, no side effects)
     const hasTier3Behavior = behaviors.hasIrreversibility;
+    const hasTier2Behavior =
+      !hasTier3Behavior && (behaviors.hasDbWrites || behaviors.hasEnforcement);
+    const hasTier1Behavior = !hasTier3Behavior && !hasTier2Behavior;
 
     const behaviorCount = [hasTier1Behavior, hasTier2Behavior, hasTier3Behavior].filter(
       Boolean
