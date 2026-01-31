@@ -267,8 +267,20 @@ export interface GuardrailContext {
   /** User identifier */
   userId?: string;
 
-  /** User roles for bypass checking */
+  /** User roles for bypass checking (DEPRECATED - use verifiedRoles) */
   userRoles?: string[];
+
+  /**
+   * Cryptographically verified user roles.
+   * FIX 1.1: These roles are signed and verified, unlike userRoles.
+   */
+  verifiedRoles?: string[];
+
+  /**
+   * HMAC signature of verifiedRoles for tamper detection.
+   * FIX 1.1: Required when using verifiedRoles for bypass.
+   */
+  roleSignature?: string;
 
   /** Target agent (if applicable) */
   targetAgent?: string;

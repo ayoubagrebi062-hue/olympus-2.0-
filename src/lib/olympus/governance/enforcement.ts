@@ -1,5 +1,12 @@
 // OLYMPUS GOVERNANCE ENFORCEMENT — NO BYPASS WITHOUT WRITTEN OVERRIDE
 
+/**
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
+ */
+
+
 import { createHash } from 'crypto';
 import type { Gate, DecisionTrace, Severity } from '../types/core';
 

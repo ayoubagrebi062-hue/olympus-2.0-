@@ -23,10 +23,15 @@ interface SupabaseQueryBuilder {
   single: () => Promise<SupabaseQueryResult>;
 }
 
-// TODO: Replace with actual supabase client when available
-// import { createServerSupabaseClient } from '@/lib/supabase/server';
+/**
+ * Supabase client stub - throws when called.
+ * Queue functionality requires Supabase to be configured.
+ *
+ * SETUP: Import from @/lib/auth/clients/server when Supabase is ready:
+ * import { createServerSupabaseClient } from '@/lib/auth/clients/server';
+ */
 const createServerSupabaseClient = (): { from: (table: string) => SupabaseQueryBuilder } => {
-  throw new Error('Supabase client not configured');
+  throw new Error('Supabase client not configured for build queue');
 };
 
 interface QueuedBuild {

@@ -271,6 +271,19 @@ export interface TenXSystem {
 
   // Intelligence
   intelligence: BuildIntelligenceEngine;
+
+  // Saga tracking (optional, used by orchestrator)
+  activeSagas?: Map<string, { id: string; startTime: number; steps: string[] }>;
+
+  // Evolution metrics (optional, used by orchestrator)
+  evolutionMetrics?: { recentBuilds: string[]; executionRecords: Map<string, unknown> };
+
+  // Evolution engine (optional, used by orchestrator)
+  evolution?: {
+    shouldRunEvolution: () => boolean;
+    triggerEvolution: () => Promise<void>;
+    recordExecution: (record: unknown) => Promise<void>;
+  };
 }
 
 /**

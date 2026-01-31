@@ -185,6 +185,10 @@ export interface QualityMetrics {
   trend: 'improving' | 'stable' | 'declining';
   /** Last update timestamp */
   lastUpdated: Date;
+  /** UI quality: count of banned font usages */
+  bannedFonts?: number;
+  /** UI quality: count of generic layout patterns */
+  genericLayouts?: number;
 }
 
 // ============================================================================

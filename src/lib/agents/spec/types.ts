@@ -3,6 +3,10 @@
  *
  * Types for parsing specifications and tracking completion against requirements.
  * Part of the OLYMPUS Spec Compliance System that prevents "false success" builds.
+  *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 // ============================================================================

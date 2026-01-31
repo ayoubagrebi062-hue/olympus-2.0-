@@ -3,6 +3,10 @@
  *
  * Validates agent output against spec requirements.
  * Integrates with the JUDGE module to ensure generated code matches the spec.
+ *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import type {

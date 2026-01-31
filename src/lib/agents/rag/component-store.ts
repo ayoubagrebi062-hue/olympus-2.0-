@@ -3,6 +3,10 @@
  *
  * Vector database for storing and retrieving high-quality component examples.
  * Uses Qdrant for semantic search over component embeddings.
+  *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import { QdrantClient } from '@qdrant/js-client-rest';

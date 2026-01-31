@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
             const encoded = encoder.encode(event);
             streamController.enqueue(encoded);
           }
-          metrics.recordReplay?.(missedEvents.length);
+          metrics.recordReplay(missedEvents.length);
         }
 
         // Send initial retry directive

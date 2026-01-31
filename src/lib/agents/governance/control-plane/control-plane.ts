@@ -7,6 +7,7 @@
 import { AgentRole, type AgentIdentity } from '../types';
 import type { ILedgerStore, GovernanceLedgerEntry } from '../ledger/types';
 import type { IAuditLogStore } from '../store/types';
+import { BoundedCache, BoundedArray } from '@/lib/utils/bounded-cache';
 
 export enum ControlAction {
   HALT = 'HALT',
@@ -63,7 +64,15 @@ export interface ControlEvent {
 
 export interface IControlPlane {
   getCurrentState(): ControlState;
-  executeAction(action: ControlAction, target: string, operator: string): Promise<ControlDecision>;
+  /**
+   * Execute a control action with proper authorization.
+   * SECURITY FIX: Now requires AgentIdentity instead of string for proper role validation.
+   */
+  executeAction(
+    action: ControlAction,
+    target: string,
+    operatorIdentity: AgentIdentity
+  ): Promise<ControlDecision>;
   evaluateControl(identity: AgentIdentity, action: string): Promise<boolean>;
   triggerKillSwitch(reason: string, triggeredBy: string): Promise<void>;
   releaseKillSwitch(operator: string): Promise<boolean>;
@@ -75,16 +84,35 @@ export interface IControlPlane {
   escalate(level: ControlLevel, reason: string, triggeredBy: string): Promise<void>;
 }
 
+/**
+ * SECURITY FIX: Control history cache configuration
+ * Prevents unbounded memory growth from accumulated events
+ */
+const HISTORY_CACHE_CONFIG = {
+  maxSize: 500, // Max 500 targets tracked
+  ttlMs: 24 * 60 * 60 * 1000, // 24 hour TTL
+  cleanupIntervalMs: 60 * 60 * 1000, // Cleanup every hour
+  autoCleanup: true,
+};
+
+const MAX_EVENTS_PER_TARGET = 100; // Max events per target
+
 export class GovernanceControlPlane implements IControlPlane {
   private state: ControlState;
   private ledger: ILedgerStore;
   private audit: IAuditLogStore;
-  private controlHistory: Map<string, ControlEvent[]> = new Map();
+  // SECURITY FIX: Use BoundedCache with TTL instead of unbounded Map
+  private controlHistory: BoundedCache<string, BoundedArray<ControlEvent>>;
   private readonly AUTH_MATRIX: Map<AgentRole, ControlAction[]> = new Map();
 
   constructor(ledger: ILedgerStore, audit: IAuditLogStore) {
     this.ledger = ledger;
     this.audit = audit;
+
+    // SECURITY FIX: Initialize bounded history cache
+    this.controlHistory = new BoundedCache<string, BoundedArray<ControlEvent>>(
+      HISTORY_CACHE_CONFIG
+    );
 
     this.state = {
       level: ControlLevel.NONE,
@@ -128,12 +156,52 @@ export class GovernanceControlPlane implements IControlPlane {
     };
   }
 
+  /**
+   * Execute a control action with proper authorization.
+   *
+   * SECURITY FIX (Jan 31, 2026): Now requires full AgentIdentity instead of
+   * just operator string. Validates identity fingerprint and uses actual role
+   * from identity instead of hardcoded GOVERNANCE role.
+   *
+   * @param action - The control action to execute
+   * @param target - The target of the action (buildId, tenantId, etc.)
+   * @param operatorIdentity - The verified identity of the operator
+   */
   async executeAction(
     action: ControlAction,
     target: string,
-    operator: string
+    operatorIdentity: AgentIdentity
   ): Promise<ControlDecision> {
     const level = this.determineLevelForAction(action);
+
+    // SECURITY FIX: Validate operator identity has required fields
+    if (!operatorIdentity.agentId || !operatorIdentity.role) {
+      return {
+        action,
+        target,
+        level,
+        authorized: false,
+        reason: 'Invalid operator identity: missing agentId or role',
+        requiresApproval: true,
+      };
+    }
+
+    // SECURITY FIX: Require fingerprint for high-severity actions
+    const highSeverityActions = [
+      ControlAction.KILL_SWITCH,
+      ControlAction.FORCE_ROLLBACK,
+      ControlAction.LOCK_TENANT,
+    ];
+    if (highSeverityActions.includes(action) && !operatorIdentity.fingerprint) {
+      return {
+        action,
+        target,
+        level,
+        authorized: false,
+        reason: 'High-severity actions require cryptographic identity fingerprint',
+        requiresApproval: true,
+      };
+    }
 
     if (this.state.halted && action !== ControlAction.RESUME) {
       return {
@@ -146,17 +214,8 @@ export class GovernanceControlPlane implements IControlPlane {
       };
     }
 
-    const authorized = await this.evaluateControl(
-      {
-        agentId: operator,
-        version: '1.0.0',
-        fingerprint: '',
-        role: AgentRole.GOVERNANCE,
-        tenantId: '',
-        buildId: target,
-      } as AgentIdentity,
-      action
-    );
+    // SECURITY FIX: Use actual identity role instead of hardcoded GOVERNANCE
+    const authorized = await this.evaluateControl(operatorIdentity, action);
 
     if (!authorized) {
       return {
@@ -164,7 +223,7 @@ export class GovernanceControlPlane implements IControlPlane {
         target,
         level,
         authorized: false,
-        reason: 'Unauthorized action for operator role',
+        reason: `Unauthorized: role '${operatorIdentity.role}' cannot perform '${action}'`,
         requiresApproval: true,
       };
     }
@@ -173,14 +232,18 @@ export class GovernanceControlPlane implements IControlPlane {
       id: crypto.randomUUID(),
       action,
       level,
-      triggeredBy: operator,
+      triggeredBy: operatorIdentity.agentId,
       triggeredAt: new Date(),
       target,
+      details: {
+        operatorRole: operatorIdentity.role,
+        operatorFingerprint: operatorIdentity.fingerprint ? 'present' : 'absent',
+      },
     };
 
     await this.recordControlEvent(event);
 
-    const result = await this.applyAction(action, target, operator);
+    const result = await this.applyAction(action, target, operatorIdentity.agentId);
 
     return {
       action,
@@ -351,12 +414,13 @@ export class GovernanceControlPlane implements IControlPlane {
 
   async getControlHistory(target?: string, limit: number = 100): Promise<ControlEvent[]> {
     if (target) {
-      return this.controlHistory.get(target) || [];
+      const events = this.controlHistory.get(target);
+      return events ? events.all : [];
     }
 
     const allEvents: ControlEvent[] = [];
     for (const events of this.controlHistory.values()) {
-      allEvents.push(...events);
+      allEvents.push(...events.all);
     }
 
     return allEvents
@@ -423,9 +487,15 @@ export class GovernanceControlPlane implements IControlPlane {
 
   private async recordControlEvent(event: ControlEvent): Promise<void> {
     const target = event.target || 'system';
-    const events = this.controlHistory.get(target) || [];
+    let events = this.controlHistory.get(target);
+
+    if (!events) {
+      // SECURITY FIX: Use BoundedArray with max events limit
+      events = new BoundedArray<ControlEvent>(MAX_EVENTS_PER_TARGET);
+      this.controlHistory.set(target, events);
+    }
+
     events.push(event);
-    this.controlHistory.set(target, events);
   }
 
   private async logToLedger(event: ControlEvent): Promise<void> {

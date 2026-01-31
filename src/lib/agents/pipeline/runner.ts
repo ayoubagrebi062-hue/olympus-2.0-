@@ -3,6 +3,13 @@ config({ path: '.env' });
 
 // Import the full 38-agent orchestrator
 import { Olympus38AgentLogic } from '../../../../olympus-38-agent-orchestration';
+// SECURITY FIX: Input sanitization for prompt injection protection
+import {
+  sanitizeInput,
+  InputTooLongError,
+  InputBlockedError,
+} from '@/lib/security/input-sanitizer';
+import { logger } from '@/utils/logger';
 
 // Create the main orchestrator instance
 const olympusOrchestrator = new Olympus38AgentLogic();
@@ -10,12 +17,52 @@ const olympusOrchestrator = new Olympus38AgentLogic();
 /**
  * OLYMPUS MAIN ENTRY POINT - Full 38-Agent Orchestration
  * This replaces the limited 8-agent pipeline with the complete system
+ *
+ * SECURITY: All user prompts are sanitized before processing
  */
 export async function generateFullApplication(prompt: string, options: any = {}) {
   console.log('🚀 OLYMPUS 38-AGENT ORCHESTRATION ACTIVATED');
 
+  // SECURITY FIX: Sanitize user input before processing
+  let sanitizedPrompt: string;
+  try {
+    const result = sanitizeInput(prompt);
+    sanitizedPrompt = result.sanitized;
+
+    if (result.wasFiltered) {
+      logger.warn('[Pipeline] User prompt was filtered', {
+        reasons: result.filterReasons,
+        inputHash: result.inputHash,
+      });
+    }
+  } catch (error) {
+    if (error instanceof InputTooLongError) {
+      logger.error('[Pipeline] Prompt too long', {
+        length: error.actualLength,
+        max: error.maxLength,
+      });
+      return {
+        success: false,
+        error: `Prompt exceeds maximum length of ${error.maxLength} characters`,
+        metadata: { agentsUsed: 0, phases: 0 },
+      };
+    }
+    if (error instanceof InputBlockedError) {
+      logger.error('[Pipeline] Prompt blocked - injection detected', {
+        reason: error.reason,
+        pattern: error.pattern,
+      });
+      return {
+        success: false,
+        error: 'Your prompt contains disallowed content. Please rephrase and try again.',
+        metadata: { agentsUsed: 0, phases: 0 },
+      };
+    }
+    throw error;
+  }
+
   const agentPrompt = {
-    userPrompt: prompt,
+    userPrompt: sanitizedPrompt,
     context: options.context || {},
     projectType: options.projectType,
     complexity: options.complexity || 'medium',
@@ -57,13 +104,39 @@ export async function generateFullApplication(prompt: string, options: any = {})
 /**
  * Legacy function for backward compatibility
  * Now routes to the full 38-agent system
+ *
+ * SECURITY: All user prompts are sanitized before processing
  */
 export async function generateComponent(prompt: string, options: any = {}) {
   console.log('🚀 REAL AI: Routing to full 38-agent orchestrator with OpenAI integration');
 
+  // SECURITY FIX: Sanitize user input before processing
+  let sanitizedPrompt: string;
+  try {
+    const result = sanitizeInput(prompt);
+    sanitizedPrompt = result.sanitized;
+
+    if (result.wasFiltered) {
+      logger.warn('[Pipeline:Component] User prompt was filtered', {
+        reasons: result.filterReasons,
+        inputHash: result.inputHash,
+      });
+    }
+  } catch (error) {
+    if (error instanceof InputTooLongError || error instanceof InputBlockedError) {
+      logger.error('[Pipeline:Component] Prompt rejected', { error });
+      return {
+        filename: 'error.txt',
+        code: '// Prompt rejected for security reasons',
+        review: { score: 0, categories: {} },
+      };
+    }
+    throw error;
+  }
+
   // For component requests, use focused execution
   const componentPrompt = {
-    userPrompt: `Build a UI component: ${prompt}`,
+    userPrompt: `Build a UI component: ${sanitizedPrompt}`,
     context: options,
     complexity: 'simple', // Components are simpler than full apps
     techPreferences: ['React', 'TypeScript', 'Tailwind'],

@@ -77,7 +77,11 @@ export type AgentId =
   | 'docker'
   | 'pipeline'
   | 'monitor'
-  | 'scale';
+  | 'scale'
+  // Extended identifiers
+  | 'testing'
+  | 'reviewer'
+  | 'shield';
 
 /** Agent input/output types */
 export interface AgentInput {
@@ -123,6 +127,7 @@ export interface Decision {
   reasoning: string;
   alternatives: string[];
   confidence: number;
+  value?: unknown;
 }
 
 export interface AgentMetrics {

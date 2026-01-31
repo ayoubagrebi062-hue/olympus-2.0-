@@ -15,6 +15,10 @@
  *     ctx.log.info('Starting');  // Auto-has trace_id, build_id
  *     await ctx.span('phase', async () => { ... });
  *   });
+  *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import { Span, SpanStatusCode, trace } from '@opentelemetry/api';

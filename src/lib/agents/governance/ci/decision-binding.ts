@@ -30,6 +30,13 @@ interface GovernancePhase {
 }
 
 // Execution domain classification
+
+/**
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
+ */
+
 type ExecutionDomain = 'EXEC' | 'NON_EXEC' | 'GOVERNANCE';
 
 // Destruction semantics (Phase A+)
@@ -118,13 +125,17 @@ export class DecisionBindingGate {
 
   private loadDecisionSchema(decisionSchemaPath: string): DecisionSchema {
     if (!fs.existsSync(decisionSchemaPath)) {
+      // SECURITY FIX: Log missing schema (fail-closed logging)
+      console.warn(`[DecisionBinding] Schema not found: ${decisionSchemaPath}`);
       return { decisions: [] };
     }
 
     try {
       const content = fs.readFileSync(decisionSchemaPath, 'utf-8');
       return JSON.parse(content);
-    } catch {
+    } catch (error) {
+      // SECURITY FIX: Log parse failures (fail-closed logging)
+      console.error(`[DecisionBinding] Failed to parse schema: ${decisionSchemaPath}`, error);
       return { decisions: [] };
     }
   }

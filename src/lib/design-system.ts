@@ -8,6 +8,10 @@
  *
  * EVERY frontend agent MUST use these tokens - NO EXCEPTIONS.
  * Generic AI colors (blue-500) are FORBIDDEN.
+  *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 // ============================================

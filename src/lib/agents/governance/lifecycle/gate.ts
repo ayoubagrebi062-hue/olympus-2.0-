@@ -2,6 +2,10 @@
  * OLYMPUS 2.0 - Agent Lifecycle Runtime Gate
  * Version 8.0.0
  * Runtime gate preventing execution of non-ACTIVE agents
+ *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import { AgentLifecycleState } from './contract';

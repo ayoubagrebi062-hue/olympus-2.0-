@@ -3,6 +3,10 @@
  *
  * Real-time metrics collection for streaming operations.
  * Enables monitoring, alerting, and performance optimization.
+  *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import { EventEmitter } from 'events';
@@ -321,6 +325,13 @@ export class StreamMetricsCollector extends EventEmitter {
    */
   recordDrop(): void {
     this.droppedEvents++;
+  }
+
+  /**
+   * Record replay events (reconnection support)
+   */
+  recordReplay(count: number): void {
+    this.totalEvents += count;
   }
 
   /**

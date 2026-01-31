@@ -114,7 +114,7 @@ export class TierEnforcer {
           confidence: analysis.confidence,
         };
 
-        const decision = strategy.decide(loaderViolation, null);
+        const decision = await strategy.decide(loaderViolation, null);
 
         switch (decision.action) {
           case 'alert-human':

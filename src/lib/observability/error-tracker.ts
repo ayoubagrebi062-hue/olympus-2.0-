@@ -8,6 +8,7 @@
 export interface ErrorContext {
   type: string;
   metadata?: Record<string, unknown>;
+  agentId?: string;
 }
 
 interface TrackedError {

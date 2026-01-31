@@ -437,13 +437,20 @@ export class DecisionFinalizationGate {
 
   private loadDecisionSchema(decisionSchemaPath: string): DecisionSchema {
     if (!fs.existsSync(decisionSchemaPath)) {
+      // SECURITY FIX: Log when schema is missing (fail-closed logging)
+      console.warn(
+        `[DecisionFinalization] Schema not found: ${decisionSchemaPath} - using empty schema`
+      );
       return { decisions: [] };
     }
 
     try {
       const content = fs.readFileSync(decisionSchemaPath, 'utf-8');
       return JSON.parse(content);
-    } catch {
+    } catch (error) {
+      // SECURITY FIX: Log parse failures (fail-closed logging)
+      console.error(`[DecisionFinalization] Failed to parse schema: ${decisionSchemaPath}`, error);
+      console.warn('[DecisionFinalization] Using empty schema - decisions will not be validated');
       return { decisions: [] };
     }
   }

@@ -4,6 +4,10 @@
  * Updated with 50X Coordination Upgrade:
  * - Integrates with CriticalDecisions for structured decision propagation
  * - Delegates to critical-summarizer for enhanced architecture context
+ *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import type { AgentId, AgentOutput, BuildContext, Artifact, Decision } from '../types';

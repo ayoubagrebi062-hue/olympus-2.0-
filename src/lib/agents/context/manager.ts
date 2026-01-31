@@ -5,6 +5,10 @@
  * - Tracks CriticalDecisions from coordination system
  * - Provides constraint context to downstream agents
  *
+ * SECURITY FIX: Cluster #6 - Concurrency Primitives
+ * - Added mutex protection for concurrent state access
+ * - Thread-safe agent output recording
+ *
  * @AUTHORITY_CHECK - Context management requires authorization verification
  */
 
@@ -26,6 +30,7 @@ import {
   extractCriticalDecisions,
 } from '../coordination';
 import { saveCriticalDecisions, loadCriticalDecisions } from './persistence';
+import { Mutex, ReadWriteLock } from '@/lib/utils/mutex';
 
 /** Build context manager - accumulates and provides context to agents */
 export class BuildContextManager {
@@ -35,6 +40,14 @@ export class BuildContextManager {
 
   /** 50X COORDINATION: Cached critical decisions from upstream agents */
   private _criticalDecisions: CriticalDecisions | null = null;
+
+  // SECURITY FIX: Cluster #6 - Concurrency primitives
+  /** Mutex for write operations (state changes, output recording) */
+  private writeMutex = new Mutex('context-write');
+  /** ReadWriteLock for output access (multiple readers, single writer) */
+  private outputLock = new ReadWriteLock('context-output');
+  /** Lock timeout in ms */
+  private readonly LOCK_TIMEOUT_MS = 5000;
 
   constructor(init: {
     buildId: string;
@@ -138,6 +151,16 @@ export class BuildContextManager {
     });
   }
 
+  /**
+   * SECURITY FIX: Thread-safe state change
+   * Use this when called from parallel contexts
+   */
+  async setStateSafe(state: BuildState): Promise<void> {
+    await this.writeMutex.withLock(async () => {
+      this.setState(state);
+    }, this.LOCK_TIMEOUT_MS);
+  }
+
   /** Start a phase */
   startPhase(phase: BuildPhase): void {
     this.data.currentPhase = phase;
@@ -176,6 +199,54 @@ export class BuildContextManager {
       agentId: output.agentId,
       timestamp: new Date(),
     });
+  }
+
+  /**
+   * SECURITY FIX: Thread-safe output recording
+   * Use this when recording from parallel agent executions
+   */
+  async recordOutputSafe(output: AgentOutput): Promise<void> {
+    await this.outputLock.withWriteLock(async () => {
+      this.recordOutput(output);
+    }, this.LOCK_TIMEOUT_MS);
+  }
+
+  /**
+   * SECURITY FIX: Thread-safe output reading
+   * Use this when reading outputs that may be written concurrently
+   */
+  async getAgentOutputsSafe(): Promise<Map<AgentId, AgentOutput>> {
+    return this.outputLock.withReadLock(async () => {
+      return new Map(this.data.agentOutputs);
+    }, this.LOCK_TIMEOUT_MS);
+  }
+
+  /**
+   * SECURITY FIX: Clone context for isolated parallel execution
+   * Returns a copy that can be safely modified without affecting main context
+   */
+  cloneForParallel(): BuildContextData {
+    return JSON.parse(
+      JSON.stringify({
+        ...this.data,
+        agentOutputs: Object.fromEntries(this.data.agentOutputs),
+        artifacts: Object.fromEntries(this.data.artifacts),
+      })
+    );
+  }
+
+  /**
+   * SECURITY FIX: Merge results from parallel execution back into main context
+   * Uses write lock to ensure atomic merge
+   */
+  async mergeParallelResults(
+    results: Array<{ agentId: AgentId; output: AgentOutput }>
+  ): Promise<void> {
+    await this.outputLock.withWriteLock(async () => {
+      for (const { output } of results) {
+        this.recordOutput(output);
+      }
+    }, this.LOCK_TIMEOUT_MS);
   }
 
   /** 50X COORDINATION: Update critical decisions when agent completes */

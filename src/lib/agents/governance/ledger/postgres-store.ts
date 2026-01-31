@@ -1,7 +1,7 @@
 /**
  * OLYMPUS 2.0 — Governance Ledger & Immutability
  * Phase 2.4: PostgreSQL Append-Only Ledger Store
- * @version 1.0.0
+ * @version 1.1.0 (Cluster #4 - Cryptographic Integrity)
  */
 
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
@@ -13,6 +13,7 @@ import {
   BuildLevelLock,
 } from './types';
 import type { IAuditLogStore } from '../store/types';
+import { LedgerSigner, getLedgerSigner, type SignedLedgerEntry } from './signing';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
@@ -26,6 +27,25 @@ const BUILD_LOCK_TTL = 3600000;
 
 export class PostgresLedgerStore implements ILedgerStore {
   private buildLocks: Map<string, BuildLevelLock> = new Map();
+  // SECURITY FIX: Cluster #4 - Signer for cryptographic integrity
+  private signer: LedgerSigner | null = null;
+
+  /**
+   * Configure signing for this store
+   * Call this with keys to enable signed entries
+   */
+  configureSigning(privateKey: string, publicKey: string): void {
+    this.signer = getLedgerSigner();
+    this.signer.setKeys(privateKey, publicKey);
+    console.log('[PostgresLedgerStore] Signing configured');
+  }
+
+  /**
+   * Check if signing is enabled
+   */
+  isSigningEnabled(): boolean {
+    return this.signer !== null && this.signer.hasKeys();
+  }
 
   async append(entry: GovernanceLedgerEntry): Promise<string> {
     const latestHash = await this.getLatestHash();
@@ -55,6 +75,93 @@ export class PostgresLedgerStore implements ILedgerStore {
     }
 
     return data?.id || '';
+  }
+
+  /**
+   * SECURITY FIX: Append with digital signature
+   * Signs the entry before storing for tamper detection
+   */
+  async appendSigned(entry: GovernanceLedgerEntry): Promise<string> {
+    if (!this.signer || !this.signer.hasKeys()) {
+      console.warn('[PostgresLedgerStore] Signing not configured, using unsigned append');
+      return this.append(entry);
+    }
+
+    const latestHash = await this.getLatestHash();
+    const previousHash = latestHash || '';
+
+    // Compute hash for this entry
+    const ledgerHash = this.computeHash(entry, previousHash);
+    const entryWithHash = { ...entry, ledgerHash, previousHash };
+
+    // Sign the entry
+    const signedEntry = this.signer.sign(entryWithHash);
+
+    const { data, error } = await supabase
+      .from('governance_ledger')
+      .insert({
+        build_id: signedEntry.buildId,
+        agent_id: signedEntry.agentId,
+        action_type: signedEntry.actionType,
+        action_data: {
+          ...signedEntry.actionData,
+          // SECURITY: Include signature metadata
+          _signature: signedEntry.signature,
+          _signedAt: signedEntry.signedAt?.toISOString(),
+          _signedBy: signedEntry.signedBy,
+          _signatureVersion: signedEntry.signatureVersion,
+        },
+        timestamp: new Date().toISOString(),
+        ledger_hash: ledgerHash,
+        previous_hash: previousHash,
+        immutable: true,
+      })
+      .select('id')
+      .single();
+
+    if (error) {
+      console.error('[PostgresLedgerStore] Signed append failed:', error);
+      throw new Error(`Failed to append signed entry: ${error.message}`);
+    }
+
+    console.log('[PostgresLedgerStore] Entry appended with signature');
+    return data?.id || '';
+  }
+
+  /**
+   * SECURITY FIX: Verify all entries in chain
+   */
+  async verifyChainWithSignatures(buildId: string): Promise<{
+    valid: boolean;
+    totalEntries: number;
+    verifiedEntries: number;
+    tamperDetected: boolean;
+    reason?: string;
+  }> {
+    if (!this.signer) {
+      return {
+        valid: true,
+        totalEntries: 0,
+        verifiedEntries: 0,
+        tamperDetected: false,
+        reason: 'Signing not configured - verification skipped',
+      };
+    }
+
+    const entries = await this.getEntries(buildId, 1000);
+
+    // Convert to SignedLedgerEntry format
+    const signedEntries: SignedLedgerEntry[] = entries.map(e => ({
+      ...e,
+      signature: (e.actionData as any)?._signature,
+      signedAt: (e.actionData as any)?._signedAt
+        ? new Date((e.actionData as any)._signedAt)
+        : undefined,
+      signedBy: (e.actionData as any)?._signedBy,
+      signatureVersion: (e.actionData as any)?._signatureVersion,
+    }));
+
+    return this.signer.verifyChainIntegrity(signedEntries);
   }
 
   async getEntries(buildId: string, limit: number = 100): Promise<GovernanceLedgerEntry[]> {

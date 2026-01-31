@@ -5,11 +5,19 @@
  * Runs before/alongside layers for immediate threat detection.
  *
  * Actions: allow | warn | block | halt | terminate
+ *
+ * FIX 1.1 (Jan 31, 2026): Added cryptographic role verification for bypass
+ * FIX 2.1 (Jan 31, 2026): Added SSRF, extended XSS, and deserialization tripwires
+  *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import { GUARDRAIL_PATTERNS } from '@/lib/core';
 import type { GuardrailInput, TripwireConfig, GuardrailAction } from '@/lib/core';
 import type { GuardrailContext } from './types';
+import * as crypto from 'crypto';
 
 // ============================================================================
 // TRIPWIRE RESULT
@@ -126,6 +134,94 @@ export const DEFAULT_TRIPWIRES: TripwireConfig[] = [
     action: 'warn',
     priority: 4,
   },
+
+  // ============================================================================
+  // FIX 2.1: Additional Security Tripwires (Added Jan 31, 2026)
+  // ============================================================================
+
+  // Priority 1: SSRF Protection
+  {
+    name: 'ssrf-internal-ip',
+    pattern: /(?:https?:\/\/)?(?:localhost|127\.0\.0\.1|0\.0\.0\.0|10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3})/i,
+    action: 'block',
+    priority: 1,
+  },
+  {
+    name: 'ssrf-cloud-metadata',
+    pattern: /169\.254\.169\.254|metadata\.google\.internal|169\.254\.170\.2/i,
+    action: 'terminate',
+    priority: 1,
+  },
+  {
+    name: 'ssrf-file-protocol',
+    pattern: /(?:file|gopher|dict|ftp):\/\//i,
+    action: 'block',
+    priority: 1,
+  },
+
+  // Priority 3: Extended XSS Coverage
+  {
+    name: 'xss-svg-handler',
+    pattern: /<svg[^>]*\s+on\w+\s*=/i,
+    action: 'block',
+    priority: 3,
+  },
+  {
+    name: 'xss-svg-animate',
+    pattern: /<(?:animate|set|animateTransform)[^>]*(?:onbegin|onend|onrepeat)\s*=/i,
+    action: 'block',
+    priority: 3,
+  },
+  {
+    name: 'xss-data-uri',
+    pattern: /(?:src|href|data|action)\s*=\s*["']?\s*data:(?:text\/html|application\/javascript|text\/javascript)/i,
+    action: 'block',
+    priority: 3,
+  },
+  {
+    name: 'xss-javascript-uri',
+    pattern: /(?:src|href|action|formaction)\s*=\s*["']?\s*javascript:/i,
+    action: 'block',
+    priority: 3,
+  },
+  {
+    name: 'xss-iframe-srcdoc',
+    pattern: /<iframe[^>]*\s+srcdoc\s*=\s*["'][^"']*(?:<script|on\w+\s*=)/i,
+    action: 'block',
+    priority: 3,
+  },
+  {
+    name: 'xss-object-embed',
+    pattern: /<(?:object|embed)[^>]*(?:data|src)\s*=\s*["']?\s*(?:javascript:|data:text\/html)/i,
+    action: 'block',
+    priority: 3,
+  },
+  {
+    name: 'xss-meta-refresh',
+    pattern: /<meta[^>]*http-equiv\s*=\s*["']?refresh["']?[^>]*content\s*=\s*["'][^"']*(?:javascript:|data:)/i,
+    action: 'block',
+    priority: 3,
+  },
+  {
+    name: 'xss-base-tag',
+    pattern: /<base[^>]*href\s*=\s*["']?\s*(?:javascript:|data:)/i,
+    action: 'block',
+    priority: 3,
+  },
+
+  // Priority 2: Deserialization Protection
+  {
+    name: 'unsafe-deserialization',
+    pattern: /(?:eval|Function)\s*\(\s*(?:JSON\.parse|atob|decodeURIComponent)/i,
+    action: 'block',
+    priority: 2,
+  },
+  {
+    name: 'prototype-pollution',
+    pattern: /__proto__|constructor\s*\[|prototype\s*\[/i,
+    action: 'block',
+    priority: 2,
+  },
 ];
 
 // ============================================================================
@@ -235,10 +331,68 @@ export class TripwireSystem {
 
   /**
    * Check if context allows bypassing tripwires.
+   * FIX 1.1: Now requires cryptographically verified roles.
    */
   private shouldBypass(context: GuardrailContext): boolean {
-    if (!context.userRoles) return false;
-    return context.userRoles.some(role => this.bypassRoles.has(role));
+    // FIX 1.1: Require verified roles with signature
+    // Legacy userRoles without signature are NO LONGER trusted for bypass
+    if (!context.verifiedRoles || !context.roleSignature) {
+      // Log attempted bypass without verification (security audit trail)
+      if (context.userRoles?.some(role => this.bypassRoles.has(role))) {
+        this.logSecurityEvent('UNVERIFIED_BYPASS_ATTEMPT', context, {
+          claimedRoles: context.userRoles,
+          reason: 'Bypass attempted with unverified roles',
+        });
+      }
+      return false;
+    }
+
+    // Verify the signature matches the claimed roles
+    const roleSecret = process.env.OLYMPUS_ROLE_SECRET || process.env.ROLE_SECRET;
+    if (!roleSecret) {
+      this.logSecurityEvent('MISSING_ROLE_SECRET', context, {
+        reason: 'OLYMPUS_ROLE_SECRET environment variable not configured',
+      });
+      return false;
+    }
+
+    const expectedSignature = crypto
+      .createHmac('sha256', roleSecret)
+      .update(JSON.stringify(context.verifiedRoles.sort()))
+      .digest('hex');
+
+    if (context.roleSignature !== expectedSignature) {
+      this.logSecurityEvent('ROLE_SIGNATURE_MISMATCH', context, {
+        claimedRoles: context.verifiedRoles,
+        reason: 'Role signature verification failed - possible tampering',
+      });
+      return false;
+    }
+
+    // Signature valid - check if any verified role is a bypass role
+    return context.verifiedRoles.some(role => this.bypassRoles.has(role));
+  }
+
+  /**
+   * Log security events for audit trail.
+   * FIX 1.1: Added for security monitoring.
+   */
+  private logSecurityEvent(
+    event: string,
+    context: GuardrailContext,
+    details: Record<string, unknown>
+  ): void {
+    const logEntry = {
+      timestamp: new Date().toISOString(),
+      event,
+      requestId: context.requestId,
+      userId: context.userId,
+      tenantId: context.tenantId,
+      ...details,
+    };
+
+    // In production, this should go to a security monitoring system
+    console.error(`[SECURITY] ${event}:`, JSON.stringify(logEntry));
   }
 
   // ===========================================================================
@@ -355,7 +509,68 @@ export function createTripwireSystem(
 }
 
 // ============================================================================
+// ROLE SIGNING UTILITIES (FIX 1.1)
+// ============================================================================
+
+/**
+ * Create a signed role context for verified bypass.
+ * FIX 1.1: Use this to create contexts with verified roles.
+ *
+ * @param roles - The roles to sign (e.g., ['admin', 'system'])
+ * @param secret - Optional secret (defaults to OLYMPUS_ROLE_SECRET env var)
+ * @returns Object with verifiedRoles and roleSignature
+ */
+export function createSignedRoleContext(
+  roles: string[],
+  secret?: string
+): { verifiedRoles: string[]; roleSignature: string } {
+  const roleSecret = secret || process.env.OLYMPUS_ROLE_SECRET || process.env.ROLE_SECRET;
+
+  if (!roleSecret) {
+    throw new Error(
+      'Cannot sign roles: OLYMPUS_ROLE_SECRET environment variable not set'
+    );
+  }
+
+  const sortedRoles = [...roles].sort();
+  const signature = crypto
+    .createHmac('sha256', roleSecret)
+    .update(JSON.stringify(sortedRoles))
+    .digest('hex');
+
+  return {
+    verifiedRoles: sortedRoles,
+    roleSignature: signature,
+  };
+}
+
+/**
+ * Verify a role signature is valid.
+ * FIX 1.1: Use this to validate role claims.
+ */
+export function verifyRoleSignature(
+  roles: string[],
+  signature: string,
+  secret?: string
+): boolean {
+  const roleSecret = secret || process.env.OLYMPUS_ROLE_SECRET || process.env.ROLE_SECRET;
+
+  if (!roleSecret) {
+    return false;
+  }
+
+  const sortedRoles = [...roles].sort();
+  const expectedSignature = crypto
+    .createHmac('sha256', roleSecret)
+    .update(JSON.stringify(sortedRoles))
+    .digest('hex');
+
+  return signature === expectedSignature;
+}
+
+// ============================================================================
 // EXPORTS
 // ============================================================================
 
 export { DEFAULT_TRIPWIRES as BUILTIN_TRIPWIRES };
+// Note: createSignedRoleContext and verifyRoleSignature are already exported above

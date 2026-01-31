@@ -7,6 +7,10 @@
  * HIGH PRIORITY CONTRACT - Design tokens must propagate.
  *
  * FIX 2.3 (Jan 29, 2026): Enhanced neutral scale and semantic color validation
+ *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import type { AgentContract, ContractViolation } from '../types';

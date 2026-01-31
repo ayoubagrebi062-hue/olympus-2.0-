@@ -64,11 +64,13 @@ function getClientIdentifier(request: NextRequest): string {
     return sanitizeIP(cfIP);
   }
 
-  // Option 3: Direct connection IP (Next.js provides this)
-  // This is the ACTUAL TCP connection IP - can't be spoofed
-  const directIP = request.ip;
-  if (directIP && isValidIP(directIP)) {
-    return sanitizeIP(directIP);
+  // Option 3: X-Forwarded-For (standard proxy header)
+  const xForwardedFor = request.headers.get('x-forwarded-for');
+  if (xForwardedFor) {
+    const directIP = xForwardedFor.split(',')[0].trim();
+    if (isValidIP(directIP)) {
+      return sanitizeIP(directIP);
+    }
   }
 
   // FALLBACK: Use a fingerprint of request characteristics

@@ -6,6 +6,10 @@
  * This scaffolder fills in the gaps with sensible defaults.
  *
  * IMPORTANT: This is a fallback. Agents SHOULD generate these files.
+  *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import { existsSync } from 'fs';

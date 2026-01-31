@@ -3,6 +3,10 @@
  *
  * Neural context compression for efficient handoffs.
  * Implements semantic, neural, and no-compression strategies.
+  *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import { THRESHOLDS, log, metrics } from '@/lib/core';

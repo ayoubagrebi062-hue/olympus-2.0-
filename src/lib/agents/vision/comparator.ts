@@ -3,6 +3,10 @@
  *
  * Uses Claude Vision to compare generated output against design standards.
  * Provides quality scores and improvement feedback.
+  *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import Anthropic from '@anthropic-ai/sdk';

@@ -3,6 +3,10 @@
  *
  * These tests PROVE the SDK works. Not "should work" - DOES work.
  * Run with: npx vitest run src/lib/recovery/sdk/__tests__/self-healing.test.ts
+  *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';

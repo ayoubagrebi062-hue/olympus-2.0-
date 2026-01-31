@@ -6,6 +6,10 @@
  * - User asks for "kanban" → Code contains kanban components
  * - User asks for "dark theme" → Code uses dark colors
  * - User asks for "drag and drop" → Code has DnD implementation
+  *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 export interface FeatureRequirement {

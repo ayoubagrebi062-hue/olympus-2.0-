@@ -63,7 +63,18 @@ export type BuildEventType =
   | 'ANOMALY_DETECTED'
   | 'PREDICTION_MADE'
   | 'OPTIMIZATION_SUGGESTED'
-  | 'PATTERN_RECOGNIZED';
+  | 'PATTERN_RECOGNIZED'
+  // Extended Events (orchestrator/saga/evolution)
+  | 'BUILD_PREDICTION'
+  | 'BUILD_ANALYZED'
+  | 'SAGA_STARTED'
+  | 'SAGA_COMPLETED'
+  | 'SAGA_COMPENSATION_STARTED'
+  | 'SAGA_STEP_FAILED'
+  | 'SAGA_COMPENSATION_COMPLETED'
+  | 'EVOLUTION_CYCLE_STARTED'
+  | 'EVOLUTION_CYCLE_COMPLETED'
+  | 'AGENT_ANALYZED';
 
 export interface BuildEvent<T = unknown> {
   id: string;

@@ -163,10 +163,75 @@ export {
 } from './orchestrator';
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// INPUT SANITIZER (CLUSTER #2 FIX)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export {
+  InputSanitizer,
+  getSanitizer,
+  sanitizeInput,
+  isInputSafe,
+  InputTooLongError,
+  InputBlockedError,
+  type SanitizationResult,
+  type SanitizerConfig,
+} from './input-sanitizer';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// AGENT SIGNING (CLUSTER #4 HARDENING)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export {
+  AgentSigner,
+  AgentKeyRegistry,
+  getGovernanceSigner,
+  signGovernanceMessage,
+  verifyGovernanceMessage,
+  type SignedAgentMessage,
+  type SignatureVerificationResult,
+  type AgentSigningConfig,
+} from './agent-signing';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// GOVERNANCE RATE LIMITING (CLUSTER #4 HARDENING)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export {
+  governanceRateLimiter,
+  governanceCriticalRateLimiter,
+  governanceRemediationRateLimiter,
+  governanceLedgerRateLimiter,
+  getGovernanceRateLimiter,
+  getGovernanceOperationSeverity,
+  checkGovernanceRateLimit,
+  createGovernanceRateLimitResponse,
+  type GovernanceOperationSeverity,
+} from './rate-limiter';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// ENCRYPTED CONFIG (CLUSTER #4 HARDENING)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export {
+  EncryptedConfigStore,
+  getEncryptedConfigStore,
+  encryptValue,
+  decryptValue,
+  encryptSensitiveConfig,
+  decryptSensitiveConfig,
+  isEncryptedValue,
+  loadSecureConfig,
+  saveSecureConfig,
+  SENSITIVE_CONFIG_KEYS,
+  type EncryptedValue,
+  type EncryptionConfig,
+} from './encrypted-config';
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // VERSION
 // ═══════════════════════════════════════════════════════════════════════════════
 
-export const SECURITY_BLUEPRINT_VERSION = '2.1.0';
+export const SECURITY_BLUEPRINT_VERSION = '2.4.0'; // Updated for Cluster #4 hardening (complete)
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // INPUT VALIDATOR EXPORTS

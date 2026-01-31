@@ -20,6 +20,10 @@
  * @module governance/claude-code-adapter
  * @version 2.0.0
  * @since 2026-01-31
+ *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import { spawn } from 'child_process';

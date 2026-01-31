@@ -5,6 +5,10 @@
  * recurring issue identification, and predictive analysis.
  *
  * @module audit-history
+ *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import * as fs from 'fs';
@@ -88,12 +92,19 @@ export class AuditHistoryTracker {
 
       // Save index
       const indexPath = path.join(this.historyPath, 'index.json');
-      fs.writeFileSync(indexPath, JSON.stringify({
-        version: '1.0.0',
-        lastUpdated: new Date().toISOString(),
-        entries: entryIds,
-        totalCount: entryIds.length,
-      }, null, 2));
+      fs.writeFileSync(
+        indexPath,
+        JSON.stringify(
+          {
+            version: '1.0.0',
+            lastUpdated: new Date().toISOString(),
+            entries: entryIds,
+            totalCount: entryIds.length,
+          },
+          null,
+          2
+        )
+      );
 
       // Save individual entries
       for (const [id, entry] of Array.from(this.entries.entries())) {
@@ -115,8 +126,9 @@ export class AuditHistoryTracker {
 
     // Prune old entries if needed
     if (this.entries.size > MAX_HISTORY_ENTRIES) {
-      const sorted = Array.from(this.entries.entries())
-        .sort((a, b) => a[1].timestamp.getTime() - b[1].timestamp.getTime());
+      const sorted = Array.from(this.entries.entries()).sort(
+        (a, b) => a[1].timestamp.getTime() - b[1].timestamp.getTime()
+      );
 
       const toRemove = sorted.slice(0, this.entries.size - MAX_HISTORY_ENTRIES);
       for (const [id] of toRemove) {
@@ -154,15 +166,18 @@ export class AuditHistoryTracker {
       : Array.from(this.entries.values());
 
     // Count occurrences of each finding pattern
-    const patternCounts = new Map<string, {
-      type: string;
-      title: string;
-      occurrences: number;
-      firstSeen: Date;
-      lastSeen: Date;
-      phases: Set<string>;
-      cwe?: string;
-    }>();
+    const patternCounts = new Map<
+      string,
+      {
+        type: string;
+        title: string;
+        occurrences: number;
+        firstSeen: Date;
+        lastSeen: Date;
+        phases: Set<string>;
+        cwe?: string;
+      }
+    >();
 
     for (const entry of entries) {
       for (const finding of entry.findings) {
@@ -218,10 +233,13 @@ export class AuditHistoryTracker {
   private generateFixSuggestion(type: string, title: string): string {
     // Common fix suggestions based on finding type
     const suggestions: Record<string, string> = {
-      taint_flow: 'Add input validation/sanitization at the source agent or sanitization before the sink',
-      attack_pattern: 'Review the detected pattern and implement appropriate filtering or validation',
+      taint_flow:
+        'Add input validation/sanitization at the source agent or sanitization before the sink',
+      attack_pattern:
+        'Review the detected pattern and implement appropriate filtering or validation',
       semantic_attack: 'Add semantic-aware input validation to detect rephrased attack attempts',
-      security_violation: 'Remove hardcoded secrets and use environment variables or secret management',
+      security_violation:
+        'Remove hardcoded secrets and use environment variables or secret management',
       contract_violation: 'Update agent output to match the contract specification',
     };
 
@@ -275,9 +293,7 @@ export class AuditHistoryTracker {
       }
     }
 
-    return risks
-      .filter(r => r.confidence > 0.3)
-      .sort((a, b) => b.confidence - a.confidence);
+    return risks.filter(r => r.confidence > 0.3).sort((a, b) => b.confidence - a.confidence);
   }
 
   /**

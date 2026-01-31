@@ -1518,7 +1518,11 @@ export class DecisionStrategyLoader {
         strategyErrors.push(`Strategy "${name}": lowRiskThreshold must be number in range [0, 1]`);
       }
 
-      if (defaults.highRiskThreshold <= defaults.lowRiskThreshold) {
+      if (
+        typeof defaults.highRiskThreshold === 'number' &&
+        typeof defaults.lowRiskThreshold === 'number' &&
+        defaults.highRiskThreshold <= defaults.lowRiskThreshold
+      ) {
         strategyErrors.push(
           `Strategy "${name}": highRiskThreshold (${defaults.highRiskThreshold}) must be greater than lowRiskThreshold (${defaults.lowRiskThreshold})`
         );

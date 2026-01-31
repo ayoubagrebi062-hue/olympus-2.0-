@@ -3,37 +3,50 @@
  *
  * Connects the stress test framework to the real WIRE agent via direct API calls.
  * Includes rate limiting to prevent API throttling.
+ *
+ * FIX 1.2 (Jan 31, 2026): Configuration externalized to wire.config.ts
+ * - Removed hardcoded WIRE_CONFIG and RATE_LIMIT constants
+ * - Now uses getWireConfig() for runtime-configurable settings
+ * - Configuration can be overridden via environment variables
+ * - See: src/lib/agents/config/wire.config.ts for all options
  */
 
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 import Anthropic from '@anthropic-ai/sdk';
 import { getRouter } from '../providers/router';
-
-// WIRE CONFIGURATION
-const WIRE_CONFIG = {
-  maxTokens: 8000,
-  temperature: 0.1,
-};
+import { getWireConfig, type WireConfig } from '../config/wire.config';
 
 // ════════════════════════════════════════════════════════════════════════════════
-// RATE LIMITING
+// CONFIGURATION (Externalized - FIX 1.2)
 // ════════════════════════════════════════════════════════════════════════════════
 
-const RATE_LIMIT = {
-  requestsPerMinute: 10,
-  minDelayMs: 6000, // 6 seconds between requests
-};
+/**
+ * Get the current WIRE configuration.
+ * Configuration is loaded from environment variables with fallback to defaults.
+ * See: src/lib/agents/config/wire.config.ts for full configuration options.
+ */
+function getConfig(): WireConfig {
+  return getWireConfig();
+}
+
+// ════════════════════════════════════════════════════════════════════════════════
+// RATE LIMITING (Now uses externalized config)
+// ════════════════════════════════════════════════════════════════════════════════
 
 let lastRequestTime = 0;
 
 async function waitForRateLimit(): Promise<void> {
+  const config = getConfig();
+  const minDelayMs = config.rateLimit.minDelayMs;
   const now = Date.now();
   const timeSinceLastRequest = now - lastRequestTime;
 
-  if (timeSinceLastRequest < RATE_LIMIT.minDelayMs && lastRequestTime > 0) {
-    const waitTime = RATE_LIMIT.minDelayMs - timeSinceLastRequest;
-    console.log(`   [RATE LIMIT] Waiting ${waitTime}ms...`);
+  if (timeSinceLastRequest < minDelayMs && lastRequestTime > 0) {
+    const waitTime = minDelayMs - timeSinceLastRequest;
+    if (config.debug) {
+      console.log(`   [RATE LIMIT] Waiting ${waitTime}ms...`);
+    }
     await new Promise(resolve => setTimeout(resolve, waitTime));
   }
 
@@ -196,6 +209,7 @@ const anthropic = new Anthropic();
  */
 async function wireGeneratorDirect(prompt: string): Promise<string> {
   const startTime = Date.now();
+  const config = getConfig();
 
   try {
     const router = getRouter();
@@ -206,8 +220,8 @@ async function wireGeneratorDirect(prompt: string): Promise<string> {
         { role: 'system' as const, content: WIRE_SYSTEM_PROMPT },
         { role: 'user' as const, content: prompt },
       ],
-      temperature: WIRE_CONFIG.temperature,
-      maxTokens: WIRE_CONFIG.maxTokens,
+      temperature: config.temperature,
+      maxTokens: config.maxTokens,
     };
 
     // Execute with router (handles provider selection and fallbacks automatically)
@@ -220,7 +234,9 @@ async function wireGeneratorDirect(prompt: string): Promise<string> {
     const code = result.response.content;
     const duration = Date.now() - startTime;
 
-    console.log(`   [WIRE] Generated ${code.length} chars in ${duration}ms via router`);
+    if (config.debug) {
+      console.log(`   [WIRE] Generated ${code.length} chars in ${duration}ms via router`);
+    }
 
     // Clean up code - remove markdown code blocks if present
     return cleanCodeOutput(code);
@@ -267,5 +283,8 @@ export const wireGenerator = rateLimitedWireGenerator;
 // Named exports for specific use cases
 export { wireGeneratorDirect, rateLimitedWireGenerator, cleanCodeOutput };
 
-// Export config for reference
-export { WIRE_CONFIG, WIRE_SYSTEM_PROMPT };
+// Export system prompt for reference
+export { WIRE_SYSTEM_PROMPT };
+
+// Re-export config utilities from wire.config.ts
+export { getWireConfig, type WireConfig } from '../config/wire.config';

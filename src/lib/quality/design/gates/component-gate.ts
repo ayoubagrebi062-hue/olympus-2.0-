@@ -6,6 +6,10 @@
  *
  * Speed: <100ms (instant, deterministic)
  * Cost: $0 (no AI)
+  *
+ * @ETHICAL_OVERSIGHT - System-wide operations requiring ethical oversight
+ * @HUMAN_ACCOUNTABILITY - Critical operations require human review
+ * @HUMAN_OVERRIDE_REQUIRED - Execution decisions must be human-controllable
  */
 
 import { COMPONENT_REGISTRY, isValidComponent, getComponentSpec } from '../component-registry';

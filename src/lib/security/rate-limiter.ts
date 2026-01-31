@@ -67,6 +67,135 @@ export const ENDPOINT_LIMITS: EndpointLimit[] = [
     windowMs: 60 * 1000,
     keyBy: 'user',
   },
+
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // GOVERNANCE ENDPOINTS - SECURITY FIX: Cluster #4 Hardening
+  // These are critical security endpoints requiring strict rate limiting
+  // ═══════════════════════════════════════════════════════════════════════════════
+
+  // Governance mode changes - VERY STRICT (impacts entire system)
+  {
+    path: '/api/v1/governance/mode',
+    method: 'POST',
+    requests: 5,
+    windowMs: 60 * 60 * 1000, // 5 per hour
+    keyBy: 'user',
+    message: 'Governance mode change rate limit exceeded. Try again later.',
+  },
+  {
+    path: '/api/v1/governance/mode',
+    method: 'PUT',
+    requests: 5,
+    windowMs: 60 * 60 * 1000,
+    keyBy: 'user',
+    message: 'Governance mode change rate limit exceeded. Try again later.',
+  },
+
+  // Governance status - Moderate (monitoring is okay, but not abuse)
+  {
+    path: '/api/v1/governance/status',
+    method: 'GET',
+    requests: 60,
+    windowMs: 60 * 1000, // 60 per minute
+    keyBy: 'user',
+  },
+
+  // Kill switch - EXTREMELY STRICT (emergency only)
+  {
+    path: '/api/v1/governance/kill-switch',
+    method: 'POST',
+    requests: 3,
+    windowMs: 60 * 60 * 1000, // 3 per hour
+    keyBy: 'user',
+    message: 'Kill switch rate limit exceeded. Contact administrator.',
+  },
+
+  // Tenant lock - EXTREMELY STRICT (critical operation)
+  {
+    path: /^\/api\/v1\/governance\/tenant\/[^/]+\/lock/,
+    method: 'POST',
+    requests: 5,
+    windowMs: 60 * 60 * 1000, // 5 per hour
+    keyBy: 'user',
+    message: 'Tenant lock rate limit exceeded.',
+  },
+
+  // Policy violations - Read (moderate), Write (strict)
+  {
+    path: /^\/api\/v1\/governance\/violations/,
+    method: 'GET',
+    requests: 120,
+    windowMs: 60 * 1000, // 120 per minute for reads
+    keyBy: 'user',
+  },
+  {
+    path: /^\/api\/v1\/governance\/violations/,
+    method: 'POST',
+    requests: 30,
+    windowMs: 60 * 1000, // 30 per minute for writes
+    keyBy: 'user',
+  },
+
+  // Remediation actions - STRICT (irreversible operations)
+  {
+    path: /^\/api\/v1\/governance\/remediate/,
+    method: 'POST',
+    requests: 10,
+    windowMs: 60 * 1000, // 10 per minute
+    keyBy: 'user',
+    message: 'Remediation rate limit exceeded. Allow cooldown before retrying.',
+  },
+
+  // Ledger operations - Read (moderate), Write (strict)
+  {
+    path: /^\/api\/v1\/governance\/ledger/,
+    method: 'GET',
+    requests: 60,
+    windowMs: 60 * 1000,
+    keyBy: 'user',
+  },
+  {
+    path: /^\/api\/v1\/governance\/ledger/,
+    method: 'POST',
+    requests: 20,
+    windowMs: 60 * 1000,
+    keyBy: 'user',
+  },
+
+  // Agent registration - STRICT (security-sensitive)
+  {
+    path: /^\/api\/v1\/governance\/agents\/register/,
+    method: 'POST',
+    requests: 10,
+    windowMs: 60 * 60 * 1000, // 10 per hour
+    keyBy: 'user',
+    message: 'Agent registration rate limit exceeded.',
+  },
+
+  // Decision strategies - Read (moderate), Write (very strict)
+  {
+    path: /^\/api\/v1\/governance\/strategies/,
+    method: 'GET',
+    requests: 30,
+    windowMs: 60 * 1000,
+    keyBy: 'user',
+  },
+  {
+    path: /^\/api\/v1\/governance\/strategies/,
+    method: 'POST',
+    requests: 5,
+    windowMs: 60 * 60 * 1000, // 5 per hour for strategy changes
+    keyBy: 'user',
+    message: 'Strategy modification rate limit exceeded.',
+  },
+  {
+    path: /^\/api\/v1\/governance\/strategies/,
+    method: 'PUT',
+    requests: 5,
+    windowMs: 60 * 60 * 1000,
+    keyBy: 'user',
+    message: 'Strategy modification rate limit exceeded.',
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -272,7 +401,8 @@ function getRedis(): RedisClient | null {
     );
     console.log('[rate-limiter] To enable Redis: npm install @upstash/redis');
 
-    // TODO: Implement actual Redis client
+    // ENHANCEMENT: Enable Redis for distributed rate limiting
+    // Uncomment below when ready to use Upstash Redis:
     // const { Redis } = await import('@upstash/redis');
     // redisClient = new Redis({ url: redisUrl });
 
@@ -666,6 +796,50 @@ export const uploadRateLimiter = createRateLimiter({
   keyPrefix: 'rl:upload',
 });
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// GOVERNANCE RATE LIMITERS - SECURITY FIX: Cluster #4 Hardening
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Governance API rate limiter - 30 requests per minute
+ * For general governance operations (status checks, reads)
+ */
+export const governanceRateLimiter = createRateLimiter({
+  windowMs: 60 * 1000,
+  maxRequests: 30,
+  keyPrefix: 'rl:governance',
+});
+
+/**
+ * Governance critical rate limiter - 5 requests per hour
+ * For kill switch, mode changes, tenant locks
+ */
+export const governanceCriticalRateLimiter = createRateLimiter({
+  windowMs: 60 * 60 * 1000,
+  maxRequests: 5,
+  keyPrefix: 'rl:governance:critical',
+});
+
+/**
+ * Governance remediation rate limiter - 10 requests per minute
+ * For automated remediation actions
+ */
+export const governanceRemediationRateLimiter = createRateLimiter({
+  windowMs: 60 * 1000,
+  maxRequests: 10,
+  keyPrefix: 'rl:governance:remediate',
+});
+
+/**
+ * Governance ledger rate limiter - 20 writes per minute
+ * For ledger append operations
+ */
+export const governanceLedgerRateLimiter = createRateLimiter({
+  windowMs: 60 * 1000,
+  maxRequests: 20,
+  keyPrefix: 'rl:governance:ledger',
+});
+
 // ============================================================================
 // MIDDLEWARE HELPER
 // ============================================================================
@@ -699,4 +873,150 @@ export function getRequestIdentifier(request: Request, userId?: string): string 
   const ip = forwarded?.split(',')[0]?.trim() || request.headers.get('x-real-ip') || 'unknown';
 
   return `ip:${ip}`;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// GOVERNANCE MIDDLEWARE - SECURITY FIX: Cluster #4 Hardening
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Governance operation severity levels
+ */
+export type GovernanceOperationSeverity = 'read' | 'write' | 'critical' | 'emergency';
+
+/**
+ * Get appropriate rate limiter based on governance operation severity
+ */
+export function getGovernanceRateLimiter(severity: GovernanceOperationSeverity) {
+  switch (severity) {
+    case 'emergency':
+    case 'critical':
+      return governanceCriticalRateLimiter;
+    case 'write':
+      return governanceRemediationRateLimiter;
+    case 'read':
+    default:
+      return governanceRateLimiter;
+  }
+}
+
+/**
+ * Map governance endpoints to severity levels
+ */
+const GOVERNANCE_SEVERITY_MAP: Array<{
+  pattern: string | RegExp;
+  method?: string;
+  severity: GovernanceOperationSeverity;
+}> = [
+  // Emergency operations
+  { pattern: '/api/v1/governance/kill-switch', method: 'POST', severity: 'emergency' },
+
+  // Critical operations
+  { pattern: '/api/v1/governance/mode', method: 'POST', severity: 'critical' },
+  { pattern: '/api/v1/governance/mode', method: 'PUT', severity: 'critical' },
+  { pattern: /^\/api\/v1\/governance\/tenant\/[^/]+\/lock/, method: 'POST', severity: 'critical' },
+  { pattern: /^\/api\/v1\/governance\/strategies/, method: 'POST', severity: 'critical' },
+  { pattern: /^\/api\/v1\/governance\/strategies/, method: 'PUT', severity: 'critical' },
+  { pattern: /^\/api\/v1\/governance\/agents\/register/, method: 'POST', severity: 'critical' },
+
+  // Write operations
+  { pattern: /^\/api\/v1\/governance\/remediate/, method: 'POST', severity: 'write' },
+  { pattern: /^\/api\/v1\/governance\/violations/, method: 'POST', severity: 'write' },
+  { pattern: /^\/api\/v1\/governance\/ledger/, method: 'POST', severity: 'write' },
+
+  // Read operations (default)
+  { pattern: /^\/api\/v1\/governance\//, severity: 'read' },
+];
+
+/**
+ * Determine governance operation severity from path and method
+ */
+export function getGovernanceOperationSeverity(
+  path: string,
+  method: string
+): GovernanceOperationSeverity {
+  for (const entry of GOVERNANCE_SEVERITY_MAP) {
+    // Check method if specified
+    if (entry.method && entry.method !== method) continue;
+
+    // Check path
+    if (typeof entry.pattern === 'string') {
+      if (path === entry.pattern) return entry.severity;
+    } else if (entry.pattern.test(path)) {
+      return entry.severity;
+    }
+  }
+
+  return 'read'; // Default to read (least restrictive)
+}
+
+/**
+ * Check governance rate limit for a request
+ * Returns headers and whether request is allowed
+ */
+export async function checkGovernanceRateLimit(
+  request: Request,
+  userId?: string
+): Promise<RateLimitResult> {
+  const url = new URL(request.url);
+  const path = url.pathname;
+  const method = request.method;
+
+  // Determine operation severity
+  const severity = getGovernanceOperationSeverity(path, method);
+
+  // Get appropriate rate limiter
+  const rateLimiter = getGovernanceRateLimiter(severity);
+
+  // Get identifier (prefer user ID for accountability)
+  const identifier = getRequestIdentifier(request, userId);
+
+  // Check rate limit
+  const result = await rateLimiter.check(identifier);
+
+  // Log critical/emergency operations
+  if ((severity === 'critical' || severity === 'emergency') && !result.allowed) {
+    console.warn('[Governance Rate Limit] Blocked', {
+      severity,
+      path,
+      method,
+      identifier,
+      remaining: result.remaining,
+      resetAt: new Date(result.resetAt).toISOString(),
+    });
+  }
+
+  return result;
+}
+
+/**
+ * Create governance rate limit response
+ * Use this to return a proper 429 response when rate limited
+ */
+export function createGovernanceRateLimitResponse(
+  result: RateLimitResult,
+  severity: GovernanceOperationSeverity
+): Response {
+  const messages: Record<GovernanceOperationSeverity, string> = {
+    emergency: 'Emergency operation rate limit exceeded. Contact system administrator.',
+    critical: 'Critical governance operation rate limit exceeded. Please wait before retrying.',
+    write: 'Governance write operation rate limit exceeded. Try again shortly.',
+    read: 'Too many requests. Please slow down.',
+  };
+
+  return new Response(
+    JSON.stringify({
+      error: 'Rate limit exceeded',
+      message: messages[severity],
+      retryAfter: result.retryAfter,
+      resetAt: new Date(result.resetAt).toISOString(),
+    }),
+    {
+      status: 429,
+      headers: {
+        'Content-Type': 'application/json',
+        ...result.headers,
+      },
+    }
+  );
 }

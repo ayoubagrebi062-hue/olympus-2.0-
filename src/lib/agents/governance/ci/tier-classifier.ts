@@ -28,6 +28,9 @@ export interface FileAnalysis {
   detectedTier: string | null;
   behaviors: DetectedBehaviors;
   violations: string[];
+  confidence?: number;
+  lineNumbers?: number[];
+  codeSnippets?: string[];
 }
 
 export interface DetectedBehaviors {
